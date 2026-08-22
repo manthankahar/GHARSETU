@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Cart</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <main class="cart-page">
+
+        <section class="cart-header">
+
+            <p class="section-label">YOUR CART</p>
+
+            <h1>
+                Your <span>GharSetu</span> meals.
+            </h1>
+
+            <p>
+                Fresh homemade food, ready for your next meal.
+            </p>
+
+        </section>
+
+
+        <section class="cart-container">
+
+            <!-- CART ITEM -->
+
+            <div class="cart-item">
+
+                <div class="cart-image">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80"
+                        alt="Gujarati Home Tiffin"
+                    >
+
+                </div>
+
+
+                <div class="cart-info">
+
+                    <span class="tiffin-badge">
+                        HOMEMADE
+                    </span>
+
+                    <h2>
+                        Gujarati Ghar Nu Tiffin
+                    </h2>
+
+                    <p>
+                        Rotli, shaak, dal, rice, salad and homemade sweet.
+                    </p>
+
+                    <div class="cart-price">
+                        ₹120
+                    </div>
+
+                </div>
+
+
+                <div class="cart-quantity">
+
+                    <button>-</button>
+
+                    <span>1</span>
+
+                    <button>+</button>
+
+                </div>
+
+
+                <div class="cart-total">
+
+                    <strong>
+                        ₹120
+                    </strong>
+
+                    <button class="remove-btn">
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- CART SUMMARY -->
+
+            <div class="cart-summary">
+
+                <h2>
+                    Order Summary
+                </h2>
+
+                <div class="summary-row">
+                    <span>Subtotal</span>
+                    <strong>₹120</strong>
+                </div>
+
+                <div class="summary-row">
+                    <span>Delivery</span>
+                    <strong>₹20</strong>
+                </div>
+
+                <div class="summary-row total">
+                    <span>Total</span>
+                    <strong>₹140</strong>
+                </div>
+
+                <a href="/customer/checkout" class="primary-btn">
+                    Proceed to Checkout →
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <%- include("../partials/footer") %>
+
+</body>
+
+</html>

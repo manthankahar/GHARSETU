@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Tiffin Details</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+    <main class="tiffin-details-page">
+
+        <!-- =========================
+             BACK
+        ========================== -->
+
+        <a
+            href="/customer/tiffins"
+            class="back-link"
+        >
+            ← Back to Tiffins
+        </a>
+
+
+        <!-- =========================
+             DETAILS
+        ========================== -->
+
+        <section class="tiffin-detail-card">
+
+
+            <!-- IMAGE -->
+
+            <div class="detail-image">
+
+                <img
+                    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
+                    alt="Gujarati Home Tiffin"
+                >
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="detail-content">
+
+                <span class="tiffin-badge">
+                    HOMEMADE
+                </span>
+
+
+                <h1>
+                    Gujarati Ghar Nu Tiffin
+                </h1>
+
+
+                <p class="detail-description">
+
+                    Enjoy a fresh and comforting Gujarati
+                    homemade meal prepared with love by
+                    local home kitchens.
+
+                </p>
+
+
+                <!-- PRICE -->
+
+                <div class="detail-price">
+
+                    <span>₹120</span>
+
+                    <small>
+                        / meal
+                    </small>
+
+                </div>
+
+
+                <!-- FOOD -->
+
+                <div class="food-info">
+
+                    <h3>
+                        Today's Meal
+                    </h3>
+
+                    <ul>
+
+                        <li>🍚 Steamed Rice</li>
+
+                        <li>🥣 Dal</li>
+
+                        <li>🥘 Gujarati Shaak</li>
+
+                        <li>🫓 Fresh Rotli</li>
+
+                        <li>🥗 Fresh Salad</li>
+
+                        <li>🍬 Homemade Sweet</li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- ACTION -->
+
+                <div class="detail-actions">
+
+                    <div class="quantity-box">
+
+                        <button type="button">
+                            −
+                        </button>
+
+                        <span>
+                            1
+                        </span>
+
+                        <button type="button">
+                            +
+                        </button>
+
+                    </div>
+
+
+                    <a href="/customer/cart" class="primary-btn">
+                             Add to Cart →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             INFO SECTION
+        ========================== -->
+
+        <section class="detail-info-grid">
+
+
+            <div class="info-box">
+
+                <span>🏠</span>
+
+                <h3>
+                    Home Made
+                </h3>
+
+                <p>
+                    Freshly prepared by trusted
+                    home kitchens.
+                </p>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>🥗</span>
+
+                <h3>
+                    Fresh Ingredients
+                </h3>
+
+                <p>
+                    Quality ingredients prepared
+                    fresh every day.
+                </p>
+
+            </div>
+
+
+            <div class="info-box">
+
+                <span>🚴</span>
+
+                <h3>
+                    Fresh Delivery
+                </h3>
+
+                <p>
+                    Delivered fresh to your doorstep.
+                </p>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <%- include("../partials/footer") %>
+
+</body>
+
+</html>

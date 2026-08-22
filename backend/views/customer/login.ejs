@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login | Tiffin App</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="auth-container login-container">
+
+
+        <!-- =========================================
+             LEFT SIDE
+        ========================================== -->
+
+        <div class="auth-info login-info">
+
+
+            <!-- Brand -->
+
+            <div class="brand">
+                🍱 Tiffin App
+            </div>
+
+
+            <!-- Content -->
+
+            <div class="info-content">
+
+                <h1>
+                    Welcome<br>
+                    back.
+                </h1>
+
+
+                <p>
+                    Login to your Tiffin App account and
+                    continue discovering fresh, homemade
+                    meals delivered right to your door.
+                </p>
+
+
+                <!-- Features -->
+
+                <div class="features">
+
+
+                    <div class="feature">
+
+                        <span>🥗</span>
+
+                        <div>
+
+                            <strong>
+                                Fresh Meals
+                            </strong>
+
+                            <small>
+                                Delicious food made fresh every day
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <span>🏠</span>
+
+                        <div>
+
+                            <strong>
+                                Homemade Taste
+                            </strong>
+
+                            <small>
+                                Comfort food that feels like home
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature">
+
+                        <span>🚴</span>
+
+                        <div>
+
+                            <strong>
+                                Easy Delivery
+                            </strong>
+
+                            <small>
+                                Your meal delivered to your doorstep
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================================
+             RIGHT SIDE
+        ========================================== -->
+
+        <div class="auth-form-section login-form-section">
+
+
+            <div class="auth-card login-card">
+
+
+                <!-- Header -->
+
+                <div class="form-header">
+
+                    <span class="form-icon">
+                        👋
+                    </span>
+
+
+                    <h2>
+                        Welcome back
+                    </h2>
+
+
+                    <p>
+                        Login to your account to continue.
+                    </p>
+
+                </div>
+
+
+
+                <!-- =================================
+                     LOGIN FORM
+                ================================== -->
+
+                <form
+                    id="loginForm"
+                    method="POST"
+                >
+
+
+                    <!-- Email -->
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter your email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- Password -->
+
+                    <div class="form-group">
+
+                        <div class="password-label-row">
+
+                            <label for="password">
+                                Password
+                            </label>
+
+
+                            <a
+                                href="#"
+                                class="forgot-password"
+                            >
+                                Forgot password?
+                            </a>
+
+                        </div>
+
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+
+
+                            <button
+                                type="button"
+                                id="togglePassword"
+                                class="password-toggle"
+                                aria-label="Show password"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Remember -->
+
+                    <div class="remember-row">
+
+                        <label class="remember-me">
+
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                name="remember"
+                            >
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- Login Button -->
+
+                    <button
+                        type="submit"
+                        class="auth-button"
+                        id="loginButton"
+                    >
+                        Login to Account
+                    </button>
+
+
+                </form>
+
+
+
+                <!-- Divider -->
+
+                <div class="divider">
+
+                    <span>
+                        New to Tiffin App?
+                    </span>
+
+                </div>
+
+
+
+                <!-- Signup -->
+
+                <a
+                    href="/customer/signup"
+                    class="login-link signup-link"
+                >
+                    Create a new account
+                </a>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- Toast -->
+
+    <div
+        id="toast"
+        class="toast"
+    ></div>
+
+
+
+    <!-- Login JS -->
+
+    <script src="/js/login.js"></script>
+
+
+</body>
+
+</html>
