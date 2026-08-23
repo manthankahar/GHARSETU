@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Subscriptions</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+    <main class="subscriptions-page">
+
+        <div class="page-header">
+
+            <h1>My Subscriptions</h1>
+
+            <p>
+                Manage your active food subscriptions.
+            </p>
+
+        </div>
+
+
+        <% if (subscriptions && subscriptions.length > 0) { %>
+
+            <div class="subscription-list">
+
+                <% subscriptions.forEach(subscription => { %>
+
+                    <div class="subscription-card">
+
+                        <h2>
+                            <%= subscription.name || "Tiffin Subscription" %>
+                        </h2>
+
+
+                        <% if (subscription.plan) { %>
+
+                            <p>
+                                <strong>Plan:</strong>
+                                <%= subscription.plan %>
+                            </p>
+
+                        <% } %>
+
+
+                        <% if (subscription.startDate) { %>
+
+                            <p>
+                                <strong>Start Date:</strong>
+                                <%= new Date(subscription.startDate).toLocaleDateString() %>
+                            </p>
+
+                        <% } %>
+
+
+                        <% if (subscription.endDate) { %>
+
+                            <p>
+                                <strong>End Date:</strong>
+                                <%= new Date(subscription.endDate).toLocaleDateString() %>
+                            </p>
+
+                        <% } %>
+
+
+                        <p>
+
+                            <strong>Status:</strong>
+
+                            <span>
+                                <%= subscription.status || "Active" %>
+                            </span>
+
+                        </p>
+
+
+                        <% if (subscription._id) { %>
+
+                            <a
+                                href="/subscription/<%= subscription._id %>"
+                                class="btn"
+                            >
+                                View Details
+                            </a>
+
+                        <% } %>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        <% } else { %>
+
+            <div class="empty-state">
+
+                <h2>No Active Subscriptions</h2>
+
+                <p>
+                    You don't have any active subscription yet.
+                </p>
+
+                <a href="/tiffins" class="btn">
+                    Explore Tiffins
+                </a>
+
+            </div>
+
+        <% } %>
+
+    </main>
+
+</body>
+</html>

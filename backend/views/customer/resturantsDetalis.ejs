@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        GharSetu | <%= restaurant.name %>
+    </title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+    <main class="restaurant-details-page">
+
+        <% if (restaurant) { %>
+
+            <section class="restaurant-banner">
+
+                <img
+                    src="<%= restaurant.image || '/images/restaurant-placeholder.jpg' %>"
+                    alt="<%= restaurant.name %>"
+                >
+
+                <div>
+
+                    <h1>
+                        <%= restaurant.name %>
+                    </h1>
+
+                    <p>
+                        <%= restaurant.description || "" %>
+                    </p>
+
+                    <% if (restaurant.location) { %>
+
+                        <p>
+                            📍 <%= restaurant.location %>
+                        </p>
+
+                    <% } %>
+
+                </div>
+
+            </section>
+
+
+            <section class="restaurant-menu">
+
+                <h2>Menu</h2>
+
+
+                <% if (products && products.length > 0) { %>
+
+                    <div class="product-grid">
+
+                        <% products.forEach(product => { %>
+
+                            <div class="product-card">
+
+                                <img
+                                    src="<%= product.image %>"
+                                    alt="<%= product.name %>"
+                                >
+
+                                <h3>
+                                    <%= product.name %>
+                                </h3>
+
+                                <p>
+                                    <%= product.description || "" %>
+                                </p>
+
+                                <strong>
+                                    ₹<%= product.price %>
+                                </strong>
+
+
+                                <form
+                                    action="/cart/add"
+                                    method="POST"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="productId"
+                                        value="<%= product._id %>"
+                                    >
+
+                                    <button type="submit">
+                                        Add to Cart
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        <% }) %>
+
+                    </div>
+
+                <% } else { %>
+
+                    <p>
+                        No menu items available.
+                    </p>
+
+                <% } %>
+
+            </section>
+
+        <% } else { %>
+
+            <h2>Restaurant not found.</h2>
+
+        <% } %>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Restaurants</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+    <main class="restaurants-page">
+
+        <div class="page-header">
+
+            <h1>Restaurants</h1>
+
+            <p>
+                Explore restaurants near you.
+            </p>
+
+        </div>
+
+
+        <div class="restaurant-grid">
+
+            <% if (restaurants && restaurants.length > 0) { %>
+
+                <% restaurants.forEach(restaurant => { %>
+
+                    <div class="restaurant-card">
+
+                        <img
+                            src="<%= restaurant.image || '/images/restaurant-placeholder.jpg' %>"
+                            alt="<%= restaurant.name %>"
+                        >
+
+
+                        <div class="restaurant-content">
+
+                            <h2>
+                                <%= restaurant.name %>
+                            </h2>
+
+                            <p>
+                                <%= restaurant.description || "Delicious food and great service." %>
+                            </p>
+
+
+                            <% if (restaurant.location) { %>
+
+                                <span>
+                                    📍 <%= restaurant.location %>
+                                </span>
+
+                            <% } %>
+
+
+                            <a
+                                href="/restaurant/<%= restaurant._id %>"
+                                class="btn"
+                            >
+                                View Restaurant
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            <% } else { %>
+
+                <div class="empty-state">
+
+                    <h2>No Restaurants Found</h2>
+
+                    <p>
+                        Restaurants will appear here soon.
+                    </p>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -3868,3 +3868,911 @@ body::after {
     }
 }
 
+/* =========================================================
+   GHARSETU - CUSTOMER PAGES CSS
+   ========================================================= */
+
+
+/* =========================
+   GLOBAL
+   ========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f8f6f2;
+    color: #333;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/* =========================
+   COMMON BUTTON
+   ========================= */
+
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background: #8b5e3c;
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background: #6f472d;
+    transform: translateY(-2px);
+}
+
+
+/* =========================
+   COMMON PAGE HEADER
+   ========================= */
+
+.page-header {
+    text-align: center;
+    padding: 45px 20px 30px;
+}
+
+.page-header h1 {
+    font-size: 38px;
+    color: #4b3022;
+    margin-bottom: 8px;
+}
+
+.page-header p {
+    color: #777;
+    font-size: 17px;
+}
+
+
+/* =========================================================
+   HOME PAGE
+   ========================================================= */
+
+.hero-section {
+    min-height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+
+    background:
+        linear-gradient(
+            rgba(70, 45, 30, 0.65),
+            rgba(70, 45, 30, 0.65)
+        ),
+        url("/images/home-banner.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-content {
+    max-width: 750px;
+    color: #fff;
+}
+
+.hero-content h1 {
+    font-size: 56px;
+    margin-bottom: 20px;
+}
+
+.hero-content p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.hero-buttons .btn {
+    background: #fff;
+    color: #6f472d;
+}
+
+.hero-buttons .btn:hover {
+    background: #f0e5d8;
+}
+
+
+/* SERVICES */
+
+.services-section {
+    padding: 70px 7%;
+    text-align: center;
+}
+
+.services-section h2,
+.quick-section h2 {
+    font-size: 32px;
+    color: #4b3022;
+    margin-bottom: 35px;
+}
+
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.service-card {
+    background: #fff;
+    padding: 35px 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+}
+
+.service-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.service-card h3 {
+    color: #4b3022;
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.service-card p {
+    color: #777;
+}
+
+
+/* QUICK LINKS */
+
+.quick-section {
+    padding: 60px 7%;
+    text-align: center;
+    background: #eee7df;
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.quick-links a {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    color: #5b3925;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.07);
+    transition: 0.3s;
+}
+
+.quick-links a:hover {
+    transform: translateY(-4px);
+    background: #8b5e3c;
+    color: #fff;
+}
+
+
+/* =========================================================
+   PROFILE
+   ========================================================= */
+
+.profile-page {
+    min-height: 80vh;
+    padding: 50px 20px;
+}
+
+.profile-container {
+    max-width: 700px;
+    margin: auto;
+}
+
+.profile-container > h1 {
+    text-align: center;
+    color: #4b3022;
+    margin-bottom: 30px;
+    font-size: 36px;
+}
+
+.profile-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 15px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+    background: #eee1d5;
+    font-size: 42px;
+}
+
+.profile-card h2 {
+    color: #4b3022;
+    margin-bottom: 30px;
+}
+
+.profile-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.profile-info div {
+    padding: 18px;
+    border-radius: 10px;
+    background: #f7f3ef;
+}
+
+.profile-info strong {
+    display: block;
+    color: #8b5e3c;
+    margin-bottom: 5px;
+}
+
+.profile-info p {
+    color: #555;
+    word-break: break-word;
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.empty-profile,
+.empty-state {
+    background: #fff;
+    padding: 45px 25px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+}
+
+.empty-profile h2,
+.empty-state h2 {
+    color: #4b3022;
+    margin-bottom: 10px;
+}
+
+.empty-profile p,
+.empty-state p {
+    color: #777;
+    margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   RESTAURANTS
+   ========================================================= */
+
+.restaurants-page {
+    min-height: 80vh;
+    padding-bottom: 60px;
+}
+
+.restaurant-grid {
+    width: 86%;
+    max-width: 1200px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.restaurant-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: 0.3s ease;
+}
+
+.restaurant-card:hover {
+    transform: translateY(-7px);
+}
+
+.restaurant-card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.restaurant-content {
+    padding: 22px;
+}
+
+.restaurant-content h2 {
+    color: #4b3022;
+    margin-bottom: 10px;
+}
+
+.restaurant-content p {
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.restaurant-content span {
+    display: block;
+    color: #8b5e3c;
+    margin-bottom: 18px;
+}
+
+
+/* =========================================================
+   RESTAURANT DETAILS
+   ========================================================= */
+
+.restaurant-details-page {
+    padding-bottom: 60px;
+}
+
+.restaurant-banner {
+    width: 90%;
+    max-width: 1200px;
+    margin: 45px auto;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+    align-items: center;
+
+    background: #fff;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.restaurant-banner img {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.restaurant-banner h1 {
+    font-size: 40px;
+    color: #4b3022;
+    margin-bottom: 15px;
+}
+
+.restaurant-banner p {
+    color: #777;
+    margin-bottom: 12px;
+}
+
+.restaurant-menu {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.restaurant-menu h2 {
+    font-size: 32px;
+    color: #4b3022;
+    margin-bottom: 25px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 15px;
+    overflow: hidden;
+    padding-bottom: 20px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+    transition: 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+}
+
+.product-card h3,
+.product-card p,
+.product-card strong,
+.product-card form {
+    margin-left: 18px;
+    margin-right: 18px;
+}
+
+.product-card h3 {
+    color: #4b3022;
+    margin-top: 18px;
+}
+
+.product-card p {
+    color: #777;
+    margin-top: 7px;
+}
+
+.product-card strong {
+    display: block;
+    color: #8b5e3c;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.product-card form {
+    margin-top: 15px;
+}
+
+.product-card button {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 7px;
+    background: #8b5e3c;
+    color: #fff;
+    font-weight: 600;
+}
+
+.product-card button:hover {
+    background: #6f472d;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.search-page {
+    min-height: 80vh;
+    padding: 50px 20px 70px;
+}
+
+.search-container {
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.search-container h1 {
+    color: #4b3022;
+    font-size: 38px;
+    margin-bottom: 25px;
+}
+
+.search-container form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-container input {
+    flex: 1;
+    padding: 15px 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+    background: #fff;
+}
+
+.search-container input:focus {
+    border-color: #8b5e3c;
+}
+
+.search-container button {
+    padding: 0 25px;
+    border: none;
+    border-radius: 8px;
+    background: #8b5e3c;
+    color: #fff;
+    font-weight: 600;
+}
+
+.search-container button:hover {
+    background: #6f472d;
+}
+
+.search-results {
+    max-width: 1200px;
+    margin: 50px auto 0;
+}
+
+.search-results h2 {
+    color: #4b3022;
+    margin-bottom: 25px;
+}
+
+
+/* =========================================================
+   SUBSCRIPTIONS
+   ========================================================= */
+
+.subscriptions-page {
+    min-height: 80vh;
+    padding-bottom: 70px;
+}
+
+.subscription-list {
+    width: 86%;
+    max-width: 1000px;
+    margin: auto;
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.subscription-card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #8b5e3c;
+}
+
+.subscription-card h2 {
+    color: #4b3022;
+    margin-bottom: 18px;
+}
+
+.subscription-card p {
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.subscription-card strong {
+    color: #5b3925;
+}
+
+.subscription-card .btn {
+    margin-top: 15px;
+}
+
+
+/* =========================================================
+   TRACK ORDER
+   ========================================================= */
+
+.track-order-page {
+    min-height: 80vh;
+    padding: 60px 20px;
+}
+
+.track-container {
+    max-width: 850px;
+    margin: auto;
+}
+
+.track-container > h1 {
+    text-align: center;
+    color: #4b3022;
+    margin-bottom: 30px;
+}
+
+.track-container > form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.track-container > form input {
+    flex: 1;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    font-size: 16px;
+}
+
+.track-container > form input:focus {
+    border-color: #8b5e3c;
+}
+
+.track-container > form button {
+    padding: 0 25px;
+    border: none;
+    border-radius: 8px;
+    background: #8b5e3c;
+    color: #fff;
+    font-weight: 600;
+}
+
+.tracking-card {
+    background: #fff;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: 0 7px 25px rgba(0, 0, 0, 0.08);
+}
+
+.tracking-card h2 {
+    color: #4b3022;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.tracking-status {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.tracking-status::before {
+    content: "";
+    position: absolute;
+    top: 18px;
+    left: 7%;
+    right: 7%;
+    height: 3px;
+    background: #ddd;
+    z-index: 0;
+}
+
+.tracking-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    width: 18%;
+}
+
+.tracking-step span {
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin: auto;
+
+    border-radius: 50%;
+    background: #ddd;
+    color: #777;
+    font-weight: bold;
+}
+
+.tracking-step.active span {
+    background: #8b5e3c;
+    color: #fff;
+}
+
+.tracking-step p {
+    font-size: 13px;
+    margin-top: 8px;
+    color: #777;
+}
+
+.tracking-step.active p {
+    color: #4b3022;
+    font-weight: 600;
+}
+
+.current-status {
+    text-align: center;
+    padding: 20px;
+    background: #f7f3ef;
+    border-radius: 10px;
+}
+
+.current-status h3 {
+    color: #4b3022;
+    margin-bottom: 5px;
+}
+
+.current-status p {
+    color: #8b5e3c;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+/* =========================================================
+   RESPONSIVE - TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .service-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .quick-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .restaurant-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .subscription-list {
+        grid-template-columns: 1fr;
+    }
+
+    .restaurant-banner {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-content h1 {
+        font-size: 45px;
+    }
+}
+
+
+/* =========================================================
+   RESPONSIVE - MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+    .hero-section {
+        min-height: 450px;
+        padding: 40px 15px;
+    }
+
+    .hero-content h1 {
+        font-size: 35px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+
+    .services-section,
+    .quick-section {
+        padding: 45px 20px;
+    }
+
+    .services-section h2,
+    .quick-section h2 {
+        font-size: 27px;
+    }
+
+    .service-grid,
+    .restaurant-grid,
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .quick-links {
+        grid-template-columns: 1fr;
+    }
+
+
+    .page-header {
+        padding: 35px 15px 25px;
+    }
+
+    .page-header h1 {
+        font-size: 30px;
+    }
+
+
+    .profile-page {
+        padding: 35px 15px;
+    }
+
+    .profile-card {
+        padding: 25px 18px;
+    }
+
+    .profile-info {
+        grid-template-columns: 1fr;
+    }
+
+
+    .restaurant-grid {
+        width: 92%;
+    }
+
+    .restaurant-banner {
+        width: 92%;
+        padding: 18px;
+    }
+
+    .restaurant-banner img {
+        height: 230px;
+    }
+
+    .restaurant-banner h1 {
+        font-size: 30px;
+    }
+
+    .restaurant-menu {
+        width: 92%;
+    }
+
+
+    .search-page {
+        padding: 35px 15px;
+    }
+
+    .search-container form {
+        flex-direction: column;
+    }
+
+    .search-container button {
+        padding: 13px;
+    }
+
+
+    .subscription-list {
+        width: 92%;
+    }
+
+
+    .track-order-page {
+        padding: 40px 15px;
+    }
+
+    .track-container > form {
+        flex-direction: column;
+    }
+
+    .track-container > form button {
+        padding: 13px;
+    }
+
+    .tracking-card {
+        padding: 25px 12px;
+        overflow-x: auto;
+    }
+
+    .tracking-status {
+        min-width: 650px;
+    }
+
+}

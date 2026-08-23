@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Search</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+    <main class="search-page">
+
+        <div class="search-container">
+
+            <h1>Search</h1>
+
+
+            <form action="/search" method="GET">
+
+                <input
+                    type="text"
+                    name="q"
+                    value="<%= typeof q !== 'undefined' ? q : '' %>"
+                    placeholder="Search tiffins, restaurants..."
+                    required
+                >
+
+                <button type="submit">
+                    🔍 Search
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <% if (results && results.length > 0) { %>
+
+            <section class="search-results">
+
+                <h2>
+                    Search Results
+                </h2>
+
+
+                <div class="product-grid">
+
+                    <% results.forEach(item => { %>
+
+                        <div class="product-card">
+
+                            <img
+                                src="<%= item.image || '/images/food-placeholder.jpg' %>"
+                                alt="<%= item.name %>"
+                            >
+
+                            <h3>
+                                <%= item.name %>
+                            </h3>
+
+                            <% if (item.price) { %>
+
+                                <p>
+                                    ₹<%= item.price %>
+                                </p>
+
+                            <% } %>
+
+                            <% if (item.description) { %>
+
+                                <p>
+                                    <%= item.description %>
+                                </p>
+
+                            <% } %>
+
+                        </div>
+
+                    <% }) %>
+
+                </div>
+
+            </section>
+
+        <% } else if (typeof q !== 'undefined' && q) { %>
+
+            <div class="empty-state">
+
+                <h2>No results found</h2>
+
+                <p>
+                    Try searching with another keyword.
+                </p>
+
+            </div>
+
+        <% } %>
+
+    </main>
+
+</body>
+</html>

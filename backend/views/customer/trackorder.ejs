@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Track Order</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+    <main class="track-order-page">
+
+        <div class="track-container">
+
+            <h1>Track Your Order</h1>
+
+
+            <form action="/track-order" method="GET">
+
+                <input
+                    type="text"
+                    name="orderId"
+                    placeholder="Enter your Order ID"
+                    required
+                >
+
+                <button type="submit">
+                    Track Order
+                </button>
+
+            </form>
+
+
+            <% if (order) { %>
+
+                <div class="tracking-card">
+
+                    <h2>
+                        Order #<%= order._id %>
+                    </h2>
+
+
+                    <div class="tracking-status">
+
+                        <div class="tracking-step active">
+                            <span>✓</span>
+                            <p>Order Placed</p>
+                        </div>
+
+
+                        <div class="tracking-step
+                            <%= ['Confirmed','Preparing','Out for Delivery','Delivered'].includes(order.status) ? 'active' : '' %>">
+
+                            <span>✓</span>
+                            <p>Confirmed</p>
+
+                        </div>
+
+
+                        <div class="tracking-step
+                            <%= ['Preparing','Out for Delivery','Delivered'].includes(order.status) ? 'active' : '' %>">
+
+                            <span>✓</span>
+                            <p>Preparing</p>
+
+                        </div>
+
+
+                        <div class="tracking-step
+                            <%= ['Out for Delivery','Delivered'].includes(order.status) ? 'active' : '' %>">
+
+                            <span>✓</span>
+                            <p>Out for Delivery</p>
+
+                        </div>
+
+
+                        <div class="tracking-step
+                            <%= order.status === 'Delivered' ? 'active' : '' %>">
+
+                            <span>✓</span>
+                            <p>Delivered</p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="current-status">
+
+                        <h3>
+                            Current Status
+                        </h3>
+
+                        <p>
+                            <%= order.status || "Order Placed" %>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            <% } else if (typeof orderId !== 'undefined') { %>
+
+                <div class="empty-state">
+
+                    <h2>Order Not Found</h2>
+
+                    <p>
+                        Please check your Order ID and try again.
+                    </p>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

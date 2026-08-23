@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Profile</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+
+    <main class="profile-page">
+
+        <div class="profile-container">
+
+            <h1>My Profile</h1>
+
+            <% if (user) { %>
+
+                <div class="profile-card">
+
+                    <div class="profile-avatar">
+                        👤
+                    </div>
+
+                    <h2>
+                        <%= user.name %>
+                    </h2>
+
+                    <div class="profile-info">
+
+                        <div>
+                            <strong>Email</strong>
+                            <p>
+                                <%= user.email %>
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong>Mobile</strong>
+                            <p>
+                                <%= user.mobile || "Not available" %>
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-actions">
+
+                        <a href="/orders" class="btn">
+                            My Orders
+                        </a>
+
+                        <a href="/cart" class="btn">
+                            My Cart
+                        </a>
+
+                    </div>
+
+                </div>
+
+            <% } else { %>
+
+                <div class="empty-profile">
+
+                    <h2>Please Login</h2>
+
+                    <p>
+                        Login to view your profile.
+                    </p>
+
+                    <a href="/login" class="btn">
+                        Login
+                    </a>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
