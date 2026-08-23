@@ -19,7 +19,9 @@
         <!-- HEADER -->
         <section class="checkout-header">
 
-            <p class="section-label">CHECKOUT</p>
+            <p class="section-label">
+                CHECKOUT
+            </p>
 
             <h1>
                 Almost <span>home.</span>
@@ -32,266 +34,306 @@
         </section>
 
 
-        <section class="checkout-container">
+        <!-- CHECKOUT FORM -->
+        <form
+            action="/customer/place-order"
+            method="POST"
+        >
 
-            <!-- LEFT SIDE -->
+            <section class="checkout-container">
 
-            <div class="checkout-left">
+                <!-- LEFT SIDE -->
+                <div class="checkout-left">
 
-                <!-- DELIVERY DETAILS -->
+                    <!-- DELIVERY DETAILS -->
+                    <div class="checkout-card">
 
-                <div class="checkout-card">
-
-                    <div class="checkout-card-header">
-                        <div>
-                            <p class="section-label">01</p>
-                            <h2>Delivery details</h2>
-                        </div>
-                    </div>
-
-                    <div class="form-grid">
-
-                        <div class="form-group">
-
-                            <label for="name">
-                                Full Name
-                            </label>
-
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                placeholder="Enter your name"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="mobile">
-                                Mobile Number
-                            </label>
-
-                            <input
-                                type="tel"
-                                id="mobile"
-                                name="mobile"
-                                placeholder="9876543210"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group full">
-
-                            <label for="address">
-                                Delivery Address
-                            </label>
-
-                            <textarea
-                                id="address"
-                                name="address"
-                                rows="4"
-                                placeholder="Enter your complete address"
-                            ></textarea>
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="city">
-                                City
-                            </label>
-
-                            <input
-                                type="text"
-                                id="city"
-                                name="city"
-                                placeholder="Ahmedabad"
-                            >
-
-                        </div>
-
-
-                        <div class="form-group">
-
-                            <label for="pincode">
-                                Pincode
-                            </label>
-
-                            <input
-                                type="text"
-                                id="pincode"
-                                name="pincode"
-                                placeholder="380001"
-                            >
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- PAYMENT -->
-
-                <div class="checkout-card">
-
-                    <p class="section-label">02</p>
-
-                    <h2>
-                        Payment method
-                    </h2>
-
-                    <div class="payment-options">
-
-                        <label class="payment-option">
-
-                            <input
-                                type="radio"
-                                name="payment"
-                                value="cod"
-                                checked
-                            >
+                        <div class="checkout-card-header">
 
                             <div>
-                                <strong>
-                                    Cash on Delivery
-                                </strong>
 
-                                <span>
-                                    Pay when your food arrives
-                                </span>
+                                <p class="section-label">
+                                    01
+                                </p>
+
+                                <h2>
+                                    Delivery details
+                                </h2>
+
                             </div>
 
-                        </label>
+                        </div>
 
 
-                        <label class="payment-option">
+                        <div class="form-grid">
 
-                            <input
-                                type="radio"
-                                name="payment"
-                                value="online"
-                            >
+                            <!-- NAME -->
+                            <div class="form-group">
 
-                            <div>
-                                <strong>
-                                    Online Payment
-                                </strong>
+                                <label for="name">
+                                    Full Name
+                                </label>
 
-                                <span>
-                                    Pay securely online
-                                </span>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Enter your name"
+                                    required
+                                >
+
                             </div>
 
-                        </label>
+
+                            <!-- MOBILE -->
+                            <div class="form-group">
+
+                                <label for="mobile">
+                                    Mobile Number
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="mobile"
+                                    name="mobile"
+                                    placeholder="9876543210"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- ADDRESS -->
+                            <div class="form-group full">
+
+                                <label for="address">
+                                    Delivery Address
+                                </label>
+
+                                <textarea
+                                    id="address"
+                                    name="address"
+                                    rows="4"
+                                    placeholder="Enter your complete address"
+                                    required
+                                ></textarea>
+
+                            </div>
+
+
+                            <!-- CITY -->
+                            <div class="form-group">
+
+                                <label for="city">
+                                    City
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="city"
+                                    name="city"
+                                    placeholder="Ahmedabad"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <!-- PINCODE -->
+                            <div class="form-group">
+
+                                <label for="pincode">
+                                    Pincode
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="pincode"
+                                    name="pincode"
+                                    placeholder="380001"
+                                    required
+                                >
+
+                            </div>
+
+                        </div>
 
                     </div>
 
-                </div>
-
-            </div>
 
 
-            <!-- RIGHT SIDE -->
+                    <!-- PAYMENT -->
+                    <div class="checkout-card">
 
-            <aside class="checkout-summary">
-
-                <p class="section-label">
-                    YOUR ORDER
-                </p>
-
-                <h2>
-                    Order summary
-                </h2>
-
-
-                <div class="checkout-product">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=300&q=80"
-                        alt="Gujarati Ghar Nu Tiffin"
-                    >
-
-                    <div>
-
-                        <h3>
-                            Gujarati Ghar Nu Tiffin
-                        </h3>
-
-                        <p>
-                            1 × ₹120
+                        <p class="section-label">
+                            02
                         </p>
 
+                        <h2>
+                            Payment method
+                        </h2>
+
+
+                        <div class="payment-options">
+
+                            <!-- COD -->
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment"
+                                    value="cod"
+                                    checked
+                                >
+
+                                <div>
+
+                                    <strong>
+                                        Cash on Delivery
+                                    </strong>
+
+                                    <span>
+                                        Pay when your food arrives
+                                    </span>
+
+                                </div>
+
+                            </label>
+
+
+                            <!-- ONLINE -->
+                            <label class="payment-option">
+
+                                <input
+                                    type="radio"
+                                    name="payment"
+                                    value="online"
+                                >
+
+                                <div>
+
+                                    <strong>
+                                        Online Payment
+                                    </strong>
+
+                                    <span>
+                                        Pay securely online
+                                    </span>
+
+                                </div>
+
+                            </label>
+
+                        </div>
+
                     </div>
 
-                    <strong>
-                        ₹120
-                    </strong>
-
                 </div>
 
 
-                <div class="summary-divider"></div>
+
+                <!-- RIGHT SIDE -->
+                <aside class="checkout-summary">
+
+                    <p class="section-label">
+                        YOUR ORDER
+                    </p>
+
+                    <h2>
+                        Order summary
+                    </h2>
 
 
-                <div class="summary-row">
+                    <!-- PRODUCT -->
+                    <div class="checkout-product">
 
-                    <span>
-                        Subtotal
-                    </span>
+                        <img
+                            src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=300&q=80"
+                            alt="Gujarati Ghar Nu Tiffin"
+                        >
 
-                    <strong>
-                        ₹120
-                    </strong>
+                        <div>
 
-                </div>
+                            <h3>
+                                Gujarati Ghar Nu Tiffin
+                            </h3>
 
+                            <p>
+                                1 × ₹120
+                            </p>
 
-                <div class="summary-row">
+                        </div>
 
-                    <span>
-                        Delivery
-                    </span>
+                        <strong>
+                            ₹120
+                        </strong>
 
-                    <strong>
-                        ₹20
-                    </strong>
-
-                </div>
-
-
-                <div class="summary-row checkout-total">
-
-                    <span>
-                        Total
-                    </span>
-
-                    <strong>
-                        ₹140
-                    </strong>
-
-                </div>
+                    </div>
 
 
-                <button
-                    type="button"
-                    class="primary-btn place-order-btn"
-                >
-                    Place Order →
-                </button>
+                    <div class="summary-divider"></div>
 
 
-                <p class="secure-note">
-                    🔒 Your order information is secure.
-                </p>
+                    <!-- SUBTOTAL -->
+                    <div class="summary-row">
 
-            </aside>
+                        <span>
+                            Subtotal
+                        </span>
 
-        </section>
+                        <strong>
+                            ₹120
+                        </strong>
+
+                    </div>
+
+
+                    <!-- DELIVERY -->
+                    <div class="summary-row">
+
+                        <span>
+                            Delivery
+                        </span>
+
+                        <strong>
+                            ₹20
+                        </strong>
+
+                    </div>
+
+
+                    <!-- TOTAL -->
+                    <div class="summary-row checkout-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong>
+                            ₹140
+                        </strong>
+
+                    </div>
+
+
+                    <!-- PLACE ORDER -->
+                    <button
+                        type="submit"
+                        class="primary-btn place-order-btn"
+                    >
+                        Place Order →
+                    </button>
+
+
+                    <p class="secure-note">
+                        🔒 Your order information is secure.
+                    </p>
+
+                </aside>
+
+            </section>
+
+        </form>
 
     </main>
 

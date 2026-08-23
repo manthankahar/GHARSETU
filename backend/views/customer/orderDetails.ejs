@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Order Details</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <main class="order-details-page">
+
+        <section class="order-details-header">
+
+            <p class="section-label">YOUR ORDER</p>
+
+            <h1>
+                Order <span>details.</span>
+            </h1>
+
+            <p>
+                Thank you for choosing GharSetu. Here is your order information.
+            </p>
+
+        </section>
+
+
+        <section class="order-details-container">
+
+            <!-- ORDER STATUS -->
+
+            <div class="order-status-card">
+
+                <div>
+                    <p class="section-label">ORDER STATUS</p>
+
+                    <h2>
+                        <%= order.status.toUpperCase() %>
+                    </h2>
+                </div>
+
+                <div class="order-id">
+
+                    <span>Order ID</span>
+
+                    <strong>
+                        #<%= order._id %>
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ORDER ITEMS -->
+
+            <div class="order-card">
+
+                <p class="section-label">01</p>
+
+                <h2>Items</h2>
+
+                <% order.items.forEach(item => { %>
+
+                    <div class="order-item">
+
+                        <div>
+
+                            <h3>
+                                <%= item.name %>
+                            </h3>
+
+                            <p>
+                                Quantity: <%= item.quantity %>
+                            </p>
+
+                        </div>
+
+                        <strong>
+                            ₹<%= item.price * item.quantity %>
+                        </strong>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+
+            <!-- DELIVERY DETAILS -->
+
+            <div class="order-card">
+
+                <p class="section-label">02</p>
+
+                <h2>Delivery details</h2>
+
+                <div class="delivery-info">
+
+                    <p>
+                        <strong>Name:</strong>
+                        <%= order.deliveryDetails.name %>
+                    </p>
+
+                    <p>
+                        <strong>Mobile:</strong>
+                        <%= order.deliveryDetails.mobile %>
+                    </p>
+
+                    <p>
+                        <strong>Address:</strong>
+                        <%= order.deliveryDetails.address %>
+                    </p>
+
+                    <p>
+                        <strong>City:</strong>
+                        <%= order.deliveryDetails.city %>
+                    </p>
+
+                    <p>
+                        <strong>Pincode:</strong>
+                        <%= order.deliveryDetails.pincode %>
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT + SUMMARY -->
+
+            <div class="order-card">
+
+                <p class="section-label">03</p>
+
+                <h2>Payment & Summary</h2>
+
+                <div class="summary-row">
+
+                    <span>Payment Method</span>
+
+                    <strong>
+                        <%= order.paymentMethod.toUpperCase() %>
+                    </strong>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>Subtotal</span>
+
+                    <strong>
+                        ₹<%= order.subtotal %>
+                    </strong>
+
+                </div>
+
+                <div class="summary-row">
+
+                    <span>Delivery</span>
+
+                    <strong>
+                        ₹<%= order.deliveryCharge %>
+                    </strong>
+
+                </div>
+
+                <div class="summary-row order-total">
+
+                    <span>Total</span>
+
+                    <strong>
+                        ₹<%= order.total %>
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <a href="/customer/orders" class="primary-btn">
+                ← Back to My Orders
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <%- include("../partials/footer") %>
+
+</body>
+
+</html>

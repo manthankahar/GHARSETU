@@ -5,6 +5,8 @@ require("dotenv").config();
 
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const orderRoutes = require("./routes/orderRoutes");
+const Order = require("./models/Order");
 
 const app = express();
 
@@ -66,6 +68,13 @@ app.get("/customer/signup", (req, res) => {
     res.render("customer/signup");
 });
 
+// ===============================
+// ROUTES
+// ===============================
+
+app.use("/api/auth", authRoutes);
+
+app.use("/api/orders", orderRoutes);
 
 // ===============================
 // CUSTOMER PAGES
@@ -108,6 +117,49 @@ app.get("/customer/cart", (req, res) => {
 
 app.get("/customer/checkout", (req, res) => {
     res.render("customer/checkout");
+});
+
+// ===============================
+// CUSTOMER ORDERS PAGE
+// ===============================
+
+app.get("/customer/orders", async (req, res) => {
+    try {
+        const Order = require("./models/Order");
+
+        const orders = await Order.find()
+            .populate("customer", "name email mobile")
+            .sort({ createdAt: -1 });
+
+        res.render("customer/orders", {
+            orders
+        });
+
+    } catch (error) {
+        console.error("Orders Page Error:", error);
+        res.status(500).send("Failed to load orders");
+    }
+});
+
+// ===============================
+// CUSTOMER ORDER DETAILS PAGE
+// ===============================
+
+app.get("/customer/orders/:id", async (req, res) => {
+    try {
+        const order = await Order.findById(req.params.id)
+            .populate("customer", "name email mobile");
+
+        if (!order) {
+            return res.status(404).send("Order not found");
+        }
+
+        res.render("customer/orderDetails", { order });
+
+    } catch (error) {
+        console.error("Order Details Error:", error);
+        res.status(500).send("Server Error");
+    }
 });
 
 // ===============================

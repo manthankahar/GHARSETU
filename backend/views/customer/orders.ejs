@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GharSetu | My Orders</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <main class="orders-page">
+
+        <section class="orders-header">
+            <p class="section-label">YOUR ORDERS</p>
+
+            <h1>
+                Meals you've <span>ordered.</span>
+            </h1>
+
+            <p>
+                Track your GharSetu meals and previous orders.
+            </p>
+        </section>
+
+        <section class="orders-list">
+
+            <% if (!orders || orders.length === 0) { %>
+
+                <div class="empty-orders">
+                    <h2>No orders yet.</h2>
+                    <p>Start exploring homemade meals near you.</p>
+
+                    <a href="/customer/tiffins" class="primary-btn">
+                        Explore Tiffins →
+                    </a>
+                </div>
+
+            <% } else { %>
+
+                <% orders.forEach(order => { %>
+
+                    <div class="order-card">
+
+                        <div class="order-top">
+                            <div>
+                                <p class="section-label">ORDER</p>
+                                <h2>#<%= order._id.toString().slice(-6).toUpperCase() %></h2>
+                            </div>
+
+                            <span class="order-status">
+                                <%= order.status %>
+                            </span>
+                        </div>
+
+                        <div class="order-items">
+
+                            <% order.items.forEach(item => { %>
+
+                                <div class="order-item">
+
+                                    <div>
+                                        <h3><%= item.name %></h3>
+                                        <p>
+                                            <%= item.quantity %> × ₹<%= item.price %>
+                                        </p>
+                                    </div>
+
+                                    <strong>
+                                        ₹<%= item.price * item.quantity %>
+                                    </strong>
+
+                                </div>
+
+                            <% }) %>
+
+                        </div>
+
+                        <div class="order-bottom">
+
+                            <div>
+                                <span>Total</span>
+                                <strong>₹<%= order.total %></strong>
+                            </div>
+
+                            <a href="/customer/orders/<%= order._id %>">
+                                View Order →
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            <% } %>
+
+        </section>
+
+    </main>
+
+    <%- include("../partials/footer") %>
+
+</body>
+</html>
