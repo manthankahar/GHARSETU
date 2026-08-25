@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Pickup</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <div class="delivery-layout">
+
+        <%- include("../partials/sidebar") %>
+
+        <main class="delivery-main">
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        DELIVERY
+                    </span>
+
+                    <h1>
+                        Pickup Order
+                    </h1>
+
+                    <p>
+                        Verify the order before pickup
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="pickup-container">
+
+                <!-- ORDER INFORMATION -->
+
+                <div class="pickup-card">
+
+                    <span class="pickup-label">
+                        ORDER
+                    </span>
+
+                    <h2>
+                        #<%= delivery.order?._id || delivery._id %>
+                    </h2>
+
+                    <p>
+                        Verify this order with the restaurant.
+                    </p>
+
+                </div>
+
+
+                <!-- VERIFICATION OPTIONS -->
+
+                <div class="pickup-card">
+
+                    <h2>
+                        Pickup Verification
+                    </h2>
+
+                    <p class="pickup-description">
+                        Complete any one verification method.
+                    </p>
+
+
+                    <!-- OTP -->
+
+                    <div class="verification-option">
+
+                        <div>
+
+                            <h3>
+                                🔐 Verify with OTP
+                            </h3>
+
+                            <p>
+                                Enter the OTP provided by the restaurant.
+                            </p>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="primary-small-button"
+                            onclick="showOTP()"
+                        >
+                            Enter OTP
+                        </button>
+
+                    </div>
+
+
+                    <!-- PHOTO -->
+
+                    <div class="verification-option">
+
+                        <div>
+
+                            <h3>
+                                📷 Verify with Photo
+                            </h3>
+
+                            <p>
+                                Take a photo of the pickup confirmation.
+                            </p>
+
+                        </div>
+
+                        <button
+                            type="button"
+                            class="primary-small-button"
+                            onclick="openPickupCamera()"
+                        >
+                            Take Photo
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- OTP BOX -->
+
+                <div
+                    class="pickup-card hidden"
+                    id="otpBox"
+                >
+
+                    <h2>
+                        Enter Pickup OTP
+                    </h2>
+
+                    <input
+                        type="text"
+                        id="pickupOtp"
+                        maxlength="6"
+                        placeholder="Enter OTP"
+                        inputmode="numeric"
+                    >
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                        onclick="verifyPickupOTP('<%= delivery._id %>')"
+                    >
+                        Verify OTP
+                    </button>
+
+                </div>
+
+
+                <!-- CAMERA BOX -->
+
+                <div
+                    class="pickup-card hidden"
+                    id="cameraBox"
+                >
+
+                    <h2>
+                        Pickup Photo
+                    </h2>
+
+
+                    <video
+                        id="pickupCamera"
+                        autoplay
+                        playsinline
+                    ></video>
+
+
+                    <canvas
+                        id="pickupCanvas"
+                        class="hidden"
+                    ></canvas>
+
+
+                    <img
+                        id="pickupPreview"
+                        class="hidden"
+                        alt="Pickup preview"
+                    >
+
+
+                    <div class="camera-actions">
+
+                        <button
+                            type="button"
+                            class="primary-button"
+                            id="captureButton"
+                            onclick="capturePickupPhoto()"
+                        >
+                            📸 Capture Photo
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="secondary-button hidden"
+                            id="retakeButton"
+                            onclick="retakePickupPhoto()"
+                        >
+                            Retake
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="primary-button hidden"
+                            id="verifyPhotoButton"
+                            onclick="verifyPickupPhoto('<%= delivery._id %>')"
+                        >
+                            Verify & Continue
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUCCESS -->
+
+                <div
+                    class="pickup-success hidden"
+                    id="pickupSuccess"
+                >
+
+                    <div class="success-icon">
+                        ✓
+                    </div>
+
+                    <h2>
+                        Pickup Verified
+                    </h2>
+
+                    <p>
+                        Order pickup has been successfully verified.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="primary-button"
+                        onclick="continueToLocation('<%= delivery._id %>')"
+                    >
+                        Continue Delivery →
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <script src="/js/delivery.js"></script>
+
+</body>
+
+</html>

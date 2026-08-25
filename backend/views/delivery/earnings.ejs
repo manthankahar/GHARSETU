@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Earnings</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <div class="delivery-layout">
+
+        <%- include("../partials/sidebar") %>
+
+        <main class="delivery-main">
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        MONEY
+                    </span>
+
+                    <h1>
+                        Earnings
+                    </h1>
+
+                    <p>
+                        Track your delivery earnings
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <div class="earning-main-card">
+
+                <span>
+                    Total Earnings
+                </span>
+
+                <h2>
+                    ₹<%= totalEarnings %>
+                </h2>
+
+                <p>
+                    From completed deliveries
+                </p>
+
+            </div>
+
+
+            <section class="dashboard-section">
+
+                <div class="section-heading">
+
+                    <h2>
+                        Earnings History
+                    </h2>
+
+                </div>
+
+
+                <% if (orders.length === 0) { %>
+
+                    <div class="empty-card">
+
+                        <div>
+                            💰
+                        </div>
+
+                        <h3>
+                            No earnings yet
+                        </h3>
+
+                    </div>
+
+                <% } %>
+
+
+                <% orders.forEach(order => { %>
+
+                    <div class="history-card">
+
+                        <div>
+
+                            <span class="order-id">
+                                ORDER #<%= order.id %>
+                            </span>
+
+                            <h3>
+                                <%= order.item %>
+                            </h3>
+
+                        </div>
+
+                        <strong class="earning-green">
+                            + ₹<%= order.amount %>
+                        </strong>
+
+                    </div>
+
+                <% }); %>
+
+            </section>
+
+            <%- include("../partials/footer") %>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

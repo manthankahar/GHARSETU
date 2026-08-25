@@ -10,6 +10,8 @@ const authRoutes = require("./routes/authRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const customerRoutes = require("./routes/customerRoutes");
 const cartRoutes = require("./routes/cartRoutes");
+const deliveryRoutes =require("./routes/deliveryRoutes");
+const complaintRoutes =require("./routes/complaintRoutes");
 
 const app = express();
 
@@ -100,6 +102,21 @@ app.use(
 app.use(
     "/api/orders",
     orderRoutes
+);
+
+app.use(
+    "/delivery",
+    deliveryRoutes
+);
+
+app.use(
+    "/delivery",
+    deliveryRoutes
+);
+
+app.use(
+    "/delivery",
+    complaintRoutes
 );
 
 // =================================

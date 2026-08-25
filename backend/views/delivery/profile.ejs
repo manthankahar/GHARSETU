@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Profile</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <div class="delivery-layout">
+
+        <%- include("../partials/sidebar") %>
+
+        <main class="delivery-main">
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        ACCOUNT
+                    </span>
+
+                    <h1>
+                        Profile
+                    </h1>
+
+                    <p>
+                        Manage your delivery partner profile
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="profile-card">
+
+                <div class="large-profile-circle">
+                    <%= user.name.charAt(0).toUpperCase() %>
+                </div>
+
+                <h2>
+                    <%= user.name %>
+                </h2>
+
+                <span class="profile-role">
+                    Delivery Partner
+                </span>
+
+                <span class="profile-online">
+                    ● Online
+                </span>
+
+            </section>
+
+
+            <section class="profile-info-card">
+
+                <div class="profile-row">
+
+                    <span>📱</span>
+
+                    <div>
+
+                        <small>
+                            Mobile Number
+                        </small>
+
+                        <strong>
+                            <%= user.mobile %>
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-row">
+
+                    <span>📧</span>
+
+                    <div>
+
+                        <small>
+                            Email
+                        </small>
+
+                        <strong>
+                            <%= user.email %>
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="profile-row">
+
+                    <span>📍</span>
+
+                    <div>
+
+                        <small>
+                            Address
+                        </small>
+
+                        <strong>
+                            <%= user.address %>
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <button
+                class="primary-button profile-edit-button"
+                onclick="editDeliveryProfile()"
+            >
+                ✏️ Edit Profile
+            </button>
+
+
+            <button
+                class="logout-button"
+                onclick="deliveryLogout()"
+            >
+                🚪 Logout
+            </button>
+
+            <%- include("../partials/footer") %>
+
+        </main>
+
+    </div>
+
+    <script src="/js/delivery.js"></script>
+
+</body>
+
+</html>

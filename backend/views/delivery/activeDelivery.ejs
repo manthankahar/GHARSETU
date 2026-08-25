@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Active Delivery</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <div class="delivery-layout">
+
+        <%- include("../partials/sidebar") %>
+
+        <main class="delivery-main">
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        DELIVERY
+                    </span>
+
+                    <h1>
+                        Active Delivery
+                    </h1>
+
+                    <p>
+                        Manage your current deliveries
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="dashboard-section">
+
+                <% if (orders.length === 0) { %>
+
+                    <div class="empty-card">
+
+                        <div>🚴</div>
+
+                        <h3>
+                            No active deliveries
+                        </h3>
+
+                        <p>
+                            You currently have no active delivery.
+                        </p>
+
+                    </div>
+
+                <% } %>
+
+
+                <% orders.forEach(order => { %>
+
+                    <article class="delivery-detail-card">
+
+                        <div class="order-card-header">
+
+                            <div>
+
+                                <span class="order-id">
+                                    ORDER #<%= order.id %>
+                                </span>
+
+                                <h2>
+                                    <%= order.item %>
+                                </h2>
+
+                            </div>
+
+                            <span class="status-badge">
+                                <%= order.status %>
+                            </span>
+
+                        </div>
+
+
+                        <div class="route-box">
+
+                            <div class="route-row">
+
+                                <span class="route-dot pickup"></span>
+
+                                <div>
+
+                                    <small>
+                                        Restaurant
+                                    </small>
+
+                                    <strong>
+                                        <%= order.pickup %>
+                                    </strong>
+
+                                    <p>
+                                        <%= order.pickupArea %>
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="route-line"></div>
+
+
+                            <div class="route-row">
+
+                                <span class="route-dot drop"></span>
+
+                                <div>
+
+                                    <small>
+                                        Customer
+                                    </small>
+
+                                    <strong>
+                                        <%= order.customer %>
+                                    </strong>
+
+                                    <p>
+                                        <%= order.dropArea %>
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="earning-row">
+
+                            <div>
+
+                                <small>
+                                    Delivery Earnings
+                                </small>
+
+                                <strong>
+                                    ₹<%= order.amount %>
+                                </strong>
+
+                            </div>
+
+                            <a
+                                href="/delivery/history"
+                                class="primary-small-button"
+                            >
+                                Manage
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                <% }); %>
+
+            </section>
+
+            <%- include("../partials/footer") %>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

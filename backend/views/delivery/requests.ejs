@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Requests</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <div class="delivery-layout">
+
+        <%- include("../partials/sidebar") %>
+
+        <main class="delivery-main">
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        NEW
+                    </span>
+
+                    <h1>
+                        Delivery Requests
+                    </h1>
+
+                    <p>
+                        New orders waiting for delivery
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="dashboard-section">
+
+                <% if (orders.length === 0) { %>
+
+                    <div class="empty-card">
+
+                        <div>
+                            📦
+                        </div>
+
+                        <h3>
+                            No new requests
+                        </h3>
+
+                    </div>
+
+                <% } %>
+
+
+                <% orders.forEach(order => { %>
+
+                    <article class="request-card">
+
+                        <div class="request-top">
+
+                            <div>
+
+                                <span class="order-id">
+                                    ORDER #<%= order.id %>
+                                </span>
+
+                                <h2>
+                                    <%= order.item %>
+                                </h2>
+
+                            </div>
+
+                            <strong>
+                                ₹<%= order.amount %>
+                            </strong>
+
+                        </div>
+
+
+                        <div class="route-box">
+
+                            <p>
+                                📍
+                                <strong>
+                                    Pickup:
+                                </strong>
+
+                                <%= order.pickup %>
+                            </p>
+
+                            <p>
+                                🏠
+                                <strong>
+                                    Customer:
+                                </strong>
+
+                                <%= order.customer %>
+                            </p>
+
+                        </div>
+
+
+                        <div class="request-actions">
+
+                            <button
+                                class="primary-button"
+                                onclick="acceptDelivery('<%= order.id %>')"
+                            >
+                                ✓ Accept Order
+                            </button>
+
+                            <button
+                                class="secondary-button"
+                                onclick="rejectDelivery('<%= order.id %>')"
+                            >
+                                Reject
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                <% }); %>
+
+            </section>
+
+            <%- include("../partials/footer") %>
+
+        </main>
+
+    </div>
+
+    <script src="/js/delivery.js"></script>
+
+</body>
+
+</html>

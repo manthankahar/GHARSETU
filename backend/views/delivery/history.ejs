@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Delivery History</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <div class="delivery-layout">
+
+        <%- include("../partials/sidebar") %>
+
+        <main class="delivery-main">
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        DELIVERY PARTNER
+                    </span>
+
+                    <h1>
+                        Delivery History
+                    </h1>
+
+                    <p>
+                        Your completed deliveries
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="dashboard-section">
+
+                <% if (orders.length === 0) { %>
+
+                    <div class="empty-card">
+
+                        <div>
+                            📦
+                        </div>
+
+                        <h3>
+                            No completed deliveries
+                        </h3>
+
+                    </div>
+
+                <% } %>
+
+
+                <% orders.forEach(order => { %>
+
+                    <div class="history-card">
+
+                        <div>
+
+                            <span class="order-id">
+                                ORDER #<%= order.id %>
+                            </span>
+
+                            <h3>
+                                <%= order.item %>
+                            </h3>
+
+                            <p>
+                                <%= order.pickup %>
+                                →
+                                <%= order.customer %>
+                            </p>
+
+                        </div>
+
+
+                        <div class="history-right">
+
+                            <strong>
+                                ₹<%= order.amount %>
+                            </strong>
+
+                            <span class="success-text">
+                                ✓ Delivered
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                <% }); %>
+
+            </section>
+
+            <%- include("../partials/footer") %>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

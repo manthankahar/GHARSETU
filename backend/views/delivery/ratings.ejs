@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Ratings</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body>
+
+    <%- include("../partials/navbar") %>
+
+    <div class="delivery-layout">
+
+        <%- include("../partials/sidebar") %>
+
+        <main class="delivery-main">
+
+            <header class="page-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        FEEDBACK
+                    </span>
+
+                    <h1>
+                        Ratings
+                    </h1>
+
+                    <p>
+                        See your customer feedback
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <section class="rating-summary">
+
+                <div class="rating-number">
+                    <%= rating.toFixed(1) %>
+                </div>
+
+                <div>
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+                    <p>
+                        Based on <%= totalRatings %>
+                        customer ratings
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <section class="dashboard-section">
+
+                <div class="feedback-card">
+
+                    <div class="feedback-header">
+
+                        <strong>
+                            Rahul Patel
+                        </strong>
+
+                        <span>
+                            ⭐⭐⭐⭐⭐
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Great delivery service. Food arrived on time.
+                    </p>
+
+                </div>
+
+
+                <div class="feedback-card">
+
+                    <div class="feedback-header">
+
+                        <strong>
+                            Priya Shah
+                        </strong>
+
+                        <span>
+                            ⭐⭐⭐⭐⭐
+                        </span>
+
+                    </div>
+
+                    <p>
+                        Very polite and professional delivery partner.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <%- include("../partials/footer") %>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>

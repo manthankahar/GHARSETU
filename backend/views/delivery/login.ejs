@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Delivery Login</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+<body class="auth-body">
+
+    <%- include("../partials/loader") %>
+
+    <main class="auth-container">
+
+        <div class="auth-card">
+
+            <div class="auth-logo">
+                🍱
+            </div>
+
+            <h1>GharSetu</h1>
+
+            <p class="auth-subtitle">
+                Delivery Partner
+            </p>
+
+            <form id="deliveryLoginForm">
+
+                <label>
+                    Mobile Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="loginMobile"
+                    placeholder="Enter mobile number"
+                    maxlength="10"
+                    required
+                >
+
+                <label>
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="loginPassword"
+                    placeholder="Enter password"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Login
+                </button>
+
+            </form>
+
+            <p class="auth-bottom">
+
+                New delivery partner?
+
+                <a href="/delivery/signup">
+                    Create Account
+                </a>
+
+            </p>
+
+        </div>
+
+    </main>
+
+    <script src="/js/delivery.js"></script>
+
+</body>
+
+</html>
