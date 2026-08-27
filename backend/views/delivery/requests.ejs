@@ -20,15 +20,20 @@
 
 </head>
 
-<body>
 
-    <%- include("../partials/navbar") %>
+<body>
 
     <div class="delivery-layout">
 
         <%- include("../partials/sidebar") %>
 
+
         <main class="delivery-main">
+
+
+            <!-- ============================= -->
+            <!-- HEADER -->
+            <!-- ============================= -->
 
             <header class="page-header">
 
@@ -51,9 +56,15 @@
             </header>
 
 
+
+            <!-- ============================= -->
+            <!-- REQUESTS -->
+            <!-- ============================= -->
+
             <section class="dashboard-section">
 
-                <% if (orders.length === 0) { %>
+
+                <% if (!deliveries || deliveries.length === 0) { %>
 
                     <div class="empty-card">
 
@@ -65,90 +76,157 @@
                             No new requests
                         </h3>
 
+                        <p>
+                            New delivery requests will appear here.
+                        </p>
+
                     </div>
 
                 <% } %>
 
 
-                <% orders.forEach(order => { %>
+
+                <% deliveries.forEach(delivery => { %>
 
                     <article class="request-card">
+
+
+                        <!-- ============================= -->
+                        <!-- TOP -->
+                        <!-- ============================= -->
 
                         <div class="request-top">
 
                             <div>
 
                                 <span class="order-id">
-                                    ORDER #<%= order.id %>
+
+                                    DELIVERY #
+
+                                    <%= delivery._id %>
+
                                 </span>
 
+
                                 <h2>
-                                    <%= order.item %>
+
+                                    <%= delivery.order?.item ||
+                                        delivery.order?.title ||
+                                        "Food Order" %>
+
                                 </h2>
 
                             </div>
 
+
                             <strong>
-                                ₹<%= order.amount %>
+
+                                ₹<%= delivery.orderAmount ||
+                                    delivery.order?.amount ||
+                                    0 %>
+
                             </strong>
 
                         </div>
 
 
+
+                        <!-- ============================= -->
+                        <!-- ROUTE -->
+                        <!-- ============================= -->
+
                         <div class="route-box">
 
+
                             <p>
+
                                 📍
+
                                 <strong>
                                     Pickup:
                                 </strong>
 
-                                <%= order.pickup %>
+                                <%= delivery.order?.pickup ||
+                                    delivery.order?.restaurant ||
+                                    delivery.order?.restaurantName ||
+                                    "Restaurant" %>
+
                             </p>
 
+
+
                             <p>
+
                                 🏠
+
                                 <strong>
                                     Customer:
                                 </strong>
 
-                                <%= order.customer %>
+                                <%= delivery.order?.customer ||
+                                    delivery.order?.customerName ||
+                                    delivery.order?.address ||
+                                    "Customer Location" %>
+
                             </p>
+
 
                         </div>
 
+
+
+                        <!-- ============================= -->
+                        <!-- ACTIONS -->
+                        <!-- ============================= -->
 
                         <div class="request-actions">
 
-                            <button
-                                class="primary-button"
-                                onclick="acceptDelivery('<%= order.id %>')"
-                            >
-                                ✓ Accept Order
-                            </button>
 
                             <button
-                                class="secondary-button"
-                                onclick="rejectDelivery('<%= order.id %>')"
+                                type="button"
+                                class="primary-button"
+                                onclick="acceptDelivery('<%= delivery._id %>')"
                             >
-                                Reject
+
+                                ✓ Accept Order
+
                             </button>
+
+
+
+                            <button
+                                type="button"
+                                class="secondary-button"
+                                onclick="rejectDelivery('<%= delivery._id %>')"
+                            >
+
+                                Reject
+
+                            </button>
+
 
                         </div>
+
 
                     </article>
 
                 <% }); %>
 
+
             </section>
 
+
+
             <%- include("../partials/footer") %>
+
 
         </main>
 
     </div>
 
+
     <script src="/js/delivery.js"></script>
+
 
 </body>
 

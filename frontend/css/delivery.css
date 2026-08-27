@@ -1311,3 +1311,378 @@ textarea {
     }
 
 }
+
+/* =====================================
+   DELIVERY ACTION CARD
+===================================== */
+
+.delivery-action-card {
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.delivery-action-card h3 {
+    margin: 0 0 8px;
+    font-size: 20px;
+}
+
+.delivery-action-card p {
+    color: #6b7280;
+    margin-bottom: 18px;
+}
+
+
+/* =====================================
+   ACTION BUTTON
+===================================== */
+
+.delivery-action-button {
+    width: 100%;
+    border: none;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: #111827;
+    color: white;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.delivery-action-button:hover {
+    transform: translateY(-1px);
+    opacity: 0.92;
+}
+
+
+/* =====================================
+   PICKUP METHOD
+===================================== */
+
+.pickup-method-box {
+    margin-top: 18px;
+    padding: 18px;
+    border-radius: 14px;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.pickup-method-box h4 {
+    margin: 0 0 12px;
+}
+
+.pickup-method-box input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    outline: none;
+    margin-bottom: 12px;
+}
+
+.pickup-method-box input[type="file"] {
+    width: 100%;
+    margin: 12px 0;
+}
+
+
+/* =====================================
+   PICKUP DIVIDER
+===================================== */
+
+.pickup-divider {
+    text-align: center;
+    margin: 20px 0;
+    font-weight: 800;
+    color: #9ca3af;
+}
+
+
+/* =====================================
+   PHOTO PREVIEW
+===================================== */
+
+.pickup-photo-preview {
+    margin: 12px 0;
+}
+
+.pickup-preview-image {
+    width: 100%;
+    max-width: 320px;
+    max-height: 240px;
+    object-fit: cover;
+    border-radius: 14px;
+    display: block;
+}
+
+
+/* =====================================
+   PAYMENT
+===================================== */
+
+.payment-amount {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px;
+    border-radius: 14px;
+    background: #f9fafb;
+    margin: 18px 0;
+}
+
+.payment-amount span {
+    color: #6b7280;
+}
+
+.payment-amount strong {
+    font-size: 24px;
+}
+
+
+/* =====================================
+   PAYMENT OPTIONS
+===================================== */
+
+.payment-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.payment-option {
+    border: 2px solid #e5e7eb;
+    background: white;
+    border-radius: 15px;
+    padding: 18px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: 0.2s ease;
+}
+
+.payment-option:hover {
+    transform: translateY(-2px);
+}
+
+.payment-option.selected {
+    border-color: #111827;
+    background: #f3f4f6;
+}
+
+
+/* =====================================
+   DEMO QR
+===================================== */
+
+.demo-qr-box {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+}
+
+.demo-qr {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0;
+}
+
+.qr-placeholder {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 8px solid #111827;
+    background:
+        repeating-linear-gradient(
+            45deg,
+            #ffffff,
+            #ffffff 6px,
+            #111827 6px,
+            #111827 10px
+        );
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 900;
+    text-shadow:
+        0 1px 3px #000;
+}
+
+
+/* =====================================
+   COMPLETE BUTTON
+===================================== */
+
+.complete-delivery-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+    border: none;
+    border-radius: 13px;
+    background: #111827;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.complete-delivery-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+
+/* =====================================
+   COMPLETED CARD
+===================================== */
+
+.delivery-completed-card {
+    margin-top: 24px;
+    padding: 30px;
+    text-align: center;
+    border-radius: 20px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+}
+
+.completed-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 15px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #16a34a;
+    color: white;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.completed-earning {
+    margin-top: 18px;
+    font-size: 42px;
+    font-weight: 900;
+}
+
+
+/* =====================================
+   SUCCESS POPUP
+===================================== */
+
+.delivery-success-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.delivery-success-overlay.show {
+    display: flex;
+}
+
+.delivery-success-popup {
+    width: min(430px, 100%);
+    padding: 35px 25px;
+    text-align: center;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.25);
+    animation: deliveryPopupIn 0.25s ease;
+}
+
+.success-icon {
+    width: 75px;
+    height: 75px;
+    margin: 0 auto 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #16a34a;
+    color: white;
+    font-size: 40px;
+    font-weight: 900;
+}
+
+.delivery-success-popup h2 {
+    margin: 0 0 10px;
+    font-size: 25px;
+}
+
+.delivery-success-popup p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.success-big-earning {
+    margin-top: 18px;
+    font-size: 52px;
+    font-weight: 900;
+}
+
+.delivery-success-popup > span {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.success-close-button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    background: #111827;
+    color: white;
+    font-size: 15px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+
+@keyframes deliveryPopupIn {
+
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 600px) {
+
+    .payment-options {
+        grid-template-columns: 1fr;
+    }
+
+    .success-big-earning {
+        font-size: 44px;
+    }
+
+    .delivery-success-popup {
+        padding: 28px 20px;
+    }
+
+}

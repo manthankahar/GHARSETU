@@ -1,33 +1,83 @@
 const express = require("express");
-
 const router = express.Router();
+const mongoose = require("mongoose");
 
 const Delivery = require("../models/Delivery");
 const upload = require("../middleware/uploadMiddleware");
 
-// =====================================
-// GET DELIVERY DASHBOARD
-// =====================================
+// ======================================================
+// HELPER - ORDER DATA
+// ======================================================
+
+function makeOrderData(delivery) {
+    const order = delivery.order || {};
+
+    return {
+        id: delivery._id
+            ? delivery._id.toString()
+            : "",
+
+        item:
+            order.item ||
+            order.name ||
+            order.title ||
+            "Delivery Order",
+
+        amount: Number(
+            delivery.orderAmount ||
+            order.amount ||
+            order.totalAmount ||
+            0
+        ),
+
+        pickup:
+            order.pickup ||
+            order.restaurant ||
+            order.restaurantName ||
+            "Restaurant",
+
+        pickupArea:
+            order.pickupArea ||
+            order.restaurantArea ||
+            "",
+
+        customer:
+            order.customer ||
+            order.customerName ||
+            "Customer",
+
+        dropArea:
+            order.dropArea ||
+            order.address ||
+            order.deliveryAddress ||
+            "",
+
+        status: delivery.status || "pending"
+    };
+}
+
+
+// ======================================================
+// DASHBOARD
+// ======================================================
 
 router.get("/dashboard", async (req, res) => {
-
     try {
 
-        const deliveries =
-            await Delivery.find()
-                .populate("order")
-                .sort({ createdAt: -1 });
+        const deliveries = await Delivery.find()
+            .populate("order")
+            .sort({ createdAt: -1 });
+
+        const orders = deliveries.map(makeOrderData);
 
         res.render("delivery/dashboard", {
-            deliveries
+            deliveries,
+            orders
         });
 
     } catch (error) {
 
-        console.error(
-            "Delivery Dashboard Error:",
-            error
-        );
+        console.error("Dashboard Error:", error);
 
         res.status(500).send(
             "Failed to load delivery dashboard"
@@ -35,31 +85,79 @@ router.get("/dashboard", async (req, res) => {
     }
 });
 
-// =====================================
-// GET ACTIVE DELIVERY
-// =====================================
 
-router.get("/active/:id", async (req, res) => {
+// ======================================================
+// REQUESTS
+// ======================================================
 
+router.get("/requests", async (req, res) => {
     try {
 
-        const delivery =
-            await Delivery.findById(req.params.id)
-                .populate("order");
+        const deliveries = await Delivery.find({
+            status: "pending"
+        })
+            .populate("order")
+            .sort({ createdAt: -1 });
 
-        if (!delivery) {
+        const orders = deliveries.map(makeOrderData);
 
-            return res.status(404).send(
-                "Delivery not found"
-            );
-        }
+        res.render("delivery/requests", {
+            deliveries,
+            orders
+        });
 
-        res.render(
-            "delivery/activeDelivery",
-            {
-                delivery
-            }
+    } catch (error) {
+
+        console.error("Requests Error:", error);
+
+        res.status(500).send(
+            "Failed to load delivery requests"
         );
+    }
+});
+
+
+// ======================================================
+// ACTIVE DELIVERY LIST
+// ======================================================
+
+router.get("/active", async (req, res) => {
+    try {
+
+        const deliveries = await Delivery.find({
+            status: {
+                $in: [
+                    "accepted",
+                    "reached_restaurant",
+                    "picked_up",
+                    "reached_location"
+                ]
+            }
+        })
+            .populate("order")
+            .sort({ createdAt: -1 });
+
+        const orders = deliveries.map(makeOrderData);
+
+        // IMPORTANT
+        // Active EJS ma delivery variable pan use thai shake
+        const delivery =
+            deliveries.length > 0
+                ? deliveries[0]
+                : {
+                    _id: null,
+                    order: {},
+                    status: "accepted",
+                    orderAmount: 0,
+                    earning: 0,
+                    currentEarning: 0
+                };
+
+        res.render("delivery/activeDelivery", {
+            delivery,
+            deliveries,
+            orders
+        });
 
     } catch (error) {
 
@@ -69,28 +167,142 @@ router.get("/active/:id", async (req, res) => {
         );
 
         res.status(500).send(
-            "Server Error"
+            "Failed to load active deliveries"
         );
     }
 });
 
-// =====================================
-// ACCEPT DELIVERY
-// =====================================
 
-router.post("/:id/accept", async (req, res) => {
+// ======================================================
+// ACTIVE DELIVERY DETAILS
+// ======================================================
 
+router.get("/active/:id", async (req, res) => {
     try {
 
-        const delivery =
-            await Delivery.findById(
+        if (
+            !mongoose.Types.ObjectId.isValid(
                 req.params.id
+            )
+        ) {
+            return res.status(400).send(
+                "Invalid delivery ID"
             );
+        }
+
+        const delivery = await Delivery.findById(
+            req.params.id
+        ).populate("order");
+
+        if (!delivery) {
+            return res.status(404).send(
+                "Delivery not found"
+            );
+        }
+
+        const orders = [
+            makeOrderData(delivery)
+        ];
+
+        res.render("delivery/activeDelivery", {
+            delivery,
+            deliveries: [delivery],
+            orders
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Active Delivery Details Error:",
+            error
+        );
+
+        res.status(500).send(
+            "Failed to load active delivery"
+        );
+    }
+});
+
+
+// ======================================================
+// PICKUP PAGE
+// ======================================================
+
+router.get("/pickup/:id", async (req, res) => {
+    try {
+
+        if (
+            !mongoose.Types.ObjectId.isValid(
+                req.params.id
+            )
+        ) {
+            return res.status(400).send(
+                "Invalid delivery ID"
+            );
+        }
+
+        const delivery = await Delivery.findById(
+            req.params.id
+        ).populate("order");
+
+        if (!delivery) {
+            return res.status(404).send(
+                "Delivery not found"
+            );
+        }
+
+        res.render("delivery/pickup", {
+            delivery
+        });
+
+    } catch (error) {
+
+        console.error(
+            "Pickup Page Error:",
+            error
+        );
+
+        res.status(500).send(
+            "Failed to load pickup page"
+        );
+    }
+});
+
+
+// ======================================================
+// ACCEPT DELIVERY
+// ======================================================
+
+router.post("/:id/accept", async (req, res) => {
+    try {
+
+        if (
+            !mongoose.Types.ObjectId.isValid(
+                req.params.id
+            )
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid delivery ID"
+            });
+        }
+
+        const delivery = await Delivery.findById(
+            req.params.id
+        );
 
         if (!delivery) {
             return res.status(404).json({
                 success: false,
                 message: "Delivery not found"
+            });
+        }
+
+        if (delivery.status !== "pending") {
+            return res.status(400).json({
+                success: false,
+                message:
+                    `Delivery is already ${delivery.status}`
             });
         }
 
@@ -119,23 +331,41 @@ router.post("/:id/accept", async (req, res) => {
     }
 });
 
-// =====================================
+
+// ======================================================
 // REJECT DELIVERY
-// =====================================
+// ======================================================
 
 router.post("/:id/reject", async (req, res) => {
-
     try {
 
-        const delivery =
-            await Delivery.findById(
+        if (
+            !mongoose.Types.ObjectId.isValid(
                 req.params.id
-            );
+            )
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid delivery ID"
+            });
+        }
+
+        const delivery = await Delivery.findById(
+            req.params.id
+        );
 
         if (!delivery) {
             return res.status(404).json({
                 success: false,
                 message: "Delivery not found"
+            });
+        }
+
+        if (delivery.status !== "pending") {
+            return res.status(400).json({
+                success: false,
+                message:
+                    "Only pending deliveries can be rejected"
             });
         }
 
@@ -162,9 +392,10 @@ router.post("/:id/reject", async (req, res) => {
     }
 });
 
-// =====================================
+
+// ======================================================
 // REACHED RESTAURANT
-// =====================================
+// ======================================================
 
 router.post(
     "/:id/reached-restaurant",
@@ -172,16 +403,34 @@ router.post(
 
         try {
 
+            if (
+                !mongoose.Types.ObjectId.isValid(
+                    req.params.id
+                )
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid delivery ID"
+                });
+            }
+
             const delivery =
                 await Delivery.findById(
                     req.params.id
                 );
 
             if (!delivery) {
-
                 return res.status(404).json({
                     success: false,
                     message: "Delivery not found"
+                });
+            }
+
+            if (delivery.status !== "accepted") {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Accept delivery first"
                 });
             }
 
@@ -195,8 +444,7 @@ router.post(
 
             res.json({
                 success: true,
-                message:
-                    "Restaurant reached",
+                message: "Restaurant reached",
                 delivery
             });
 
@@ -215,9 +463,10 @@ router.post(
     }
 );
 
-// =====================================
-// PICKUP USING OTP
-// =====================================
+
+// ======================================================
+// PICKUP - OTP
+// ======================================================
 
 router.post(
     "/:id/pickup-otp",
@@ -225,16 +474,23 @@ router.post(
 
         try {
 
-            const {
-                otp
-            } = req.body;
+            const { otp } = req.body;
 
             if (!otp) {
-
                 return res.status(400).json({
                     success: false,
-                    message:
-                        "OTP is required"
+                    message: "OTP is required"
+                });
+            }
+
+            if (
+                !mongoose.Types.ObjectId.isValid(
+                    req.params.id
+                )
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid delivery ID"
                 });
             }
 
@@ -244,37 +500,44 @@ router.post(
                 );
 
             if (!delivery) {
-
                 return res.status(404).json({
                     success: false,
-                    message:
-                        "Delivery not found"
+                    message: "Delivery not found"
                 });
             }
 
-            // Demo OTP
-            const validOtp = "1234";
-
-            if (otp !== validOtp) {
-
+            if (
+                delivery.status !==
+                "reached_restaurant"
+            ) {
                 return res.status(400).json({
                     success: false,
                     message:
-                        "Invalid OTP"
+                        "Reach restaurant first"
                 });
             }
 
-            delivery.status =
-                "picked_up";
+            // DEMO OTP
+            const validOtp = "1234";
+
+            if (String(otp) !== validOtp) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Invalid OTP. Demo OTP is 1234"
+                });
+            }
+
+            delivery.status = "picked_up";
 
             delivery.pickupVerification = {
                 method: "otp",
-                otp,
+                otp: validOtp,
+                photo: null,
                 verified: true
             };
 
-            delivery.pickedUpAt =
-                new Date();
+            delivery.pickedUpAt = new Date();
 
             await delivery.save();
 
@@ -300,9 +563,10 @@ router.post(
     }
 );
 
-// =====================================
-// PICKUP USING PHOTO
-// =====================================
+
+// ======================================================
+// PICKUP - PHOTO
+// ======================================================
 
 router.post(
     "/:id/pickup-photo",
@@ -311,8 +575,18 @@ router.post(
 
         try {
 
-            if (!req.file) {
+            if (
+                !mongoose.Types.ObjectId.isValid(
+                    req.params.id
+                )
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid delivery ID"
+                });
+            }
 
+            if (!req.file) {
                 return res.status(400).json({
                     success: false,
                     message:
@@ -326,27 +600,37 @@ router.post(
                 );
 
             if (!delivery) {
-
                 return res.status(404).json({
                     success: false,
-                    message:
-                        "Delivery not found"
+                    message: "Delivery not found"
                 });
             }
 
-            delivery.status =
-                "picked_up";
+            if (
+                delivery.status !==
+                "reached_restaurant"
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Reach restaurant first"
+                });
+            }
+
+            const photoPath =
+                "/uploads/" +
+                req.file.filename;
+
+            delivery.status = "picked_up";
 
             delivery.pickupVerification = {
                 method: "photo",
-                photo:
-                    "/uploads/" +
-                    req.file.filename,
+                otp: null,
+                photo: photoPath,
                 verified: true
             };
 
-            delivery.pickedUpAt =
-                new Date();
+            delivery.pickedUpAt = new Date();
 
             await delivery.save();
 
@@ -354,9 +638,8 @@ router.post(
                 success: true,
                 message:
                     "Pickup photo verified",
-                photo:
-                    "/uploads/" +
-                    req.file.filename
+                photo: photoPath,
+                delivery
             });
 
         } catch (error) {
@@ -374,9 +657,10 @@ router.post(
     }
 );
 
-// =====================================
+
+// ======================================================
 // REACHED CUSTOMER LOCATION
-// =====================================
+// ======================================================
 
 router.post(
     "/:id/reached-location",
@@ -384,17 +668,26 @@ router.post(
 
         try {
 
+            if (
+                !mongoose.Types.ObjectId.isValid(
+                    req.params.id
+                )
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid delivery ID"
+                });
+            }
+
             const delivery =
                 await Delivery.findById(
                     req.params.id
                 );
 
             if (!delivery) {
-
                 return res.status(404).json({
                     success: false,
-                    message:
-                        "Delivery not found"
+                    message: "Delivery not found"
                 });
             }
 
@@ -402,7 +695,6 @@ router.post(
                 delivery.status !==
                 "picked_up"
             ) {
-
                 return res.status(400).json({
                     success: false,
                     message:
@@ -440,9 +732,10 @@ router.post(
     }
 );
 
-// =====================================
+
+// ======================================================
 // COMPLETE DELIVERY
-// =====================================
+// ======================================================
 
 router.post(
     "/:id/complete",
@@ -460,11 +753,21 @@ router.post(
                 !["cash", "online"]
                     .includes(paymentMethod)
             ) {
-
                 return res.status(400).json({
                     success: false,
                     message:
                         "Select cash or online"
+                });
+            }
+
+            if (
+                !mongoose.Types.ObjectId.isValid(
+                    req.params.id
+                )
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid delivery ID"
                 });
             }
 
@@ -474,7 +777,6 @@ router.post(
                 );
 
             if (!delivery) {
-
                 return res.status(404).json({
                     success: false,
                     message:
@@ -486,7 +788,6 @@ router.post(
                 delivery.status !==
                 "reached_location"
             ) {
-
                 return res.status(400).json({
                     success: false,
                     message:
@@ -495,15 +796,24 @@ router.post(
             }
 
             const amount =
-                Number(orderAmount) || 0;
+                Number(orderAmount);
+
+            if (
+                !Number.isFinite(amount) ||
+                amount < 0
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Invalid order amount"
+                });
+            }
 
             delivery.orderAmount = amount;
             delivery.paymentMethod =
                 paymentMethod;
 
-            if (
-                paymentMethod === "cash"
-            ) {
+            if (paymentMethod === "cash") {
 
                 delivery.cashDeducted =
                     amount;
@@ -513,42 +823,53 @@ router.post(
                 delivery.currentEarning =
                     Math.max(
                         0,
-                        delivery.currentEarning -
-                        amount
+                        Number(
+                            delivery.currentEarning ||
+                            delivery.earning ||
+                            0
+                        ) - amount
                     );
+            }
 
-            } else {
+            if (paymentMethod === "online") {
 
                 delivery.onlineAdded =
-                    delivery.earning;
+                    Number(
+                        delivery.earning || 0
+                    );
 
                 delivery.cashDeducted = 0;
 
                 delivery.currentEarning =
-                    delivery.currentEarning +
-                    delivery.earning;
+                    Number(
+                        delivery.currentEarning || 0
+                    ) +
+                    Number(
+                        delivery.earning || 0
+                    );
             }
 
-            delivery.status =
-                "completed";
-
-            delivery.completedAt =
-                new Date();
+            delivery.status = "completed";
+            delivery.completedAt = new Date();
 
             await delivery.save();
 
             res.json({
                 success: true,
                 message:
-                    "Delivery completed",
+                    "Congratulations! Delivery completed successfully.",
+                paymentMethod:
+                    delivery.paymentMethod,
                 earning:
                     delivery.currentEarning,
+                deliveryEarning:
+                    delivery.earning,
+                orderAmount:
+                    delivery.orderAmount,
                 cashDeducted:
                     delivery.cashDeducted,
                 onlineAdded:
-                    delivery.onlineAdded,
-                paymentMethod:
-                    delivery.paymentMethod
+                    delivery.onlineAdded
             });
 
         } catch (error) {
@@ -567,37 +888,217 @@ router.post(
     }
 );
 
-module.exports = router;
 
-// =====================================
-// PICKUP PAGE
-// =====================================
+// ======================================================
+// HISTORY
+// ======================================================
 
-router.get("/pickup/:id", async (req, res) => {
+router.get("/history", async (req, res) => {
 
     try {
 
-        const delivery = await Delivery.findById(req.params.id)
-            .populate("order");
+        const deliveries =
+            await Delivery.find({
+                status: "completed"
+            })
+                .populate("order")
+                .sort({
+                    completedAt: -1
+                });
 
-        if (!delivery) {
-            return res.status(404).send("Delivery not found");
-        }
+        const orders =
+            deliveries.map(makeOrderData);
 
-        res.render("delivery/pickup", {
-            delivery
-        });
+        res.render(
+            "delivery/history",
+            {
+                deliveries,
+                orders
+            }
+        );
 
     } catch (error) {
 
         console.error(
-            "Pickup Page Error:",
+            "History Error:",
             error
         );
 
         res.status(500).send(
-            "Failed to load pickup page"
+            "Failed to load delivery history"
+        );
+    }
+});
+
+
+// ======================================================
+// EARNINGS
+// ======================================================
+
+router.get("/earnings", async (req, res) => {
+
+    try {
+
+        const deliveries =
+            await Delivery.find({
+                status: "completed"
+            })
+                .populate("order")
+                .sort({
+                    completedAt: -1
+                });
+
+        const orders =
+            deliveries.map(makeOrderData);
+
+        const totalEarnings =
+            deliveries.reduce(
+                (sum, delivery) => {
+
+                    return (
+                        sum +
+                        Number(
+                            delivery.currentEarning ||
+                            delivery.earning ||
+                            0
+                        )
+                    );
+                },
+                0
+            );
+
+        res.render(
+            "delivery/earnings",
+            {
+                deliveries,
+                orders,
+                totalEarnings
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Earnings Error:",
+            error
+        );
+
+        res.status(500).send(
+            "Failed to load delivery earnings"
+        );
+    }
+});
+
+
+// ======================================================
+// DELIVERY RATINGS
+// ======================================================
+
+router.get("/ratings", async (req, res) => {
+
+    try {
+
+        // ------------------------------------------
+        // RATINGS DATA
+        // ------------------------------------------
+
+        const ratings = [];
+
+        // ------------------------------------------
+        // TOTAL RATINGS
+        // ------------------------------------------
+
+        const totalRatings = ratings.length;
+
+        // ------------------------------------------
+        // AVERAGE RATING
+        // ------------------------------------------
+
+        let rating = 0;
+
+        if (totalRatings > 0) {
+
+            rating =
+                ratings.reduce(
+                    (sum, item) =>
+                        sum + Number(item.rating || 0),
+                    0
+                ) / totalRatings;
+
+        }
+
+        // ------------------------------------------
+        // RENDER RATINGS PAGE
+        // ------------------------------------------
+
+        res.render(
+            "delivery/ratings",
+            {
+                ratings: ratings,
+
+                totalRatings: totalRatings,
+
+                rating: rating,
+
+                averageRating: rating
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delivery Ratings Error:",
+            error
+        );
+
+        res.status(500).send(
+            "Failed to load delivery ratings"
         );
     }
 
 });
+
+
+// ======================================================
+// PROFILE
+// ======================================================
+
+router.get("/profile", async (req, res) => {
+
+    try {
+
+        // Temporary delivery partner data
+        // Login system sathe pachhi dynamic kari shakishu
+        const user = {
+            name: "Delivery Partner",
+            email: "",
+            mobile: "",
+            role: "Delivery Partner"
+        };
+
+        res.render(
+            "delivery/profile",
+            {
+                user
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Profile Error:",
+            error
+        );
+
+        res.status(500).send(
+            "Failed to load delivery profile"
+        );
+    }
+});
+
+
+// ======================================================
+// EXPORT
+// ======================================================
+
+module.exports = router;

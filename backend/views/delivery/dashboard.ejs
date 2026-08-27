@@ -20,15 +20,18 @@
 
 </head>
 
-<body>
 
-    <%- include("../partials/navbar") %>
+<body>
 
     <div class="delivery-layout">
 
-        <%- include("../partials/sidebar") %>
 
         <main class="delivery-main">
+
+
+            <!-- ============================= -->
+            <!-- HEADER -->
+            <!-- ============================= -->
 
             <header class="page-header">
 
@@ -48,6 +51,7 @@
 
                 </div>
 
+
                 <div class="header-profile">
                     K
                 </div>
@@ -55,7 +59,10 @@
             </header>
 
 
-            <!-- STATUS -->
+
+            <!-- ============================= -->
+            <!-- ONLINE / OFFLINE -->
+            <!-- ============================= -->
 
             <section class="status-card">
 
@@ -71,6 +78,7 @@
 
                 </div>
 
+
                 <button
                     type="button"
                     id="onlineToggle"
@@ -84,9 +92,15 @@
             </section>
 
 
+
+            <!-- ============================= -->
             <!-- STATS -->
+            <!-- ============================= -->
 
             <section class="stats-grid">
+
+
+                <!-- EARNINGS -->
 
                 <div class="stat-card">
 
@@ -95,17 +109,27 @@
                     </div>
 
                     <p>
-                        Today's Earnings
+                        Total Earnings
                     </p>
 
                     <h2>
-                        ₹<%= orders
-                            .filter(o => o.status === "Delivered")
-                            .reduce((sum, o) => sum + Number(o.amount || 0), 0) %>
+
+                        ₹<%= deliveries
+                            .filter(d => d.status === "completed")
+                            .reduce(
+                                (sum, d) =>
+                                    sum + Number(d.earning || 0),
+                                0
+                            )
+                        %>
+
                     </h2>
 
                 </div>
 
+
+
+                <!-- COMPLETED -->
 
                 <div class="stat-card">
 
@@ -114,45 +138,53 @@
                     </div>
 
                     <p>
-                        Deliveries
+                        Completed Deliveries
                     </p>
 
                     <h2>
-                        <%= orders.filter(
-                            o => o.status === "Delivered"
+
+                        <%= deliveries.filter(
+                            d => d.status === "completed"
                         ).length %>
+
                     </h2>
 
                 </div>
+
 
             </section>
 
 
-            <!-- NEW ORDERS -->
+
+            <!-- ============================= -->
+            <!-- NEW DELIVERY REQUESTS -->
+            <!-- ============================= -->
 
             <section class="dashboard-section">
+
 
                 <div class="section-heading">
 
                     <h2>
-                        New Orders
+                        New Delivery Requests
                     </h2>
-
-                    <a href="/delivery/requests">
-                        View All →
-                    </a>
 
                 </div>
 
 
-                <% const newOrders =
-                    orders.filter(
-                        o => o.status === "New"
-                    );
+
+                <%
+                    const newDeliveries =
+                        deliveries.filter(
+                            d => d.status === "pending"
+                        );
                 %>
 
 
-                <% if (newOrders.length === 0) { %>
+
+                <!-- EMPTY -->
+
+                <% if (newDeliveries.length === 0) { %>
 
                     <div class="empty-card">
 
@@ -161,7 +193,7 @@
                         </div>
 
                         <h3>
-                            No new orders
+                            No new deliveries
                         </h3>
 
                         <p>
@@ -173,45 +205,106 @@
                 <% } %>
 
 
-                <% newOrders.forEach(order => { %>
 
-                    <div
-                        class="order-card clickable"
-                        onclick="openOrder('<%= order.id %>')"
-                    >
+                <!-- DELIVERY LIST -->
+
+                <% newDeliveries.forEach(delivery => { %>
+
+
+                    <article class="order-card">
+
 
                         <div>
 
                             <span class="order-id">
-                                ORDER #<%= order.id %>
+
+                                DELIVERY #
+
+                                <%= delivery._id %>
+
                             </span>
 
+
                             <h3>
-                                <%= order.item %>
+
+                                <% if (
+                                    delivery.order &&
+                                    delivery.order._id
+                                ) { %>
+
+                                    Order #<%= delivery.order._id %>
+
+                                <% } else { %>
+
+                                    New Delivery
+
+                                <% } %>
+
                             </h3>
 
+
                             <p>
-                                <%= order.pickup %>
-                                →
-                                <%= order.customer %>
+
+                                Status:
+                                <strong>
+                                    Pending
+                                </strong>
+
                             </p>
 
                         </div>
 
-                        <strong>
-                            ₹<%= order.amount %>
-                        </strong>
 
-                    </div>
+
+                        <div class="delivery-actions">
+
+
+                            <!-- ACCEPT -->
+
+                            <button
+                                type="button"
+                                class="primary-small-button"
+                                onclick="acceptDelivery('<%= delivery._id %>')"
+                            >
+
+                                Accept
+
+                            </button>
+
+
+
+                            <!-- REJECT -->
+
+                            <button
+                                type="button"
+                                class="small-button"
+                                onclick="rejectDelivery('<%= delivery._id %>')"
+                            >
+
+                                Reject
+
+                            </button>
+
+
+                        </div>
+
+
+                    </article>
+
 
                 <% }); %>
+
 
             </section>
 
 
-            <!-- ACTIVE -->
+
+            <!-- ============================= -->
+            <!-- ACTIVE DELIVERIES -->
+            <!-- ============================= -->
 
             <section class="dashboard-section">
+
 
                 <div class="section-heading">
 
@@ -219,23 +312,26 @@
                         Active Deliveries
                     </h2>
 
-                    <a href="/delivery/active">
-                        View All →
-                    </a>
-
                 </div>
 
 
-                <% const activeOrders =
-                    orders.filter(
-                        o =>
-                            o.status !== "New" &&
-                            o.status !== "Delivered"
-                    );
+
+                <%
+                    const activeDeliveries =
+                        deliveries.filter(
+                            d =>
+                                d.status === "accepted" ||
+                                d.status === "reached_restaurant" ||
+                                d.status === "picked_up" ||
+                                d.status === "reached_location"
+                        );
                 %>
 
 
-                <% if (activeOrders.length === 0) { %>
+
+                <!-- EMPTY -->
+
+                <% if (activeDeliveries.length === 0) { %>
 
                     <div class="empty-card">
 
@@ -247,51 +343,198 @@
                             No active delivery
                         </h3>
 
+                        <p>
+                            Accepted deliveries will appear here.
+                        </p>
+
                     </div>
 
                 <% } %>
 
 
-                <% activeOrders.forEach(order => { %>
 
-                    <div class="order-card">
+                <!-- ACTIVE LIST -->
+
+                <% activeDeliveries.forEach(delivery => { %>
+
+
+                    <article class="order-card">
+
+
+                        <div>
+
+
+                            <span class="order-id">
+
+                                DELIVERY #
+
+                                <%= delivery._id %>
+
+                            </span>
+
+
+
+                            <h3>
+
+                                <% if (
+                                    delivery.order &&
+                                    delivery.order._id
+                                ) { %>
+
+                                    Order #<%= delivery.order._id %>
+
+                                <% } else { %>
+
+                                    Active Delivery
+
+                                <% } %>
+
+                            </h3>
+
+
+
+                            <span class="status-badge">
+
+                                <%= delivery.status
+                                    .replaceAll("_", " ")
+                                    .toUpperCase()
+                                %>
+
+                            </span>
+
+
+                        </div>
+
+
+
+                        <a
+                            href="/delivery/active/<%= delivery._id %>"
+                            class="small-button"
+                        >
+
+                            View
+
+                        </a>
+
+
+                    </article>
+
+
+                <% }); %>
+
+
+            </section>
+
+
+
+            <!-- ============================= -->
+            <!-- COMPLETED DELIVERIES -->
+            <!-- ============================= -->
+
+            <section class="dashboard-section">
+
+
+                <div class="section-heading">
+
+                    <h2>
+                        Recently Completed
+                    </h2>
+
+                </div>
+
+
+
+                <%
+                    const completedDeliveries =
+                        deliveries
+                            .filter(
+                                d => d.status === "completed"
+                            )
+                            .slice(0, 5);
+                %>
+
+
+
+                <% if (completedDeliveries.length === 0) { %>
+
+                    <div class="empty-card">
+
+                        <div>
+                            ✅
+                        </div>
+
+                        <h3>
+                            No completed deliveries
+                        </h3>
+
+                    </div>
+
+                <% } %>
+
+
+
+                <% completedDeliveries.forEach(delivery => { %>
+
+
+                    <article class="order-card">
+
 
                         <div>
 
                             <span class="order-id">
-                                ORDER #<%= order.id %>
+
+                                DELIVERY #
+
+                                <%= delivery._id %>
+
                             </span>
 
+
                             <h3>
-                                <%= order.item %>
+
+                                Order Completed
+
                             </h3>
 
+
                             <span class="status-badge">
-                                <%= order.status %>
+
+                                COMPLETED
+
                             </span>
 
                         </div>
 
-                        <a
-                            href="/delivery/active"
-                            class="small-button"
-                        >
-                            View
-                        </a>
 
-                    </div>
+
+                        <strong>
+
+                            ₹<%= delivery.earning || 0 %>
+
+                        </strong>
+
+
+                    </article>
+
 
                 <% }); %>
 
+
             </section>
 
+
+
             <%- include("../partials/footer") %>
+
 
         </main>
 
     </div>
 
+
+
     <script src="/js/delivery.js"></script>
+
 
 </body>
 
