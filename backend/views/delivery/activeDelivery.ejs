@@ -19,17 +19,21 @@
 
 </head>
 
+
 <body>
 
     <div class="delivery-layout">
 
+        <!-- SIDEBAR -->
         <%- include("../partials/sidebar") %>
+
 
         <main class="delivery-main">
 
-            <!-- ========================= -->
+
+            <!-- ============================= -->
             <!-- HEADER -->
-            <!-- ========================= -->
+            <!-- ============================= -->
 
             <header class="page-header">
 
@@ -44,7 +48,7 @@
                     </h1>
 
                     <p>
-                        Manage your current delivery
+                        Manage your current deliveries
                     </p>
 
                 </div>
@@ -52,537 +56,259 @@
             </header>
 
 
-            <!-- ========================= -->
-            <!-- DELIVERY CARD -->
-            <!-- ========================= -->
+
+            <!-- ============================= -->
+            <!-- ACTIVE DELIVERIES -->
+            <!-- ============================= -->
 
             <section class="dashboard-section">
 
-                <article class="delivery-detail-card">
 
-                    <!-- ========================= -->
-                    <!-- ORDER HEADER -->
-                    <!-- ========================= -->
+                <% if (!orders || orders.length === 0) { %>
 
-                    <div class="order-card-header">
+                    <div class="empty-card">
 
                         <div>
-
-                            <span class="order-id">
-
-                                ORDER #
-
-                                <%= delivery.order?._id || delivery._id %>
-
-                            </span>
-
-                            <h2>
-
-                                Tiffin Delivery
-
-                            </h2>
-
+                            🚲
                         </div>
 
+                        <h3>
+                            No active deliveries
+                        </h3>
 
-                        <span class="status-badge">
-
-                            <%= delivery.status.replaceAll("_", " ") %>
-
-                        </span>
+                        <p>
+                            Accepted deliveries will appear here.
+                        </p>
 
                     </div>
 
+                <% } else { %>
 
-                    <!-- ========================= -->
-                    <!-- DELIVERY INFO -->
-                    <!-- ========================= -->
 
-                    <div class="route-box">
+                    <% orders.forEach(order => { %>
 
-                        <!-- RESTAURANT -->
 
-                        <div class="route-row">
+                        <article
+                            class="request-card"
+                            id="delivery-<%= order.id %>"
+                        >
 
-                            <span class="route-dot pickup">
-                            </span>
 
-                            <div>
+                            <!-- ============================= -->
+                            <!-- TOP -->
+                            <!-- ============================= -->
 
-                                <small>
-                                    Restaurant
-                                </small>
+                            <div class="request-top">
 
-                                <strong>
-                                    GharSetu Restaurant
-                                </strong>
+                                <div>
 
-                                <p>
-                                    Pickup your customer's order
-                                </p>
+                                    <span class="order-id">
 
-                            </div>
+                                        DELIVERY #
 
-                        </div>
+                                        <%= order.id %>
 
+                                    </span>
 
-                        <div class="route-line">
-                        </div>
 
+                                    <h2>
 
-                        <!-- CUSTOMER -->
+                                        <%= order.item %>
 
-                        <div class="route-row">
+                                    </h2>
 
-                            <span class="route-dot drop">
-                            </span>
-
-                            <div>
-
-                                <small>
-                                    Customer
-                                </small>
-
-                                <strong>
-
-                                    <%= delivery.order?.deliveryDetails?.name
-                                        || "Customer"
-                                    %>
-
-                                </strong>
-
-                                <p>
-
-                                    <%= delivery.order?.deliveryDetails?.address
-                                        || "Customer location"
-                                    %>
-
-                                </p>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ========================= -->
-                    <!-- EARNING -->
-                    <!-- ========================= -->
-
-                    <div class="earning-row">
-
-                        <div>
-
-                            <small>
-                                Current Earnings
-                            </small>
-
-                            <strong>
-
-                                ₹<%= delivery.currentEarning || 0 %>
-
-                            </strong>
-
-                        </div>
-
-
-                        <div>
-
-                            <small>
-                                Order Amount
-                            </small>
-
-                            <strong>
-
-                                ₹<%= delivery.orderAmount || 0 %>
-
-                            </strong>
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- ========================= -->
-                    <!-- STEP 1 -->
-                    <!-- REACHED RESTAURANT
-                    <!-- ========================= -->
-
-                    <% if (delivery.status === "accepted") { %>
-
-                        <div class="delivery-action-card">
-
-                            <h3>
-                                📍 Step 1
-                            </h3>
-
-                            <p>
-                                Reach the restaurant to pickup the order.
-                            </p>
-
-                            <button
-                                class="delivery-action-button"
-                                onclick="reachedRestaurant('<%= delivery._id %>')"
-                            >
-
-                                Reached at Restaurant
-
-                            </button>
-
-                        </div>
-
-                    <% } %>
-
-
-                    <!-- ========================= -->
-                    <!-- STEP 2 -->
-                    <!-- PICKUP -->
-                    <!-- ========================= -->
-
-                    <% if (delivery.status === "reached_restaurant") { %>
-
-                        <div class="delivery-action-card">
-
-                            <h3>
-                                📦 Step 2
-                            </h3>
-
-                            <p>
-                                Verify pickup using OTP or photo.
-                            </p>
-
-
-                            <!-- OTP -->
-
-                            <div class="pickup-method-box">
-
-                                <h4>
-                                    🔐 Verify with OTP
-                                </h4>
-
-                                <input
-                                    type="text"
-                                    id="pickupOtp"
-                                    placeholder="Enter OTP"
-                                    maxlength="4"
-                                    inputmode="numeric"
-                                >
-
-                                <button
-                                    class="delivery-action-button"
-                                    onclick="verifyPickupOtp('<%= delivery._id %>')"
-                                >
-
-                                    Verify OTP
-
-                                </button>
-
-                                <small>
-                                    Demo OTP: <strong>1234</strong>
-                                </small>
-
-                            </div>
-
-
-                            <div class="pickup-divider">
-
-                                OR
-
-                            </div>
-
-
-                            <!-- PHOTO -->
-
-                            <div class="pickup-method-box">
-
-                                <h4>
-                                    📷 Verify with Photo
-                                </h4>
-
-                                <p>
-                                    Take a pickup photo using your camera.
-                                </p>
-
-                                <input
-                                    type="file"
-                                    id="pickupPhoto"
-                                    accept="image/*"
-                                    capture="environment"
-                                >
-
-                                <div
-                                    id="pickupPreview"
-                                    class="pickup-photo-preview"
-                                >
                                 </div>
 
-                                <button
-                                    class="delivery-action-button"
-                                    onclick="uploadPickupPhoto('<%= delivery._id %>')"
-                                >
 
-                                    Verify Pickup Photo
+                                <strong>
 
-                                </button>
+                                    ₹<%= order.amount %>
+
+                                </strong>
 
                             </div>
 
-                        </div>
-
-                    <% } %>
 
 
-                    <!-- ========================= -->
-                    <!-- STEP 3 -->
-                    <!-- REACHED LOCATION -->
-                    <!-- ========================= -->
+                            <!-- ============================= -->
+                            <!-- ROUTE -->
+                            <!-- ============================= -->
 
-                    <% if (delivery.status === "picked_up") { %>
-
-                        <div class="delivery-action-card">
-
-                            <h3>
-                                📍 Step 3
-                            </h3>
-
-                            <p>
-                                You have picked up the order.
-                                Reach the customer's location.
-                            </p>
-
-                            <button
-                                class="delivery-action-button"
-                                onclick="reachedCustomerLocation('<%= delivery._id %>')"
-                            >
-
-                                Reached at Location
-
-                            </button>
-
-                        </div>
-
-                    <% } %>
+                            <div class="route-box">
 
 
-                    <!-- ========================= -->
-                    <!-- STEP 4 -->
-                    <!-- PAYMENT -->
-                    <!-- ========================= -->
+                                <p>
 
-                    <% if (delivery.status === "reached_location") { %>
+                                    📍
 
-                        <div class="delivery-action-card payment-card">
+                                    <strong>
+                                        Pickup:
+                                    </strong>
 
-                            <h3>
-                                💳 Step 4 — Payment
-                            </h3>
+                                    <%= order.pickup %>
 
-                            <p>
-                                Select how the customer paid.
-                            </p>
+                                </p>
 
 
-                            <!-- ORDER AMOUNT -->
+                                <% if (order.pickupArea) { %>
 
-                            <div class="payment-amount">
+                                    <p>
+
+                                        📌
+
+                                        <strong>
+                                            Area:
+                                        </strong>
+
+                                        <%= order.pickupArea %>
+
+                                    </p>
+
+                                <% } %>
+
+
+                                <p>
+
+                                    🏠
+
+                                    <strong>
+                                        Customer:
+                                    </strong>
+
+                                    <%= order.customer %>
+
+                                </p>
+
+
+                                <% if (order.dropArea) { %>
+
+                                    <p>
+
+                                        📍
+
+                                        <strong>
+                                            Address:
+                                        </strong>
+
+                                        <%= order.dropArea %>
+
+                                    </p>
+
+                                <% } %>
+
+
+                            </div>
+
+
+
+                            <!-- ============================= -->
+                            <!-- STATUS -->
+                            <!-- ============================= -->
+
+                            <div class="request-status">
 
                                 <span>
-                                    Order Amount
+
+                                    <% if (order.status === "accepted") { %>
+
+                                        🟡 Accepted
+
+                                    <% } else if (order.status === "reached_restaurant") { %>
+
+                                        📍 Restaurant Reached
+
+                                    <% } else if (order.status === "picked_up") { %>
+
+                                        📦 Order Picked Up
+
+                                    <% } else if (order.status === "reached_location") { %>
+
+                                        🏠 Customer Location Reached
+
+                                    <% } else { %>
+
+                                        <%= order.status %>
+
+                                    <% } %>
+
                                 </span>
 
-                                <strong>
-                                    ₹<%= delivery.orderAmount || delivery.order?.total || 0 %>
-                                </strong>
-
                             </div>
 
 
-                            <!-- PAYMENT OPTIONS -->
 
-                            <div class="payment-options">
+                            <!-- ============================= -->
+                            <!-- ACTION -->
+                            <!-- ============================= -->
 
-                                <button
-                                    type="button"
-                                    class="payment-option"
-                                    onclick="selectPayment('cash')"
-                                    id="cashPaymentBtn"
-                                >
-
-                                    💵
-
-                                    <span>
-                                        Cash
-                                    </span>
-
-                                </button>
+                            <div class="request-actions">
 
 
                                 <button
                                     type="button"
-                                    class="payment-option"
-                                    onclick="selectPayment('online')"
-                                    id="onlinePaymentBtn"
+                                    class="primary-button"
+                                    onclick="openDelivery('<%= order.id %>')"
                                 >
 
-                                    📱
-
-                                    <span>
-                                        Online
-                                    </span>
+                                    View Delivery
 
                                 </button>
 
-                            </div>
-
-
-                            <!-- DEMO QR -->
-
-                            <div
-                                id="demoQrBox"
-                                class="demo-qr-box"
-                                style="display:none;"
-                            >
-
-                                <h4>
-                                    Scan to Pay
-                                </h4>
-
-                                <div class="demo-qr">
-
-                                    <div class="qr-placeholder">
-
-                                        DEMO QR
-
-                                    </div>
-
-                                </div>
-
-                                <p>
-                                    Demo payment QR
-                                </p>
 
                             </div>
 
 
-                            <!-- COMPLETE -->
-
-                            <button
-                                id="completeDeliveryBtn"
-                                class="complete-delivery-button"
-                                onclick="completeDelivery('<%= delivery._id %>')"
-                                disabled
-                            >
-
-                                Complete Delivery
-
-                            </button>
-
-                        </div>
-
-                    <% } %>
+                        </article>
 
 
-                    <!-- ========================= -->
-                    <!-- COMPLETED -->
-                    <!-- ========================= -->
-
-                    <% if (delivery.status === "completed") { %>
-
-                        <div class="delivery-completed-card">
-
-                            <div class="completed-icon">
-                                ✓
-                            </div>
-
-                            <h2>
-                                Delivery Completed
-                            </h2>
-
-                            <p>
-                                This delivery has already been completed.
-                            </p>
-
-                            <div class="completed-earning">
-
-                                ₹<%= delivery.currentEarning || 0 %>
-
-                            </div>
-
-                            <span>
-                                Current Earnings
-                            </span>
-
-                        </div>
-
-                    <% } %>
+                    <% }); %>
 
 
-                </article>
+                <% } %>
+
 
             </section>
 
 
-            <!-- ========================= -->
+
             <!-- FOOTER -->
-            <!-- ========================= -->
 
             <%- include("../partials/footer") %>
+
 
         </main>
 
     </div>
 
 
-    <!-- ========================= -->
-    <!-- COMPLETION POPUP -->
-    <!-- ========================= -->
 
-    <div
-        id="deliverySuccessPopup"
-        class="delivery-success-overlay"
-    >
+    <!-- ============================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================= -->
 
-        <div class="delivery-success-popup">
+    <script>
 
-            <div class="success-icon">
-                ✓
-            </div>
+        function openDelivery(id) {
 
-            <h2>
-                Congratulations! 🎉
-            </h2>
+            if (!id) {
 
-            <p id="successPaymentText">
-                Delivery completed successfully.
-            </p>
+                alert("Delivery ID not found.");
 
-            <div
-                id="successEarning"
-                class="success-big-earning"
-            >
-                ₹0
-            </div>
+                return;
 
-            <span>
-                Current Earnings
-            </span>
+            }
 
-            <button
-                onclick="closeDeliverySuccess()"
-                class="success-close-button"
-            >
 
-                Continue
+            window.location.href =
+                "/delivery/active/" + id;
 
-            </button>
+        }
 
-        </div>
-
-    </div>
+    </script>
 
 
     <script src="/js/delivery.js"></script>
+
 
 </body>
 

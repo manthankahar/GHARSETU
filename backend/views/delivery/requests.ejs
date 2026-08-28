@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -17,7 +15,6 @@
         rel="stylesheet"
         href="/css/delivery.css"
     >
-
 </head>
 
 
@@ -25,9 +22,11 @@
 
     <div class="delivery-layout">
 
+        <!-- DELIVERY SIDEBAR -->
         <%- include("../partials/sidebar") %>
 
 
+        <!-- MAIN CONTENT -->
         <main class="delivery-main">
 
 
@@ -82,140 +81,159 @@
 
                     </div>
 
-                <% } %>
+                <% } else { %>
 
 
+                    <% deliveries.forEach(delivery => { %>
 
-                <% deliveries.forEach(delivery => { %>
-
-                    <article class="request-card">
-
-
-                        <!-- ============================= -->
-                        <!-- TOP -->
-                        <!-- ============================= -->
-
-                        <div class="request-top">
-
-                            <div>
-
-                                <span class="order-id">
-
-                                    DELIVERY #
-
-                                    <%= delivery._id %>
-
-                                </span>
+                        <article
+                            class="request-card"
+                            id="request-<%= delivery._id %>"
+                        >
 
 
-                                <h2>
+                            <!-- ============================= -->
+                            <!-- TOP -->
+                            <!-- ============================= -->
 
-                                    <%= delivery.order?.item ||
-                                        delivery.order?.title ||
-                                        "Food Order" %>
+                            <div class="request-top">
 
-                                </h2>
+                                <div>
+
+                                    <span class="order-id">
+
+                                        DELIVERY #
+
+                                        <%= delivery._id %>
+
+                                    </span>
+
+
+                                    <h2>
+
+                                        <%= delivery.order?.item ||
+                                            delivery.order?.title ||
+                                            delivery.order?.name ||
+                                            "Food Order" %>
+
+                                    </h2>
+
+                                </div>
+
+
+                                <strong>
+
+                                    ₹<%= Number(
+                                        delivery.orderAmount ||
+                                        delivery.order?.amount ||
+                                        delivery.order?.totalAmount ||
+                                        0
+                                    ) %>
+
+                                </strong>
 
                             </div>
 
 
-                            <strong>
 
-                                ₹<%= delivery.orderAmount ||
-                                    delivery.order?.amount ||
-                                    0 %>
+                            <!-- ============================= -->
+                            <!-- ROUTE -->
+                            <!-- ============================= -->
 
-                            </strong>
-
-                        </div>
+                            <div class="route-box">
 
 
+                                <p>
 
-                        <!-- ============================= -->
-                        <!-- ROUTE -->
-                        <!-- ============================= -->
+                                    📍
 
-                        <div class="route-box">
+                                    <strong>
+                                        Pickup:
+                                    </strong>
 
+                                    <%= delivery.order?.pickup ||
+                                        delivery.order?.restaurant ||
+                                        delivery.order?.restaurantName ||
+                                        "Restaurant" %>
 
-                            <p>
-
-                                📍
-
-                                <strong>
-                                    Pickup:
-                                </strong>
-
-                                <%= delivery.order?.pickup ||
-                                    delivery.order?.restaurant ||
-                                    delivery.order?.restaurantName ||
-                                    "Restaurant" %>
-
-                            </p>
+                                </p>
 
 
 
-                            <p>
+                                <p>
 
-                                🏠
+                                    🏠
 
-                                <strong>
-                                    Customer:
-                                </strong>
+                                    <strong>
+                                        Customer:
+                                    </strong>
 
-                                <%= delivery.order?.customer ||
-                                    delivery.order?.customerName ||
-                                    delivery.order?.address ||
-                                    "Customer Location" %>
+                                    <%= delivery.order?.customer ||
+                                        delivery.order?.customerName ||
+                                        delivery.order?.deliveryAddress ||
+                                        delivery.order?.address ||
+                                        "Customer Location" %>
 
-                            </p>
-
-
-                        </div>
+                                </p>
 
 
-
-                        <!-- ============================= -->
-                        <!-- ACTIONS -->
-                        <!-- ============================= -->
-
-                        <div class="request-actions">
-
-
-                            <button
-                                type="button"
-                                class="primary-button"
-                                onclick="acceptDelivery('<%= delivery._id %>')"
-                            >
-
-                                ✓ Accept Order
-
-                            </button>
+                            </div>
 
 
 
-                            <button
-                                type="button"
-                                class="secondary-button"
-                                onclick="rejectDelivery('<%= delivery._id %>')"
-                            >
+                            <!-- ============================= -->
+                            <!-- STATUS -->
+                            <!-- ============================= -->
 
-                                Reject
+                            <div class="request-status">
 
-                            </button>
+                                <span>
+                                    🟡 New Delivery Request
+                                </span>
+
+                            </div>
 
 
-                        </div>
+
+                            <!-- ============================= -->
+                            <!-- ACTIONS -->
+                            <!-- ============================= -->
+
+                            <div class="request-actions">
 
 
-                    </article>
+                                <button
+                                    type="button"
+                                    class="primary-button"
+                                    onclick="acceptDelivery('<%= delivery._id %>', this)"
+                                >
+                                    ✓ Accept Order
+                                </button>
 
-                <% }); %>
+
+                                <button
+                                    type="button"
+                                    class="secondary-button"
+                                    onclick="rejectDelivery('<%= delivery._id %>', this)"
+                                >
+                                    Reject
+                                </button>
+
+
+                            </div>
+
+
+                        </article>
+
+                    <% }); %>
+
+                <% } %>
 
 
             </section>
 
 
+            <!-- FOOTER -->
 
             <%- include("../partials/footer") %>
 
@@ -225,7 +243,228 @@
     </div>
 
 
-    <script src="/js/delivery.js"></script>
+
+    <!-- ============================= -->
+    <!-- REQUEST FUNCTIONS -->
+    <!-- ============================= -->
+
+    <script>
+
+        // =========================================
+        // ACCEPT DELIVERY
+        // =========================================
+
+        async function acceptDelivery(id, button) {
+
+            try {
+
+                if (!id) {
+
+                    alert("Delivery ID not found");
+
+                    return;
+                }
+
+
+                // Disable button
+
+                button.disabled = true;
+
+                button.innerText = "Accepting...";
+
+
+                const response = await fetch(
+                    "/delivery/" + id + "/accept",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+
+                const data = await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    alert(
+                        data.message ||
+                        "Failed to accept delivery"
+                    );
+
+                    button.disabled = false;
+
+                    button.innerText =
+                        "✓ Accept Order";
+
+                    return;
+                }
+
+
+                // SUCCESS
+
+                alert(
+                    "✅ Delivery accepted successfully!"
+                );
+
+
+                // Go to Active Delivery
+
+                window.location.href =
+                    "/delivery/active";
+
+
+            } catch (error) {
+
+                console.error(
+                    "Accept Delivery Error:",
+                    error
+                );
+
+
+                alert(
+                    "Something went wrong while accepting delivery."
+                );
+
+
+                button.disabled = false;
+
+                button.innerText =
+                    "✓ Accept Order";
+            }
+
+        }
+
+
+
+        // =========================================
+        // REJECT DELIVERY
+        // =========================================
+
+        async function rejectDelivery(id, button) {
+
+            try {
+
+                if (!id) {
+
+                    alert("Delivery ID not found");
+
+                    return;
+                }
+
+
+                const confirmReject =
+                    confirm(
+                        "Are you sure you want to reject this delivery?"
+                    );
+
+
+                if (!confirmReject) {
+
+                    return;
+                }
+
+
+                button.disabled = true;
+
+                button.innerText =
+                    "Rejecting...";
+
+
+                const response = await fetch(
+                    "/delivery/" + id + "/reject",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }
+                );
+
+
+                const data =
+                    await response.json();
+
+
+                if (!response.ok || !data.success) {
+
+                    alert(
+                        data.message ||
+                        "Failed to reject delivery"
+                    );
+
+
+                    button.disabled = false;
+
+                    button.innerText =
+                        "Reject";
+
+                    return;
+                }
+
+
+                // Remove card from page
+
+                const card =
+                    document.getElementById(
+                        "request-" + id
+                    );
+
+
+                if (card) {
+
+                    card.remove();
+
+                }
+
+
+                alert(
+                    "❌ Delivery rejected"
+                );
+
+
+                // If no requests remain,
+                // reload page
+
+                const remainingCards =
+                    document.querySelectorAll(
+                        ".request-card"
+                    );
+
+
+                if (remainingCards.length === 0) {
+
+                    window.location.reload();
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Reject Delivery Error:",
+                    error
+                );
+
+
+                alert(
+                    "Something went wrong while rejecting delivery."
+                );
+
+
+                button.disabled = false;
+
+                button.innerText =
+                    "Reject";
+            }
+
+        }
+
+    </script>
 
 
 </body>
