@@ -34,6 +34,9 @@ const restaurantRoutes =
 const restaurantAuthRoutes =
     require("./routes/restaurantAuthRoutes");
 
+const tiffinSellerRoutes =
+    require("./routes/tiffinSellerRoutes");    
+
 // ======================================================
 // APP
 // ======================================================
@@ -61,6 +64,7 @@ app.use(
         extended: true
     })
 );
+
 
 // ======================================================
 // STATIC FRONTEND
@@ -188,6 +192,15 @@ app.use(
 app.use(
     "/restaurant",
     restaurantAuthRoutes
+);
+
+// ======================================================
+// TIFFIN SELLER
+// ======================================================
+
+app.use(
+    "/tiffin-seller",
+    tiffinSellerRoutes
 );
 
 // ======================================================
@@ -383,6 +396,14 @@ app.listen(
         console.log(
             `🚴 Delivery: http://localhost:${PORT}/delivery`
         );
+
+        console.log(
+    `🍱 Tiffin Seller: http://localhost:${PORT}/tiffin-seller/login`
+);
+
+console.log(
+    `🚴 Delivery: http://localhost:${PORT}/delivery`
+);
 
         console.log(
             "======================================"

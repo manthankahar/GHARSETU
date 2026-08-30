@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GharSetu | Tiffin Seller Login
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/tiffinSeller.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="seller-auth-page">
+
+
+    <div class="seller-auth-card">
+
+
+        <div class="seller-logo">
+            🍱
+        </div>
+
+
+        <span class="seller-label">
+            GHARSETU TIFFIN PARTNER
+        </span>
+
+
+        <h1>
+            Seller Login
+        </h1>
+
+
+        <p class="seller-subtitle">
+            Login to manage your tiffin business.
+        </p>
+
+
+        <% if (typeof error !== "undefined" && error) { %>
+
+            <div class="seller-error">
+                <%= error %>
+            </div>
+
+        <% } %>
+
+
+        <form
+            action="/tiffin-seller/login"
+            method="POST"
+        >
+
+
+            <label>
+                Mobile Number
+            </label>
+
+            <input
+                type="tel"
+                name="mobile"
+                placeholder="Enter mobile number"
+                maxlength="10"
+                required
+            >
+
+
+            <label>
+                Password
+            </label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter password"
+                required
+            >
+
+
+            <button
+                type="submit"
+                class="seller-primary-button"
+            >
+                Login
+            </button>
+
+
+        </form>
+
+
+        <p class="seller-bottom">
+
+            New Tiffin Partner?
+
+            <a href="/tiffin-seller/register">
+                Register
+            </a>
+
+        </p>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

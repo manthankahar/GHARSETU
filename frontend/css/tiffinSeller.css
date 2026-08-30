@@ -1,0 +1,401 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f7f7f5;
+
+    color: #222;
+
+}
+
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* =====================================
+   AUTH PAGE
+===================================== */
+
+.seller-auth-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 25px;
+
+}
+
+
+/* =====================================
+   AUTH CARD
+===================================== */
+
+.seller-auth-card {
+
+    width: 100%;
+
+    max-width: 460px;
+
+    background: #fff;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 22px;
+
+    padding: 38px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.08);
+
+}
+
+
+.seller-logo {
+
+    width: 62px;
+
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #222;
+
+    color: white;
+
+    border-radius: 16px;
+
+    font-size: 30px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.seller-label {
+
+    display: block;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: 2px;
+
+    color: #999;
+
+}
+
+
+.seller-auth-card h1 {
+
+    margin-top: 8px;
+
+    font-size: 30px;
+
+    line-height: 1.2;
+
+}
+
+
+.seller-subtitle {
+
+    margin-top: 10px;
+
+    margin-bottom: 25px;
+
+    color: #777;
+
+    font-size: 14px;
+
+    line-height: 1.6;
+
+}
+
+
+/* =====================================
+   ERROR
+===================================== */
+
+.seller-error {
+
+    padding: 13px 15px;
+
+    margin-bottom: 18px;
+
+    border-radius: 10px;
+
+    background: #fff1f0;
+
+    border: 1px solid #ffd5d2;
+
+    color: #b42318;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+/* =====================================
+   FORM
+===================================== */
+
+.seller-auth-card label {
+
+    display: block;
+
+    margin: 16px 0 7px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+}
+
+
+.seller-auth-card input,
+.seller-auth-card textarea {
+
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 14px;
+
+    transition: 0.2s;
+
+}
+
+
+.seller-auth-card textarea {
+
+    resize: vertical;
+
+}
+
+
+.seller-auth-card input:focus,
+.seller-auth-card textarea:focus {
+
+    border-color: #222;
+
+    box-shadow:
+        0 0 0 3px rgba(0, 0, 0, 0.05);
+
+}
+
+
+/* =====================================
+   BUTTON
+===================================== */
+
+.seller-primary-button {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-top: 23px;
+
+    padding: 14px 18px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background: #222;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.seller-primary-button:hover {
+
+    transform: translateY(-1px);
+
+    background: #111;
+
+}
+
+
+/* =====================================
+   BOTTOM
+===================================== */
+
+.seller-bottom {
+
+    text-align: center;
+
+    color: #777;
+
+    font-size: 13px;
+
+    margin-top: 22px;
+
+}
+
+
+.seller-bottom a {
+
+    color: #222;
+
+    font-weight: 800;
+
+}
+
+
+/* =====================================
+   REQUEST SENT
+===================================== */
+
+.request-card {
+
+    text-align: center;
+
+}
+
+
+.request-success-icon {
+
+    width: 75px;
+
+    height: 75px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #16a34a;
+
+    color: white;
+
+    font-size: 40px;
+
+    font-weight: 900;
+
+}
+
+
+.request-message {
+
+    margin-top: 20px;
+
+    padding: 20px;
+
+    border-radius: 14px;
+
+    background: #f6f7f5;
+
+    border: 1px solid #e5e5e5;
+
+}
+
+
+.request-message strong {
+
+    display: block;
+
+    font-size: 15px;
+
+}
+
+
+.request-message p {
+
+    margin-top: 8px;
+
+    color: #777;
+
+    font-size: 13px;
+
+    line-height: 1.6;
+
+}
+
+
+.request-card .seller-primary-button {
+
+    margin-top: 22px;
+
+}
+
+
+/* =====================================
+   MOBILE
+===================================== */
+
+@media (max-width: 500px) {
+
+    .seller-auth-page {
+
+        padding: 15px;
+
+    }
+
+
+    .seller-auth-card {
+
+        padding: 27px 20px;
+
+        border-radius: 18px;
+
+    }
+
+
+    .seller-auth-card h1 {
+
+        font-size: 25px;
+
+    }
+
+}
