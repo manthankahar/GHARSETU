@@ -3,11 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  
-"scripts": {
+  "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js"
-  
   },
   "keywords": [],
   "author": "",
@@ -15,6 +13,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "ejs": "^6.0.1",
@@ -22,7 +21,8 @@
     "fernet": "^0.3.3",
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.9.2",
-    "multer": "^2.2.0"
+    "multer": "^2.2.0",
+    "nodemailer": "^9.0.6"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

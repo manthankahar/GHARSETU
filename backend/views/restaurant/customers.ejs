@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GharSetu | Customers</title>
+    <link rel="stylesheet" href="/css/restaurant.css">
+</head>
+
+<body>
+
+<div class="restaurant-layout">
+
+    <%- include("../partials/restaurantSidebar") %>
+
+    <main class="restaurant-main">
+
+        <header class="page-header">
+            <div>
+                <span class="eyebrow">RESTAURANT</span>
+                <h1>Customers</h1>
+                <p>Manage your restaurant customers</p>
+            </div>
+        </header>
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span class="stat-icon">👥</span>
+                <div>
+                    <small>Total Customers</small>
+                    <h2><%= customers?.length || 0 %></h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">🛒</span>
+                <div>
+                    <small>Active Customers</small>
+                    <h2><%= customers?.length || 0 %></h2>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <span class="stat-icon">⭐</span>
+                <div>
+                    <small>Experience</small>
+                    <h2>Good</h2>
+                </div>
+            </div>
+
+        </section>
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">CUSTOMER MANAGEMENT</span>
+                    <h2>All Customers</h2>
+                </div>
+            </div>
+
+            <div class="restaurant-search-box">
+                <input
+                    type="text"
+                    id="customerSearch"
+                    placeholder="Search customer..."
+                >
+            </div>
+
+            <% if (!customers || customers.length === 0) { %>
+
+                <div class="empty-card">
+                    <div>👥</div>
+                    <h3>No customers found</h3>
+                    <p>Customers will appear here when they place orders.</p>
+                </div>
+
+            <% } %>
+
+            <div id="customerList">
+
+                <% customers?.forEach((customer, index) => { %>
+
+                    <div class="customer-card">
+
+                        <div class="customer-left">
+
+                            <div class="customer-avatar">
+                                <%= (customer.name || "C")
+                                    .charAt(0)
+                                    .toUpperCase() %>
+                            </div>
+
+                            <div class="customer-details">
+
+                                <span class="order-id">
+                                    CUSTOMER #<%= index + 1 %>
+                                </span>
+
+                                <h3>
+                                    <%= customer.name || "Customer" %>
+                                </h3>
+
+                                <% if (customer.email) { %>
+                                    <p>📧 <%= customer.email %></p>
+                                <% } %>
+
+                                <% if (customer.mobile) { %>
+                                    <p>📱 <%= customer.mobile %></p>
+                                <% } %>
+
+                            </div>
+
+                        </div>
+
+                        <div class="customer-right">
+
+                            <span class="status-badge success">
+                                ● Active
+                            </span>
+
+                            <button
+                                class="secondary-button"
+                                onclick="viewCustomer('<%= customer._id %>')"
+                            >
+                                👁 View
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            </div>
+
+        </section>
+
+        <%- include("../partials/footer") %>
+
+    </main>
+
+</div>
+
+<script>
+
+const searchInput = document.getElementById("customerSearch");
+
+if (searchInput) {
+
+    searchInput.addEventListener("input", function () {
+
+        const value = this.value.toLowerCase();
+
+        document.querySelectorAll(".customer-card").forEach(card => {
+
+            card.style.display =
+                card.innerText.toLowerCase().includes(value)
+                    ? "flex"
+                    : "none";
+
+        });
+
+    });
+
+}
+
+function viewCustomer(id) {
+
+    if (!id) return;
+
+    window.location.href =
+        `/restaurant/customers/${id}`;
+
+}
+
+</script>
+   <script src="/js/restaurant.js"></script>
+</body>
+</html>

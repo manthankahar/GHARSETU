@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GharSetu | Order Details
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/restaurant.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="restaurant-layout">
+
+
+    <!-- RESTAURANT SIDEBAR -->
+
+    <%- include("../partials/restaurantSidebar.ejs") %>
+
+
+    <!-- MAIN -->
+
+    <main class="restaurant-main">
+
+
+        <!-- HEADER -->
+
+        <header class="page-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    RESTAURANT
+                </span>
+
+                <h1>
+                    Order Details
+                </h1>
+
+                <p>
+                    View and manage this restaurant order.
+                </p>
+
+            </div>
+
+
+            <div>
+
+                <a
+                    href="/restaurant/orders"
+                    class="secondary-button"
+                >
+                    ← Back to Orders
+                </a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ORDER DETAILS -->
+
+        <section class="dashboard-section">
+
+
+            <% if (!restaurantOrder) { %>
+
+                <div class="empty-card">
+
+                    <div>
+                        📦
+                    </div>
+
+                    <h3>
+                        Order not found
+                    </h3>
+
+                    <p>
+                        This order does not exist or is no longer available.
+                    </p>
+
+                    <br>
+
+                    <a
+                        href="/restaurant/orders"
+                        class="primary-button"
+                    >
+                        Back to Orders
+                    </a>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <!-- ORDER HEADER -->
+
+                <div class="pickup-card">
+
+                    <div class="section-heading">
+
+                        <div>
+
+                            <span class="eyebrow">
+                                ORDER
+                            </span>
+
+                            <h2>
+                                #<%= restaurantOrder._id %>
+                            </h2>
+
+                        </div>
+
+
+                        <span
+                            class="status-badge status-<%= restaurantOrder.status || 'pending' %>"
+                        >
+                            <%= restaurantOrder.status || "pending" %>
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        Created:
+                        <%= restaurantOrder.createdAt
+                            ? new Date(restaurantOrder.createdAt).toLocaleString()
+                            : "Not available"
+                        %>
+                    </p>
+
+                </div>
+
+
+
+                <!-- CUSTOMER INFORMATION -->
+
+                <div class="pickup-card">
+
+                    <span class="eyebrow">
+                        CUSTOMER
+                    </span>
+
+                    <h2>
+                        Customer Information
+                    </h2>
+
+
+                    <div class="order-details-grid">
+
+
+                        <div>
+
+                            <small>
+                                Name
+                            </small>
+
+                            <strong>
+                                <%= restaurantOrder.customer?.name || "Not available" %>
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Mobile
+                            </small>
+
+                            <strong>
+                                <%= restaurantOrder.customer?.mobile || "Not available" %>
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Email
+                            </small>
+
+                            <strong>
+                                <%= restaurantOrder.customer?.email || "Not available" %>
+                            </strong>
+
+                        </div>
+
+
+                        <div>
+
+                            <small>
+                                Address
+                            </small>
+
+                            <strong>
+                                <%= restaurantOrder.customer?.address || restaurantOrder.deliveryAddress || "Address not available" %>
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ORDER INFORMATION -->
+
+                <div class="pickup-card">
+
+                    <span class="eyebrow">
+                        ORDER INFORMATION
+                    </span>
+
+                    <h2>
+                        Order Summary
+                    </h2>
+
+
+                    <div class="order-summary">
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Order Status
+                            </span>
+
+                            <strong>
+                                <%= restaurantOrder.status || "pending" %>
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Total Amount
+                            </span>
+
+                            <strong>
+                                ₹<%= restaurantOrder.totalAmount || restaurantOrder.amount || restaurantOrder.order?.totalAmount || 0 %>
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Restaurant Earning
+                            </span>
+
+                            <strong>
+                                ₹<%= restaurantOrder.restaurantEarning || 0 %>
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Restaurant Profit
+                            </span>
+
+                            <strong>
+                                ₹<%= restaurantOrder.restaurantProfit || 0 %>
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ORDER ITEMS -->
+
+                <div class="pickup-card">
+
+                    <span class="eyebrow">
+                        ITEMS
+                    </span>
+
+                    <h2>
+                        Ordered Items
+                    </h2>
+
+
+                    <% if (
+                        restaurantOrder.order &&
+                        restaurantOrder.order.items &&
+                        restaurantOrder.order.items.length > 0
+                    ) { %>
+
+
+                        <div class="order-items-list">
+
+
+                            <% restaurantOrder.order.items.forEach(item => { %>
+
+
+                                <div class="order-item-row">
+
+                                    <div>
+
+                                        <h3>
+                                            <%= item.name || item.productName || "Food Item" %>
+                                        </h3>
+
+                                        <p>
+                                            Quantity:
+                                            <%= item.quantity || 1 %>
+                                        </p>
+
+                                    </div>
+
+
+                                    <strong>
+
+                                        ₹<%= item.price || item.total || 0 %>
+
+                                    </strong>
+
+                                </div>
+
+
+                            <% }) %>
+
+
+                        </div>
+
+
+                    <% } else { %>
+
+
+                        <div class="empty-card">
+
+                            <div>
+                                🍽️
+                            </div>
+
+                            <h3>
+                                Item details unavailable
+                            </h3>
+
+                            <p>
+                                No item information was found for this order.
+                            </p>
+
+                        </div>
+
+
+                    <% } %>
+
+
+                </div>
+
+
+
+                <!-- ACTIONS -->
+
+                <div class="pickup-card">
+
+                    <span class="eyebrow">
+                        ORDER ACTION
+                    </span>
+
+                    <h2>
+                        Update Order
+                    </h2>
+
+                    <p>
+                        Move the order through the restaurant preparation process.
+                    </p>
+
+
+                    <div class="order-actions">
+
+
+                        <% if (
+                            !restaurantOrder.status ||
+                            restaurantOrder.status === "pending"
+                        ) { %>
+
+                            <button
+                                type="button"
+                                class="primary-button"
+                                onclick="updateOrderStatus('<%= restaurantOrder._id %>', 'accepted')"
+                            >
+                                ✓ Accept Order
+                            </button>
+
+                        <% } %>
+
+
+
+                        <% if (
+                            restaurantOrder.status === "accepted"
+                        ) { %>
+
+                            <button
+                                type="button"
+                                class="primary-button"
+                                onclick="updateOrderStatus('<%= restaurantOrder._id %>', 'preparing')"
+                            >
+                                🍳 Start Preparing
+                            </button>
+
+                        <% } %>
+
+
+
+                        <% if (
+                            restaurantOrder.status === "preparing"
+                        ) { %>
+
+                            <button
+                                type="button"
+                                class="primary-button"
+                                onclick="updateOrderStatus('<%= restaurantOrder._id %>', 'ready')"
+                            >
+                                ✅ Mark Ready
+                            </button>
+
+                        <% } %>
+
+
+
+                        <% if (
+                            restaurantOrder.status === "ready"
+                        ) { %>
+
+                            <div class="empty-card">
+
+                                <div>
+                                    🚴
+                                </div>
+
+                                <h3>
+                                    Order Ready
+                                </h3>
+
+                                <p>
+                                    The order is ready for pickup by the delivery partner.
+                                </p>
+
+                            </div>
+
+                        <% } %>
+
+
+                    </div>
+
+                </div>
+
+
+            <% } %>
+
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <%- include("../partials/footer.ejs") %>
+
+
+    </main>
+
+</div>
+
+
+
+<script>
+
+
+// ==========================================
+// UPDATE ORDER STATUS
+// ==========================================
+
+async function updateOrderStatus(
+    orderId,
+    status
+) {
+
+    try {
+
+
+        const confirmed =
+            confirm(
+                `Are you sure you want to mark this order as "${status}"?`
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+
+        const response =
+            await fetch(
+                `/restaurant/orders/${orderId}/status`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+                            status: status
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "Failed to update order."
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            data.message ||
+            "Order updated successfully."
+        );
+
+
+        window.location.reload();
+
+
+    } catch (error) {
+
+        console.error(
+            "Order Status Error:",
+            error
+        );
+
+
+        alert(
+            "Something went wrong while updating the order."
+        );
+
+    }
+
+}
+
+</script>
+
+
+
+<script src="/js/restaurant.js"></script>
+
+
+</body>
+
+</html>

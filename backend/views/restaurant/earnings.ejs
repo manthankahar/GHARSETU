@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Restaurant Earnings</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/restaurant.css"
+    >
+
+</head>
+
+<body>
+
+<div class="restaurant-layout">
+
+    <!-- SIDEBAR -->
+
+    <%- include("../partials/restaurantSidebar") %>
+
+
+    <!-- MAIN -->
+
+    <main class="restaurant-main">
+
+
+        <!-- HEADER -->
+
+        <header class="page-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    MONEY
+                </span>
+
+                <h1>
+                    Earnings
+                </h1>
+
+                <p>
+                    Track your restaurant earnings
+                    and completed sales.
+                </p>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- EARNING CARDS -->
+
+        <section class="stats-grid">
+
+
+            <!-- TOTAL SALES -->
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    💰
+                </span>
+
+                <div>
+
+                    <small>
+                        Total Earnings
+                    </small>
+
+                    <h2>
+                        ₹<%= Number(totalSales || 0).toFixed(2) %>
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PROFIT -->
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    📈
+                </span>
+
+                <div>
+
+                    <small>
+                        Total Profit
+                    </small>
+
+                    <h2>
+                        ₹<%= Number(totalProfit || 0).toFixed(2) %>
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- COMPLETED ORDERS -->
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    📦
+                </span>
+
+                <div>
+
+                    <small>
+                        Completed Orders
+                    </small>
+
+                    <h2>
+                        <%= completedOrders?.length || 0 %>
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AVERAGE -->
+
+            <div class="stat-card">
+
+                <span class="stat-icon">
+                    🧾
+                </span>
+
+                <div>
+
+                    <small>
+                        Average Order
+                    </small>
+
+                    <h2>
+
+                        ₹<%= (
+                            completedOrders &&
+                            completedOrders.length
+                                ? Number(totalSales || 0) /
+                                  completedOrders.length
+                                : 0
+                        ).toFixed(2) %>
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- EARNINGS HISTORY -->
+
+        <section class="dashboard-section">
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        TRANSACTIONS
+                    </span>
+
+                    <h2>
+                        Earnings History
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <% if (
+                !completedOrders ||
+                completedOrders.length === 0
+            ) { %>
+
+
+                <!-- EMPTY -->
+
+                <div class="empty-card">
+
+                    <div>
+                        💰
+                    </div>
+
+                    <h3>
+                        No earnings yet
+                    </h3>
+
+                    <p>
+                        Completed restaurant orders
+                        will appear here.
+                    </p>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <!-- HISTORY -->
+
+                <div class="earnings-history">
+
+
+                    <% completedOrders.forEach(order => { %>
+
+
+                        <div class="history-card">
+
+
+                            <div>
+
+                                <span class="order-id">
+
+                                    ORDER #<%= order._id %>
+
+                                </span>
+
+
+                                <h3>
+
+                                    <%= order.item ||
+                                        order.name ||
+                                        "Restaurant Order"
+                                    %>
+
+                                </h3>
+
+
+                                <p>
+
+                                    Status:
+
+                                    <strong>
+                                        <%= order.status || "completed" %>
+                                    </strong>
+
+                                </p>
+
+
+                                <% if (order.customer) { %>
+
+                                    <p>
+
+                                        Customer:
+
+                                        <%= order.customer.name ||
+                                            "Customer"
+                                        %>
+
+                                    </p>
+
+                                <% } %>
+
+
+                            </div>
+
+
+
+                            <div class="order-right">
+
+
+                                <strong class="earning-green">
+
+                                    + ₹<%= Number(
+                                        order.restaurantEarning ||
+                                        order.totalAmount ||
+                                        order.amount ||
+                                        0
+                                    ).toFixed(2) %>
+
+                                </strong>
+
+
+                                <span class="status-badge">
+
+                                    <%= order.status || "completed" %>
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    <% }) %>
+
+
+                </div>
+
+
+            <% } %>
+
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <%- include("../partials/footer") %>
+
+
+    </main>
+
+</div>
+
+
+
+<script src="/js/restaurant.js"></script>
+
+</body>
+
+</html>

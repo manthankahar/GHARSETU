@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 
 const Delivery = require("../models/Delivery");
 const upload = require("../middleware/uploadMiddleware");
+const deliveryAuth = require("../middleware/deliveryAuth");
 
 // ======================================================
 // HELPER - ORDER DATA
@@ -55,6 +56,28 @@ function makeOrderData(delivery) {
         status: delivery.status || "pending"
     };
 }
+
+// ======================================================
+// DELIVERY LOGIN PAGE
+// ======================================================
+
+router.get("/login", (req, res) => {
+
+    res.render("delivery/login");
+
+});
+
+
+// ======================================================
+// DELIVERY SIGNUP PAGE
+// ======================================================
+
+router.get("/signup", (req, res) => {
+
+    res.render("delivery/signup");
+
+});
+
 
 
 // ======================================================
@@ -273,70 +296,85 @@ router.get("/pickup/:id", async (req, res) => {
 // ACCEPT DELIVERY
 // ======================================================
 
-router.post("/:id/accept", async (req, res) => {
-    try {
+router.post(
+    "/:id/accept",
+    deliveryAuth,
+    async (req, res) => {
 
-        if (
-            !mongoose.Types.ObjectId.isValid(
-                req.params.id
-            )
-        ) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid delivery ID"
+        try {
+
+            if (
+                !mongoose.Types.ObjectId.isValid(
+                    req.params.id
+                )
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid delivery ID"
+                });
+            }
+
+            const delivery =
+                await Delivery.findById(
+                    req.params.id
+                );
+
+            if (!delivery) {
+                return res.status(404).json({
+                    success: false,
+                    message: "Delivery not found"
+                });
+            }
+
+            if (delivery.status !== "pending") {
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        `Delivery is already ${delivery.status}`
+                });
+            }
+
+            // Assign delivery to logged-in partner
+            delivery.partner = req.user.id;
+
+            delivery.status = "accepted";
+
+            delivery.acceptedAt =
+                new Date();
+
+            await delivery.save();
+
+            res.json({
+                success: true,
+                message: "Delivery accepted",
+                delivery
             });
-        }
 
-        const delivery = await Delivery.findById(
-            req.params.id
-        );
+        } catch (error) {
 
-        if (!delivery) {
-            return res.status(404).json({
-                success: false,
-                message: "Delivery not found"
-            });
-        }
+            console.error(
+                "Accept Delivery Error:",
+                error
+            );
 
-        if (delivery.status !== "pending") {
-            return res.status(400).json({
+            res.status(500).json({
                 success: false,
                 message:
-                    `Delivery is already ${delivery.status}`
+                    "Failed to accept delivery"
             });
         }
-
-        delivery.status = "accepted";
-        delivery.acceptedAt = new Date();
-
-        await delivery.save();
-
-        res.json({
-            success: true,
-            message: "Delivery accepted",
-            delivery
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Accept Delivery Error:",
-            error
-        );
-
-        res.status(500).json({
-            success: false,
-            message: "Failed to accept delivery"
-        });
     }
-});
+);
 
 
 // ======================================================
 // REJECT DELIVERY
 // ======================================================
 
-router.post("/:id/reject", async (req, res) => {
+router.post(
+    "/:id/reject",
+    deliveryAuth,
+    async (req, res) => {
     try {
 
         if (
@@ -470,6 +508,7 @@ router.post(
 
 router.post(
     "/:id/pickup-otp",
+    deliveryAuth,
     async (req, res) => {
 
         try {
@@ -570,6 +609,7 @@ router.post(
 
 router.post(
     "/:id/pickup-photo",
+    deliveryAuth,
     upload.single("photo"),
     async (req, res) => {
 
@@ -664,6 +704,7 @@ router.post(
 
 router.post(
     "/:id/reached-location",
+    deliveryAuth,
     async (req, res) => {
 
         try {
@@ -739,6 +780,7 @@ router.post(
 
 router.post(
     "/:id/complete",
+    deliveryAuth,
     async (req, res) => {
 
         try {
@@ -888,6 +930,46 @@ router.post(
     }
 );
 
+
+// ======================================================
+// ALL DELIVERY ORDERS
+// ======================================================
+
+router.get("/orders", async (req, res) => {
+
+    try {
+
+        const deliveries =
+            await Delivery.find()
+                .populate("order")
+                .sort({
+                    createdAt: -1
+                });
+
+        const orders =
+            deliveries.map(makeOrderData);
+
+        res.render(
+            "delivery/orders",
+            {
+                deliveries,
+                orders
+            }
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Delivery Orders Error:",
+            error
+        );
+
+        res.status(500).send(
+            "Failed to load delivery orders"
+        );
+    }
+
+});
 
 // ======================================================
 // HISTORY
@@ -1097,6 +1179,34 @@ router.get("/profile", async (req, res) => {
 });
 
 
+
+// ======================================================
+// CHECK DELIVERY OWNER
+// ======================================================
+
+function checkDeliveryOwner(
+    delivery,
+    req,
+    res
+) {
+
+    if (
+        !delivery.partner ||
+        delivery.partner.toString() !==
+            req.user.id
+    ) {
+
+        res.status(403).json({
+            success: false,
+            message:
+                "You are not assigned to this delivery."
+        });
+
+        return false;
+    }
+
+    return true;
+}
 // ======================================================
 // EXPORT
 // ======================================================

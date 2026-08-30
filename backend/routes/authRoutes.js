@@ -4,31 +4,55 @@ const router = express.Router();
 
 const {
     signup,
-    login
+    login,
+    deliverySignup
 } = require("../controllers/authController");
 
 const authMiddleware = require("../middleware/authMiddleware");
 const allowRoles = require("../middleware/roleMiddleware");
 
+
 // =====================================
 // AUTH ROUTES
 // =====================================
 
-router.post("/signup", signup);
+// Customer signup
+router.post(
+    "/signup",
+    signup
+);
 
-router.post("/login", login);
+// Login
+router.post(
+    "/login",
+    login
+);
+
+// Delivery partner signup
+router.post(
+    "/delivery/signup",
+    deliverySignup
+);
+
 
 // =====================================
 // PROTECTED PROFILE
 // =====================================
 
-router.get("/profile", authMiddleware, (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "You are authenticated!",
-        user: req.user
-    });
-});
+router.get(
+    "/profile",
+    authMiddleware,
+    (req, res) => {
+
+        res.status(200).json({
+            success: true,
+            message: "You are authenticated!",
+            user: req.user
+        });
+
+    }
+);
+
 
 // =====================================
 // ROLE TEST ROUTES
@@ -40,13 +64,16 @@ router.get(
     authMiddleware,
     allowRoles("customer"),
     (req, res) => {
+
         res.status(200).json({
             success: true,
             message: "Customer access granted!",
             user: req.user
         });
+
     }
 );
+
 
 // Admin only
 router.get(
@@ -54,12 +81,15 @@ router.get(
     authMiddleware,
     allowRoles("admin"),
     (req, res) => {
+
         res.status(200).json({
             success: true,
             message: "Admin access granted!",
             user: req.user
         });
+
     }
 );
+
 
 module.exports = router;

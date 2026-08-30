@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GharSetu | Restaurant Orders
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/restaurant.css"
+    >
+
+</head>
+
+
+<body>
+
+<div class="restaurant-layout">
+
+
+    <!-- RESTAURANT SIDEBAR -->
+
+    <%- include("../partials/restaurantSidebar.ejs") %>
+
+
+    <!-- MAIN -->
+
+    <main class="restaurant-main">
+
+
+        <!-- HEADER -->
+
+        <header class="page-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    RESTAURANT
+                </span>
+
+                <h1>
+                    Orders
+                </h1>
+
+                <p>
+                    Manage incoming restaurant orders
+                </p>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- ORDERS SECTION -->
+
+        <section class="dashboard-section">
+
+
+            <!-- SECTION HEADER -->
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        ORDER MANAGEMENT
+                    </span>
+
+                    <h2>
+                        All Orders
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SEARCH -->
+
+            <div class="restaurant-search-box">
+
+                <input
+                    type="text"
+                    id="orderSearch"
+                    placeholder="🔎 Search order, customer or status..."
+                >
+
+            </div>
+
+
+
+            <!-- EMPTY -->
+
+            <% if (!orders || orders.length === 0) { %>
+
+                <div class="empty-card">
+
+                    <div>
+                        📦
+                    </div>
+
+                    <h3>
+                        No orders found
+                    </h3>
+
+                    <p>
+                        New restaurant orders will appear here.
+                    </p>
+
+                </div>
+
+            <% } %>
+
+
+
+            <!-- ORDERS -->
+
+            <div id="ordersList">
+
+
+                <% if (orders && orders.length > 0) { %>
+
+
+                    <% orders.forEach(order => { %>
+
+
+                        <div
+                            class="order-card searchable-order"
+                            data-order-id="<%= order._id %>"
+                        >
+
+
+                            <!-- LEFT -->
+
+                            <div class="order-info">
+
+
+                                <span class="order-id">
+
+                                    ORDER #
+
+                                    <%= order._id %>
+
+                                </span>
+
+
+                                <h3>
+
+                                    <%= order.customer?.name || "Customer" %>
+
+                                </h3>
+
+
+                                <p>
+
+                                    📱
+
+                                    <%= order.customer?.mobile || "Mobile not available" %>
+
+                                </p>
+
+
+                                <p>
+
+                                    📧
+
+                                    <%= order.customer?.email || "Email not available" %>
+
+                                </p>
+
+
+                                <p>
+
+                                    📍
+
+                                    <%= order.customer?.address || order.deliveryAddress || "Address not available" %>
+
+                                </p>
+
+
+                            </div>
+
+
+
+                            <!-- RIGHT -->
+
+                            <div class="order-right">
+
+
+                                <!-- AMOUNT -->
+
+                                <strong>
+
+                                    ₹<%= order.totalAmount || order.amount || order.order?.totalAmount || 0 %>
+
+                                </strong>
+
+
+
+                                <!-- STATUS -->
+
+                                <span
+                                    class="status-badge status-<%= order.status || 'pending' %>"
+                                >
+
+                                    <%= order.status || "pending" %>
+
+                                </span>
+
+
+
+                                <!-- ACTIONS -->
+
+                                <div class="order-actions">
+
+
+                                    <!-- ACCEPT -->
+
+                                    <% if (
+                                        !order.status ||
+                                        order.status === "pending"
+                                    ) { %>
+
+                                        <button
+                                            type="button"
+                                            class="primary-small-button"
+                                            onclick="updateOrderStatus('<%= order._id %>', 'accepted')"
+                                        >
+                                            ✓ Accept
+                                        </button>
+
+                                    <% } %>
+
+
+
+                                    <!-- PREPARING -->
+
+                                    <% if (
+                                        order.status === "accepted"
+                                    ) { %>
+
+                                        <button
+                                            type="button"
+                                            class="primary-small-button"
+                                            onclick="updateOrderStatus('<%= order._id %>', 'preparing')"
+                                        >
+                                            🍳 Start Preparing
+                                        </button>
+
+                                    <% } %>
+
+
+
+                                    <!-- READY -->
+
+                                    <% if (
+                                        order.status === "preparing"
+                                    ) { %>
+
+                                        <button
+                                            type="button"
+                                            class="primary-small-button"
+                                            onclick="updateOrderStatus('<%= order._id %>', 'ready')"
+                                        >
+                                            ✅ Mark Ready
+                                        </button>
+
+                                    <% } %>
+
+
+
+                                    <!-- VIEW -->
+
+                                    <a
+                                        href="/restaurant/orders/<%= order._id %>"
+                                        class="secondary-button"
+                                    >
+                                        👁️ View
+                                    </a>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    <% }) %>
+
+
+                <% } %>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <%- include("../partials/footer") %>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- ==============================
+     JAVASCRIPT
+============================== -->
+
+<script>
+
+
+// ==========================================
+// SEARCH ORDERS
+// ==========================================
+
+const search =
+    document.getElementById("orderSearch");
+
+
+if (search) {
+
+    search.addEventListener(
+        "input",
+        function () {
+
+            const value =
+                this.value
+                    .toLowerCase()
+                    .trim();
+
+
+            document
+                .querySelectorAll(
+                    ".searchable-order"
+                )
+                .forEach(card => {
+
+
+                    const text =
+                        card.innerText
+                            .toLowerCase();
+
+
+                    if (
+                        text.includes(value)
+                    ) {
+
+                        card.style.display =
+                            "flex";
+
+                    } else {
+
+                        card.style.display =
+                            "none";
+
+                    }
+
+                });
+
+        }
+    );
+
+}
+
+
+
+// ==========================================
+// UPDATE ORDER STATUS
+// ==========================================
+
+async function updateOrderStatus(
+    orderId,
+    status
+) {
+
+    try {
+
+
+        const confirmed =
+            confirm(
+                `Are you sure you want to mark this order as "${status}"?`
+            );
+
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+
+        const response =
+            await fetch(
+                `/restaurant/orders/${orderId}/status`,
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+                            status
+                        })
+
+                }
+            );
+
+
+
+        const data =
+            await response.json();
+
+
+
+        if (!response.ok) {
+
+            alert(
+                data.message ||
+                "Failed to update order."
+            );
+
+            return;
+
+        }
+
+
+
+        alert(
+            data.message ||
+            "Order updated successfully."
+        );
+
+
+
+        // Reload page
+
+        window.location.reload();
+
+
+    } catch (error) {
+
+        console.error(
+            "Order Status Error:",
+            error
+        );
+
+
+        alert(
+            "Something went wrong while updating the order."
+        );
+
+    }
+
+}
+
+
+</script>
+
+
+
+<script src="/js/restaurant.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Restaurant Dashboard</title>
+
+    <link rel="stylesheet" href="/css/restaurant.css">
+</head>
+
+<body>
+
+<div class="restaurant-layout">
+
+    <%- include("../partials/restaurantSidebar.ejs") %>
+
+    <main class="restaurant-main">
+
+        <header class="page-header">
+
+            <div>
+                <span class="eyebrow">RESTAURANT PANEL</span>
+
+                <h1>
+                    Welcome,
+                    <%= restaurant?.restaurantName || "Restaurant" %>
+                </h1>
+
+                <p>
+                    Manage your restaurant from one place.
+                </p>
+            </div>
+
+        </header>
+
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <span class="stat-icon">📦</span>
+
+                <div>
+                    <small>Total Orders</small>
+                    <h2><%= totalOrders || orders?.length || 0 %></h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">🍽️</span>
+
+                <div>
+                    <small>Menu Items</small>
+                    <h2><%= menuItems?.length || 0 %></h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">💰</span>
+
+                <div>
+                    <small>Total Earnings</small>
+                    <h2>₹<%= totalEarnings || 0 %></h2>
+                </div>
+            </div>
+
+
+            <div class="stat-card">
+                <span class="stat-icon">⭐</span>
+
+                <div>
+                    <small>Rating</small>
+                    <h2><%= rating || "0.0" %></h2>
+                </div>
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="eyebrow">ORDERS</span>
+                    <h2>Recent Orders</h2>
+                </div>
+
+                <a
+                    href="/restaurant/orders"
+                    class="secondary-button"
+                >
+                    View All
+                </a>
+
+            </div>
+
+
+            <% if (!orders || orders.length === 0) { %>
+
+                <div class="empty-card">
+
+                    <div>📦</div>
+
+                    <h3>No orders yet</h3>
+
+                    <p>
+                        New restaurant orders will appear here.
+                    </p>
+
+                </div>
+
+            <% } else { %>
+
+                <% orders.slice(0, 5).forEach(order => { %>
+
+                    <div class="order-card">
+
+                        <div>
+
+                            <span class="order-id">
+                                ORDER #<%= order._id %>
+                            </span>
+
+                            <h3>
+                                <%= order.customer?.name || "Customer" %>
+                            </h3>
+
+                            <p>
+                                <%= order.item || order.name || "Food Order" %>
+                            </p>
+
+                        </div>
+
+
+                        <div class="order-right">
+
+                            <strong>
+                                ₹<%= order.totalAmount || order.amount || 0 %>
+                            </strong>
+
+                            <span class="status-badge">
+                                <%= order.status || "pending" %>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                <% }) %>
+
+            <% } %>
+
+        </section>
+
+
+        <%- include("../partials/footer") %>
+
+    </main>
+
+</div>
+      <script src="/js/restaurant.js"></script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Restaurant Profile</title>
+
+    <link rel="stylesheet" href="/css/restaurant.css">
+
+</head>
+
+<body>
+
+<div class="restaurant-layout">
+
+    <%- include("../partials/restaurantSidebar") %>
+
+    <main class="restaurant-main">
+
+        <header class="page-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    ACCOUNT
+                </span>
+
+                <h1>
+                    Restaurant Profile
+                </h1>
+
+                <p>
+                    Manage your restaurant information
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <section class="profile-card">
+
+            <div class="large-profile-circle">
+
+                <%= (restaurant?.name || "R")
+                    .charAt(0)
+                    .toUpperCase() %>
+
+            </div>
+
+
+            <h2>
+                <%= restaurant?.name || "Restaurant" %>
+            </h2>
+
+
+            <span class="profile-role">
+                Restaurant Partner
+            </span>
+
+
+            <span class="profile-online">
+                ● Active
+            </span>
+
+        </section>
+
+
+        <section class="profile-info-card">
+
+            <div class="profile-row">
+
+                <span>🍽️</span>
+
+                <div>
+
+                    <small>
+                        Restaurant Name
+                    </small>
+
+                    <strong>
+                        <%= restaurant?.name || "Not available" %>
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span>📱</span>
+
+                <div>
+
+                    <small>
+                        Mobile Number
+                    </small>
+
+                    <strong>
+                        <%= restaurant?.mobile || "Not available" %>
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span>📧</span>
+
+                <div>
+
+                    <small>
+                        Email
+                    </small>
+
+                    <strong>
+                        <%= restaurant?.email || "Not available" %>
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="profile-row">
+
+                <span>📍</span>
+
+                <div>
+
+                    <small>
+                        Address
+                    </small>
+
+                    <strong>
+                        <%= restaurant?.address || "Address not added" %>
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <div class="profile-actions">
+
+            <a
+                href="/restaurant/profile/edit"
+                class="primary-button"
+            >
+                ✏️ Edit Profile
+            </a>
+
+
+            <button
+                type="button"
+                class="logout-button"
+                onclick="restaurantLogout()"
+            >
+                🚪 Logout
+            </button>
+
+        </div>
+
+
+        <%- include("../partials/footer") %>
+
+    </main>
+
+</div>
+
+
+<script>
+
+function restaurantLogout() {
+
+    if (
+        confirm("Are you sure you want to logout?")
+    ) {
+
+        window.location.href =
+            "/restaurant/logout";
+
+    }
+
+}
+
+</script>
+    <script src="/js/restaurant.js"></script>
+</body>
+</html>

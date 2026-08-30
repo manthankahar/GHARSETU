@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Delivery Orders</title>
+
+    <link
+        rel="stylesheet"
+        href="/css/delivery.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<div class="delivery-layout">
+
+
+    <main class="delivery-main">
+
+
+        <!-- ============================= -->
+        <!-- HEADER -->
+        <!-- ============================= -->
+
+        <header class="page-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    DELIVERY PARTNER
+                </span>
+
+                <h1>
+                    Orders
+                </h1>
+
+                <p>
+                    View all delivery orders
+                </p>
+
+            </div>
+
+
+            <div class="header-profile">
+                K
+            </div>
+
+        </header>
+
+
+
+        <!-- ============================= -->
+        <!-- ORDERS -->
+        <!-- ============================= -->
+
+        <section class="dashboard-section">
+
+
+            <div class="section-heading">
+
+                <h2>
+                    All Orders
+                </h2>
+
+            </div>
+
+
+
+            <% if (!deliveries || deliveries.length === 0) { %>
+
+
+                <!-- EMPTY -->
+
+                <div class="empty-card">
+
+                    <div>
+                        📦
+                    </div>
+
+                    <h3>
+                        No orders found
+                    </h3>
+
+                    <p>
+                        Delivery orders will appear here.
+                    </p>
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <!-- ORDER LIST -->
+
+                <% deliveries.forEach(delivery => { %>
+
+
+                    <article class="order-card">
+
+
+                        <div>
+
+                            <span class="order-id">
+
+                                DELIVERY #
+
+                                <%= delivery._id %>
+
+                            </span>
+
+
+
+                            <h3>
+
+                                <% if (
+                                    delivery.order &&
+                                    delivery.order._id
+                                ) { %>
+
+                                    Order #
+
+                                    <%= delivery.order._id %>
+
+                                <% } else { %>
+
+                                    Delivery Order
+
+                                <% } %>
+
+                            </h3>
+
+
+
+                            <p>
+
+                                Amount:
+
+                                <strong>
+
+                                    ₹<%= delivery.orderAmount || 0 %>
+
+                                </strong>
+
+                            </p>
+
+
+
+                            <span class="status-badge">
+
+                                <%= (delivery.status || "pending")
+                                    .replaceAll("_", " ")
+                                    .toUpperCase()
+                                %>
+
+                            </span>
+
+                        </div>
+
+
+
+                        <!-- RIGHT -->
+
+                        <div>
+
+                            <% if (
+                                delivery.status === "completed"
+                            ) { %>
+
+                                <strong>
+
+                                    ₹<%= delivery.currentEarning ||
+                                        delivery.earning ||
+                                        0
+                                    %>
+
+                                </strong>
+
+                            <% } else { %>
+
+                                <a
+                                    href="/delivery/active/<%= delivery._id %>"
+                                    class="small-button"
+                                >
+
+                                    View
+
+                                </a>
+
+                            <% } %>
+
+                        </div>
+
+
+                    </article>
+
+
+                <% }); %>
+
+
+            <% } %>
+
+
+        </section>
+
+
+
+        <!-- ============================= -->
+        <!-- BACK -->
+        <!-- ============================= -->
+
+        <div style="margin-top: 20px;">
+
+            <a
+                href="/delivery/dashboard"
+                class="small-button"
+            >
+
+                ← Back to Dashboard
+
+            </a>
+
+        </div>
+
+
+
+        <%- include("../partials/footer") %>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script src="/js/delivery.js"></script>
+
+
+</body>
+
+</html>

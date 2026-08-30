@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -22,13 +21,19 @@
 
 <body>
 
-
-
     <div class="delivery-layout">
 
+        <!-- SIDEBAR -->
         <%- include("../partials/sidebar") %>
 
+
+        <!-- MAIN -->
         <main class="delivery-main">
+
+
+            <!-- ============================== -->
+            <!-- PAGE HEADER -->
+            <!-- ============================== -->
 
             <header class="page-header">
 
@@ -51,6 +56,11 @@
             </header>
 
 
+
+            <!-- ============================== -->
+            <!-- TOTAL EARNINGS -->
+            <!-- ============================== -->
+
             <div class="earning-main-card">
 
                 <span>
@@ -58,7 +68,7 @@
                 </span>
 
                 <h2>
-                    ₹<%= totalEarnings %>
+                    ₹<%= Number(totalEarnings || 0).toFixed(2) %>
                 </h2>
 
                 <p>
@@ -68,22 +78,45 @@
             </div>
 
 
+
+            <!-- ============================== -->
+            <!-- EARNINGS HISTORY -->
+            <!-- ============================== -->
+
             <section class="dashboard-section">
 
                 <div class="section-heading">
 
-                    <h2>
-                        Earnings History
-                    </h2>
+                    <div>
+
+                        <span class="eyebrow">
+                            TRANSACTIONS
+                        </span>
+
+                        <h2>
+                            Earnings History
+                        </h2>
+
+                    </div>
+
+                    <span class="history-count">
+                        <%= orders ? orders.length : 0 %>
+                        Deliveries
+                    </span>
 
                 </div>
 
 
-                <% if (orders.length === 0) { %>
+
+                <!-- ============================== -->
+                <!-- EMPTY -->
+                <!-- ============================== -->
+
+                <% if (!orders || orders.length === 0) { %>
 
                     <div class="empty-card">
 
-                        <div>
+                        <div class="empty-icon">
                             💰
                         </div>
 
@@ -91,42 +124,103 @@
                             No earnings yet
                         </h3>
 
+                        <p>
+                            Complete deliveries to start
+                            earning money.
+                        </p>
+
+                    </div>
+
+                <% } else { %>
+
+
+                    <!-- ============================== -->
+                    <!-- EARNING LIST -->
+                    <!-- ============================== -->
+
+                    <div class="history-list">
+
+                        <% orders.forEach(order => { %>
+
+                            <div class="history-card">
+
+
+                                <!-- LEFT -->
+                                <div class="history-info">
+
+                                    <span class="order-id">
+                                        ORDER #<%= order.id %>
+                                    </span>
+
+                                    <h3>
+                                        <%= order.item %>
+                                    </h3>
+
+                                    <p class="delivery-route">
+
+                                        <span>
+                                            📍
+                                            <%= order.pickup %>
+                                        </span>
+
+                                        <span class="route-arrow">
+                                            →
+                                        </span>
+
+                                        <span>
+                                            🏠
+                                            <%= order.customer %>
+                                        </span>
+
+                                    </p>
+
+                                </div>
+
+
+                                <!-- RIGHT -->
+                                <div class="history-right">
+
+                                    <strong class="earning-green">
+
+                                        +
+                                        ₹<%= Number(order.amount || 0).toFixed(2) %>
+
+                                    </strong>
+
+                                    <span class="success-text">
+                                        ✓ Completed
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                        <% }); %>
+
                     </div>
 
                 <% } %>
 
 
-                <% orders.forEach(order => { %>
-
-                    <div class="history-card">
-
-                        <div>
-
-                            <span class="order-id">
-                                ORDER #<%= order.id %>
-                            </span>
-
-                            <h3>
-                                <%= order.item %>
-                            </h3>
-
-                        </div>
-
-                        <strong class="earning-green">
-                            + ₹<%= order.amount %>
-                        </strong>
-
-                    </div>
-
-                <% }); %>
-
             </section>
 
+
+
+            <!-- ============================== -->
+            <!-- FOOTER -->
+            <!-- ============================== -->
+
             <%- include("../partials/footer") %>
+
 
         </main>
 
     </div>
+
+
+    <!-- DELIVERY JS -->
+    <script src="/js/delivery.js"></script>
 
 </body>
 

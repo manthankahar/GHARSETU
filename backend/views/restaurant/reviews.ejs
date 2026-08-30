@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GharSetu | Restaurant Reviews</title>
+
+    <link rel="stylesheet" href="/css/restaurant.css">
+
+</head>
+
+<body>
+
+<div class="restaurant-layout">
+
+    <%- include("../partials/restaurantSidebar") %>
+
+    <main class="restaurant-main">
+
+        <header class="page-header">
+
+            <div>
+
+                <span class="eyebrow">
+                    FEEDBACK
+                </span>
+
+                <h1>
+                    Reviews
+                </h1>
+
+                <p>
+                    See customer feedback for your restaurant
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <section class="rating-summary">
+
+            <div class="rating-number">
+                <%= Number(averageRating || 0).toFixed(1) %>
+            </div>
+
+            <div>
+
+                <div class="stars">
+                    ★★★★★
+                </div>
+
+                <p>
+                    Based on
+                    <%= reviews?.length || 0 %>
+                    customer reviews
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="eyebrow">
+                        CUSTOMER FEEDBACK
+                    </span>
+
+                    <h2>
+                        All Reviews
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <% if (!reviews || reviews.length === 0) { %>
+
+                <div class="empty-card">
+
+                    <div>⭐</div>
+
+                    <h3>
+                        No reviews yet
+                    </h3>
+
+                    <p>
+                        Customer reviews will appear here.
+                    </p>
+
+                </div>
+
+            <% } %>
+
+
+            <% reviews?.forEach(review => { %>
+
+                <div class="feedback-card">
+
+                    <div class="feedback-header">
+
+                        <strong>
+                            <%= review.customerName || "Customer" %>
+                        </strong>
+
+                        <span>
+                            <%=
+                                "★".repeat(
+                                    Math.max(
+                                        0,
+                                        Math.min(
+                                            5,
+                                            Number(review.rating || 0)
+                                        )
+                                    )
+                                )
+                            %>
+                        </span>
+
+                    </div>
+
+
+                    <p>
+                        <%= review.comment || "No comment provided." %>
+                    </p>
+
+                </div>
+
+            <% }) %>
+
+        </section>
+
+
+        <%- include("../partials/footer") %>
+
+    </main>
+
+</div>
+  <script src="/js/restaurant.js"></script>
+</body>
+</html>

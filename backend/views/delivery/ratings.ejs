@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -22,12 +21,19 @@
 
 <body>
 
-
     <div class="delivery-layout">
 
+        <!-- SIDEBAR -->
         <%- include("../partials/sidebar") %>
 
+
+        <!-- MAIN CONTENT -->
         <main class="delivery-main">
+
+
+            <!-- ============================== -->
+            <!-- PAGE HEADER -->
+            <!-- ============================== -->
 
             <header class="page-header">
 
@@ -50,11 +56,19 @@
             </header>
 
 
+
+            <!-- ============================== -->
+            <!-- RATING SUMMARY -->
+            <!-- ============================== -->
+
             <section class="rating-summary">
 
                 <div class="rating-number">
-                    <%= rating.toFixed(1) %>
+
+                    <%= Number(rating || 0).toFixed(1) %>
+
                 </div>
+
 
                 <div>
 
@@ -63,65 +77,162 @@
                     </div>
 
                     <p>
-                        Based on <%= totalRatings %>
+
+                        Based on
+                        <%= totalRatings || 0 %>
                         customer ratings
+
                     </p>
 
                 </div>
 
             </section>
 
+
+
+            <!-- ============================== -->
+            <!-- CUSTOMER FEEDBACK -->
+            <!-- ============================== -->
 
             <section class="dashboard-section">
 
-                <div class="feedback-card">
+                <div class="section-heading">
 
-                    <div class="feedback-header">
+                    <div>
 
-                        <strong>
-                            Rahul Patel
-                        </strong>
-
-                        <span>
-                            ⭐⭐⭐⭐⭐
+                        <span class="eyebrow">
+                            CUSTOMER FEEDBACK
                         </span>
+
+                        <h2>
+                            Recent Reviews
+                        </h2>
 
                     </div>
 
-                    <p>
-                        Great delivery service. Food arrived on time.
-                    </p>
+                    <span class="history-count">
+
+                        <%= totalRatings || 0 %>
+                        Ratings
+
+                    </span>
 
                 </div>
 
 
-                <div class="feedback-card">
 
-                    <div class="feedback-header">
+                <!-- ============================== -->
+                <!-- NO RATINGS -->
+                <!-- ============================== -->
 
-                        <strong>
-                            Priya Shah
-                        </strong>
+                <% if (!ratings || ratings.length === 0) { %>
 
-                        <span>
-                            ⭐⭐⭐⭐⭐
-                        </span>
+                    <div class="empty-card">
+
+                        <div class="empty-icon">
+                            ⭐
+                        </div>
+
+                        <h3>
+                            No ratings yet
+                        </h3>
+
+                        <p>
+                            Customer ratings will appear here
+                            after completed deliveries.
+                        </p>
 
                     </div>
 
-                    <p>
-                        Very polite and professional delivery partner.
-                    </p>
+                <% } else { %>
 
-                </div>
+
+                    <!-- ============================== -->
+                    <!-- RATINGS LIST -->
+                    <!-- ============================== -->
+
+                    <div class="feedback-list">
+
+                        <% ratings.forEach(item => { %>
+
+                            <div class="feedback-card">
+
+                                <div class="feedback-header">
+
+                                    <strong>
+                                        <%= item.customerName || "Customer" %>
+                                    </strong>
+
+                                    <span>
+
+                                        <%
+                                            const userRating =
+                                                Number(item.rating || 0);
+
+                                            const fullStars =
+                                                Math.max(
+                                                    0,
+                                                    Math.min(
+                                                        5,
+                                                        Math.round(userRating)
+                                                    )
+                                                );
+                                        %>
+
+                                        <%= "★".repeat(fullStars) %>
+
+                                    </span>
+
+                                </div>
+
+
+                                <p>
+
+                                    <%= item.comment ||
+                                        "No written feedback provided." %>
+
+                                </p>
+
+
+                                <% if (item.createdAt) { %>
+
+                                    <small>
+
+                                        <%= new Date(
+                                            item.createdAt
+                                        ).toLocaleDateString() %>
+
+                                    </small>
+
+                                <% } %>
+
+                            </div>
+
+                        <% }); %>
+
+                    </div>
+
+                <% } %>
+
 
             </section>
 
+
+
+            <!-- ============================== -->
+            <!-- FOOTER -->
+            <!-- ============================== -->
+
             <%- include("../partials/footer") %>
+
 
         </main>
 
     </div>
+
+
+    <!-- DELIVERY JAVASCRIPT -->
+    <script src="/js/delivery.js"></script>
 
 </body>
 

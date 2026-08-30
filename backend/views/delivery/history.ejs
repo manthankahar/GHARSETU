@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -22,13 +21,16 @@
 
 <body>
 
-
     <div class="delivery-layout">
 
+        <!-- SIDEBAR -->
         <%- include("../partials/sidebar") %>
 
+
+        <!-- MAIN CONTENT -->
         <main class="delivery-main">
 
+            <!-- HEADER -->
             <header class="page-header">
 
                 <div>
@@ -50,13 +52,19 @@
             </header>
 
 
+            <!-- HISTORY SECTION -->
             <section class="dashboard-section">
 
-                <% if (orders.length === 0) { %>
+
+                <!-- ============================= -->
+                <!-- EMPTY STATE -->
+                <!-- ============================= -->
+
+                <% if (!orders || orders.length === 0) { %>
 
                     <div class="empty-card">
 
-                        <div>
+                        <div class="empty-icon">
                             📦
                         </div>
 
@@ -64,57 +72,146 @@
                             No completed deliveries
                         </h3>
 
+                        <p>
+                            Your completed delivery history
+                            will appear here.
+                        </p>
+
+                    </div>
+
+                <% } else { %>
+
+
+                    <!-- ============================= -->
+                    <!-- HISTORY COUNT -->
+                    <!-- ============================= -->
+
+                    <div class="history-summary">
+
+                        <div>
+
+                            <span class="summary-label">
+                                COMPLETED DELIVERIES
+                            </span>
+
+                            <strong>
+                                <%= orders.length %>
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ============================= -->
+                    <!-- HISTORY LIST -->
+                    <!-- ============================= -->
+
+                    <div class="history-list">
+
+                        <% orders.forEach(order => { %>
+
+                            <div class="history-card">
+
+
+                                <!-- LEFT -->
+                                <div class="history-info">
+
+                                    <span class="order-id">
+                                        ORDER #<%= order.id %>
+                                    </span>
+
+
+                                    <h3>
+                                        <%= order.item %>
+                                    </h3>
+
+
+                                    <p class="delivery-route">
+
+                                        <span>
+                                            📍
+                                            <%= order.pickup %>
+                                        </span>
+
+                                        <span class="route-arrow">
+                                            →
+                                        </span>
+
+                                        <span>
+                                            🏠
+                                            <%= order.customer %>
+                                        </span>
+
+                                    </p>
+
+
+                                    <% if (order.pickupArea) { %>
+
+                                        <p class="location-text">
+                                            Pickup:
+                                            <%= order.pickupArea %>
+                                        </p>
+
+                                    <% } %>
+
+
+                                    <% if (order.dropArea) { %>
+
+                                        <p class="location-text">
+                                            Drop:
+                                            <%= order.dropArea %>
+                                        </p>
+
+                                    <% } %>
+
+                                </div>
+
+
+                                <!-- RIGHT -->
+                                <div class="history-right">
+
+
+                                    <strong class="history-amount">
+                                        ₹<%= Number(order.amount || 0).toFixed(2) %>
+                                    </strong>
+
+
+                                    <span class="success-text">
+                                        ✓ Delivered
+                                    </span>
+
+
+                                    <span class="history-status">
+                                        Completed
+                                    </span>
+
+                                </div>
+
+
+                            </div>
+
+                        <% }); %>
+
                     </div>
 
                 <% } %>
 
 
-                <% orders.forEach(order => { %>
-
-                    <div class="history-card">
-
-                        <div>
-
-                            <span class="order-id">
-                                ORDER #<%= order.id %>
-                            </span>
-
-                            <h3>
-                                <%= order.item %>
-                            </h3>
-
-                            <p>
-                                <%= order.pickup %>
-                                →
-                                <%= order.customer %>
-                            </p>
-
-                        </div>
-
-
-                        <div class="history-right">
-
-                            <strong>
-                                ₹<%= order.amount %>
-                            </strong>
-
-                            <span class="success-text">
-                                ✓ Delivered
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                <% }); %>
-
             </section>
 
+
+            <!-- FOOTER -->
             <%- include("../partials/footer") %>
+
 
         </main>
 
     </div>
+
+
+    <!-- DELIVERY JAVASCRIPT -->
+    <script src="/js/delivery.js"></script>
 
 </body>
 

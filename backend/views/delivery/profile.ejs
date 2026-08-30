@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -22,12 +21,25 @@
 
 <body>
 
-
     <div class="delivery-layout">
+
+        <!-- ========================= -->
+        <!-- SIDEBAR -->
+        <!-- ========================= -->
 
         <%- include("../partials/sidebar") %>
 
+
+        <!-- ========================= -->
+        <!-- MAIN -->
+        <!-- ========================= -->
+
         <main class="delivery-main">
+
+
+            <!-- ========================= -->
+            <!-- HEADER -->
+            <!-- ========================= -->
 
             <header class="page-header">
 
@@ -50,32 +62,64 @@
             </header>
 
 
+
+            <!-- ========================= -->
+            <!-- PROFILE -->
+            <!-- ========================= -->
+
             <section class="profile-card">
 
                 <div class="large-profile-circle">
-                    <%= user.name.charAt(0).toUpperCase() %>
+
+                    <%= (user?.name || "D")
+                        .charAt(0)
+                        .toUpperCase()
+                    %>
+
                 </div>
 
+
                 <h2>
-                    <%= user.name %>
+
+                    <%= user?.name || "Delivery Partner" %>
+
                 </h2>
 
+
                 <span class="profile-role">
-                    Delivery Partner
+
+                    <%= user?.role || "Delivery Partner" %>
+
                 </span>
 
-                <span class="profile-online">
+
+                <span
+                    class="profile-online"
+                    id="profileOnlineStatus"
+                >
+
                     ● Online
+
                 </span>
 
             </section>
 
 
+
+            <!-- ========================= -->
+            <!-- PROFILE INFORMATION -->
+            <!-- ========================= -->
+
             <section class="profile-info-card">
+
+
+                <!-- MOBILE -->
 
                 <div class="profile-row">
 
-                    <span>📱</span>
+                    <span>
+                        📱
+                    </span>
 
                     <div>
 
@@ -84,7 +128,11 @@
                         </small>
 
                         <strong>
-                            <%= user.mobile %>
+
+                            <%= user?.mobile ||
+                                "Not available"
+                            %>
+
                         </strong>
 
                     </div>
@@ -92,9 +140,14 @@
                 </div>
 
 
+
+                <!-- EMAIL -->
+
                 <div class="profile-row">
 
-                    <span>📧</span>
+                    <span>
+                        📧
+                    </span>
 
                     <div>
 
@@ -103,7 +156,11 @@
                         </small>
 
                         <strong>
-                            <%= user.email %>
+
+                            <%= user?.email ||
+                                "Not available"
+                            %>
+
                         </strong>
 
                     </div>
@@ -111,9 +168,14 @@
                 </div>
 
 
+
+                <!-- ADDRESS -->
+
                 <div class="profile-row">
 
-                    <span>📍</span>
+                    <span>
+                        📍
+                    </span>
 
                     <div>
 
@@ -122,38 +184,137 @@
                         </small>
 
                         <strong>
-                            <%= user.address %>
+
+                            <%= user?.address ||
+                                "Address not added"
+                            %>
+
                         </strong>
 
                     </div>
 
                 </div>
 
+
             </section>
 
 
+
+            <!-- ========================= -->
+            <!-- EDIT PROFILE -->
+            <!-- ========================= -->
+
             <button
+                type="button"
                 class="primary-button profile-edit-button"
                 onclick="editDeliveryProfile()"
             >
+
                 ✏️ Edit Profile
+
             </button>
 
 
+
+            <!-- ========================= -->
+            <!-- SUPPORT -->
+            <!-- ========================= -->
+
+            <section class="profile-info-card support-card">
+
+                <div class="profile-row">
+
+                    <span>
+                        🆘
+                    </span>
+
+                    <div>
+
+                        <small>
+                            Need Help?
+                        </small>
+
+                        <strong>
+                            Delivery Partner Support
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="support-actions">
+
+
+                    <!-- CALL SUPPORT -->
+
+                    <button
+                        type="button"
+                        class="primary-small-button"
+                        onclick="callDeliverySupport()"
+                    >
+
+                        📞 Call Support
+
+                    </button>
+
+
+
+                    <!-- COMPLAINT -->
+
+                    <button
+                        type="button"
+                        class="secondary-button"
+                        onclick="openComplaintPage()"
+                    >
+
+                        📝 Register Complaint
+
+                    </button>
+
+
+                </div>
+
+            </section>
+
+
+
+            <!-- ========================= -->
+            <!-- LOGOUT -->
+            <!-- ========================= -->
+
             <button
+                type="button"
                 class="logout-button"
                 onclick="deliveryLogout()"
             >
+
                 🚪 Logout
+
             </button>
 
+
+
+            <!-- ========================= -->
+            <!-- FOOTER -->
+            <!-- ========================= -->
+
             <%- include("../partials/footer") %>
+
 
         </main>
 
     </div>
 
+
+
+    <!-- ========================= -->
+    <!-- DELIVERY JAVASCRIPT -->
+    <!-- ========================= -->
+
     <script src="/js/delivery.js"></script>
+
 
 </body>
 

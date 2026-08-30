@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const allowRoles = require("../middleware/roleMiddleware");
 
 // =====================================
 // AUTHENTICATION MIDDLEWARE
@@ -7,6 +6,7 @@ const allowRoles = require("../middleware/roleMiddleware");
 
 const authMiddleware = (req, res, next) => {
     try {
+
         // Get Authorization header
         const authHeader = req.headers.authorization;
 
@@ -27,14 +27,18 @@ const authMiddleware = (req, res, next) => {
             process.env.JWT_SECRET
         );
 
-        // Store user information in request
+        // Store user information
         req.user = decoded;
 
         // Continue
         next();
 
     } catch (error) {
-        console.error("Auth Middleware Error:", error.message);
+
+        console.error(
+            "Auth Middleware Error:",
+            error.message
+        );
 
         return res.status(401).json({
             success: false,
@@ -42,7 +46,5 @@ const authMiddleware = (req, res, next) => {
         });
     }
 };
-
-
 
 module.exports = authMiddleware;
