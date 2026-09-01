@@ -1,87 +1,65 @@
-const jwt = require("jsonwebtoken");
-
 // ======================================================
 // TIFFIN SELLER AUTH MIDDLEWARE
 // ======================================================
 
-function tiffinSellerAuth(req, res, next) {
+const jwt = require("jsonwebtoken");
+
+
+// ======================================================
+// AUTHENTICATE TIFFIN SELLER
+// ======================================================
+
+const tiffinSellerAuth = (req, res, next) => {
 
     try {
 
-        // ==========================================
-        // GET TOKEN
-        // ==========================================
+        // ==================================================
+        // GET TOKEN FROM COOKIE
+        // ==================================================
 
-        const authHeader =
-            req.headers.authorization;
-
-        let token = null;
+        let token =
+            req.cookies?.tiffinSellerToken;
 
 
-        // ------------------------------------------
-        // Bearer Token
-        // ------------------------------------------
-
-        if (
-            authHeader &&
-            authHeader.startsWith("Bearer ")
-        ) {
-
-            token =
-                authHeader.split(" ")[1];
-
-        }
-
-
-        // ------------------------------------------
-        // Token from Cookie / Session
-        // ------------------------------------------
-
-        if (!token && req.cookies) {
-
-            token =
-                req.cookies.tiffinSellerToken;
-
-        }
-
-
-        // ==========================================
-        // TOKEN CHECK
-        // ==========================================
+        // ==================================================
+        // IF COOKIE TOKEN NOT FOUND
+        // THEN CHECK AUTHORIZATION HEADER
+        // ==================================================
 
         if (!token) {
 
-            // API request
+            const authHeader =
+                req.headers.authorization;
+
             if (
-                req.headers.accept &&
-                req.headers.accept.includes(
-                    "application/json"
-                )
+                authHeader &&
+                authHeader.startsWith("Bearer ")
             ) {
 
-                return res.status(401).json({
-
-                    success: false,
-
-                    message:
-                        "Authentication required"
-
-                });
+                token =
+                    authHeader.split(" ")[1];
 
             }
 
+        }
 
-            // Normal browser request
-            return res.redirect(
-                "/tiffin-seller/login"
+
+        // ==================================================
+        // TOKEN NOT FOUND
+        // ==================================================
+
+        if (!token) {
+
+            return res.status(401).send(
+                "Tiffin Seller login required"
             );
 
         }
 
 
-        // ==========================================
+        // ==================================================
         // VERIFY TOKEN
-        // ==========================================
+        // ==================================================
 
         const decoded =
             jwt.verify(
@@ -90,38 +68,32 @@ function tiffinSellerAuth(req, res, next) {
             );
 
 
-        // ==========================================
+        // ==================================================
         // CHECK ROLE
-        // ==========================================
+        // ==================================================
 
         if (
-            decoded.role &&
-            decoded.role !== "tiffin_seller" &&
-            decoded.role !== "tiffinSeller"
+            decoded.role !==
+            "tiffinSeller"
         ) {
 
-            return res.status(403).json({
-
-                success: false,
-
-                message:
-                    "Access denied. Tiffin seller only."
-
-            });
+            return res.status(403).send(
+                "Access denied"
+            );
 
         }
 
 
-        // ==========================================
+        // ==================================================
         // SAVE USER DATA
-        // ==========================================
+        // ==================================================
 
         req.user = decoded;
 
 
-        // ==========================================
+        // ==================================================
         // NEXT
-        // ==========================================
+        // ==================================================
 
         next();
 
@@ -130,48 +102,22 @@ function tiffinSellerAuth(req, res, next) {
 
         console.error(
             "Tiffin Seller Auth Error:",
-            error.message
+            error
         );
 
 
-        // ------------------------------------------
-        // API REQUEST
-        // ------------------------------------------
-
-        if (
-            req.headers.accept &&
-            req.headers.accept.includes(
-                "application/json"
-            )
-        ) {
-
-            return res.status(401).json({
-
-                success: false,
-
-                message:
-                    "Invalid or expired token"
-
-            });
-
-        }
-
-
-        // ------------------------------------------
-        // NORMAL REQUEST
-        // ------------------------------------------
-
-        return res.redirect(
-            "/tiffin-seller/login"
+        return res.status(401).send(
+            "Invalid or expired Tiffin Seller token"
         );
 
     }
 
-}
+};
 
 
 // ======================================================
 // EXPORT
 // ======================================================
 
-module.exports = tiffinSellerAuth;
+module.exports =
+    tiffinSellerAuth;

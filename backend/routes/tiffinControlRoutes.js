@@ -1,6 +1,11 @@
+// ======================================================
+// TIFFIN CONTROL ROUTES
+// ======================================================
+
 const express = require("express");
 
 const router = express.Router();
+
 
 // ======================================================
 // TIFFIN SELLER AUTH
@@ -9,78 +14,71 @@ const router = express.Router();
 const tiffinSellerAuth =
     require("../middleware/tiffinSellerAuth");
 
+
+// ======================================================
+// CONTROLLER
+// ======================================================
+
 const {
-    registerTiffinSeller,
-    loginTiffinSeller,
-    getDashboard
-} = require("../controllers/tiffinSellerController");
+
+    getTiffinControl,
+
+    updateTiffinOrderStatus,
+
+    getTiffinOrderDetails
+
+} = require(
+    "../controllers/tiffinControlController"
+);
 
 
 // ======================================================
-// TIFFIN SELLER LOGIN PAGE
+// TIFFIN CONTROL PAGE
 // ======================================================
 
 router.get(
-    "/login",
-    (req, res) => {
 
-        res.render(
-            "tiffinSeller/login"
-        );
+    "/tiffin-control",
 
-    }
-);
-
-
-// ======================================================
-// TIFFIN SELLER REGISTER PAGE
-// ======================================================
-
-router.get(
-    "/register",
-    (req, res) => {
-
-        res.render(
-            "tiffinSeller/register"
-        );
-
-    }
-);
-
-
-// ======================================================
-// TIFFIN SELLER REGISTER REQUEST
-// ======================================================
-
-router.post(
-    "/register",
-    registerTiffinSeller
-);
-
-
-// ======================================================
-// TIFFIN SELLER LOGIN
-// ======================================================
-
-router.post(
-    "/login",
-    loginTiffinSeller
-);
-
-
-// ======================================================
-// TIFFIN SELLER DASHBOARD
-// ======================================================
-
-router.get(
-    "/dashboard",
     tiffinSellerAuth,
-    getDashboard
+
+    getTiffinControl
+
 );
 
 
 // ======================================================
-// EXPORT
+// TIFFIN ORDER DETAILS
+// ======================================================
+
+router.get(
+
+    "/tiffin-order/:orderId",
+
+    tiffinSellerAuth,
+
+    getTiffinOrderDetails
+
+);
+
+
+// ======================================================
+// UPDATE TIFFIN ORDER STATUS
+// ======================================================
+
+router.post(
+
+    "/tiffin-order/:orderId/status",
+
+    tiffinSellerAuth,
+
+    updateTiffinOrderStatus
+
+);
+
+
+// ======================================================
+// EXPORT ROUTER
 // ======================================================
 
 module.exports = router;

@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GHARSETU | Tiffin Plans</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f6fa;
+
+            color: #222;
+
+        }
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+
+            background: white;
+
+            padding: 20px 35px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow:
+                0 2px 10px
+                rgba(0,0,0,0.08);
+
+        }
+
+        .brand h1 {
+
+            font-size: 25px;
+
+        }
+
+        .brand p {
+
+            color: #777;
+
+            margin-top: 4px;
+
+            font-size: 14px;
+
+        }
+
+        .seller-name {
+
+            font-weight: bold;
+
+        }
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
+        .container {
+
+            max-width: 1200px;
+
+            margin: 35px auto;
+
+            padding: 0 20px;
+
+        }
+
+        .page-title {
+
+            margin-bottom: 25px;
+
+        }
+
+        .page-title h2 {
+
+            font-size: 30px;
+
+            margin-bottom: 6px;
+
+        }
+
+        .page-title p {
+
+            color: #777;
+
+        }
+
+        /* =========================================
+           STATS
+        ========================================= */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+
+        }
+
+        .stat-card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 12px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.06);
+
+        }
+
+        .stat-card span {
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+        .stat-card h3 {
+
+            font-size: 28px;
+
+            margin-top: 8px;
+
+        }
+
+        /* =========================================
+           TOP BAR
+        ========================================= */
+
+        .top-bar {
+
+            background: white;
+
+            padding: 18px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.06);
+
+        }
+
+        .filters {
+
+            display: flex;
+
+            gap: 10px;
+
+            flex: 1;
+
+        }
+
+        input,
+        select {
+
+            padding: 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+        }
+
+        input {
+
+            flex: 1;
+
+        }
+
+        button,
+        .add-btn {
+
+            border: none;
+
+            padding: 12px 18px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+        .search-btn {
+
+            background: #222;
+
+            color: white;
+
+        }
+
+        .clear-btn {
+
+            background: #eee;
+
+            color: #222;
+
+        }
+
+        .add-btn {
+
+            background: #222;
+
+            color: white;
+
+            text-decoration: none;
+
+            white-space: nowrap;
+
+        }
+
+        /* =========================================
+           PLANS
+        ========================================= */
+
+        .plans {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 20px;
+
+        }
+
+        .plan-card {
+
+            background: white;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 3px 15px
+                rgba(0,0,0,0.07);
+
+        }
+
+        .plan-image {
+
+            height: 170px;
+
+            background: #eee;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+        }
+
+        .plan-image img {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+        }
+
+        .no-image {
+
+            color: #888;
+
+            font-size: 14px;
+
+        }
+
+        .plan-content {
+
+            padding: 18px;
+
+        }
+
+        .plan-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 10px;
+
+        }
+
+        .plan-name {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+        }
+
+        .status {
+
+            padding: 5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+        .active {
+
+            background: #d9f7e5;
+
+            color: #16833b;
+
+        }
+
+        .deactive {
+
+            background: #eee;
+
+            color: #777;
+
+        }
+
+        .plan-type {
+
+            margin-top: 8px;
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+        .price {
+
+            font-size: 24px;
+
+            font-weight: bold;
+
+            margin-top: 12px;
+
+        }
+
+        .description {
+
+            color: #777;
+
+            margin-top: 10px;
+
+            line-height: 1.5;
+
+            min-height: 42px;
+
+        }
+
+        .meals {
+
+            margin-top: 12px;
+
+            font-size: 14px;
+
+        }
+
+        .actions {
+
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 18px;
+
+        }
+
+        .action-btn {
+
+            flex: 1;
+
+            text-align: center;
+
+            padding: 10px;
+
+            border-radius: 7px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+        }
+
+        .edit {
+
+            background: #222;
+
+            color: white;
+
+        }
+
+        .toggle {
+
+            background: #eee;
+
+            color: #222;
+
+        }
+
+        .delete {
+
+            background: #ffe0e0;
+
+            color: #c62828;
+
+        }
+
+        /* =========================================
+           EMPTY
+        ========================================= */
+
+        .empty {
+
+            background: white;
+
+            padding: 70px 20px;
+
+            text-align: center;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 3px 15px
+                rgba(0,0,0,0.06);
+
+        }
+
+        .empty h3 {
+
+            font-size: 22px;
+
+            margin-bottom: 8px;
+
+        }
+
+        .empty p {
+
+            color: #777;
+
+        }
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .plans {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .header {
+
+                padding: 16px 20px;
+
+            }
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .plans {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .top-bar {
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+            }
+
+            .filters {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+    <div class="brand">
+
+        <h1>🍱 GHARSETU</h1>
+
+        <p>Tiffin Seller Panel</p>
+
+    </div>
+
+    <div class="seller-name">
+
+        <%= seller.tiffinCompanyName %>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="page-title">
+
+        <h2>Tiffin Plans</h2>
+
+        <p>
+            Create and manage your tiffin subscription plans
+        </p>
+
+    </div>
+
+
+    <!-- =========================================
+         STATS
+    ========================================= -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+
+            <span>Total Plans</span>
+
+            <h3>
+                <%= totalPlans %>
+            </h3>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Active Plans</span>
+
+            <h3>
+                <%= activePlans %>
+            </h3>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <span>Deactive Plans</span>
+
+            <h3>
+                <%= deactivePlans %>
+            </h3>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SEARCH + ADD
+    ========================================= -->
+
+    <section class="top-bar">
+
+        <form
+            method="GET"
+            action="/tiffin-seller/plans"
+            class="filters"
+        >
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search plan..."
+                value="<%= search %>"
+            >
+
+
+            <select name="status">
+
+                <option
+                    value="all"
+                    <%= status === "all" ? "selected" : "" %>
+                >
+                    All Status
+                </option>
+
+                <option
+                    value="active"
+                    <%= status === "active" ? "selected" : "" %>
+                >
+                    Active
+                </option>
+
+                <option
+                    value="deactive"
+                    <%= status === "deactive" ? "selected" : "" %>
+                >
+                    Deactive
+                </option>
+
+            </select>
+
+
+            <button
+                type="submit"
+                class="search-btn"
+            >
+                Search
+            </button>
+
+
+            <a
+                href="/tiffin-seller/plans"
+                class="action-btn clear-btn"
+            >
+                Clear
+            </a>
+
+        </form>
+
+
+        <a
+            href="/tiffin-seller/plans/add"
+            class="add-btn"
+        >
+            + Add Plan
+        </a>
+
+    </section>
+
+
+    <!-- =========================================
+         PLAN LIST
+    ========================================= -->
+
+    <% if (plans && plans.length > 0) { %>
+
+        <section class="plans">
+
+            <% plans.forEach(plan => { %>
+
+                <div class="plan-card">
+
+
+                    <!-- IMAGE -->
+
+                    <div class="plan-image">
+
+                        <% if (plan.image) { %>
+
+                            <img
+                                src="<%= plan.image %>"
+                                alt="<%= plan.name %>"
+                            >
+
+                        <% } else { %>
+
+                            <div class="no-image">
+                                🍱 No Image
+                            </div>
+
+                        <% } %>
+
+                    </div>
+
+
+                    <!-- CONTENT -->
+
+                    <div class="plan-content">
+
+
+                        <div class="plan-header">
+
+                            <div class="plan-name">
+
+                                <%= plan.name %>
+
+                            </div>
+
+
+                            <span
+                                class="status <%= plan.status %>"
+                            >
+
+                                <%= plan.status %>
+
+                            </span>
+
+                        </div>
+
+
+                        <div class="plan-type">
+
+                            Type:
+                            <%= plan.type.replace("_", " ") %>
+
+                        </div>
+
+
+                        <div class="price">
+
+                            ₹<%= plan.price %>
+
+                        </div>
+
+
+                        <div class="description">
+
+                            <%= plan.description || "No description available" %>
+
+                        </div>
+
+
+                        <div class="meals">
+
+                            🍱 Meals:
+                            <strong>
+                                <%= plan.meals %>
+                            </strong>
+
+                        </div>
+
+
+                        <div class="meals">
+
+                            📦 Orders:
+                            <strong>
+                                <%= plan.totalOrders %>
+                            </strong>
+
+                            &nbsp;&nbsp;
+
+                            ✅ Delivered:
+                            <strong>
+                                <%= plan.totalDelivered %>
+                            </strong>
+
+                        </div>
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="actions">
+
+                            <a
+                                href="/tiffin-seller/plans/<%= plan._id %>"
+                                class="action-btn edit"
+                            >
+                                Edit
+                            </a>
+
+
+                            <button
+                                class="action-btn toggle"
+                                onclick="togglePlan('<%= plan._id %>')"
+                            >
+                                Toggle
+                            </button>
+
+
+                            <button
+                                class="action-btn delete"
+                                onclick="deletePlan('<%= plan._id %>')"
+                            >
+                                Delete
+                            </button>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        </section>
+
+    <% } else { %>
+
+
+        <!-- EMPTY -->
+
+        <section class="empty">
+
+            <h3>
+                🍱 No Tiffin Plans Found
+            </h3>
+
+            <p>
+                Create your first tiffin plan to start accepting orders.
+            </p>
+
+            <br>
+
+            <a
+                href="/tiffin-seller/plans/add"
+                class="add-btn"
+            >
+                + Create First Plan
+            </a>
+
+        </section>
+
+
+    <% } %>
+
+
+</main>
+
+
+<script>
+
+
+// ==========================================
+// TOGGLE PLAN
+// ==========================================
+
+async function togglePlan(planId) {
+
+    try {
+
+        const response =
+            await fetch(
+                `/tiffin-seller/plans/${planId}/status`,
+                {
+                    method: "PATCH",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.success) {
+
+            location.reload();
+
+        } else {
+
+            alert(
+                data.message ||
+                "Failed to update plan"
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong"
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// DELETE PLAN
+// ==========================================
+
+async function deletePlan(planId) {
+
+    const confirmed =
+        confirm(
+            "Are you sure you want to delete this tiffin plan?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/tiffin-seller/plans/${planId}`,
+                {
+                    method: "DELETE"
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (data.success) {
+
+            location.reload();
+
+        } else {
+
+            alert(
+                data.message ||
+                "Failed to delete plan"
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong"
+        );
+
+    }
+
+}
+
+</script>
+
+
+</body>
+
+</html>

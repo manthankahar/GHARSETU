@@ -10,6 +10,10 @@ const TiffinPlan = require("../models/TiffinPlan");
 const TiffinOrder = require("../models/TiffinOrder");
 
 
+// ======================================================
+// TIFFIN SELLER REGISTER
+// ======================================================
+
 exports.registerTiffinSeller = async (req, res) => {
 
     try {
@@ -23,6 +27,7 @@ exports.registerTiffinSeller = async (req, res) => {
             email
         } = req.body;
 
+
         // ==============================
         // VALIDATION
         // ==============================
@@ -33,12 +38,18 @@ exports.registerTiffinSeller = async (req, res) => {
             !address ||
             !password
         ) {
+
             return res.status(400).json({
+
                 success: false,
+
                 message:
                     "Mobile, password, tiffin company name and address are required"
+
             });
+
         }
+
 
         // ==============================
         // CHECK EXISTING SELLER
@@ -46,18 +57,25 @@ exports.registerTiffinSeller = async (req, res) => {
 
         const existingSeller =
             await TiffinSeller.findOne({
+
                 mobile: mobile.trim()
+
             });
+
 
         if (existingSeller) {
 
             return res.status(400).json({
+
                 success: false,
+
                 message:
                     "Tiffin seller already registered with this mobile number"
+
             });
 
         }
+
 
         // ==============================
         // HASH PASSWORD
@@ -68,6 +86,7 @@ exports.registerTiffinSeller = async (req, res) => {
                 password,
                 10
             );
+
 
         // ==============================
         // CREATE SELLER
@@ -102,11 +121,12 @@ exports.registerTiffinSeller = async (req, res) => {
 
             });
 
+
         // ==============================
         // SUCCESS
         // ==============================
 
-        res.status(201).json({
+        return res.status(201).json({
 
             success: true,
 
@@ -125,7 +145,8 @@ exports.registerTiffinSeller = async (req, res) => {
             error
         );
 
-        res.status(500).json({
+
+        return res.status(500).json({
 
             success: false,
 
@@ -142,6 +163,10 @@ exports.registerTiffinSeller = async (req, res) => {
 };
 
 
+// ======================================================
+// TIFFIN SELLER LOGIN
+// ======================================================
+
 exports.loginTiffinSeller = async (req, res) => {
 
     try {
@@ -151,9 +176,10 @@ exports.loginTiffinSeller = async (req, res) => {
             password
         } = req.body;
 
-        // ==============================
+
+        // ==================================================
         // VALIDATION
-        // ==============================
+        // ==================================================
 
         if (!mobile || !password) {
 
@@ -168,14 +194,19 @@ exports.loginTiffinSeller = async (req, res) => {
 
         }
 
-        // ==============================
+
+        // ==================================================
         // FIND SELLER
-        // ==============================
+        // ==================================================
 
         const seller =
             await TiffinSeller.findOne({
-                mobile: mobile.trim()
+
+                mobile:
+                    mobile.trim()
+
             });
+
 
         if (!seller) {
 
@@ -190,14 +221,19 @@ exports.loginTiffinSeller = async (req, res) => {
 
         }
 
-        // ==============================
-        // REGISTRATION CHECK
-        // ==============================
+
+        // ==================================================
+        // REGISTRATION STATUS CHECK
+        // ==================================================
 
         if (
             seller.registrationStatus !==
             "approved"
         ) {
+
+            // ==============================
+            // PENDING
+            // ==============================
 
             if (
                 seller.registrationStatus ===
@@ -214,6 +250,11 @@ exports.loginTiffinSeller = async (req, res) => {
                 });
 
             }
+
+
+            // ==============================
+            // REJECTED
+            // ==============================
 
             if (
                 seller.registrationStatus ===
@@ -233,9 +274,10 @@ exports.loginTiffinSeller = async (req, res) => {
 
         }
 
-        // ==============================
+
+        // ==================================================
         // ACTIVE CHECK
-        // ==============================
+        // ==================================================
 
         if (!seller.isActive) {
 
@@ -250,15 +292,20 @@ exports.loginTiffinSeller = async (req, res) => {
 
         }
 
-        // ==============================
+
+        // ==================================================
         // PASSWORD CHECK
-        // ==============================
+        // ==================================================
 
         const isMatch =
             await bcrypt.compare(
+
                 password,
+
                 seller.password
+
             );
+
 
         if (!isMatch) {
 
@@ -273,14 +320,18 @@ exports.loginTiffinSeller = async (req, res) => {
 
         }
 
-        // ==============================
-        // JWT
-        // ==============================
+
+        // ==================================================
+        // CREATE JWT TOKEN
+        // IMPORTANT:
+        // TOKEN MUST BE CREATED BEFORE COOKIE
+        // ==================================================
 
         const token =
             jwt.sign(
 
                 {
+
                     id:
                         seller._id,
 
@@ -292,17 +343,50 @@ exports.loginTiffinSeller = async (req, res) => {
                 process.env.JWT_SECRET,
 
                 {
+
                     expiresIn:
                         "7d"
+
                 }
 
             );
 
-        // ==============================
-        // SUCCESS
-        // ==============================
 
-        res.json({
+        // ==================================================
+        // SAVE TOKEN IN COOKIE
+        // ==================================================
+
+        res.cookie(
+
+            "tiffinSellerToken",
+
+            token,
+
+            {
+
+                httpOnly: true,
+
+                secure: false,
+
+                sameSite: "lax",
+
+                maxAge:
+                    7 *
+                    24 *
+                    60 *
+                    60 *
+                    1000
+
+            }
+
+        );
+
+
+        // ==================================================
+        // LOGIN SUCCESS
+        // ==================================================
+
+        return res.json({
 
             success: true,
 
@@ -338,6 +422,7 @@ exports.loginTiffinSeller = async (req, res) => {
 
         });
 
+
     } catch (error) {
 
         console.error(
@@ -345,7 +430,8 @@ exports.loginTiffinSeller = async (req, res) => {
             error
         );
 
-        res.status(500).json({
+
+        return res.status(500).json({
 
             success: false,
 
@@ -375,138 +461,162 @@ exports.getDashboard = async (req, res) => {
             req.user?._id;
 
 
+        // ==================================================
+        // LOGIN CHECK
+        // ==================================================
+
         if (!sellerId) {
 
             return res.status(401).send(
+
                 "Tiffin Seller login required"
+
             );
 
         }
 
 
-        // --------------------------------------------------
-        // SELLER
-        // --------------------------------------------------
+        // ==================================================
+        // FIND SELLER
+        // ==================================================
 
         const seller =
             await TiffinSeller.findById(
+
                 sellerId
+
             );
 
 
         if (!seller) {
 
             return res.status(404).send(
+
                 "Tiffin Seller not found"
+
             );
 
         }
 
 
-        // --------------------------------------------------
+        // ==================================================
         // ACTIVE PLANS
-        // --------------------------------------------------
+        // ==================================================
 
         const activePlans =
             await TiffinPlan.countDocuments({
 
-                seller: sellerId,
+                seller:
+                    sellerId,
 
-                isActive: true
+                isActive:
+                    true
 
             });
 
 
-        // --------------------------------------------------
+        // ==================================================
         // DEACTIVE PLANS
-        // --------------------------------------------------
+        // ==================================================
 
         const deactivePlans =
             await TiffinPlan.countDocuments({
 
-                seller: sellerId,
+                seller:
+                    sellerId,
 
-                isActive: false
+                isActive:
+                    false
 
             });
 
 
-        // --------------------------------------------------
+        // ==================================================
         // TOTAL ORDERS
-        // --------------------------------------------------
+        // ==================================================
 
         const totalOrders =
             await TiffinOrder.countDocuments({
 
-                seller: sellerId
+                seller:
+                    sellerId
 
             });
 
 
-        // --------------------------------------------------
+        // ==================================================
         // NEW ORDERS
-        // --------------------------------------------------
+        // ==================================================
 
         const newOrders =
             await TiffinOrder.countDocuments({
 
-                seller: sellerId,
+                seller:
+                    sellerId,
 
-                status: "new"
+                status:
+                    "new"
 
             });
 
 
-        // --------------------------------------------------
+        // ==================================================
         // PACKED ORDERS
-        // --------------------------------------------------
+        // ==================================================
 
         const packedOrders =
             await TiffinOrder.countDocuments({
 
-                seller: sellerId,
+                seller:
+                    sellerId,
 
-                status: "packed"
+                status:
+                    "packed"
 
             });
 
 
-        // --------------------------------------------------
+        // ==================================================
         // DISPATCHED ORDERS
-        // --------------------------------------------------
+        // ==================================================
 
         const dispatchedOrders =
             await TiffinOrder.countDocuments({
 
-                seller: sellerId,
+                seller:
+                    sellerId,
 
-                status: "dispatched"
+                status:
+                    "dispatched"
 
             });
 
 
-        // --------------------------------------------------
+        // ==================================================
         // DELIVERED ORDERS
-        // --------------------------------------------------
+        // ==================================================
 
         const deliveredOrders =
             await TiffinOrder.countDocuments({
 
-                seller: sellerId,
+                seller:
+                    sellerId,
 
-                status: "delivered"
+                status:
+                    "delivered"
 
             });
 
 
-        // --------------------------------------------------
+        // ==================================================
         // TOTAL EARNING
-        // --------------------------------------------------
+        // ==================================================
 
         const earningData =
             await TiffinOrder.aggregate([
 
                 {
+
                     $match: {
 
                         seller:
@@ -520,13 +630,16 @@ exports.getDashboard = async (req, res) => {
                 },
 
                 {
+
                     $group: {
 
-                        _id: null,
+                        _id:
+                            null,
 
                         total: {
 
-                            $sum: "$amount"
+                            $sum:
+                                "$amount"
 
                         }
 
@@ -539,37 +652,47 @@ exports.getDashboard = async (req, res) => {
 
         const totalEarning =
             earningData.length > 0
+
                 ? earningData[0].total
+
                 : 0;
 
 
-        // --------------------------------------------------
+        // ==================================================
         // RECENT ORDERS
-        // --------------------------------------------------
+        // ==================================================
 
         const recentOrders =
             await TiffinOrder.find({
 
-                seller: sellerId
+                seller:
+                    sellerId
 
             })
+
             .populate(
+
                 "customer",
+
                 "name mobile"
+
             )
+
             .sort({
 
-                createdAt: -1
+                createdAt:
+                    -1
 
             })
+
             .limit(10);
 
 
-        // --------------------------------------------------
+        // ==================================================
         // RENDER DASHBOARD
-        // --------------------------------------------------
+        // ==================================================
 
-        res.render(
+        return res.render(
 
             "tiffinSeller/dashboard",
 
@@ -603,13 +726,18 @@ exports.getDashboard = async (req, res) => {
     } catch (error) {
 
         console.error(
+
             "Tiffin Seller Dashboard Error:",
+
             error
+
         );
 
 
-        res.status(500).send(
+        return res.status(500).send(
+
             "Failed to load Tiffin Seller Dashboard"
+
         );
 
     }

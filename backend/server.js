@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 
+const cookieParser = require("cookie-parser");
+
 require("dotenv").config();
 
 const connectDB = require("./config/db");
@@ -35,7 +37,14 @@ const restaurantAuthRoutes =
     require("./routes/restaurantAuthRoutes");
 
 const tiffinSellerRoutes =
-    require("./routes/tiffinSellerRoutes");    
+    require("./routes/tiffinSellerRoutes");
+
+const tiffinControlRoutes =
+    require("./routes/tiffinControlRoutes");
+
+const tiffinPlaneRoutes =
+    require("./routes/tiffinPlanRoutes");
+
 
 // ======================================================
 // APP
@@ -43,14 +52,17 @@ const tiffinSellerRoutes =
 
 const app = express();
 
+
 // ======================================================
 // DATABASE
 // ======================================================
 
 connectDB();
 
+
 // ======================================================
 // MIDDLEWARE
+// IMPORTANT: MIDDLEWARE FIRST
 // ======================================================
 
 // JSON data
@@ -58,11 +70,24 @@ app.use(
     express.json()
 );
 
+
 // Form data
 app.use(
     express.urlencoded({
         extended: true
     })
+);
+
+
+
+
+// ======================================================
+// COOKIE PARSER
+// IMPORTANT: COOKIE PARSER BEFORE ROUTES
+// ======================================================
+
+app.use(
+    cookieParser()
 );
 
 
@@ -78,6 +103,7 @@ app.use(
         )
     )
 );
+
 
 // ======================================================
 // EJS CONFIGURATION
@@ -95,6 +121,7 @@ app.set(
         "views"
     )
 );
+
 
 // ======================================================
 // VIEW PATH CHECK
@@ -176,6 +203,7 @@ console.log(
     "======================================"
 );
 
+
 // ======================================================
 // API - AUTH
 // ======================================================
@@ -185,6 +213,7 @@ app.use(
     authRoutes
 );
 
+
 // ======================================================
 // RESTAURANT AUTH
 // ======================================================
@@ -193,6 +222,9 @@ app.use(
     "/restaurant",
     restaurantAuthRoutes
 );
+
+
+
 
 // ======================================================
 // TIFFIN SELLER
@@ -204,6 +236,28 @@ app.use(
 );
 
 // ======================================================
+// TIFFIN PLAN
+// ======================================================
+
+app.use(
+    "/tiffin-seller",
+     tiffinPlaneRoutes
+);
+
+// ======================================================
+// TIFFIN SELLER CONTROL
+// ======================================================
+// IMPORTANT
+// Cookie parser already loaded above
+// ======================================================
+
+app.use(
+    "/tiffin-seller",
+    tiffinControlRoutes
+);
+
+
+// ======================================================
 // RESTAURANT DASHBOARD
 // ======================================================
 
@@ -211,6 +265,7 @@ app.use(
     "/restaurant",
     restaurantRoutes
 );
+
 
 // ======================================================
 // API - ORDERS
@@ -221,6 +276,7 @@ app.use(
     orderRoutes
 );
 
+
 // ======================================================
 // API - CART
 // ======================================================
@@ -229,6 +285,7 @@ app.use(
     "/api/cart",
     cartRoutes
 );
+
 
 // ======================================================
 // DELIVERY PARTNER
@@ -239,6 +296,7 @@ app.use(
     deliveryRoutes
 );
 
+
 // ======================================================
 // DELIVERY COMPLAINT
 // ======================================================
@@ -248,6 +306,7 @@ app.use(
     complaintRoutes
 );
 
+
 // ======================================================
 // CUSTOMER
 // ======================================================
@@ -256,6 +315,7 @@ app.use(
     "/customer",
     customerRoutes
 );
+
 
 // ======================================================
 // WEBSITE HOME
@@ -272,6 +332,7 @@ app.get(
     }
 );
 
+
 // ======================================================
 // HEALTH CHECK
 // ======================================================
@@ -281,12 +342,17 @@ app.get(
     (req, res) => {
 
         res.json({
+
             success: true,
-            message: "GHARSETU server is running"
+
+            message:
+                "GHARSETU server is running"
+
         });
 
     }
 );
+
 
 // ======================================================
 // 404 HANDLER
@@ -302,6 +368,7 @@ app.use(
 
     }
 );
+
 
 // ======================================================
 // GLOBAL ERROR HANDLER
@@ -338,7 +405,9 @@ app.use(
 
 
         if (res.headersSent) {
+
             return next(err);
+
         }
 
 
@@ -360,12 +429,14 @@ app.use(
     }
 );
 
+
 // ======================================================
 // SERVER
 // ======================================================
 
 const PORT =
     process.env.PORT || 5000;
+
 
 app.listen(
     PORT,
@@ -398,15 +469,16 @@ app.listen(
         );
 
         console.log(
-    `🍱 Tiffin Seller: http://localhost:${PORT}/tiffin-seller/login`
-);
+            `🍱 Tiffin Seller: http://localhost:${PORT}/tiffin-seller/login`
+        );
 
-console.log(
-    `🚴 Delivery: http://localhost:${PORT}/delivery`
-);
+        console.log(
+            `📦 Tiffin Control: http://localhost:${PORT}/tiffin-seller/tiffin-control`
+        );
 
         console.log(
             "======================================"
+
         );
 
     }

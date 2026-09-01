@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>GHARSETU | Edit Tiffin Plan</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background: #f5f6fa;
+
+            color: #222;
+
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+
+            background: white;
+
+            padding: 20px 35px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow:
+                0 2px 10px
+                rgba(0,0,0,0.08);
+
+        }
+
+
+        .brand h1 {
+
+            font-size: 25px;
+
+        }
+
+
+        .brand p {
+
+            color: #777;
+
+            margin-top: 4px;
+
+            font-size: 14px;
+
+        }
+
+
+        .seller-name {
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
+        .container {
+
+            max-width: 750px;
+
+            margin: 35px auto;
+
+            padding: 0 20px;
+
+        }
+
+
+        .page-title {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .page-title h2 {
+
+            font-size: 30px;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .page-title p {
+
+            color: #777;
+
+        }
+
+
+        /* =========================================
+           FORM CARD
+        ========================================= */
+
+        .form-card {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 3px 15px
+                rgba(0,0,0,0.07);
+
+        }
+
+
+        /* =========================================
+           FORM GROUP
+        ========================================= */
+
+        .form-group {
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .form-row {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 15px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+        }
+
+
+        .required {
+
+            color: #d32f2f;
+
+        }
+
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+            outline: none;
+
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            border-color: #222;
+
+        }
+
+
+        textarea {
+
+            min-height: 120px;
+
+            resize: vertical;
+
+        }
+
+
+        .help-text {
+
+            color: #888;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status-box {
+
+            background: #f5f5f5;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .status-label {
+
+            font-size: 14px;
+
+            font-weight: bold;
+
+        }
+
+
+        .status {
+
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+        }
+
+
+        .active {
+
+            background: #d9f7e5;
+
+            color: #16833b;
+
+        }
+
+
+        .deactive {
+
+            background: #eee;
+
+            color: #777;
+
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================= */
+
+        .actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+
+        }
+
+
+        button,
+        .back-btn {
+
+            border: none;
+
+            padding: 12px 20px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            text-decoration: none;
+
+            text-align: center;
+
+        }
+
+
+        .back-btn {
+
+            background: #eee;
+
+            color: #222;
+
+        }
+
+
+        .update-btn {
+
+            background: #222;
+
+            color: white;
+
+            flex: 1;
+
+        }
+
+
+        .update-btn:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+        }
+
+
+        /* =========================================
+           MESSAGE
+        ========================================= */
+
+        .message {
+
+            display: none;
+
+            padding: 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 18px;
+
+            font-size: 14px;
+
+        }
+
+
+        .success-message {
+
+            background: #d9f7e5;
+
+            color: #16833b;
+
+        }
+
+
+        .error-message {
+
+            background: #ffe0e0;
+
+            color: #c62828;
+
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 650px) {
+
+            .header {
+
+                padding: 16px 20px;
+
+            }
+
+
+            .container {
+
+                margin: 25px auto;
+
+            }
+
+
+            .form-row {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .form-card {
+
+                padding: 20px;
+
+            }
+
+
+            .actions {
+
+                flex-direction: column;
+
+            }
+
+
+            .update-btn {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+    <div class="brand">
+
+        <h1>🍱 GHARSETU</h1>
+
+        <p>Tiffin Seller Panel</p>
+
+    </div>
+
+
+    <div class="seller-name">
+
+        <%= seller.tiffinCompanyName %>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="page-title">
+
+        <h2>Edit Tiffin Plan</h2>
+
+        <p>
+            Update your tiffin subscription plan details
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================================
+         FORM CARD
+    ========================================= -->
+
+    <div class="form-card">
+
+
+        <!-- MESSAGE -->
+
+        <div
+            id="successMessage"
+            class="message success-message"
+        ></div>
+
+
+        <div
+            id="errorMessage"
+            class="message error-message"
+        ></div>
+
+
+
+        <!-- =====================================
+             FORM
+        ====================================== -->
+
+        <form id="editPlanForm">
+
+
+            <!-- PLAN NAME -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Plan Name
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value="<%= plan.name %>"
+                    placeholder="Example: Gujarati Special"
+                    required
+                >
+
+            </div>
+
+
+
+            <!-- TYPE + PRICE -->
+
+            <div class="form-row">
+
+
+                <!-- TYPE -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Plan Type
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <select
+                        id="type"
+                        name="type"
+                        required
+                    >
+
+                        <option
+                            value="one_day"
+                            <%= plan.type === "one_day" ? "selected" : "" %>
+                        >
+                            One Day
+                        </option>
+
+
+                        <option
+                            value="weekly"
+                            <%= plan.type === "weekly" ? "selected" : "" %>
+                        >
+                            Weekly
+                        </option>
+
+
+                        <option
+                            value="monthly"
+                            <%= plan.type === "monthly" ? "selected" : "" %>
+                        >
+                            Monthly
+                        </option>
+
+
+                        <option
+                            value="half_yearly"
+                            <%= plan.type === "half_yearly" ? "selected" : "" %>
+                        >
+                            Half Yearly
+                        </option>
+
+
+                        <option
+                            value="yearly"
+                            <%= plan.type === "yearly" ? "selected" : "" %>
+                        >
+                            Yearly
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <!-- PRICE -->
+
+                <div class="form-group">
+
+                    <label>
+
+                        Price (₹)
+
+                        <span class="required">*</span>
+
+                    </label>
+
+
+                    <input
+                        type="number"
+                        id="price"
+                        name="price"
+                        value="<%= plan.price %>"
+                        placeholder="Example: 2500"
+                        min="0"
+                        step="0.01"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MEALS -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Meals
+
+                    <span class="required">*</span>
+
+                </label>
+
+
+                <input
+                    type="number"
+                    id="meals"
+                    name="meals"
+                    value="<%= plan.meals %>"
+                    min="1"
+                    step="1"
+                    required
+                >
+
+
+                <div class="help-text">
+
+                    Number of meals included in the plan.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Description
+
+                </label>
+
+
+                <textarea
+                    id="description"
+                    name="description"
+                    placeholder="Describe your tiffin plan..."
+                ><%= plan.description || "" %></textarea>
+
+            </div>
+
+
+
+            <!-- IMAGE -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Plan Image URL
+
+                </label>
+
+
+                <input
+                    type="text"
+                    id="image"
+                    name="image"
+                    value="<%= plan.image || "" %>"
+                    placeholder="https://example.com/tiffin.jpg"
+                >
+
+
+                <div class="help-text">
+
+                    Enter an image URL for your tiffin plan.
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label>
+
+                    Current Status
+
+                </label>
+
+
+                <div class="status-box">
+
+                    <span class="status-label">
+
+                        Plan Status
+
+                    </span>
+
+
+                    <span
+                        class="status <%= plan.status %>"
+                    >
+
+                        <%= plan.status %>
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIONS -->
+
+            <div class="actions">
+
+
+                <a
+                    href="/tiffin-seller/plans"
+                    class="back-btn"
+                >
+                    ← Back
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="update-btn"
+                    id="updateButton"
+                >
+                    Update Tiffin Plan
+                </button>
+
+            </div>
+
+
+        </form>
+
+    </div>
+
+
+</main>
+
+
+
+<script>
+
+
+// ==========================================
+// ELEMENTS
+// ==========================================
+
+const form =
+    document.getElementById("editPlanForm");
+
+const updateButton =
+    document.getElementById("updateButton");
+
+const successMessage =
+    document.getElementById("successMessage");
+
+const errorMessage =
+    document.getElementById("errorMessage");
+
+
+
+// ==========================================
+// PLAN ID
+// ==========================================
+
+const planId =
+    "<%= plan._id %>";
+
+
+
+// ==========================================
+// SHOW SUCCESS
+// ==========================================
+
+function showSuccess(message) {
+
+    successMessage.textContent =
+        message;
+
+    successMessage.style.display =
+        "block";
+
+    errorMessage.style.display =
+        "none";
+
+}
+
+
+
+// ==========================================
+// SHOW ERROR
+// ==========================================
+
+function showError(message) {
+
+    errorMessage.textContent =
+        message;
+
+    errorMessage.style.display =
+        "block";
+
+    successMessage.style.display =
+        "none";
+
+}
+
+
+
+// ==========================================
+// UPDATE PLAN
+// ==========================================
+
+form.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+
+        // --------------------------------------
+        // VALUES
+        // --------------------------------------
+
+        const name =
+            document
+                .getElementById("name")
+                .value
+                .trim();
+
+
+        const type =
+            document
+                .getElementById("type")
+                .value;
+
+
+        const price =
+            document
+                .getElementById("price")
+                .value;
+
+
+        const meals =
+            document
+                .getElementById("meals")
+                .value;
+
+
+        const description =
+            document
+                .getElementById("description")
+                .value
+                .trim();
+
+
+        const image =
+            document
+                .getElementById("image")
+                .value
+                .trim();
+
+
+
+        // --------------------------------------
+        // VALIDATION
+        // --------------------------------------
+
+        if (!name) {
+
+            showError(
+                "Plan name is required"
+            );
+
+            return;
+
+        }
+
+
+        if (!type) {
+
+            showError(
+                "Please select plan type"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            price === "" ||
+            Number(price) < 0
+        ) {
+
+            showError(
+                "Please enter a valid price"
+            );
+
+            return;
+
+        }
+
+
+        if (
+            meals === "" ||
+            Number(meals) < 1
+        ) {
+
+            showError(
+                "Meals must be at least 1"
+            );
+
+            return;
+
+        }
+
+
+
+        // --------------------------------------
+        // DISABLE BUTTON
+        // --------------------------------------
+
+        updateButton.disabled =
+            true;
+
+        updateButton.textContent =
+            "Updating...";
+
+
+
+        // --------------------------------------
+        // API REQUEST
+        // --------------------------------------
+
+        try {
+
+            const response =
+                await fetch(
+                    `/tiffin-seller/plans/${planId}`,
+                    {
+
+                        method: "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                name,
+                                type,
+                                price,
+                                meals,
+                                description,
+                                image
+
+                            })
+
+                    }
+                );
+
+
+
+            const data =
+                await response.json();
+
+
+
+            // ----------------------------------
+            // SUCCESS
+            // ----------------------------------
+
+            if (data.success) {
+
+                showSuccess(
+                    data.message ||
+                    "Tiffin Plan updated successfully"
+                );
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "/tiffin-seller/plans";
+
+                    },
+                    1000
+                );
+
+            }
+
+
+            // ----------------------------------
+            // ERROR
+            // ----------------------------------
+
+            else {
+
+                showError(
+                    data.message ||
+                    "Failed to update Tiffin Plan"
+                );
+
+                updateButton.disabled =
+                    false;
+
+                updateButton.textContent =
+                    "Update Tiffin Plan";
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Update Tiffin Plan Error:",
+                error
+            );
+
+
+            showError(
+                "Something went wrong. Please try again."
+            );
+
+
+            updateButton.disabled =
+                false;
+
+            updateButton.textContent =
+                "Update Tiffin Plan";
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>GHARSETU | Tiffin Control</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f7fb;
+            color: #222;
+        }
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .header {
+            background: #ffffff;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .header h1 {
+            font-size: 23px;
+        }
+
+        .header span {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* =========================================
+           CONTAINER
+        ========================================= */
+
+        .container {
+            max-width: 1250px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .title {
+            margin-bottom: 20px;
+        }
+
+        .title h2 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .title p {
+            color: #777;
+        }
+
+        /* =========================================
+           STAT CARDS
+        ========================================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 14px;
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.07);
+        }
+
+        .stat-card h3 {
+            font-size: 14px;
+            color: #777;
+            margin-bottom: 10px;
+        }
+
+        .stat-card strong {
+            font-size: 30px;
+        }
+
+        /* =========================================
+           FILTER BOX
+        ========================================= */
+
+        .filter-box {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.07);
+
+            margin-bottom: 25px;
+        }
+
+        .filter-form {
+            display: grid;
+
+            grid-template-columns:
+                1fr 220px 120px 100px;
+
+            gap: 12px;
+        }
+
+        .filter-form input,
+        .filter-form select {
+
+            width: 100%;
+
+            padding: 12px;
+
+            border: 1px solid #ddd;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .filter-form button {
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #222;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+        .clear-btn {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-decoration: none;
+
+            background: #eee;
+
+            color: #333;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+        }
+
+        /* =========================================
+           TABLE
+        ========================================= */
+
+        .table-box {
+
+            background: white;
+
+            border-radius: 14px;
+
+            overflow-x: auto;
+
+            box-shadow:
+                0 3px 12px
+                rgba(0,0,0,0.07);
+        }
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 900px;
+        }
+
+        th,
+        td {
+
+            padding: 15px;
+
+            text-align: left;
+
+            border-bottom:
+                1px solid #eee;
+
+            font-size: 14px;
+        }
+
+        th {
+
+            background: #fafafa;
+
+            font-size: 13px;
+
+            color: #555;
+        }
+
+        /* =========================================
+           STATUS
+        ========================================= */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+
+            text-transform: capitalize;
+        }
+
+        .status.new {
+
+            background: #fff3cd;
+
+            color: #856404;
+        }
+
+        .status.packed {
+
+            background: #d1ecf1;
+
+            color: #0c5460;
+        }
+
+        .status.dispatched {
+
+            background: #d6d8ff;
+
+            color: #30336b;
+        }
+
+        .status.delivered {
+
+            background: #d4edda;
+
+            color: #155724;
+        }
+
+        /* =========================================
+           ACTION BUTTONS
+        ========================================= */
+
+        .actions {
+
+            display: flex;
+
+            gap: 7px;
+
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+
+            border: none;
+
+            padding: 7px 10px;
+
+            border-radius: 6px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            background: #222;
+
+            color: white;
+        }
+
+        .action-btn:hover {
+
+            opacity: 0.85;
+        }
+
+        .view-btn {
+
+            text-decoration: none;
+
+            padding: 7px 10px;
+
+            border-radius: 6px;
+
+            background: #eee;
+
+            color: #222;
+
+            font-size: 12px;
+        }
+
+        .print-btn {
+
+            background: #555;
+        }
+
+        /* =========================================
+           EMPTY
+        ========================================= */
+
+        .empty {
+
+            text-align: center;
+
+            padding: 50px;
+
+            color: #777;
+        }
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media(max-width: 900px) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+            .filter-form {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+            }
+
+        }
+
+        @media(max-width: 600px) {
+
+            .stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .filter-form {
+
+                grid-template-columns: 1fr;
+
+            }
+
+            .container {
+
+                padding: 0 12px;
+
+            }
+
+            .title h2 {
+
+                font-size: 23px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="header">
+
+    <div>
+
+        <h1>🍱 GHARSETU</h1>
+
+        <span>
+            Tiffin Seller Panel
+        </span>
+
+    </div>
+
+    <div>
+
+        <strong>
+            <%= seller.tiffinCompanyName %>
+        </strong>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="container">
+
+
+    <!-- TITLE -->
+
+    <div class="title">
+
+        <h2>
+            Tiffin Control
+        </h2>
+
+        <p>
+            Manage your customer tiffin orders
+        </p>
+
+    </div>
+
+
+    <!-- =====================================
+         STATISTICS
+    ====================================== -->
+
+    <section class="stats">
+
+
+        <div class="stat-card">
+
+            <h3>
+                🆕 New Orders
+            </h3>
+
+            <strong>
+                <%= newOrders %>
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                📦 Packed
+            </h3>
+
+            <strong>
+                <%= packedOrders %>
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                🚚 Dispatched
+            </h3>
+
+            <strong>
+                <%= dispatchedOrders %>
+            </strong>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <h3>
+                ✅ Delivered
+            </h3>
+
+            <strong>
+                <%= deliveredOrders %>
+            </strong>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- =====================================
+         SEARCH + FILTER
+    ====================================== -->
+
+    <section class="filter-box">
+
+        <form
+            class="filter-form"
+            method="GET"
+            action="/tiffin-seller/tiffin-control"
+        >
+
+
+            <!-- SEARCH -->
+
+            <input
+
+                type="text"
+
+                name="search"
+
+                placeholder="Search order number or tiffin..."
+
+                value="<%= search || '' %>"
+
+            >
+
+
+            <!-- STATUS -->
+
+            <select name="status">
+
+                <option
+                    value="all"
+                    <%= status === "all" ? "selected" : "" %>
+                >
+                    All Status
+                </option>
+
+                <option
+                    value="new"
+                    <%= status === "new" ? "selected" : "" %>
+                >
+                    New
+                </option>
+
+                <option
+                    value="packed"
+                    <%= status === "packed" ? "selected" : "" %>
+                >
+                    Packed
+                </option>
+
+                <option
+                    value="dispatched"
+                    <%= status === "dispatched" ? "selected" : "" %>
+                >
+                    Dispatched
+                </option>
+
+                <option
+                    value="delivered"
+                    <%= status === "delivered" ? "selected" : "" %>
+                >
+                    Delivered
+                </option>
+
+            </select>
+
+
+            <!-- SEARCH BUTTON -->
+
+            <button
+                type="submit"
+            >
+                Search
+            </button>
+
+
+            <!-- CLEAR -->
+
+            <a
+                href="/tiffin-seller/tiffin-control"
+                class="clear-btn"
+            >
+                Clear
+            </a>
+
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================
+         ORDERS TABLE
+    ====================================== -->
+
+    <section class="table-box">
+
+
+        <% if (orders && orders.length > 0) { %>
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Order
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Tiffin
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <% orders.forEach(order => { %>
+
+
+                        <tr>
+
+
+                            <!-- ORDER -->
+
+                            <td>
+
+                                <strong>
+
+                                    <%= order.orderNumber ||
+                                        order._id %>
+
+                                </strong>
+
+                            </td>
+
+
+                            <!-- CUSTOMER -->
+
+                            <td>
+
+                                <% if (order.customer) { %>
+
+                                    <strong>
+                                        <%= order.customer.name || "Customer" %>
+                                    </strong>
+
+                                    <br>
+
+                                    <small>
+                                        <%= order.customer.mobile || "" %>
+                                    </small>
+
+                                <% } else { %>
+
+                                    Customer
+
+                                <% } %>
+
+                            </td>
+
+
+                            <!-- TIFFIN -->
+
+                            <td>
+
+                                <%= order.tiffinType ||
+                                    "Tiffin" %>
+
+                            </td>
+
+
+                            <!-- AMOUNT -->
+
+                            <td>
+
+                                ₹<%= order.amount || 0 %>
+
+                            </td>
+
+
+                            <!-- STATUS -->
+
+                            <td>
+
+                                <span
+                                    class="status <%= order.status %>"
+                                >
+
+                                    <%= order.status %>
+
+                                </span>
+
+                            </td>
+
+
+                            <!-- DATE -->
+
+                            <td>
+
+                                <%= order.createdAt
+                                    ? new Date(order.createdAt)
+                                        .toLocaleDateString()
+                                    : "-" %>
+
+                            </td>
+
+
+                            <!-- ACTIONS -->
+
+                            <td>
+
+                                <div class="actions">
+
+
+                                    <!-- VIEW -->
+
+                                    <a
+                                        class="view-btn"
+                                        href="/tiffin-seller/tiffin-order/<%= order._id %>"
+                                    >
+                                        View
+                                    </a>
+
+
+                                    <!-- PACK -->
+
+                                    <% if (order.status === "new") { %>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="updateStatus(
+                                                '<%= order._id %>',
+                                                'packed'
+                                            )"
+                                        >
+                                            Pack
+                                        </button>
+
+                                    <% } %>
+
+
+                                    <!-- DISPATCH -->
+
+                                    <% if (order.status === "packed") { %>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="updateStatus(
+                                                '<%= order._id %>',
+                                                'dispatched'
+                                            )"
+                                        >
+                                            Dispatch
+                                        </button>
+
+                                    <% } %>
+
+
+                                    <!-- DELIVER -->
+
+                                    <% if (order.status === "dispatched") { %>
+
+                                        <button
+                                            class="action-btn"
+                                            onclick="updateStatus(
+                                                '<%= order._id %>',
+                                                'delivered'
+                                            )"
+                                        >
+                                            Delivered
+                                        </button>
+
+                                    <% } %>
+
+
+                                    <!-- PRINT -->
+
+                                    <button
+                                        class="action-btn print-btn"
+                                        onclick="printOrder(
+                                            '<%= order._id %>'
+                                        )"
+                                    >
+                                        Print
+                                    </button>
+
+
+                                </div>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    <% }) %>
+
+
+                </tbody>
+
+            </table>
+
+
+        <% } else { %>
+
+
+            <div class="empty">
+
+                <h3>
+                    📭 No Orders Found
+                </h3>
+
+                <p>
+                    No tiffin orders match your search or filter.
+                </p>
+
+            </div>
+
+
+        <% } %>
+
+
+    </section>
+
+
+</main>
+
+
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
+<script>
+
+
+// ======================================================
+// UPDATE STATUS
+// ======================================================
+
+async function updateStatus(
+    orderId,
+    status
+) {
+
+    try {
+
+        const response =
+            await fetch(
+                `/tiffin-seller/tiffin-order/${orderId}/status`,
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            status
+
+                        })
+
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            alert(
+                data.message ||
+                "Failed to update status"
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "Order status updated successfully"
+        );
+
+
+        window.location.reload();
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Something went wrong"
+        );
+
+    }
+
+}
+
+
+// ======================================================
+// PRINT ORDER
+// ======================================================
+
+function printOrder(orderId) {
+
+    const printWindow =
+        window.open(
+            `/tiffin-seller/tiffin-order/${orderId}`,
+            "_blank"
+        );
+
+
+    if (!printWindow) {
+
+        alert(
+            "Please allow popup to print order"
+        );
+
+        return;
+
+    }
+
+
+    printWindow.onload =
+        function () {
+
+            printWindow.print();
+
+        };
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
