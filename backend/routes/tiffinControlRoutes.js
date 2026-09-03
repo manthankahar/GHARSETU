@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 // ======================================================
-// TIFFIN SELLER AUTH
+// AUTH MIDDLEWARE
 // ======================================================
 
 const tiffinSellerAuth =
@@ -27,9 +27,7 @@ const {
 
     getTiffinOrderDetails
 
-} = require(
-    "../controllers/tiffinControlController"
-);
+} = require("../controllers/tiffinControlController");
 
 
 // ======================================================
@@ -48,7 +46,7 @@ router.get(
 
 
 // ======================================================
-// TIFFIN ORDER DETAILS
+// ORDER DETAILS
 // ======================================================
 
 router.get(
@@ -63,7 +61,7 @@ router.get(
 
 
 // ======================================================
-// UPDATE TIFFIN ORDER STATUS
+// UPDATE ORDER STATUS
 // ======================================================
 
 router.post(
@@ -78,7 +76,7 @@ router.post(
 
 
 // ======================================================
-// EXPORT ROUTER
+// EXPORT
 // ======================================================
 
 module.exports = router;

@@ -22,6 +22,7 @@ exports.getTiffinControl = async (req, res) => {
             req.user?.id ||
             req.user?._id;
 
+
         if (!sellerId) {
 
             return res.status(401).send(
@@ -39,6 +40,7 @@ exports.getTiffinControl = async (req, res) => {
             await TiffinSeller.findById(
                 sellerId
             );
+
 
         if (!seller) {
 
@@ -81,7 +83,7 @@ exports.getTiffinControl = async (req, res) => {
 
 
         // --------------------------------------------------
-        // STATUS
+        // STATUS FILTER
         // --------------------------------------------------
 
         if (
@@ -89,7 +91,24 @@ exports.getTiffinControl = async (req, res) => {
             status !== ""
         ) {
 
-            query.status = status;
+            const allowedStatuses = [
+
+                "new",
+                "packed",
+                "dispatched",
+                "delivered",
+                "cancelled"
+
+            ];
+
+
+            if (
+                allowedStatuses.includes(status)
+            ) {
+
+                query.status = status;
+
+            }
 
         }
 
@@ -103,14 +122,21 @@ exports.getTiffinControl = async (req, res) => {
             query.$or = [
 
                 {
-                    orderNumber: {
+                    tiffinName: {
                         $regex: search,
                         $options: "i"
                     }
                 },
 
                 {
-                    tiffinType: {
+                    customerMobile: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+
+                {
+                    deliveryAddress: {
                         $regex: search,
                         $options: "i"
                     }
@@ -122,7 +148,7 @@ exports.getTiffinControl = async (req, res) => {
 
 
         // --------------------------------------------------
-        // ORDERS
+        // GET ORDERS
         // --------------------------------------------------
 
         const orders =
@@ -130,17 +156,32 @@ exports.getTiffinControl = async (req, res) => {
 
                 .populate(
                     "customer",
-                    "name mobile"
+                    "name mobile email"
+                )
+
+                .populate(
+                    "plan",
+                    "name type price"
                 )
 
                 .sort({
+
                     createdAt: -1
+
                 });
 
 
         // --------------------------------------------------
         // COUNTS
         // --------------------------------------------------
+
+        const totalOrders =
+            await TiffinOrder.countDocuments({
+
+                seller: sellerId
+
+            });
+
 
         const newOrders =
             await TiffinOrder.countDocuments({
@@ -182,11 +223,68 @@ exports.getTiffinControl = async (req, res) => {
             });
 
 
+        const cancelledOrders =
+            await TiffinOrder.countDocuments({
+
+                seller: sellerId,
+
+                status: "cancelled"
+
+            });
+
+
+        // --------------------------------------------------
+        // TOTAL EARNING
+        // ONLY DELIVERED ORDERS
+        // --------------------------------------------------
+
+        const earningData =
+            await TiffinOrder.aggregate([
+
+                {
+
+                    $match: {
+
+                        seller:
+                            seller._id,
+
+                        status:
+                            "delivered"
+
+                    }
+
+                },
+
+                {
+
+                    $group: {
+
+                        _id: null,
+
+                        total: {
+
+                            $sum: "$amount"
+
+                        }
+
+                    }
+
+                }
+
+            ]);
+
+
+        const totalEarning =
+            earningData.length > 0
+                ? earningData[0].total
+                : 0;
+
+
         // --------------------------------------------------
         // RENDER
         // --------------------------------------------------
 
-        res.render(
+        return res.render(
 
             "tiffinSeller/tiffinControl",
 
@@ -196,6 +294,8 @@ exports.getTiffinControl = async (req, res) => {
 
                 orders,
 
+                totalOrders,
+
                 newOrders,
 
                 packedOrders,
@@ -203,6 +303,10 @@ exports.getTiffinControl = async (req, res) => {
                 dispatchedOrders,
 
                 deliveredOrders,
+
+                cancelledOrders,
+
+                totalEarning,
 
                 search,
 
@@ -220,7 +324,8 @@ exports.getTiffinControl = async (req, res) => {
             error
         );
 
-        res.status(500).send(
+
+        return res.status(500).send(
             "Failed to load Tiffin Control"
         );
 
@@ -230,7 +335,7 @@ exports.getTiffinControl = async (req, res) => {
 
 
 // ======================================================
-// UPDATE ORDER STATUS
+// UPDATE TIFFIN ORDER STATUS
 // ======================================================
 
 exports.updateTiffinOrderStatus = async (
@@ -264,7 +369,7 @@ exports.updateTiffinOrderStatus = async (
 
 
         // --------------------------------------------------
-        // ORDER ID
+        // ORDER ID + STATUS
         // --------------------------------------------------
 
         const {
@@ -284,20 +389,16 @@ exports.updateTiffinOrderStatus = async (
         const allowedStatuses = [
 
             "new",
-
             "packed",
-
             "dispatched",
-
-            "delivered"
+            "delivered",
+            "cancelled"
 
         ];
 
 
         if (
-            !allowedStatuses.includes(
-                status
-            )
+            !allowedStatuses.includes(status)
         ) {
 
             return res.status(400).json({
@@ -348,6 +449,56 @@ exports.updateTiffinOrderStatus = async (
             status;
 
 
+        // --------------------------------------------------
+        // STATUS DATES
+        // --------------------------------------------------
+
+        if (
+            status === "packed"
+        ) {
+
+            order.packedAt =
+                new Date();
+
+        }
+
+
+        if (
+            status === "dispatched"
+        ) {
+
+            order.dispatchedAt =
+                new Date();
+
+        }
+
+
+        if (
+            status === "delivered"
+        ) {
+
+            order.deliveredAt =
+                new Date();
+
+
+            // CASH ORDER PAYMENT
+            if (
+                order.paymentMethod ===
+                "cash"
+            ) {
+
+                order.paymentStatus =
+                    "paid";
+
+            }
+
+        }
+
+
+        // --------------------------------------------------
+        // SAVE
+        // --------------------------------------------------
+
         await order.save();
 
 
@@ -355,7 +506,7 @@ exports.updateTiffinOrderStatus = async (
         // SUCCESS
         // --------------------------------------------------
 
-        res.json({
+        return res.json({
 
             success: true,
 
@@ -374,7 +525,8 @@ exports.updateTiffinOrderStatus = async (
             error
         );
 
-        res.status(500).json({
+
+        return res.status(500).json({
 
             success: false,
 
@@ -392,7 +544,7 @@ exports.updateTiffinOrderStatus = async (
 
 
 // ======================================================
-// GET SINGLE TIFFIN ORDER
+// GET SINGLE TIFFIN ORDER DETAILS
 // ======================================================
 
 exports.getTiffinOrderDetails = async (
@@ -401,6 +553,10 @@ exports.getTiffinOrderDetails = async (
 ) => {
 
     try {
+
+        // --------------------------------------------------
+        // SELLER ID
+        // --------------------------------------------------
 
         const sellerId =
             req.user?.id ||
@@ -416,10 +572,18 @@ exports.getTiffinOrderDetails = async (
         }
 
 
+        // --------------------------------------------------
+        // ORDER ID
+        // --------------------------------------------------
+
         const {
             orderId
         } = req.params;
 
+
+        // --------------------------------------------------
+        // FIND ORDER
+        // --------------------------------------------------
 
         const order =
             await TiffinOrder.findOne({
@@ -433,6 +597,11 @@ exports.getTiffinOrderDetails = async (
             .populate(
                 "customer",
                 "name mobile email"
+            )
+
+            .populate(
+                "plan",
+                "name type price description meals"
             );
 
 
@@ -445,11 +614,27 @@ exports.getTiffinOrderDetails = async (
         }
 
 
-        res.render(
+        // --------------------------------------------------
+        // SELLER
+        // --------------------------------------------------
+
+        const seller =
+            await TiffinSeller.findById(
+                sellerId
+            );
+
+
+        // --------------------------------------------------
+        // RENDER
+        // --------------------------------------------------
+
+        return res.render(
 
             "tiffinSeller/tiffinOrderDetails",
 
             {
+
+                seller,
 
                 order
 
@@ -465,7 +650,8 @@ exports.getTiffinOrderDetails = async (
             error
         );
 
-        res.status(500).send(
+
+        return res.status(500).send(
             "Failed to load order details"
         );
 

@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        GHARSETU | Order Details
+    </title>
+
+
+    <style>
+
+        * {
+
+            box-sizing: border-box;
+
+            margin: 0;
+
+            padding: 0;
+
+            font-family: Arial, sans-serif;
+
+        }
+
+
+        body {
+
+            background: #f6f7fb;
+
+            color: #222;
+
+        }
+
+
+        /* ==================================================
+           HEADER
+        ================================================== */
+
+        .header {
+
+            background: #ffffff;
+
+            padding: 18px 25px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            box-shadow:
+                0 2px 10px rgba(0,0,0,0.08);
+
+        }
+
+
+        .header h1 {
+
+            font-size: 23px;
+
+        }
+
+
+        .header span {
+
+            color: #777;
+
+            font-size: 14px;
+
+        }
+
+
+        .company-name {
+
+            font-weight: bold;
+
+        }
+
+
+        /* ==================================================
+           CONTAINER
+        ================================================== */
+
+        .container {
+
+            max-width: 1100px;
+
+            margin: 30px auto;
+
+            padding: 0 20px;
+
+        }
+
+
+        /* ==================================================
+           TOP BAR
+        ================================================== */
+
+        .top-bar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 20px;
+
+            gap: 15px;
+
+        }
+
+
+        .back-btn {
+
+            text-decoration: none;
+
+            background: #eeeeee;
+
+            color: #222;
+
+            padding: 10px 15px;
+
+            border-radius: 8px;
+
+            font-size: 14px;
+
+        }
+
+
+        .print-btn {
+
+            border: none;
+
+            background: #222;
+
+            color: white;
+
+            padding: 10px 16px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+        }
+
+
+        .print-btn:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        /* ==================================================
+           ORDER HEADER
+        ================================================== */
+
+        .order-header {
+
+            background: white;
+
+            padding: 25px;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.07);
+
+            margin-bottom: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+        }
+
+
+        .order-title h2 {
+
+            font-size: 25px;
+
+            margin-bottom: 7px;
+
+        }
+
+
+        .order-id {
+
+            color: #777;
+
+            font-size: 13px;
+
+        }
+
+
+        /* ==================================================
+           STATUS
+        ================================================== */
+
+        .status {
+
+            display: inline-block;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            text-transform: capitalize;
+
+        }
+
+
+        .status.new {
+
+            background: #fff3cd;
+
+            color: #856404;
+
+        }
+
+
+        .status.packed {
+
+            background: #d1ecf1;
+
+            color: #0c5460;
+
+        }
+
+
+        .status.dispatched {
+
+            background: #d6d8ff;
+
+            color: #30336b;
+
+        }
+
+
+        .status.delivered {
+
+            background: #d4edda;
+
+            color: #155724;
+
+        }
+
+
+        .status.cancelled {
+
+            background: #f8d7da;
+
+            color: #842029;
+
+        }
+
+
+        /* ==================================================
+           GRID
+        ================================================== */
+
+        .grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 20px;
+
+        }
+
+
+        /* ==================================================
+           CARD
+        ================================================== */
+
+        .card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 3px 12px rgba(0,0,0,0.07);
+
+        }
+
+
+        .card h3 {
+
+            font-size: 17px;
+
+            margin-bottom: 18px;
+
+            padding-bottom: 12px;
+
+            border-bottom:
+                1px solid #eee;
+
+        }
+
+
+        /* ==================================================
+           INFO ROW
+        ================================================== */
+
+        .info-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 11px 0;
+
+            border-bottom:
+                1px solid #f1f1f1;
+
+        }
+
+
+        .info-row:last-child {
+
+            border-bottom: none;
+
+        }
+
+
+        .info-label {
+
+            color: #777;
+
+            font-size: 13px;
+
+        }
+
+
+        .info-value {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            text-align: right;
+
+        }
+
+
+        /* ==================================================
+           ADDRESS
+        ================================================== */
+
+        .address {
+
+            background: #f8f9fa;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+
+        }
+
+
+        /* ==================================================
+           TIFFIN CARD
+        ================================================== */
+
+        .tiffin-box {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            background: #f8f9fa;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            gap: 15px;
+
+        }
+
+
+        .tiffin-name {
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .plan-name {
+
+            color: #777;
+
+            font-size: 13px;
+
+        }
+
+
+        .quantity {
+
+            background: #222;
+
+            color: white;
+
+            padding: 7px 10px;
+
+            border-radius: 7px;
+
+            font-size: 12px;
+
+        }
+
+
+        /* ==================================================
+           AMOUNT
+        ================================================== */
+
+        .amount-box {
+
+            background: #f8f9fa;
+
+            padding: 15px;
+
+            border-radius: 10px;
+
+            margin-top: 15px;
+
+        }
+
+
+        .amount-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            padding: 8px 0;
+
+        }
+
+
+        .amount-total {
+
+            border-top:
+                1px solid #ddd;
+
+            margin-top: 7px;
+
+            padding-top: 13px;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+        }
+
+
+        .payment-paid {
+
+            color: #198754;
+
+            font-weight: bold;
+
+        }
+
+
+        .payment-pending {
+
+            color: #b7791f;
+
+            font-weight: bold;
+
+        }
+
+
+        .payment-failed {
+
+            color: #dc3545;
+
+            font-weight: bold;
+
+        }
+
+
+        /* ==================================================
+           TIMELINE
+        ================================================== */
+
+        .timeline {
+
+            position: relative;
+
+            padding-left: 30px;
+
+        }
+
+
+        .timeline::before {
+
+            content: "";
+
+            position: absolute;
+
+            left: 8px;
+
+            top: 5px;
+
+            bottom: 5px;
+
+            width: 2px;
+
+            background: #ddd;
+
+        }
+
+
+        .timeline-item {
+
+            position: relative;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .timeline-item:last-child {
+
+            margin-bottom: 0;
+
+        }
+
+
+        .timeline-dot {
+
+            position: absolute;
+
+            left: -28px;
+
+            top: 3px;
+
+            width: 18px;
+
+            height: 18px;
+
+            border-radius: 50%;
+
+            background: #ddd;
+
+            border: 3px solid white;
+
+            box-shadow:
+                0 0 0 1px #ddd;
+
+        }
+
+
+        .timeline-item.completed
+        .timeline-dot {
+
+            background: #198754;
+
+        }
+
+
+        .timeline-title {
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            margin-bottom: 4px;
+
+        }
+
+
+        .timeline-date {
+
+            color: #777;
+
+            font-size: 12px;
+
+        }
+
+
+        /* ==================================================
+           ACTIONS
+        ================================================== */
+
+        .actions-card {
+
+            margin-top: 20px;
+
+        }
+
+
+        .actions {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+        }
+
+
+        .action-btn {
+
+            border: none;
+
+            padding: 11px 17px;
+
+            border-radius: 8px;
+
+            color: white;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 13px;
+
+        }
+
+
+        .pack-btn {
+
+            background: #0c5460;
+
+        }
+
+
+        .dispatch-btn {
+
+            background: #30336b;
+
+        }
+
+
+        .deliver-btn {
+
+            background: #198754;
+
+        }
+
+
+        .cancel-btn {
+
+            background: #dc3545;
+
+        }
+
+
+        .action-btn:hover {
+
+            opacity: 0.85;
+
+        }
+
+
+        /* ==================================================
+           FULL WIDTH
+        ================================================== */
+
+        .full-width {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        /* ==================================================
+           PRINT
+        ================================================== */
+
+        @media print {
+
+            body {
+
+                background: white;
+
+            }
+
+
+            .header {
+
+                box-shadow: none;
+
+                border-bottom:
+                    1px solid #ddd;
+
+            }
+
+
+            .top-bar {
+
+                display: none;
+
+            }
+
+
+            .actions-card {
+
+                display: none;
+
+            }
+
+
+            .container {
+
+                margin: 0;
+
+                max-width: none;
+
+                padding: 0;
+
+            }
+
+
+            .card,
+            .order-header {
+
+                box-shadow: none;
+
+                border: 1px solid #ddd;
+
+            }
+
+        }
+
+
+        /* ==================================================
+           MOBILE
+        ================================================== */
+
+        @media(max-width: 750px) {
+
+            .grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .full-width {
+
+                grid-column: auto;
+
+            }
+
+
+            .order-header {
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+            }
+
+
+            .top-bar {
+
+                flex-direction: column;
+
+                align-items: stretch;
+
+            }
+
+
+            .back-btn,
+            .print-btn {
+
+                text-align: center;
+
+                width: 100%;
+
+            }
+
+
+            .header {
+
+                padding: 15px;
+
+            }
+
+
+            .header h1 {
+
+                font-size: 19px;
+
+            }
+
+
+            .company-name {
+
+                font-size: 13px;
+
+            }
+
+
+            .container {
+
+                padding: 0 12px;
+
+            }
+
+
+            .info-row {
+
+                flex-direction: column;
+
+                gap: 5px;
+
+            }
+
+
+            .info-value {
+
+                text-align: left;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     HEADER
+================================================== -->
+
+<header class="header">
+
+    <div>
+
+        <h1>
+            🍱 GHARSETU
+        </h1>
+
+        <span>
+            Tiffin Seller Panel
+        </span>
+
+    </div>
+
+
+    <div class="company-name">
+
+        <%= seller.tiffinCompanyName %>
+
+    </div>
+
+</header>
+
+
+
+<!-- ==================================================
+     MAIN
+================================================== -->
+
+<main class="container">
+
+
+    <!-- ==================================================
+         TOP BAR
+    ================================================== -->
+
+    <div class="top-bar">
+
+
+        <a
+            href="/tiffin-seller/tiffin-control"
+            class="back-btn"
+        >
+
+            ← Back to Tiffin Control
+
+        </a>
+
+
+        <button
+            class="print-btn"
+            onclick="window.print()"
+        >
+
+            🖨 Print Order
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- ==================================================
+         ORDER HEADER
+    ================================================== -->
+
+    <section class="order-header">
+
+
+        <div class="order-title">
+
+            <h2>
+                Order Details
+            </h2>
+
+
+            <div class="order-id">
+
+                Order ID:
+
+                <strong>
+
+                    #<%= String(order._id)
+                        .slice(-8)
+                        .toUpperCase() %>
+
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div>
+
+            <span
+                class="status <%= order.status %>"
+            >
+
+                <%= order.status %>
+
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ==================================================
+         MAIN GRID
+    ================================================== -->
+
+    <section class="grid">
+
+
+        <!-- ==================================================
+             CUSTOMER INFORMATION
+        ================================================== -->
+
+        <div class="card">
+
+            <h3>
+                👤 Customer Information
+            </h3>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Name
+                </div>
+
+                <div class="info-value">
+
+                    <%= order.customer?.name ||
+                        "Customer" %>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Mobile
+                </div>
+
+                <div class="info-value">
+
+                    <%= order.customer?.mobile ||
+                        order.customerMobile ||
+                        "-" %>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Email
+                </div>
+
+                <div class="info-value">
+
+                    <%= order.customer?.email ||
+                        "-" %>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             DELIVERY INFORMATION
+        ================================================== -->
+
+        <div class="card">
+
+            <h3>
+                📍 Delivery Information
+            </h3>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Address
+                </div>
+
+                <div class="info-value">
+
+                    <%= order.deliveryAddress ||
+                        "-" %>
+
+                </div>
+
+            </div>
+
+
+            <div class="address">
+
+                <strong>
+                    Delivery Address
+                </strong>
+
+                <br>
+
+                <%= order.deliveryAddress ||
+                    "Address not available" %>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             TIFFIN INFORMATION
+        ================================================== -->
+
+        <div class="card">
+
+            <h3>
+                🍱 Tiffin Information
+            </h3>
+
+
+            <div class="tiffin-box">
+
+
+                <div>
+
+                    <div class="tiffin-name">
+
+                        <%= order.tiffinName ||
+                            "Tiffin" %>
+
+                    </div>
+
+
+                    <% if (order.plan) { %>
+
+                        <div class="plan-name">
+
+                            Plan:
+
+                            <%= order.plan.name ||
+                                "-" %>
+
+                        </div>
+
+                    <% } %>
+
+
+                    <div class="plan-name">
+
+                        Type:
+
+                        <%= order.orderType ||
+                            "single_tiffin" %>
+
+                    </div>
+
+                </div>
+
+
+                <div class="quantity">
+
+                    Qty:
+
+                    <%= order.quantity || 1 %>
+
+                </div>
+
+
+            </div>
+
+
+
+            <% if (order.plan) { %>
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Plan Type
+                    </div>
+
+                    <div class="info-value">
+
+                        <%= order.plan.type ||
+                            "-" %>
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-row">
+
+                    <div class="info-label">
+                        Meals
+                    </div>
+
+                    <div class="info-value">
+
+                        <%= order.plan.meals ||
+                            1 %>
+
+                    </div>
+
+                </div>
+
+
+            <% } %>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             PAYMENT INFORMATION
+        ================================================== -->
+
+        <div class="card">
+
+            <h3>
+                💳 Payment Information
+            </h3>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Payment Method
+                </div>
+
+                <div class="info-value">
+
+                    <%= order.paymentMethod ||
+                        "-" %>
+
+                </div>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <div class="info-label">
+                    Payment Status
+                </div>
+
+
+                <div class="info-value">
+
+
+                    <% if (
+                        order.paymentStatus === "paid"
+                    ) { %>
+
+
+                        <span class="payment-paid">
+
+                            ✓ Paid
+
+                        </span>
+
+
+                    <% } else if (
+                        order.paymentStatus === "failed"
+                    ) { %>
+
+
+                        <span class="payment-failed">
+
+                            ✕ Failed
+
+                        </span>
+
+
+                    <% } else { %>
+
+
+                        <span class="payment-pending">
+
+                            ⏳ Pending
+
+                        </span>
+
+
+                    <% } %>
+
+
+                </div>
+
+            </div>
+
+
+            <div class="amount-box">
+
+
+                <div class="amount-row">
+
+                    <span>
+                        Quantity
+                    </span>
+
+                    <strong>
+
+                        <%= order.quantity || 1 %>
+
+                    </strong>
+
+                </div>
+
+
+                <div class="amount-row">
+
+                    <span>
+                        Order Amount
+                    </span>
+
+                    <strong>
+
+                        ₹<%= Number(
+                            order.amount || 0
+                        ).toLocaleString("en-IN") %>
+
+                    </strong>
+
+                </div>
+
+
+                <div class="amount-row amount-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+
+                        ₹<%= Number(
+                            order.amount || 0
+                        ).toLocaleString("en-IN") %>
+
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- ==================================================
+             ORDER TIMELINE
+        ================================================== -->
+
+        <div class="card full-width">
+
+            <h3>
+                🕐 Order Timeline
+            </h3>
+
+
+            <div class="timeline">
+
+
+                <!-- NEW -->
+
+                <div
+                    class="timeline-item completed"
+                >
+
+                    <span class="timeline-dot"></span>
+
+
+                    <div class="timeline-title">
+
+                        🆕 Order Placed
+
+                    </div>
+
+
+                    <div class="timeline-date">
+
+                        <%= order.orderDate
+
+                            ? new Date(
+                                order.orderDate
+                              ).toLocaleString("en-IN")
+
+                            : order.createdAt
+
+                                ? new Date(
+                                    order.createdAt
+                                  ).toLocaleString("en-IN")
+
+                                : "-" %>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PACKED -->
+
+                <div
+                    class="timeline-item <%= order.packedAt ? 'completed' : '' %>"
+                >
+
+                    <span class="timeline-dot"></span>
+
+
+                    <div class="timeline-title">
+
+                        📦 Order Packed
+
+                    </div>
+
+
+                    <div class="timeline-date">
+
+                        <%= order.packedAt
+
+                            ? new Date(
+                                order.packedAt
+                              ).toLocaleString("en-IN")
+
+                            : "Waiting..." %>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DISPATCHED -->
+
+                <div
+                    class="timeline-item <%= order.dispatchedAt ? 'completed' : '' %>"
+                >
+
+                    <span class="timeline-dot"></span>
+
+
+                    <div class="timeline-title">
+
+                        🚚 Order Dispatched
+
+                    </div>
+
+
+                    <div class="timeline-date">
+
+                        <%= order.dispatchedAt
+
+                            ? new Date(
+                                order.dispatchedAt
+                              ).toLocaleString("en-IN")
+
+                            : "Waiting..." %>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- DELIVERED -->
+
+                <div
+                    class="timeline-item <%= order.deliveredAt ? 'completed' : '' %>"
+                >
+
+                    <span class="timeline-dot"></span>
+
+
+                    <div class="timeline-title">
+
+                        ✅ Order Delivered
+
+                    </div>
+
+
+                    <div class="timeline-date">
+
+                        <%= order.deliveredAt
+
+                            ? new Date(
+                                order.deliveredAt
+                              ).toLocaleString("en-IN")
+
+                            : "Waiting..." %>
+
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+
+
+    </section>
+
+
+
+    <!-- ==================================================
+         ACTIONS
+    ================================================== -->
+
+    <% if (
+        order.status === "new" ||
+        order.status === "packed" ||
+        order.status === "dispatched"
+    ) { %>
+
+
+        <section class="card actions-card">
+
+            <h3>
+                ⚙️ Order Actions
+            </h3>
+
+
+            <div class="actions">
+
+
+                <!-- PACK -->
+
+                <% if (
+                    order.status === "new"
+                ) { %>
+
+
+                    <button
+
+                        class="action-btn pack-btn"
+
+                        onclick="updateStatus(
+                            '<%= order._id %>',
+                            'packed'
+                        )"
+
+                    >
+
+                        📦 Mark Packed
+
+                    </button>
+
+
+                <% } %>
+
+
+
+                <!-- DISPATCH -->
+
+                <% if (
+                    order.status === "packed"
+                ) { %>
+
+
+                    <button
+
+                        class="action-btn dispatch-btn"
+
+                        onclick="updateStatus(
+                            '<%= order._id %>',
+                            'dispatched'
+                        )"
+
+                    >
+
+                        🚚 Dispatch Order
+
+                    </button>
+
+
+                <% } %>
+
+
+
+                <!-- DELIVER -->
+
+                <% if (
+                    order.status === "dispatched"
+                ) { %>
+
+
+                    <button
+
+                        class="action-btn deliver-btn"
+
+                        onclick="updateStatus(
+                            '<%= order._id %>',
+                            'delivered'
+                        )"
+
+                    >
+
+                        ✅ Mark Delivered
+
+                    </button>
+
+
+                <% } %>
+
+
+
+                <!-- CANCEL -->
+
+                <button
+
+                    class="action-btn cancel-btn"
+
+                    onclick="cancelOrder(
+                        '<%= order._id %>'
+                    )"
+
+                >
+
+                    ❌ Cancel Order
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+    <% } %>
+
+
+</main>
+
+
+
+<!-- ==================================================
+     JAVASCRIPT
+================================================== -->
+
+<script>
+
+
+// ======================================================
+// UPDATE STATUS
+// ======================================================
+
+async function updateStatus(
+    orderId,
+    status
+) {
+
+
+    try {
+
+
+        let message =
+            "Are you sure you want to update this order?";
+
+
+        if (
+            status === "packed"
+        ) {
+
+            message =
+                "Mark this order as PACKED?";
+
+        }
+
+
+        if (
+            status === "dispatched"
+        ) {
+
+            message =
+                "Dispatch this order?";
+
+        }
+
+
+        if (
+            status === "delivered"
+        ) {
+
+            message =
+                "Mark this order as DELIVERED?";
+
+        }
+
+
+        if (
+            !confirm(message)
+        ) {
+
+            return;
+
+        }
+
+
+        const response =
+            await fetch(
+
+                `/tiffin-seller/tiffin-order/${orderId}/status`,
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+
+                        JSON.stringify({
+
+                            status
+
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            alert(
+
+                data.message ||
+                "Failed to update order"
+
+            );
+
+            return;
+
+        }
+
+
+        alert(
+
+            data.message ||
+            "Order updated successfully"
+
+        );
+
+
+        window.location.reload();
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Update Order Error:",
+            error
+        );
+
+
+        alert(
+            "Something went wrong"
+        );
+
+    }
+
+}
+
+
+
+// ======================================================
+// CANCEL ORDER
+// ======================================================
+
+async function cancelOrder(
+    orderId
+) {
+
+
+    try {
+
+
+        if (
+            !confirm(
+                "Are you sure you want to CANCEL this order?"
+            )
+        ) {
+
+            return;
+
+        }
+
+
+        const response =
+            await fetch(
+
+                `/tiffin-seller/tiffin-order/${orderId}/status`,
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+
+                        JSON.stringify({
+
+                            status:
+                                "cancelled"
+
+                        })
+
+                }
+
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            alert(
+
+                data.message ||
+                "Failed to cancel order"
+
+            );
+
+            return;
+
+        }
+
+
+        alert(
+            "Order cancelled successfully"
+        );
+
+
+        window.location.reload();
+
+
+    } catch (error) {
+
+
+        console.error(
+            "Cancel Order Error:",
+            error
+        );
+
+
+        alert(
+            "Something went wrong"
+        );
+
+    }
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
