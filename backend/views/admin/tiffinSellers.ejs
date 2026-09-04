@@ -11,10 +11,10 @@
     >
 
     <title>
-        GHARSETU | Restaurant Management
+        GHARSETU | Tiffin Seller Management
     </title>
 
-<link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin.css">
 
 </head>
 
@@ -55,37 +55,30 @@
             </a>
 
 
-            <a
-                href="/admin/restaurants"
-                class="active"
-            >
+            <a href="/admin/restaurants">
                 🏪
                 <span>Restaurants</span>
-
-               <% if (typeof pendingRestaurants !== "undefined" && pendingRestaurants > 0) { %>
-
-    <b class="nav-badge">
-        <%= pendingRestaurants %>
-    </b>
-
-<% } %>
-
             </a>
 
 
-            <a href="/admin/tiffin-sellers">
+            <a
+                href="/admin/tiffin-sellers"
+                class="active"
+            >
 
                 🍱
 
-                <span>Tiffin Sellers</span>
+                <span>
+                    Tiffin Sellers
+                </span>
 
-               <% if (typeof pendingSellers !== "undefined" && pendingSellers > 0) { %>
+                <% if (pendingSellers > 0) { %>
 
-    <b class="nav-badge">
-        <%= pendingSellers %>
-    </b>
+                    <b class="nav-badge">
+                        <%= pendingSellers %>
+                    </b>
 
-<% } %>
+                <% } %>
 
             </a>
 
@@ -142,7 +135,6 @@
 
                 </div>
 
-
                 <div>
 
                     <strong>
@@ -192,11 +184,11 @@
                 </p>
 
                 <h1>
-                    Restaurant Management 🏪
+                    Tiffin Seller Management 🍱
                 </h1>
 
                 <p class="top-description">
-                    Review and manage restaurant registration requests.
+                    Review and manage tiffin seller registration requests.
                 </p>
 
             </div>
@@ -242,7 +234,7 @@
                 </span>
 
                 <strong>
-                    <%= totalRestaurants %>
+                    <%= totalSellers %>
                 </strong>
 
             </div>
@@ -255,7 +247,7 @@
                 </span>
 
                 <strong>
-                    <%= pendingRestaurants %>
+                    <%= pendingSellers %>
                 </strong>
 
             </div>
@@ -268,7 +260,7 @@
                 </span>
 
                 <strong>
-                    <%= approvedRestaurants %>
+                    <%= approvedSellers %>
                 </strong>
 
             </div>
@@ -281,7 +273,7 @@
                 </span>
 
                 <strong>
-                    <%= rejectedRestaurants %>
+                    <%= rejectedSellers %>
                 </strong>
 
             </div>
@@ -296,7 +288,7 @@
 
             <form
                 method="GET"
-                action="/admin/restaurants"
+                action="/admin/tiffin-sellers"
                 class="filter-bar"
             >
 
@@ -308,7 +300,7 @@
                         type="text"
                         name="search"
                         value="<%= search %>"
-                        placeholder="Search restaurant, email or mobile..."
+                        placeholder="Search company, owner, email or mobile..."
                     >
 
                 </div>
@@ -360,7 +352,7 @@
 
 
 
-        <!-- RESTAURANTS -->
+        <!-- SELLERS -->
 
         <section class="management-panel">
 
@@ -369,7 +361,7 @@
                 <div>
 
                     <p class="eyebrow">
-                        RESTAURANT PARTNERS
+                        TIFFIN PARTNERS
                     </p>
 
                     <h2>
@@ -379,7 +371,7 @@
                 </div>
 
                 <span class="section-count">
-                    <%= restaurants.length %> Results
+                    <%= sellers.length %> Results
                 </span>
 
             </div>
@@ -394,7 +386,7 @@
                         <tr>
 
                             <th>
-                                Restaurant
+                                Tiffin Company
                             </th>
 
                             <th>
@@ -424,10 +416,10 @@
 
                     <tbody>
 
-                    <% if (restaurants.length > 0) { %>
+                    <% if (sellers.length > 0) { %>
 
 
-                        <% restaurants.forEach(restaurant => { %>
+                        <% sellers.forEach(seller => { %>
 
                             <tr>
 
@@ -436,17 +428,17 @@
                                     <div class="partner-name">
 
                                         <div class="partner-avatar">
-                                            🏪
+                                            🍱
                                         </div>
 
                                         <div>
 
                                             <strong>
-                                                <%= restaurant.restaurantName %>
+                                                <%= seller.tiffinCompanyName %>
                                             </strong>
 
                                             <small>
-                                                <%= restaurant.email || "No email" %>
+                                                <%= seller.email || "No email" %>
                                             </small>
 
                                         </div>
@@ -459,7 +451,7 @@
                                 <td>
 
                                     <strong>
-                                        <%= restaurant.owner?.name || "N/A" %>
+                                        <%= seller.ownerName || "N/A" %>
                                     </strong>
 
                                 </td>
@@ -468,7 +460,7 @@
                                 <td>
 
                                     <span>
-                                        <%= restaurant.mobile || "N/A" %>
+                                        <%= seller.mobile || "N/A" %>
                                     </span>
 
                                 </td>
@@ -477,7 +469,7 @@
                                 <td>
 
                                     <span class="address-text">
-                                        <%= restaurant.address || "N/A" %>
+                                        <%= seller.address || "N/A" %>
                                     </span>
 
                                 </td>
@@ -486,9 +478,9 @@
                                 <td>
 
                                     <span
-                                        class="approval-status <%= restaurant.approvalStatus %>"
+                                        class="approval-status <%= seller.registrationStatus %>"
                                     >
-                                        <%= restaurant.approvalStatus || "pending" %>
+                                        <%= seller.registrationStatus || "pending" %>
                                     </span>
 
                                 </td>
@@ -499,12 +491,12 @@
                                     <div class="approval-actions">
 
 
-                                        <% if (restaurant.approvalStatus === "pending") { %>
+                                        <% if (seller.registrationStatus === "pending") { %>
 
 
                                             <button
                                                 class="approve-btn"
-                                                onclick="approveRestaurant('<%= restaurant._id %>')"
+                                                onclick="approveSeller('<%= seller._id %>')"
                                             >
                                                 ✓ Approve
                                             </button>
@@ -512,13 +504,13 @@
 
                                             <button
                                                 class="reject-btn"
-                                                onclick="rejectRestaurant('<%= restaurant._id %>')"
+                                                onclick="rejectSeller('<%= seller._id %>')"
                                             >
                                                 ✕ Reject
                                             </button>
 
 
-                                        <% } else if (restaurant.approvalStatus === "approved") { %>
+                                        <% } else if (seller.registrationStatus === "approved") { %>
 
 
                                             <span class="action-done">
@@ -555,7 +547,7 @@
                                 class="empty-table"
                             >
 
-                                No restaurant registration requests found.
+                                No tiffin seller registration requests found.
 
                             </td>
 
@@ -580,12 +572,13 @@
 
 <script>
 
-async function approveRestaurant(id) {
+async function approveSeller(id) {
 
     const confirmed =
         confirm(
-            "Approve this restaurant?"
+            "Approve this tiffin seller?"
         );
+
 
     if (!confirmed) {
         return;
@@ -596,7 +589,7 @@ async function approveRestaurant(id) {
 
         const response =
             await fetch(
-                `/admin/restaurants/${id}/approve`,
+                `/admin/tiffin-sellers/${id}/approve`,
                 {
                     method: "POST"
                 }
@@ -611,7 +604,7 @@ async function approveRestaurant(id) {
 
             alert(
                 data.message ||
-                "Failed to approve restaurant."
+                "Failed to approve seller."
             );
 
             return;
@@ -620,7 +613,7 @@ async function approveRestaurant(id) {
 
 
         alert(
-            "Restaurant approved successfully! ✓"
+            "Tiffin seller approved successfully! ✓"
         );
 
 
@@ -640,15 +633,15 @@ async function approveRestaurant(id) {
 
 
 
-async function rejectRestaurant(id) {
+async function rejectSeller(id) {
 
-    const reason =
-        prompt(
-            "Enter rejection reason:"
+    const confirmed =
+        confirm(
+            "Reject this tiffin seller?"
         );
 
 
-    if (reason === null) {
+    if (!confirmed) {
         return;
     }
 
@@ -657,20 +650,9 @@ async function rejectRestaurant(id) {
 
         const response =
             await fetch(
-                `/admin/restaurants/${id}/reject`,
+                `/admin/tiffin-sellers/${id}/reject`,
                 {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        reason:
-                            reason.trim() ||
-                            "Registration request rejected by admin."
-                    })
+                    method: "POST"
                 }
             );
 
@@ -683,7 +665,7 @@ async function rejectRestaurant(id) {
 
             alert(
                 data.message ||
-                "Failed to reject restaurant."
+                "Failed to reject seller."
             );
 
             return;
@@ -692,7 +674,7 @@ async function rejectRestaurant(id) {
 
 
         alert(
-            "Restaurant rejected successfully."
+            "Tiffin seller rejected successfully."
         );
 
 

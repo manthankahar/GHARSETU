@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
@@ -45,6 +44,42 @@ const tiffinControlRoutes =
 const tiffinPlaneRoutes =
     require("./routes/tiffinPlanRoutes");
 
+const adminPartnerRoutes =
+    require("./routes/adminPartnerRoutes");
+
+
+// ======================================================
+// ADMIN ROUTES
+// ======================================================
+
+const adminAuthRoutes =
+    require("./routes/adminAuthRoutes");
+
+const adminDashboardRoutes =
+    require("./routes/adminDashboardRoutes");
+
+const adminCustomerRoutes =
+    require("./routes/adminCustomerRoutes");
+
+const adminDeliveryRoutes =
+    require("./routes/adminDeliveryRoutes");
+
+const adminComplaintRoutes =
+    require("./routes/adminComplaintRoutes");   
+    
+const adminAnalyticsRoutes =
+    require("./routes/adminAnalyticsRoutes");    
+
+// ======================================================
+// ADMIN ORDER ROUTES
+// ======================================================
+
+const adminOrderRoutes =
+    require("./routes/adminOrderRoutes");
+    
+const adminSettingsRoutes =
+    require("./routes/adminSettingsRoutes");
+
 
 // ======================================================
 // APP
@@ -79,11 +114,24 @@ app.use(
 );
 
 
+// ======================================================
+// ADMIN STATIC FILES
+// ======================================================
+
+app.use(
+    "/admin-assets",
+    express.static(
+        path.join(
+            __dirname,
+            "public"
+        )
+    )
+);
 
 
 // ======================================================
 // COOKIE PARSER
-// IMPORTANT: COOKIE PARSER BEFORE ROUTES
+// IMPORTANT: BEFORE ROUTES
 // ======================================================
 
 app.use(
@@ -139,6 +187,11 @@ console.log(
     )
 );
 
+
+// ======================================================
+// CUSTOMER VIEW CHECK
+// ======================================================
+
 console.log(
     "CUSTOMER SIGNUP EXISTS:",
     fs.existsSync(
@@ -150,6 +203,7 @@ console.log(
         )
     )
 );
+
 
 console.log(
     "CUSTOMER HOME EXISTS:",
@@ -163,6 +217,11 @@ console.log(
     )
 );
 
+
+// ======================================================
+// RESTAURANT VIEW CHECK
+// ======================================================
+
 console.log(
     "RESTAURANT LOGIN EXISTS:",
     fs.existsSync(
@@ -174,6 +233,7 @@ console.log(
         )
     )
 );
+
 
 console.log(
     "RESTAURANT SIGNUP EXISTS:",
@@ -187,6 +247,7 @@ console.log(
     )
 );
 
+
 console.log(
     "RESTAURANT DASHBOARD EXISTS:",
     fs.existsSync(
@@ -198,6 +259,93 @@ console.log(
         )
     )
 );
+
+
+// ======================================================
+// ADMIN VIEW CHECK
+// ======================================================
+
+console.log(
+    "ADMIN LOGIN EXISTS:",
+    fs.existsSync(
+        path.join(
+            __dirname,
+            "views",
+            "admin",
+            "login.ejs"
+        )
+    )
+);
+
+
+console.log(
+    "ADMIN SIGNUP EXISTS:",
+    fs.existsSync(
+        path.join(
+            __dirname,
+            "views",
+            "admin",
+            "signup.ejs"
+        )
+    )
+);
+
+
+console.log(
+    "ADMIN DASHBOARD EXISTS:",
+    fs.existsSync(
+        path.join(
+            __dirname,
+            "views",
+            "admin",
+            "dashboard.ejs"
+        )
+    )
+);
+
+
+console.log(
+    "ADMIN CUSTOMER EXISTS:",
+    fs.existsSync(
+        path.join(
+            __dirname,
+            "views",
+            "admin",
+            "customer.ejs"
+        )
+    )
+);
+
+
+console.log(
+    "ADMIN DELIVERY EXISTS:",
+    fs.existsSync(
+        path.join(
+            __dirname,
+            "views",
+            "admin",
+            "delivery.ejs"
+        )
+    )
+);
+
+
+// ======================================================
+// ADMIN ORDERS VIEW CHECK
+// ======================================================
+
+console.log(
+    "ADMIN ORDERS EXISTS:",
+    fs.existsSync(
+        path.join(
+            __dirname,
+            "views",
+            "admin",
+            "orders.ejs"
+        )
+    )
+);
+
 
 console.log(
     "======================================"
@@ -224,8 +372,6 @@ app.use(
 );
 
 
-
-
 // ======================================================
 // TIFFIN SELLER
 // ======================================================
@@ -235,20 +381,89 @@ app.use(
     tiffinSellerRoutes
 );
 
+
+// ======================================================
+// ADMIN AUTH
+// ======================================================
+
+app.use(
+    "/admin",
+    adminAuthRoutes
+);
+
+
+// ======================================================
+// ADMIN PARTNER MANAGEMENT
+// ======================================================
+
+app.use(
+    "/admin",
+    adminPartnerRoutes
+);
+
+
+// ======================================================
+// ADMIN DASHBOARD
+// ======================================================
+
+app.use(
+    "/admin",
+    adminDashboardRoutes
+);
+
+
+// ======================================================
+// ADMIN CUSTOMER MANAGEMENT
+// ======================================================
+
+app.use(
+    "/admin",
+    adminCustomerRoutes
+);
+
+
+// ======================================================
+// ADMIN ORDER MANAGEMENT
+// ======================================================
+
+app.use(
+    "/admin",
+    adminOrderRoutes
+);
+
+app.use(
+    "/admin",
+    adminComplaintRoutes
+);
+
+app.use(
+    "/admin",
+    adminAnalyticsRoutes
+);
+
+app.use("/admin", adminSettingsRoutes);
+
+// ======================================================
+// ADMIN DELIVERY MANAGEMENT
+// ======================================================
+
+app.use(
+    "/admin",
+    adminDeliveryRoutes
+);
+
 // ======================================================
 // TIFFIN PLAN
 // ======================================================
 
 app.use(
     "/tiffin-seller",
-     tiffinPlaneRoutes
+    tiffinPlaneRoutes
 );
+
 
 // ======================================================
 // TIFFIN SELLER CONTROL
-// ======================================================
-// IMPORTANT
-// Cookie parser already loaded above
 // ======================================================
 
 app.use(
@@ -355,23 +570,8 @@ app.get(
 
 
 // ======================================================
-// 404 HANDLER
-// IMPORTANT: THIS MUST BE LAST
-// ======================================================
-
-app.use(
-    (req, res) => {
-
-        res.status(404).send(
-            `Cannot GET ${req.originalUrl}`
-        );
-
-    }
-);
-
-
-// ======================================================
 // GLOBAL ERROR HANDLER
+// IMPORTANT: BEFORE 404
 // ======================================================
 
 app.use(
@@ -431,6 +631,22 @@ app.use(
 
 
 // ======================================================
+// 404 HANDLER
+// IMPORTANT: MUST BE LAST
+// ======================================================
+
+app.use(
+    (req, res) => {
+
+        res.status(404).send(
+            `Cannot GET ${req.originalUrl}`
+        );
+
+    }
+);
+
+
+// ======================================================
 // SERVER
 // ======================================================
 
@@ -477,8 +693,31 @@ app.listen(
         );
 
         console.log(
-            "======================================"
+            `🔐 Admin Login: http://localhost:${PORT}/admin/login`
+        );
 
+        console.log(
+            `📝 Admin Signup: http://localhost:${PORT}/admin/signup`
+        );
+
+        console.log(
+            `📊 Admin Dashboard: http://localhost:${PORT}/admin/dashboard`
+        );
+
+        console.log(
+            `👥 Admin Customers: http://localhost:${PORT}/admin/customers`
+        );
+
+        console.log(
+            `🚴 Admin Delivery: http://localhost:${PORT}/admin/delivery`
+        );
+
+        console.log(
+            `📦 Admin Orders: http://localhost:${PORT}/admin/orders`
+        );
+
+        console.log(
+            "======================================"
         );
 
     }

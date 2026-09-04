@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Admin Orders | GHARSETU
+    </title>
+
+
+<link rel="stylesheet" href="/css/admin.css">
+
+<link rel="stylesheet" href="/css/admin.css">
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     SIDEBAR
+================================================== -->
+
+<aside class="admin-sidebar">
+
+
+    <div class="admin-brand">
+
+        <div class="brand-icon">
+            G
+        </div>
+
+        <div>
+
+            <strong>
+                GHARSETU
+            </strong>
+
+            <small>
+                ADMIN PANEL
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ==================================================
+         NAVIGATION
+    ================================================== -->
+
+    <nav class="admin-navigation">
+
+
+        <a
+            href="/admin/dashboard"
+            class="admin-nav-link"
+        >
+            📊 Dashboard
+        </a>
+
+
+        <a
+            href="/admin/restaurants"
+            class="admin-nav-link"
+        >
+            🍽️ Restaurants
+        </a>
+
+
+        <a
+            href="/admin/tiffin-sellers"
+            class="admin-nav-link"
+        >
+            🍱 Tiffin Sellers
+        </a>
+
+
+        <a
+            href="/admin/customers"
+            class="admin-nav-link"
+        >
+            👥 Customers
+        </a>
+
+
+        <a
+            href="/admin/delivery"
+            class="admin-nav-link"
+        >
+            🚴 Delivery
+        </a>
+
+
+        <a
+            href="/admin/orders"
+            class="admin-nav-link active"
+        >
+            📦 Orders
+        </a>
+
+
+        <a
+            href="/admin/complaints"
+            class="admin-nav-link"
+        >
+            ⚠️ Complaints
+        </a>
+
+
+        <a
+            href="/admin/analytics"
+            class="admin-nav-link"
+        >
+            📈 Analytics
+        </a>
+
+
+        <a
+            href="/admin/settings"
+            class="admin-nav-link"
+        >
+            ⚙️ Settings
+        </a>
+
+
+    </nav>
+
+
+    <!-- ==================================================
+         SIDEBAR BOTTOM
+    ================================================== -->
+
+    <div class="sidebar-bottom">
+
+
+        <div class="admin-user-mini">
+
+
+            <div class="top-avatar">
+
+                <%= admin?.name
+                    ? admin.name
+                        .charAt(0)
+                        .toUpperCase()
+                    : "A"
+                %>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    <%= admin?.name || "Admin" %>
+                </strong>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+        <a
+            href="/admin/logout"
+            class="logout-btn"
+        >
+            🚪 Logout
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- ==================================================
+     MAIN
+================================================== -->
+
+<main class="admin-main">
+
+
+    <div class="orders-page">
+
+
+        <!-- ==================================================
+             HEADER
+        ================================================== -->
+
+        <header class="orders-header">
+
+
+            <div>
+
+                <p class="orders-eyebrow">
+                    ADMIN MANAGEMENT
+                </p>
+
+
+                <h1>
+                    Orders
+                </h1>
+
+
+                <p class="orders-description">
+                    Monitor and manage all customer orders.
+                </p>
+
+            </div>
+
+
+            <div class="orders-admin-badge">
+
+                <span>
+                    👤
+                </span>
+
+                <strong>
+                    <%= admin?.name || "Admin" %>
+                </strong>
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- ==================================================
+             STATS
+        ================================================== -->
+
+        <section class="order-stats">
+
+
+            <!-- TOTAL -->
+
+            <div class="order-stat-card">
+
+                <div>
+
+                    <span>
+                        Total Orders
+                    </span>
+
+                    <strong>
+                        <%= totalOrders || 0 %>
+                    </strong>
+
+                </div>
+
+                <div class="order-stat-icon">
+                    📦
+                </div>
+
+            </div>
+
+
+            <!-- PLACED -->
+
+            <div class="order-stat-card">
+
+                <div>
+
+                    <span>
+                        Placed Orders
+                    </span>
+
+                    <strong>
+                        <%= placedOrders || 0 %>
+                    </strong>
+
+                </div>
+
+                <div class="order-stat-icon">
+                    🟡
+                </div>
+
+            </div>
+
+
+            <!-- REVENUE -->
+
+            <div class="order-stat-card">
+
+                <div>
+
+                    <span>
+                        Total Revenue
+                    </span>
+
+                    <strong>
+                        ₹<%= Number(
+                            totalRevenue || 0
+                        ).toLocaleString("en-IN") %>
+                    </strong>
+
+                </div>
+
+                <div class="order-stat-icon">
+                    ₹
+                </div>
+
+            </div>
+
+
+            <!-- STATUS TYPES -->
+
+            <div class="order-stat-card">
+
+                <div>
+
+                    <span>
+                        Status Types
+                    </span>
+
+                    <strong>
+                        <%= statusSummary
+                            ? statusSummary.length
+                            : 0
+                        %>
+                    </strong>
+
+                </div>
+
+                <div class="order-stat-icon">
+                    🔄
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             STATUS SUMMARY
+        ================================================== -->
+
+        <% if (
+            statusSummary &&
+            statusSummary.length > 0
+        ) { %>
+
+
+            <section class="status-summary">
+
+
+                <div class="summary-title">
+
+                    <span>
+                        ORDER STATUS
+                    </span>
+
+                    <small>
+                        Current database status distribution
+                    </small>
+
+                </div>
+
+
+                <div class="status-summary-list">
+
+
+                    <% statusSummary.forEach(item => { %>
+
+
+                        <div class="summary-item">
+
+
+                            <span>
+
+                                <%= item._id || "Unknown" %>
+
+                            </span>
+
+
+                            <strong>
+
+                                <%= item.count %>
+
+                            </strong>
+
+
+                        </div>
+
+
+                    <% }) %>
+
+
+                </div>
+
+
+            </section>
+
+
+        <% } %>
+
+
+
+        <!-- ==================================================
+             FILTER
+        ================================================== -->
+
+        <section class="orders-panel">
+
+
+            <form
+                method="GET"
+                action="/admin/orders"
+                class="orders-filter"
+            >
+
+
+                <!-- SEARCH -->
+
+                <div class="orders-search">
+
+                    <span>
+                        🔍
+                    </span>
+
+
+                    <input
+                        type="text"
+                        name="search"
+                        value="<%= search || '' %>"
+                        placeholder="Search order ID, customer name, email or mobile..."
+                    >
+
+                </div>
+
+
+                <!-- STATUS -->
+
+                <select
+                    name="status"
+                    class="orders-status-select"
+                >
+
+                    <option
+                        value="all"
+                        <%= status === "all"
+                            ? "selected"
+                            : ""
+                        %>
+                    >
+                        All Status
+                    </option>
+
+
+                    <% if (
+                        statusSummary &&
+                        statusSummary.length > 0
+                    ) { %>
+
+
+                        <% statusSummary.forEach(item => { %>
+
+
+                            <% if (item._id) { %>
+
+                                <option
+                                    value="<%= item._id %>"
+                                    <%= status === item._id
+                                        ? "selected"
+                                        : ""
+                                    %>
+                                >
+
+                                    <%= item._id %>
+
+                                </option>
+
+                            <% } %>
+
+
+                        <% }) %>
+
+
+                    <% } %>
+
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="orders-filter-btn"
+                >
+                    Search
+                </button>
+
+
+                <a
+                    href="/admin/orders"
+                    class="orders-clear-btn"
+                >
+                    Clear
+                </a>
+
+
+            </form>
+
+
+        </section>
+
+
+
+        <!-- ==================================================
+             ORDERS TABLE
+        ================================================== -->
+
+        <section class="orders-panel">
+
+
+            <div class="orders-panel-header">
+
+
+                <div>
+
+                    <p class="orders-eyebrow">
+                        ALL ORDERS
+                    </p>
+
+                    <h2>
+                        Customer Orders
+                    </h2>
+
+                </div>
+
+
+                <span class="orders-count">
+
+                    <%= orders
+                        ? orders.length
+                        : 0
+                    %>
+                    Results
+
+                </span>
+
+
+            </div>
+
+
+
+            <% if (
+                orders &&
+                orders.length > 0
+            ) { %>
+
+
+                <div class="orders-table-wrapper">
+
+
+                    <table class="orders-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    Order ID
+                                </th>
+
+                                <th>
+                                    Customer
+                                </th>
+
+                                <th>
+                                    Items
+                                </th>
+
+                                <th>
+                                    Amount
+                                </th>
+
+                                <th>
+                                    Payment
+                                </th>
+
+                                <th>
+                                    Status
+                                </th>
+
+                                <th>
+                                    Date
+                                </th>
+
+                                <th>
+                                    Action
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <% orders.forEach(order => { %>
+
+
+                                <tr>
+
+
+                                    <!-- ORDER ID -->
+
+                                    <td>
+
+                                        <strong class="order-id">
+
+                                            #<%= String(
+                                                order._id
+                                            ).slice(-8) %>
+
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- CUSTOMER -->
+
+                                    <td>
+
+                                        <% if (
+                                            order.customer
+                                        ) { %>
+
+
+                                            <div class="customer-cell">
+
+
+                                                <div class="customer-avatar">
+
+                                                    <%= order.customer.name
+                                                        ? order.customer.name
+                                                            .charAt(0)
+                                                            .toUpperCase()
+                                                        : "C"
+                                                    %>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <strong>
+
+                                                        <%= order.customer.name
+                                                            || "Customer"
+                                                        %>
+
+                                                    </strong>
+
+
+                                                    <small>
+
+                                                        <%= order.customer.mobile
+                                                            || order.customer.email
+                                                            || "-"
+                                                        %>
+
+                                                    </small>
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        <% } else { %>
+
+
+                                            <span class="muted">
+                                                Guest / Unknown
+                                            </span>
+
+
+                                        <% } %>
+
+                                    </td>
+
+
+                                    <!-- ITEMS -->
+
+                                    <td>
+
+                                        <span class="items-count">
+
+                                            <%= order.items
+                                                ? order.items.length
+                                                : 0
+                                            %>
+
+                                            item(s)
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- AMOUNT -->
+
+                                    <td>
+
+                                        <strong class="order-amount">
+
+                                            ₹<%= Number(
+                                                order.total || 0
+                                            ).toLocaleString(
+                                                "en-IN"
+                                            ) %>
+
+                                        </strong>
+
+                                    </td>
+
+
+                                    <!-- PAYMENT -->
+
+                                    <td>
+
+                                        <span class="payment-badge">
+
+                                            <%= order.paymentMethod
+                                                || "-"
+                                            %>
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+
+                                        <span
+                                            class="order-status"
+                                            data-status="<%= order.status || 'unknown' %>"
+                                        >
+
+                                            <%= order.status
+                                                || "Unknown"
+                                            %>
+
+                                        </span>
+
+
+                                    </td>
+
+
+                                    <!-- DATE -->
+
+                                    <td>
+
+                                        <span class="order-date">
+
+                                            <%= order.createdAt
+                                                ? new Date(
+                                                    order.createdAt
+                                                ).toLocaleDateString(
+                                                    "en-IN"
+                                                )
+                                                : "-"
+                                            %>
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="view-order-btn"
+                                            onclick="viewOrder('<%= order._id %>')"
+                                        >
+                                            View
+                                        </button>
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            <% }) %>
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <div class="orders-empty">
+
+                    <div class="empty-icon">
+                        📭
+                    </div>
+
+                    <h3>
+                        No Orders Found
+                    </h3>
+
+                    <p>
+                        No orders match your current search or filter.
+                    </p>
+
+                </div>
+
+
+            <% } %>
+
+
+        </section>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- ==================================================
+     ORDER DETAILS MODAL
+================================================== -->
+
+<div
+    id="orderModal"
+    class="order-modal"
+>
+
+
+    <div class="order-modal-box">
+
+
+        <button
+            type="button"
+            class="modal-close"
+            onclick="closeOrderModal()"
+        >
+            ×
+        </button>
+
+
+        <div id="orderModalContent">
+
+            <div class="modal-loading">
+                Loading...
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+// ======================================================
+// VIEW ORDER
+// ======================================================
+
+async function viewOrder(id) {
+
+    const modal =
+        document.getElementById(
+            "orderModal"
+        );
+
+    const content =
+        document.getElementById(
+            "orderModalContent"
+        );
+
+
+    modal.classList.add("show");
+
+
+    content.innerHTML = `
+
+        <div class="modal-loading">
+
+            Loading order details...
+
+        </div>
+
+    `;
+
+
+    try {
+
+        const response =
+            await fetch(
+                `/admin/orders/${id}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Failed to load order"
+            );
+
+        }
+
+
+        const order =
+            data.order;
+
+
+        // ==================================================
+        // CUSTOMER
+        // ==================================================
+
+        const customer =
+            order.customer || {};
+
+
+        // ==================================================
+        // DELIVERY
+        // ==================================================
+
+        const delivery =
+            order.deliveryDetails || {};
+
+
+        // ==================================================
+        // ITEMS
+        // ==================================================
+
+        let itemsHTML = "";
+
+
+        if (
+            order.items &&
+            order.items.length > 0
+        ) {
+
+            itemsHTML =
+                order.items.map(item => `
+
+                    <div class="modal-item">
+
+                        <div>
+
+                            <strong>
+                                ${escapeHtml(
+                                    item.name || "Item"
+                                )}
+                            </strong>
+
+                            <small>
+                                Qty:
+                                ${Number(
+                                    item.quantity || 1
+                                )}
+                            </small>
+
+                        </div>
+
+                        <strong>
+
+                            ₹${Number(
+                                item.price || 0
+                            ).toLocaleString(
+                                "en-IN"
+                            )}
+
+                        </strong>
+
+                    </div>
+
+                `).join("");
+
+        } else {
+
+            itemsHTML = `
+
+                <div class="modal-no-items">
+                    No item details available.
+                </div>
+
+            `;
+
+        }
+
+
+        // ==================================================
+        // MODAL HTML
+        // ==================================================
+
+        content.innerHTML = `
+
+            <div class="modal-header">
+
+                <div>
+
+                    <p>
+                        ORDER DETAILS
+                    </p>
+
+                    <h2>
+                        #${String(
+                            order._id
+                        ).slice(-8)}
+                    </h2>
+
+                </div>
+
+                <span
+                    class="order-status"
+                    data-status="${
+                        order.status || "unknown"
+                    }"
+                >
+                    ${
+                        order.status || "Unknown"
+                    }
+                </span>
+
+            </div>
+
+
+            <div class="modal-grid">
+
+
+                <div class="modal-section">
+
+                    <h3>
+                        👤 Customer
+                    </h3>
+
+                    <p>
+                        <strong>
+                            ${
+                                customer.name ||
+                                "Customer"
+                            }
+                        </strong>
+                    </p>
+
+                    <p>
+                        ${
+                            customer.mobile ||
+                            "-"
+                        }
+                    </p>
+
+                    <p>
+                        ${
+                            customer.email ||
+                            "-"
+                        }
+                    </p>
+
+                </div>
+
+
+                <div class="modal-section">
+
+                    <h3>
+                        📍 Delivery
+                    </h3>
+
+                    <p>
+                        ${
+                            delivery.name ||
+                            "-"
+                        }
+                    </p>
+
+                    <p>
+                        ${
+                            delivery.mobile ||
+                            "-"
+                        }
+                    </p>
+
+                    <p>
+                        ${
+                            delivery.address ||
+                            "-"
+                        }
+                    </p>
+
+                    <p>
+                        ${
+                            delivery.city ||
+                            "-"
+                        }
+                        -
+                        ${
+                            delivery.pincode ||
+                            "-"
+                        }
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="modal-section">
+
+                <h3>
+                    🛒 Items
+                </h3>
+
+                <div class="modal-items">
+
+                    ${itemsHTML}
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-payment-grid">
+
+                <div>
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong>
+                        ₹${Number(
+                            order.subtotal || 0
+                        ).toLocaleString(
+                            "en-IN"
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Delivery Charge
+                    </span>
+
+                    <strong>
+                        ₹${Number(
+                            order.deliveryCharge || 0
+                        ).toLocaleString(
+                            "en-IN"
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div>
+
+                    <span>
+                        Payment
+                    </span>
+
+                    <strong>
+                        ${
+                            order.paymentMethod ||
+                            "-"
+                        }
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-total">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong>
+                        ₹${Number(
+                            order.total || 0
+                        ).toLocaleString(
+                            "en-IN"
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <span>
+
+                    Created:
+                    ${
+                        order.createdAt
+                            ? new Date(
+                                order.createdAt
+                            ).toLocaleString(
+                                "en-IN"
+                            )
+                            : "-"
+                    }
+
+                </span>
+
+            </div>
+
+        `;
+
+
+    } catch (error) {
+
+        console.error(
+            "ORDER DETAILS ERROR:",
+            error
+        );
+
+
+        content.innerHTML = `
+
+            <div class="modal-error">
+
+                <h3>
+                    ❌ Unable to load order
+                </h3>
+
+                <p>
+                    ${escapeHtml(
+                        error.message
+                    )}
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+// ======================================================
+// CLOSE MODAL
+// ======================================================
+
+function closeOrderModal() {
+
+    document
+        .getElementById(
+            "orderModal"
+        )
+        .classList.remove(
+            "show"
+        );
+
+}
+
+
+// ======================================================
+// CLICK OUTSIDE MODAL
+// ======================================================
+
+document
+    .getElementById(
+        "orderModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === this
+            ) {
+
+                closeOrderModal();
+
+            }
+
+        }
+    );
+
+
+// ======================================================
+// ESCAPE HTML
+// ======================================================
+
+function escapeHtml(value) {
+
+    return String(value)
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+        .replace(
+            /</g,
+            "&lt;"
+        )
+        .replace(
+            />/g,
+            "&gt;"
+        )
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Admin | Analytics
+    </title>
+
+<link rel="stylesheet" href="/css/admin.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+===================================================== -->
+
+<%- include("../partials/adminSidebar") %>
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="admin-main">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <section class="page-header">
+
+        <div>
+
+            <span class="eyebrow">
+                ADMIN MANAGEMENT
+            </span>
+
+            <h1>
+                Analytics
+            </h1>
+
+            <p>
+                Monitor business performance and platform activity.
+            </p>
+
+        </div>
+
+
+        <div class="admin-user">
+
+            <span>
+                👤
+            </span>
+
+            <strong>
+                <%= admin && admin.name
+                    ? admin.name
+                    : "Administrator"
+                %>
+            </strong>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         MAIN STATS
+    ================================================== -->
+
+    <section class="stats-grid">
+
+
+        <!-- TOTAL ORDERS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span>
+                    Total Orders
+                </span>
+
+                <div class="stat-icon">
+                    📦
+                </div>
+
+            </div>
+
+            <strong>
+                <%= totalOrders %>
+            </strong>
+
+            <small>
+                All customer orders
+            </small>
+
+        </div>
+
+
+
+        <!-- TOTAL REVENUE -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span>
+                    Total Revenue
+                </span>
+
+                <div class="stat-icon">
+                    ₹
+                </div>
+
+            </div>
+
+            <strong>
+                ₹<%= Number(totalRevenue).toLocaleString("en-IN") %>
+            </strong>
+
+            <small>
+                Total order value
+            </small>
+
+        </div>
+
+
+
+        <!-- CUSTOMERS -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span>
+                    Customers
+                </span>
+
+                <div class="stat-icon">
+                    👥
+                </div>
+
+            </div>
+
+            <strong>
+                <%= totalCustomers %>
+            </strong>
+
+            <small>
+                Registered customers
+            </small>
+
+        </div>
+
+
+
+        <!-- AVERAGE ORDER -->
+
+        <div class="stat-card">
+
+            <div class="stat-top">
+
+                <span>
+                    Average Order
+                </span>
+
+                <div class="stat-icon">
+                    📈
+                </div>
+
+            </div>
+
+            <strong>
+                ₹<%= Number(
+                    averageOrderValue
+                ).toLocaleString(
+                    "en-IN",
+                    {
+                        maximumFractionDigits: 0
+                    }
+                ) %>
+            </strong>
+
+            <small>
+                Average order value
+            </small>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         PLATFORM STATS
+    ================================================== -->
+
+    <section class="section-title">
+
+        <span>
+            PLATFORM OVERVIEW
+        </span>
+
+        <h2>
+            Business Network
+        </h2>
+
+    </section>
+
+
+
+    <section class="network-grid">
+
+
+        <!-- RESTAURANTS -->
+
+        <div class="network-card">
+
+            <div class="network-icon">
+                🍽️
+            </div>
+
+            <div>
+
+                <span>
+                    Restaurants
+                </span>
+
+                <strong>
+                    <%= totalRestaurants %>
+                </strong>
+
+                <small>
+                    <%= approvedRestaurants %>
+                    approved
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- TIFFIN SELLERS -->
+
+        <div class="network-card">
+
+            <div class="network-icon">
+                🍱
+            </div>
+
+            <div>
+
+                <span>
+                    Tiffin Sellers
+                </span>
+
+                <strong>
+                    <%= totalTiffinSellers %>
+                </strong>
+
+                <small>
+                    <%= approvedTiffinSellers %>
+                    approved
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- DELIVERY PARTNERS -->
+
+        <div class="network-card">
+
+            <div class="network-icon">
+                🛵
+            </div>
+
+            <div>
+
+                <span>
+                    Delivery Partners
+                </span>
+
+                <strong>
+                    <%= totalDeliveryPartners %>
+                </strong>
+
+                <small>
+                    Delivery network
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ACTIVE USERS -->
+
+        <div class="network-card">
+
+            <div class="network-icon">
+                👤
+            </div>
+
+            <div>
+
+                <span>
+                    Active Users
+                </span>
+
+                <strong>
+                    <%= activeUsers %>
+                </strong>
+
+                <small>
+                    of <%= totalUsers %> total users
+                </small>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         CHARTS
+    ================================================== -->
+
+    <section class="charts-grid">
+
+
+        <!-- =================================================
+             ORDER STATUS
+        ================================================== -->
+
+        <div class="chart-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span>
+                        ORDERS
+                    </span>
+
+                    <h2>
+                        Order Status
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="status-list">
+
+
+                <% if (
+                    orderStatusData.length === 0
+                ) { %>
+
+                    <div class="empty-chart">
+
+                        No order data available.
+
+                    </div>
+
+                <% } %>
+
+
+
+                <% orderStatusData.forEach(item => { %>
+
+                    <%
+                        const percentage =
+                            totalOrders > 0
+                                ? Math.round(
+                                    (
+                                        item.count /
+                                        totalOrders
+                                    ) * 100
+                                )
+                                : 0;
+                    %>
+
+
+                    <div class="status-row">
+
+
+                        <div class="status-label">
+
+                            <span>
+                                <%= item._id %>
+                            </span>
+
+                            <strong>
+                                <%= item.count %>
+                            </strong>
+
+                        </div>
+
+
+
+                        <div class="progress-track">
+
+                            <div
+                                class="progress-fill"
+                                data-width="<%= percentage %>"
+                            ></div>
+
+                        </div>
+
+
+
+                        <small>
+                            <%= percentage %>%
+                        </small>
+
+
+                    </div>
+
+                <% }) %>
+
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             PAYMENT METHODS
+        ================================================== -->
+
+        <div class="chart-card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <span>
+                        PAYMENTS
+                    </span>
+
+                    <h2>
+                        Payment Methods
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="payment-list">
+
+
+                <% if (
+                    paymentMethodData.length === 0
+                ) { %>
+
+                    <div class="empty-chart">
+
+                        No payment data available.
+
+                    </div>
+
+                <% } %>
+
+
+
+                <% paymentMethodData.forEach(item => { %>
+
+
+                    <div class="payment-row">
+
+
+                        <div class="payment-icon">
+
+                            <%= item._id === "online"
+                                ? "💳"
+                                : item._id === "cash"
+                                    ? "💵"
+                                    : "💰"
+                            %>
+
+                        </div>
+
+
+
+                        <div class="payment-info">
+
+                            <strong>
+                                <%= item._id %>
+                            </strong>
+
+                            <span>
+                                <%= item.count %> orders
+                            </span>
+
+                        </div>
+
+
+
+                        <strong class="payment-amount">
+
+                            ₹<%= Number(
+                                item.amount || 0
+                            ).toLocaleString(
+                                "en-IN"
+                            ) %>
+
+                        </strong>
+
+
+                    </div>
+
+
+                <% }) %>
+
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         MONTHLY REVENUE
+    ================================================== -->
+
+    <section class="chart-card revenue-card">
+
+
+        <div class="card-header">
+
+            <div>
+
+                <span>
+                    REVENUE
+                </span>
+
+                <h2>
+                    Monthly Performance
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <% if (
+            monthlyRevenue.length === 0
+        ) { %>
+
+
+            <div class="empty-chart large">
+
+                No monthly revenue data available.
+
+            </div>
+
+
+        <% } else { %>
+
+
+            <div class="revenue-chart">
+
+
+                <% monthlyRevenue.forEach(item => { %>
+
+
+                    <%
+                        const maxRevenue =
+                            Math.max(
+                                ...monthlyRevenue.map(
+                                    x => Number(
+                                        x.revenue || 0
+                                    )
+                                ),
+                                1
+                            );
+
+                        const height =
+                            Math.max(
+                                8,
+                                (
+                                    Number(
+                                        item.revenue || 0
+                                    ) /
+                                    maxRevenue
+                                ) * 100
+                            );
+
+                        const monthName =
+                            new Date(
+                                item._id.year,
+                                item._id.month - 1,
+                                1
+                            ).toLocaleDateString(
+                                "en-IN",
+                                {
+                                    month: "short"
+                                }
+                            );
+                    %>
+
+
+                    <div class="bar-column">
+
+
+                        <div class="bar-value">
+
+                            ₹<%= Number(
+                                item.revenue || 0
+                            ).toLocaleString(
+                                "en-IN"
+                            ) %>
+
+                        </div>
+
+
+
+                        <div class="bar-area">
+
+                            <div
+                                class="revenue-bar"
+                                data-height="<%= height %>"
+                            ></div>
+
+                        </div>
+
+
+
+                        <span>
+
+                            <%= monthName %>
+                            <%= item._id.year %>
+
+                        </span>
+
+
+                    </div>
+
+
+                <% }) %>
+
+
+            </div>
+
+
+        <% } %>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         DELIVERY STATUS
+    ================================================== -->
+
+    <section class="chart-card delivery-card">
+
+
+        <div class="card-header">
+
+            <div>
+
+                <span>
+                    DELIVERY
+                </span>
+
+                <h2>
+                    Delivery Status
+                </h2>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="delivery-grid">
+
+
+            <% if (
+                deliveryStatusData.length === 0
+            ) { %>
+
+
+                <div class="empty-chart">
+
+                    No delivery data available.
+
+                </div>
+
+
+            <% } %>
+
+
+
+            <% deliveryStatusData.forEach(item => { %>
+
+
+                <div class="delivery-status">
+
+                    <strong>
+                        <%= item.count %>
+                    </strong>
+
+                    <span>
+                        <%= item._id %>
+                    </span>
+
+                </div>
+
+
+            <% }) %>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- =================================================
+         RECENT ORDERS
+    ================================================== -->
+
+    <section class="chart-card recent-card">
+
+
+        <div class="card-header">
+
+            <div>
+
+                <span>
+                    RECENT ACTIVITY
+                </span>
+
+                <h2>
+                    Recent Orders
+                </h2>
+
+            </div>
+
+
+            <a href="/admin/orders">
+
+                View All
+
+            </a>
+
+        </div>
+
+
+
+        <div class="recent-table">
+
+
+            <% if (
+                recentOrders.length === 0
+            ) { %>
+
+
+                <div class="empty-chart large">
+
+                    No recent orders found.
+
+                </div>
+
+
+            <% } else { %>
+
+
+                <table>
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Order
+                            </th>
+
+                            <th>
+                                Customer
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Date
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        <% recentOrders.forEach(order => { %>
+
+
+                            <tr>
+
+
+                                <td>
+
+                                    <strong>
+
+                                        #<%= String(
+                                            order._id
+                                        ).slice(-8) %>
+
+                                    </strong>
+
+                                </td>
+
+
+
+                                <td>
+
+                                    <%= order.customer
+                                        ? order.customer.name
+                                        : "Unknown"
+                                    %>
+
+                                </td>
+
+
+
+                                <td>
+
+                                    <strong>
+
+                                        ₹<%= Number(
+                                            order.total || 0
+                                        ).toLocaleString(
+                                            "en-IN"
+                                        ) %>
+
+                                    </strong>
+
+                                </td>
+
+
+
+                                <td>
+
+                                    <span class="order-status">
+
+                                        <%= order.status || "unknown" %>
+
+                                    </span>
+
+                                </td>
+
+
+
+                                <td>
+
+                                    <%= order.createdAt
+                                        ? new Date(
+                                            order.createdAt
+                                        ).toLocaleDateString(
+                                            "en-IN"
+                                        )
+                                        : "-"
+                                    %>
+
+                                </td>
+
+
+                            </tr>
+
+
+                        <% }) %>
+
+
+                    </tbody>
+
+
+                </table>
+
+
+            <% } %>
+
+
+        </div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     DYNAMIC BAR / PROGRESS WIDTH
+===================================================== -->
+
+<script>
+
+    document
+        .querySelectorAll(".progress-fill[data-width]")
+        .forEach(function (element) {
+
+            const width =
+                Number(element.dataset.width) || 0;
+
+            element.style.width =
+                width + "%";
+
+        });
+
+
+
+    document
+        .querySelectorAll(".revenue-bar[data-height]")
+        .forEach(function (element) {
+
+            const height =
+                Number(element.dataset.height) || 0;
+
+            element.style.height =
+                height + "%";
+
+        });
+
+</script>
+
+
+</body>
+
+</html>

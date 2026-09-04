@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GHARSETU | Admin Dashboard
+    </title>
+
+
+<link rel="stylesheet" href="/css/admin.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+    <!-- ==================================================
+         SIDEBAR
+    =================================================== -->
+
+    <aside class="admin-sidebar">
+
+
+        <!-- LOGO -->
+
+        <div class="admin-logo">
+
+            <div class="admin-logo-icon">
+                🏠
+            </div>
+
+            <div>
+
+                <h2>
+                    GHARSETU
+                </h2>
+
+                <span>
+                    ADMIN CONTROL
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="admin-nav">
+
+
+            <div class="admin-nav-title">
+                MAIN
+            </div>
+
+
+            <a
+                href="/admin/dashboard"
+                class="admin-nav-link active"
+            >
+
+                <div class="admin-nav-icon">
+                    📊
+                </div>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/restaurants"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    🏪
+                </div>
+
+                <span>
+                    Restaurants
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/tiffin-sellers"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    🍱
+                </div>
+
+                <span>
+                    Tiffin Sellers
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/customers"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    👥
+                </div>
+
+                <span>
+                    Customers
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/delivery"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    🚴
+                </div>
+
+                <span>
+                    Delivery Partners
+                </span>
+
+            </a>
+
+
+
+            <div
+                class="admin-nav-title"
+                style="margin-top:25px;"
+            >
+                OPERATIONS
+            </div>
+
+
+            <a
+                href="/admin/orders"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    📦
+                </div>
+
+                <span>
+                    Orders
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/complaints"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    💬
+                </div>
+
+                <span>
+                    Complaints
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/analytics"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    📈
+                </div>
+
+                <span>
+                    Analytics
+                </span>
+
+            </a>
+
+
+
+            <div
+                class="admin-nav-title"
+                style="margin-top:25px;"
+            >
+                SYSTEM
+            </div>
+
+
+            <a
+                href="/admin/settings"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    ⚙️
+                </div>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+            <a
+                href="/admin/logout"
+                class="admin-nav-link"
+            >
+
+                <div class="admin-nav-icon">
+                    🚪
+                </div>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+    </aside>
+
+
+
+    <!-- ==================================================
+         MAIN
+    =================================================== -->
+
+    <main class="admin-main">
+
+
+        <!-- =================================================
+             TOPBAR
+        ================================================== -->
+
+        <div class="admin-topbar">
+
+
+            <div>
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Welcome back, Admin 👋
+                </p>
+
+            </div>
+
+
+            <div class="admin-profile">
+
+                <div>
+
+                    <strong>
+                        Administrator
+                    </strong>
+
+                </div>
+
+
+                <div class="admin-avatar">
+                    A
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             WELCOME
+        ================================================== -->
+
+        <div class="admin-dashboard-welcome">
+
+            <div>
+
+                <div class="admin-dashboard-label">
+                    GHARSETU CONTROL CENTER
+                </div>
+
+                <h2>
+                    Everything is under control.
+                </h2>
+
+                <p>
+                    Monitor your complete platform
+                    from one place.
+                </p>
+
+            </div>
+
+
+            <div class="admin-dashboard-date">
+
+                <span>
+                    TODAY
+                </span>
+
+                <strong id="todayDate">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             STAT CARDS
+        ================================================== -->
+
+        <div class="admin-card-grid">
+
+
+            <!-- CUSTOMERS -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    👥
+                </div>
+
+                <div class="admin-card-label">
+                    TOTAL CUSTOMERS
+                </div>
+
+                <div class="admin-card-value">
+                    <%= totalCustomers || 0 %>
+                </div>
+
+            </div>
+
+
+
+            <!-- RESTAURANTS -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🏪
+                </div>
+
+                <div class="admin-card-label">
+                    RESTAURANTS
+                </div>
+
+                <div class="admin-card-value">
+                    <%= totalRestaurants || 0 %>
+                </div>
+
+            </div>
+
+
+
+            <!-- TIFFIN -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🍱
+                </div>
+
+                <div class="admin-card-label">
+                    TIFFIN SELLERS
+                </div>
+
+                <div class="admin-card-value">
+                    <%= totalTiffinSellers || 0 %>
+                </div>
+
+            </div>
+
+
+
+            <!-- DELIVERY -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🚴
+                </div>
+
+                <div class="admin-card-label">
+                    DELIVERY PARTNERS
+                </div>
+
+                <div class="admin-card-value">
+                    <%= totalDeliveryPartners || 0 %>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             SECOND ROW
+        ================================================== -->
+
+        <div
+            class="admin-card-grid"
+            style="margin-top:14px;"
+        >
+
+
+            <!-- ORDERS -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    📦
+                </div>
+
+                <div class="admin-card-label">
+                    TOTAL ORDERS
+                </div>
+
+                <div class="admin-card-value">
+                    <%= totalOrders || 0 %>
+                </div>
+
+            </div>
+
+
+
+            <!-- REVENUE -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    💰
+                </div>
+
+                <div class="admin-card-label">
+                    TOTAL REVENUE
+                </div>
+
+                <div class="admin-card-value">
+
+                    ₹<%= Number(
+                        totalRevenue || 0
+                    ).toLocaleString("en-IN") %>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RESTAURANT REQUEST -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🏪
+                </div>
+
+                <div class="admin-card-label">
+                    RESTAURANT REQUESTS
+                </div>
+
+                <div class="admin-card-value">
+                    <%= pendingRestaurants || 0 %>
+                </div>
+
+            </div>
+
+
+
+            <!-- TIFFIN REQUEST -->
+
+            <div class="admin-card">
+
+                <div class="admin-card-icon">
+                    🍱
+                </div>
+
+                <div class="admin-card-label">
+                    TIFFIN REQUESTS
+                </div>
+
+                <div class="admin-card-value">
+                    <%= pendingTiffinSellers || 0 %>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             QUICK ACTIONS
+        ================================================== -->
+
+        <div class="admin-section-header">
+
+            <div>
+
+                <h2>
+                    Quick Management
+                </h2>
+
+                <p>
+                    Manage your platform quickly.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="admin-quick-grid">
+
+
+            <a
+                href="/admin/restaurants"
+                class="admin-quick-card"
+            >
+
+                <div class="admin-quick-icon">
+                    🏪
+                </div>
+
+                <div>
+
+                    <strong>
+                        Restaurants
+                    </strong>
+
+                    <span>
+                        Manage restaurant partners
+                    </span>
+
+                </div>
+
+                <b>
+                    →
+                </b>
+
+            </a>
+
+
+
+            <a
+                href="/admin/tiffin-sellers"
+                class="admin-quick-card"
+            >
+
+                <div class="admin-quick-icon">
+                    🍱
+                </div>
+
+                <div>
+
+                    <strong>
+                        Tiffin Sellers
+                    </strong>
+
+                    <span>
+                        Approve and manage sellers
+                    </span>
+
+                </div>
+
+                <b>
+                    →
+                </b>
+
+            </a>
+
+
+
+            <a
+                href="/admin/customers"
+                class="admin-quick-card"
+            >
+
+                <div class="admin-quick-icon">
+                    👥
+                </div>
+
+                <div>
+
+                    <strong>
+                        Customers
+                    </strong>
+
+                    <span>
+                        View customer accounts
+                    </span>
+
+                </div>
+
+                <b>
+                    →
+                </b>
+
+            </a>
+
+
+
+            <a
+                href="/admin/orders"
+                class="admin-quick-card"
+            >
+
+                <div class="admin-quick-icon">
+                    📦
+                </div>
+
+                <div>
+
+                    <strong>
+                        Orders
+                    </strong>
+
+                    <span>
+                        Monitor platform orders
+                    </span>
+
+                </div>
+
+                <b>
+                    →
+                </b>
+
+            </a>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             RECENT ORDERS
+        ================================================== -->
+
+        <div class="admin-section-header">
+
+            <div>
+
+                <h2>
+                    Recent Orders
+                </h2>
+
+                <p>
+                    Latest activity on GHARSETU.
+                </p>
+
+            </div>
+
+
+            <a
+                href="/admin/orders"
+                class="admin-btn admin-btn-primary"
+            >
+                View All
+            </a>
+
+        </div>
+
+
+
+        <div class="admin-table-container">
+
+
+            <table class="admin-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Order
+                        </th>
+
+                        <th>
+                            Customer
+                        </th>
+
+                        <th>
+                            Amount
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                        <th>
+                            Date
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+
+                <tbody>
+
+
+                <% if (
+                    recentOrders &&
+                    recentOrders.length > 0
+                ) { %>
+
+
+                    <% recentOrders.forEach(
+                        order => {
+                    %>
+
+
+                        <tr>
+
+
+                            <td>
+
+                                <strong>
+                                    #<%=
+                                        order._id
+                                            .toString()
+                                            .slice(-6)
+                                            .toUpperCase()
+                                    %>
+                                </strong>
+
+                            </td>
+
+
+                            <td>
+
+                                <%=
+
+                                    order.customer?.name
+                                    ||
+                                    order.customerMobile
+                                    ||
+                                    "Customer"
+
+                                %>
+
+                            </td>
+
+
+                            <td>
+
+                                ₹<%= Number(
+                                    order.totalAmount ||
+                                    order.amount ||
+                                    0
+                                ).toLocaleString(
+                                    "en-IN"
+                                ) %>
+
+                            </td>
+
+
+                            <td>
+
+
+                                <% const status =
+                                    String(
+                                        order.status ||
+                                        "pending"
+                                    ).toLowerCase();
+                                %>
+
+
+                                <span
+                                    class="
+                                        admin-status
+                                        <%=
+
+                                        status ===
+                                        "delivered" ||
+                                        status ===
+                                        "completed"
+
+                                        ?
+
+                                        "status-success"
+
+                                        :
+
+                                        status ===
+                                        "cancelled"
+
+                                        ?
+
+                                        "status-danger"
+
+                                        :
+
+                                        "status-warning"
+
+                                        %>
+                                    "
+                                >
+
+                                    <%= order.status || "Pending" %>
+
+                                </span>
+
+
+                            </td>
+
+
+                            <td>
+
+                                <%= order.createdAt
+                                    ?
+                                    new Date(
+                                        order.createdAt
+                                    ).toLocaleDateString(
+                                        "en-IN"
+                                    )
+                                    :
+                                    "-"
+                                %>
+
+                            </td>
+
+
+                        </tr>
+
+
+                    <% }) %>
+
+
+                <% } else { %>
+
+
+                    <tr>
+
+                        <td
+                            colspan="5"
+                            style="
+                                text-align:center;
+                                padding:35px;
+                                color:#988a80;
+                            "
+                        >
+
+                            No orders found yet.
+
+                        </td>
+
+                    </tr>
+
+
+                <% } %>
+
+
+                </tbody>
+
+
+            </table>
+
+
+        </div>
+
+
+    </main>
+
+
+</div>
+
+
+
+<script>
+
+    // =====================================================
+    // TODAY DATE
+    // =====================================================
+
+    const today =
+        new Date();
+
+
+    document
+        .getElementById("todayDate")
+        .textContent =
+            today.toLocaleDateString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric"
+                }
+            );
+
+</script>
+
+
+</body>
+
+</html>

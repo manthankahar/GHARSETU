@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GHARSETU | Admin Login
+    </title>
+
+
+    <!-- ADMIN CSS -->
+
+    <link rel="stylesheet" href="/css/admin.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-login-page">
+
+
+    <div class="admin-login-container">
+
+
+        <!-- =================================================
+             LEFT BRAND SECTION
+        ================================================== -->
+
+        <section class="login-brand">
+
+
+            <!-- LOGO -->
+
+            <div class="admin-logo">
+
+                <div class="admin-logo-icon">
+                    🏠
+                </div>
+
+                <div>
+
+                    <h2>
+                        GHARSETU
+                    </h2>
+
+                    <span>
+                        ADMIN CONTROL CENTER
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="login-brand-content">
+
+
+                <div class="login-brand-label">
+
+                    PLATFORM ADMINISTRATION
+
+                </div>
+
+
+                <h1>
+
+                    Everything
+                    <span>
+                        under control.
+                    </span>
+
+                </h1>
+
+
+                <p>
+
+                    Manage your complete GHARSETU
+                    ecosystem from one powerful
+                    administration panel.
+
+                </p>
+
+
+                <!-- FEATURES -->
+
+                <div class="admin-feature-grid">
+
+
+                    <div class="admin-feature">
+                        🏪 Restaurant Management
+                    </div>
+
+
+                    <div class="admin-feature">
+                        🍱 Tiffin Management
+                    </div>
+
+
+                    <div class="admin-feature">
+                        🚴 Delivery Control
+                    </div>
+
+
+                    <div class="admin-feature">
+                        📊 Business Analytics
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div
+                style="
+                    color:#64748b;
+                    font-size:10px;
+                "
+            >
+
+                © <%= new Date().getFullYear() %>
+                GHARSETU · ADMIN PORTAL
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             LOGIN SECTION
+        ================================================== -->
+
+        <section class="login-form-section">
+
+
+            <div class="login-form-box">
+
+
+                <div class="login-form-header">
+
+                    <h2>
+                        Welcome Back 👋
+                    </h2>
+
+                    <p>
+                        Login to manage your platform.
+                    </p>
+
+                </div>
+
+
+
+                <!-- ERROR -->
+
+                <% if (error) { %>
+
+                    <div class="admin-error">
+
+                        ⚠️
+                        <%= error %>
+
+                    </div>
+
+                <% } %>
+
+
+
+                <!-- LOGIN FORM -->
+
+                <form
+                    action="/admin/login"
+                    method="POST"
+                >
+
+
+                    <!-- MOBILE -->
+
+                    <div class="admin-form-group">
+
+                        <label>
+                            ADMIN MOBILE NUMBER
+                        </label>
+
+
+                        <div
+                            class="admin-input-wrapper"
+                        >
+
+                            <span
+                                class="admin-input-icon"
+                            >
+                                📱
+                            </span>
+
+
+                            <input
+                                type="tel"
+                                name="mobile"
+                                id="mobile"
+                                class="admin-input"
+                                placeholder="Enter mobile number"
+                                maxlength="10"
+                                required
+                                autocomplete="username"
+                            >
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="admin-form-group">
+
+                        <label>
+                            PASSWORD
+                        </label>
+
+
+                        <div
+                            class="admin-input-wrapper"
+                        >
+
+                            <span
+                                class="admin-input-icon"
+                            >
+                                🔐
+                            </span>
+
+
+                            <input
+                                type="password"
+                                name="password"
+                                id="password"
+                                class="admin-input"
+                                placeholder="Enter admin password"
+                                required
+                                autocomplete="current-password"
+                            >
+
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword()"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- LOGIN -->
+
+                    <button
+                        type="submit"
+                        class="admin-login-button"
+                    >
+
+                        Sign In to Admin Panel
+                        →
+
+                    </button>
+
+
+                </form>
+
+
+
+                <div class="admin-security">
+
+                    🔒 Protected Admin Area
+                    <br>
+
+                    Unauthorized access is prohibited.
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+    // =====================================================
+    // PASSWORD TOGGLE
+    // =====================================================
+
+    function togglePassword() {
+
+        const password =
+            document.getElementById("password");
+
+        const button =
+            document.querySelector(
+                ".password-toggle"
+            );
+
+
+        if (
+            password.type === "password"
+        ) {
+
+            password.type = "text";
+
+            button.textContent = "🙈";
+
+        } else {
+
+            password.type = "password";
+
+            button.textContent = "👁";
+
+        }
+
+    }
+
+
+    // =====================================================
+    // MOBILE ONLY NUMBERS
+    // =====================================================
+
+    document
+        .getElementById("mobile")
+        .addEventListener(
+            "input",
+            function () {
+
+                this.value =
+                    this.value.replace(
+                        /\D/g,
+                        ""
+                    );
+
+            }
+        );
+
+</script>
+
+
+</body>
+
+</html>

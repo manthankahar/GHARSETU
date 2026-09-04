@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Settings | GharSetu</title>
+
+    <!-- <link rel="stylesheet" href="/admin-assets/css/admin.css"> -->
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body>
+
+    <!-- ==========================================
+         ADMIN SIDEBAR
+    =========================================== -->
+    <%- include("../partials/adminSidebar") %>
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+    <main class="admin-main">
+
+        <!-- TOP HEADER -->
+        <div class="settings-header">
+
+            <div>
+                <span class="settings-label">ADMIN PANEL</span>
+                <h1>Settings</h1>
+                <p>Manage your administrator account and security settings.</p>
+            </div>
+
+            <div class="admin-status-badge">
+                <span class="status-dot"></span>
+                System Active
+            </div>
+
+        </div>
+
+
+        <!-- ==========================================
+             SUCCESS MESSAGE
+        =========================================== -->
+
+        <% if (typeof success !== "undefined" && success) { %>
+
+            <div class="success-message">
+
+                <span class="success-icon">✓</span>
+
+                <div>
+                    <% if (success === "profile") { %>
+                        <strong>Profile Updated</strong>
+                        <p>Your admin profile has been updated successfully.</p>
+
+                    <% } else if (success === "password") { %>
+                        <strong>Password Changed</strong>
+                        <p>Your password has been changed successfully.</p>
+
+                    <% } else { %>
+                        <strong>Success</strong>
+                        <p>Your settings have been updated.</p>
+                    <% } %>
+                </div>
+
+            </div>
+
+        <% } %>
+
+
+        <!-- ==========================================
+             SETTINGS GRID
+        =========================================== -->
+
+        <section class="settings-grid">
+
+
+            <!-- ======================================
+                 ADMIN PROFILE
+            ======================================= -->
+
+            <div class="settings-card profile-card">
+
+                <div class="card-heading">
+
+                    <div class="heading-icon profile-icon">
+                        👤
+                    </div>
+
+                    <div>
+                        <h2>Admin Profile</h2>
+                        <p>Update your administrator information.</p>
+                    </div>
+
+                </div>
+
+
+                <form
+                    action="/admin/settings/profile"
+                    method="POST"
+                    class="settings-form"
+                >
+
+                    <!-- NAME -->
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="<%= admin.name || '' %>"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email Address
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="<%= admin.email || '' %>"
+                            placeholder="Enter email address"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- MOBILE -->
+                    <div class="form-group">
+
+                        <label for="mobile">
+                            Mobile Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="mobile"
+                            name="mobile"
+                            value="<%= admin.mobile || '' %>"
+                            placeholder="Enter mobile number"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        Save Profile
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- ======================================
+                 CHANGE PASSWORD
+            ======================================= -->
+
+            <div class="settings-card password-card">
+
+                <div class="card-heading">
+
+                    <div class="heading-icon security-icon">
+                        🔐
+                    </div>
+
+                    <div>
+                        <h2>Change Password</h2>
+                        <p>Keep your administrator account secure.</p>
+                    </div>
+
+                </div>
+
+
+                <form
+                    action="/admin/settings/password"
+                    method="POST"
+                    class="settings-form"
+                    id="passwordForm"
+                >
+
+                    <!-- CURRENT PASSWORD -->
+                    <div class="form-group">
+
+                        <label for="currentPassword">
+                            Current Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="currentPassword"
+                                name="currentPassword"
+                                placeholder="Enter current password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('currentPassword', this)"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- NEW PASSWORD -->
+                    <div class="form-group">
+
+                        <label for="newPassword">
+                            New Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="newPassword"
+                                name="newPassword"
+                                placeholder="Minimum 6 characters"
+                                minlength="6"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('newPassword', this)"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- CONFIRM PASSWORD -->
+                    <div class="form-group">
+
+                        <label for="confirmPassword">
+                            Confirm New Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="confirmPassword"
+                                name="confirmPassword"
+                                placeholder="Confirm new password"
+                                minlength="6"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('confirmPassword', this)"
+                            >
+                                👁
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        id="passwordError"
+                        class="form-error"
+                    >
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="primary-btn"
+                    >
+                        Change Password
+                    </button>
+
+                </form>
+
+            </div>
+
+
+
+            <!-- ======================================
+                 ACCOUNT INFORMATION
+            ======================================= -->
+
+            <div class="settings-card account-card">
+
+                <div class="card-heading">
+
+                    <div class="heading-icon account-icon">
+                        🛡️
+                    </div>
+
+                    <div>
+                        <h2>Account Information</h2>
+                        <p>Your administrator account details.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="account-info-list">
+
+
+                    <!-- ROLE -->
+                    <div class="account-info-row">
+
+                        <div class="info-left">
+
+                            <span class="info-icon">
+                                👑
+                            </span>
+
+                            <div>
+                                <span class="info-label">
+                                    Account Role
+                                </span>
+
+                                <strong>
+                                    Administrator
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <span class="info-badge">
+                            ADMIN
+                        </span>
+
+                    </div>
+
+
+                    <!-- STATUS -->
+                    <div class="account-info-row">
+
+                        <div class="info-left">
+
+                            <span class="info-icon">
+                                ●
+                            </span>
+
+                            <div>
+                                <span class="info-label">
+                                    Account Status
+                                </span>
+
+                                <strong>
+                                    <%= admin.isActive ? "Active" : "Inactive" %>
+                                </strong>
+                            </div>
+
+                        </div>
+
+                        <% if (admin.isActive) { %>
+
+                            <span class="status-badge active">
+                                Active
+                            </span>
+
+                        <% } else { %>
+
+                            <span class="status-badge inactive">
+                                Inactive
+                            </span>
+
+                        <% } %>
+
+                    </div>
+
+
+                    <!-- EMAIL -->
+                    <div class="account-info-row">
+
+                        <div class="info-left">
+
+                            <span class="info-icon">
+                                ✉
+                            </span>
+
+                            <div>
+                                <span class="info-label">
+                                    Login Email
+                                </span>
+
+                                <strong>
+                                    <%= admin.email || "Not available" %>
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- MOBILE -->
+                    <div class="account-info-row">
+
+                        <div class="info-left">
+
+                            <span class="info-icon">
+                                📱
+                            </span>
+
+                            <div>
+                                <span class="info-label">
+                                    Mobile Number
+                                </span>
+
+                                <strong>
+                                    <%= admin.mobile || "Not available" %>
+                                </strong>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ======================================
+                 SECURITY TIPS
+            ======================================= -->
+
+            <div class="settings-card security-card">
+
+                <div class="card-heading">
+
+                    <div class="heading-icon security-icon">
+                        🔒
+                    </div>
+
+                    <div>
+                        <h2>Security</h2>
+                        <p>Recommended security practices.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="security-list">
+
+
+                    <div class="security-item">
+
+                        <span class="security-check">
+                            ✓
+                        </span>
+
+                        <div>
+                            <strong>
+                                Use a strong password
+                            </strong>
+
+                            <p>
+                                Use at least 6 characters with a combination of letters and numbers.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="security-item">
+
+                        <span class="security-check">
+                            ✓
+                        </span>
+
+                        <div>
+                            <strong>
+                                Keep your account private
+                            </strong>
+
+                            <p>
+                                Never share your administrator login credentials with anyone.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                    <div class="security-item">
+
+                        <span class="security-check">
+                            ✓
+                        </span>
+
+                        <div>
+                            <strong>
+                                Logout on shared devices
+                            </strong>
+
+                            <p>
+                                Always logout when using an unfamiliar or shared computer.
+                            </p>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ==========================================
+             FOOTER
+        =========================================== -->
+
+        <footer class="settings-footer">
+
+            <span>
+                GharSetu Admin Panel
+            </span>
+
+            <span>
+                Secure Administration System
+            </span>
+
+        </footer>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script>
+
+        // ==========================================
+        // PASSWORD SHOW / HIDE
+        // ==========================================
+
+        function togglePassword(inputId, button) {
+
+            const input = document.getElementById(inputId);
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                button.textContent = "🙈";
+
+            } else {
+
+                input.type = "password";
+
+                button.textContent = "👁";
+
+            }
+
+        }
+
+
+        // ==========================================
+        // PASSWORD VALIDATION
+        // ==========================================
+
+        const passwordForm =
+            document.getElementById("passwordForm");
+
+        const passwordError =
+            document.getElementById("passwordError");
+
+
+        passwordForm.addEventListener("submit", function (event) {
+
+            const newPassword =
+                document.getElementById("newPassword").value;
+
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
+
+
+            passwordError.textContent = "";
+
+            passwordError.classList.remove("show");
+
+
+            if (newPassword.length < 6) {
+
+                event.preventDefault();
+
+                passwordError.textContent =
+                    "New password must be at least 6 characters.";
+
+                passwordError.classList.add("show");
+
+                return;
+
+            }
+
+
+            if (newPassword !== confirmPassword) {
+
+                event.preventDefault();
+
+                passwordError.textContent =
+                    "New password and confirm password do not match.";
+
+                passwordError.classList.add("show");
+
+                return;
+
+            }
+
+        });
+
+
+        // ==========================================
+        // AUTO HIDE SUCCESS MESSAGE
+        // ==========================================
+
+        const successMessage =
+            document.querySelector(".success-message");
+
+        if (successMessage) {
+
+            setTimeout(function () {
+
+                successMessage.classList.add("hide");
+
+            }, 5000);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

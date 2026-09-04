@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GHARSETU | Admin Signup
+    </title>
+
+
+<link rel="stylesheet" href="/css/admin.css">
+
+</head>
+
+
+<body>
+
+
+<div class="admin-auth-page">
+
+
+    <!-- ==================================================
+         LEFT BRAND SECTION
+    ================================================== -->
+
+    <section class="admin-auth-brand">
+
+
+        <!-- LOGO -->
+
+        <div class="admin-brand-logo">
+
+            <div class="admin-brand-icon">
+                🏠
+            </div>
+
+            <div>
+
+                <h2>
+                    GHARSETU
+                </h2>
+
+                <span>
+                    ADMIN CONTROL CENTER
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- BRAND CONTENT -->
+
+        <div class="admin-brand-content">
+
+            <div class="admin-small-title">
+                ADMINISTRATION PORTAL
+            </div>
+
+
+            <h1>
+
+                Create your
+                <span>
+                    control center.
+                </span>
+
+            </h1>
+
+
+            <p>
+
+                Create a secure administrator account
+                and manage the complete GHARSETU
+                ecosystem from one powerful panel.
+
+            </p>
+
+
+
+            <!-- FEATURES -->
+
+            <div class="admin-feature-list">
+
+
+                <div class="admin-feature-item">
+
+                    <div class="admin-feature-icon">
+                        🏪
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Restaurant Management
+                        </strong>
+
+                        <span>
+                            Manage restaurant partners
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="admin-feature-item">
+
+                    <div class="admin-feature-icon">
+                        🍱
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Tiffin Management
+                        </strong>
+
+                        <span>
+                            Manage tiffin sellers
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="admin-feature-item">
+
+                    <div class="admin-feature-icon">
+                        🚴
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Delivery Control
+                        </strong>
+
+                        <span>
+                            Monitor delivery partners
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="admin-feature-item">
+
+                    <div class="admin-feature-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Business Analytics
+                        </strong>
+
+                        <span>
+                            Track platform performance
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- FOOTER -->
+
+        <div class="admin-brand-footer">
+
+            © 2026 GHARSETU · ADMIN PORTAL
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ==================================================
+         RIGHT FORM
+    ================================================== -->
+
+    <section class="admin-auth-form">
+
+
+        <div class="admin-form-container">
+
+
+            <!-- HEADER -->
+
+            <div class="admin-form-header">
+
+                <div class="admin-form-badge">
+                    🔐 SECURE ADMINISTRATION
+                </div>
+
+
+                <h2>
+                    Create Admin Account 👋
+                </h2>
+
+
+                <p>
+                    Set up your administrator credentials
+                    to access the GHARSETU control center.
+                </p>
+
+            </div>
+
+
+
+            <!-- ERROR -->
+
+            <% if (
+                typeof error !== "undefined" &&
+                error
+            ) { %>
+
+                <div class="admin-error">
+
+                    <span>
+                        ⚠️
+                    </span>
+
+                    <%= error %>
+
+                </div>
+
+            <% } %>
+
+
+
+            <!-- FORM -->
+
+            <form
+                action="/admin/signup"
+                method="POST"
+                id="adminSignupForm"
+            >
+
+
+                <!-- NAME -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        ADMIN NAME
+                    </label>
+
+
+                    <div class="admin-input-box">
+
+                        <span>
+                            👤
+                        </span>
+
+
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Enter admin name"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- MOBILE -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        MOBILE NUMBER
+                    </label>
+
+
+                    <div class="admin-input-box">
+
+                        <span>
+                            📱
+                        </span>
+
+
+                        <input
+                            type="tel"
+                            name="mobile"
+                            id="mobile"
+                            placeholder="Enter 10 digit mobile number"
+                            maxlength="10"
+                            inputmode="numeric"
+                            autocomplete="tel"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        EMAIL ADDRESS
+                    </label>
+
+
+                    <div class="admin-input-box">
+
+                        <span>
+                            ✉️
+                        </span>
+
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Enter admin email"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        PASSWORD
+                    </label>
+
+
+                    <div class="admin-input-box">
+
+                        <span>
+                            🔐
+                        </span>
+
+
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder="Create password"
+                            minlength="6"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="admin-password-toggle"
+                            onclick="togglePassword('password', this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="admin-form-group">
+
+                    <label>
+                        CONFIRM PASSWORD
+                    </label>
+
+
+                    <div class="admin-input-box">
+
+                        <span>
+                            🔒
+                        </span>
+
+
+                        <input
+                            type="password"
+                            name="confirmPassword"
+                            id="confirmPassword"
+                            placeholder="Confirm password"
+                            minlength="6"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="admin-password-toggle"
+                            onclick="togglePassword('confirmPassword', this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PASSWORD MESSAGE -->
+
+                <div
+                    id="passwordMessage"
+                    class="admin-password-message"
+                ></div>
+
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="admin-submit-btn"
+                >
+
+                    <span>
+                        Create Admin Account
+                    </span>
+
+                    <strong>
+                        →
+                    </strong>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- LOGIN LINK -->
+
+            <div class="admin-auth-switch">
+
+                Already have an admin account?
+
+                <a href="/admin/login">
+                    Login here
+                </a>
+
+            </div>
+
+
+
+            <!-- SECURITY -->
+
+            <div class="admin-security-note">
+
+                <span>
+                    🔒
+                </span>
+
+                <div>
+
+                    <strong>
+                        Protected Admin Area
+                    </strong>
+
+                    <small>
+                        Your credentials are securely protected.
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+
+
+<script>
+
+
+// ======================================================
+// PASSWORD TOGGLE
+// ======================================================
+
+function togglePassword(
+    id,
+    button
+) {
+
+    const input =
+        document.getElementById(id);
+
+
+    if (
+        input.type === "password"
+    ) {
+
+        input.type = "text";
+
+        button.textContent = "🙈";
+
+    } else {
+
+        input.type = "password";
+
+        button.textContent = "👁";
+
+    }
+
+}
+
+
+
+// ======================================================
+// MOBILE NUMBER
+// ======================================================
+
+const mobileInput =
+    document.getElementById("mobile");
+
+
+mobileInput.addEventListener(
+    "input",
+    function () {
+
+        this.value =
+            this.value
+                .replace(/\D/g, "")
+                .slice(0, 10);
+
+    }
+);
+
+
+
+// ======================================================
+// PASSWORD MATCH
+// ======================================================
+
+const password =
+    document.getElementById("password");
+
+const confirmPassword =
+    document.getElementById(
+        "confirmPassword"
+    );
+
+const passwordMessage =
+    document.getElementById(
+        "passwordMessage"
+    );
+
+
+function checkPassword() {
+
+    if (
+        !confirmPassword.value
+    ) {
+
+        passwordMessage.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    if (
+        password.value !==
+        confirmPassword.value
+    ) {
+
+        passwordMessage.textContent =
+            "⚠️ Passwords do not match.";
+
+        passwordMessage.className =
+            "admin-password-message error";
+
+    } else {
+
+        passwordMessage.textContent =
+            "✓ Passwords match.";
+
+        passwordMessage.className =
+            "admin-password-message success";
+
+    }
+
+}
+
+
+password.addEventListener(
+    "input",
+    checkPassword
+);
+
+
+confirmPassword.addEventListener(
+    "input",
+    checkPassword
+);
+
+
+
+// ======================================================
+// FORM VALIDATION
+// ======================================================
+
+document
+    .getElementById(
+        "adminSignupForm"
+    )
+    .addEventListener(
+        "submit",
+        function (event) {
+
+
+            if (
+                password.value !==
+                confirmPassword.value
+            ) {
+
+                event.preventDefault();
+
+                passwordMessage.textContent =
+                    "⚠️ Passwords do not match.";
+
+                passwordMessage.className =
+                    "admin-password-message error";
+
+                confirmPassword.focus();
+
+                return;
+
+            }
+
+
+            if (
+                mobileInput.value.length !== 10
+            ) {
+
+                event.preventDefault();
+
+                alert(
+                    "Please enter a valid 10 digit mobile number."
+                );
+
+                mobileInput.focus();
+
+                return;
+
+            }
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

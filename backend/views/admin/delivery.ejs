@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        GharSetu | Delivery Management
+    </title>
+
+
+    <!-- DELIVERY CSS -->
+
+<link rel="stylesheet" href="/css/admin.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     SIDEBAR
+====================================================== -->
+
+<aside class="admin-sidebar">
+
+
+    <!-- BRAND -->
+
+    <div class="admin-brand">
+
+        <div class="brand-icon">
+            🏠
+        </div>
+
+        <div>
+
+            <strong>
+                GharSetu
+            </strong>
+
+            <small>
+                Admin Panel
+            </small>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- NAVIGATION -->
+
+    <nav>
+
+
+        <a
+            href="/admin/dashboard"
+            class="admin-nav-link"
+        >
+            📊 Dashboard
+        </a>
+
+
+        <a
+            href="/admin/restaurants"
+            class="admin-nav-link"
+        >
+            🍽️ Restaurants
+        </a>
+
+
+        <a
+            href="/admin/tiffin-sellers"
+            class="admin-nav-link"
+        >
+            🍱 Tiffin Sellers
+        </a>
+
+
+        <a
+            href="/admin/customers"
+            class="admin-nav-link"
+        >
+            👥 Customers
+        </a>
+
+
+        <a
+            href="/admin/delivery"
+            class="admin-nav-link active"
+        >
+            🚴 Delivery
+        </a>
+
+
+        <a
+            href="/admin/orders"
+            class="admin-nav-link"
+        >
+            📦 Orders
+        </a>
+
+
+        <a
+            href="/admin/complaints"
+            class="admin-nav-link"
+        >
+            ⚠️ Complaints
+        </a>
+
+
+        <a
+            href="/admin/analytics"
+            class="admin-nav-link"
+        >
+            📈 Analytics
+        </a>
+
+
+        <a
+            href="/admin/settings"
+            class="admin-nav-link"
+        >
+            ⚙️ Settings
+        </a>
+
+
+    </nav>
+
+
+
+    <!-- ADMIN BOTTOM -->
+
+    <div class="sidebar-bottom">
+
+
+        <div class="admin-user-mini">
+
+
+            <div class="top-avatar">
+
+                <%= admin?.name
+                    ? admin.name
+                        .charAt(0)
+                        .toUpperCase()
+                    : "A"
+                %>
+
+            </div>
+
+
+            <div>
+
+                <strong>
+                    <%= admin?.name || "Admin" %>
+                </strong>
+
+                <small>
+                    Administrator
+                </small>
+
+            </div>
+
+
+        </div>
+
+
+        <a
+            href="/admin/logout"
+            class="logout-btn"
+        >
+            🚪 Logout
+        </a>
+
+
+    </div>
+
+
+</aside>
+
+
+
+<!-- =====================================================
+     MAIN
+====================================================== -->
+
+<main class="admin-main">
+
+
+    <div class="delivery-page">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <div class="delivery-header">
+
+
+            <div>
+
+                <div class="delivery-eyebrow">
+                    ADMIN MANAGEMENT
+                </div>
+
+
+                <h1>
+                    Delivery Partner Management
+                </h1>
+
+
+                <p>
+                    Manage GharSetu delivery partners,
+                    deliveries and earnings.
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             STAT CARDS
+        ================================================== -->
+
+        <div class="delivery-stats">
+
+
+            <!-- TOTAL -->
+
+            <div class="delivery-stat-card">
+
+                <div class="delivery-stat-icon">
+                    🚴
+                </div>
+
+                <div>
+
+                    <div class="delivery-stat-label">
+                        Total Partners
+                    </div>
+
+                    <div class="delivery-stat-number">
+                        <%= totalPartners %>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIVE -->
+
+            <div class="delivery-stat-card">
+
+                <div class="delivery-stat-icon">
+                    🟢
+                </div>
+
+                <div>
+
+                    <div class="delivery-stat-label">
+                        Active Partners
+                    </div>
+
+                    <div class="delivery-stat-number">
+                        <%= activePartners %>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- INACTIVE -->
+
+            <div class="delivery-stat-card">
+
+                <div class="delivery-stat-icon">
+                    🔴
+                </div>
+
+                <div>
+
+                    <div class="delivery-stat-label">
+                        Inactive Partners
+                    </div>
+
+                    <div class="delivery-stat-number">
+                        <%= inactivePartners %>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PENDING -->
+
+            <div class="delivery-stat-card">
+
+                <div class="delivery-stat-icon">
+                    ⏳
+                </div>
+
+                <div>
+
+                    <div class="delivery-stat-label">
+                        Pending Deliveries
+                    </div>
+
+                    <div class="delivery-stat-number">
+                        <%= pendingDeliveries %>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIVE DELIVERY -->
+
+            <div class="delivery-stat-card">
+
+                <div class="delivery-stat-icon">
+                    📍
+                </div>
+
+                <div>
+
+                    <div class="delivery-stat-label">
+                        Active Deliveries
+                    </div>
+
+                    <div class="delivery-stat-number">
+                        <%= activeDeliveries %>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- COMPLETED -->
+
+            <div class="delivery-stat-card">
+
+                <div class="delivery-stat-icon">
+                    ✅
+                </div>
+
+                <div>
+
+                    <div class="delivery-stat-label">
+                        Completed Deliveries
+                    </div>
+
+                    <div class="delivery-stat-number">
+                        <%= completedDeliveries %>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             SEARCH / FILTER
+        ================================================== -->
+
+        <div class="delivery-filter-box">
+
+
+            <form
+                method="GET"
+                action="/admin/delivery"
+                class="delivery-filter-form"
+            >
+
+
+                <div class="delivery-input-wrapper">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="Search name, email or mobile..."
+                        value="<%= search || '' %>"
+                    >
+
+                </div>
+
+
+                <select name="status">
+
+                    <option
+                        value="all"
+                        <%= status === "all"
+                            ? "selected"
+                            : ""
+                        %>
+                    >
+                        All Partners
+                    </option>
+
+
+                    <option
+                        value="active"
+                        <%= status === "active"
+                            ? "selected"
+                            : ""
+                        %>
+                    >
+                        Active
+                    </option>
+
+
+                    <option
+                        value="inactive"
+                        <%= status === "inactive"
+                            ? "selected"
+                            : ""
+                        %>
+                    >
+                        Inactive
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="submit"
+                    class="delivery-search-btn"
+                >
+                    Search
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+
+
+        <!-- =================================================
+             TABLE
+        ================================================== -->
+
+        <div class="delivery-table-box">
+
+
+            <div class="delivery-table-header">
+
+
+                <div>
+
+                    <h2>
+                        Delivery Partners
+                    </h2>
+
+                    <p>
+                        Manage registered delivery partners.
+                    </p>
+
+                </div>
+
+
+                <div class="delivery-result-count">
+
+                    <%= partners.length %>
+                    result(s)
+
+                </div>
+
+
+            </div>
+
+
+
+            <% if (partners.length === 0) { %>
+
+
+                <div class="delivery-empty">
+
+
+                    <div class="delivery-empty-icon">
+                        🚴
+                    </div>
+
+
+                    <h3>
+                        No Delivery Partners Found
+                    </h3>
+
+
+                    <p>
+                        Try changing your search
+                        or status filter.
+                    </p>
+
+
+                </div>
+
+
+            <% } else { %>
+
+
+
+                <div class="delivery-table-scroll">
+
+
+                    <table class="delivery-table">
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    PARTNER
+                                </th>
+
+                                <th>
+                                    MOBILE
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                                <th>
+                                    DELIVERIES
+                                </th>
+
+                                <th>
+                                    EARNINGS
+                                </th>
+
+                                <th>
+                                    JOINED
+                                </th>
+
+                                <th>
+                                    ACTIONS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+
+                        <tbody>
+
+
+                            <% partners.forEach(partner => { %>
+
+
+                                <tr
+                                    id="partner-row-<%= partner._id %>"
+                                >
+
+
+                                    <!-- PARTNER -->
+
+                                    <td>
+
+
+                                        <div class="delivery-partner-info">
+
+
+                                            <div class="delivery-avatar">
+
+
+                                                <% if (partner.profileImage) { %>
+
+
+                                                    <img
+                                                        src="<%= partner.profileImage %>"
+                                                        alt="Partner"
+                                                    >
+
+
+                                                <% } else { %>
+
+
+                                                    <%= partner.name
+                                                        ? partner.name
+                                                            .charAt(0)
+                                                            .toUpperCase()
+                                                        : "D"
+                                                    %>
+
+
+                                                <% } %>
+
+
+                                            </div>
+
+
+
+                                            <div>
+
+
+                                                <div class="delivery-partner-name">
+
+                                                    <%= partner.name || "Unknown" %>
+
+                                                </div>
+
+
+                                                <div class="delivery-partner-email">
+
+                                                    <%= partner.email || "-" %>
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </div>
+
+
+                                    </td>
+
+
+
+                                    <!-- MOBILE -->
+
+                                    <td>
+
+                                        <%= partner.mobile || "-" %>
+
+                                    </td>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <td>
+
+
+                                        <% if (partner.isActive) { %>
+
+
+                                            <span
+                                                class="delivery-status active"
+                                                id="status-<%= partner._id %>"
+                                            >
+                                                🟢 Active
+                                            </span>
+
+
+                                        <% } else { %>
+
+
+                                            <span
+                                                class="delivery-status inactive"
+                                                id="status-<%= partner._id %>"
+                                            >
+                                                🔴 Inactive
+                                            </span>
+
+
+                                        <% } %>
+
+
+                                    </td>
+
+
+
+                                    <!-- DELIVERIES -->
+
+                                    <td>
+
+
+                                        <div class="delivery-count-box">
+
+
+                                            <strong>
+                                                <%= partner.totalDeliveries || 0 %>
+                                            </strong>
+
+
+                                            <small>
+
+                                                <%= partner.completedDeliveries || 0 %>
+                                                completed
+
+                                            </small>
+
+
+                                        </div>
+
+
+                                    </td>
+
+
+
+                                    <!-- EARNINGS -->
+
+                                    <td>
+
+
+                                        <div class="delivery-earning">
+
+
+                                            ₹<%= Number(
+                                                partner.totalEarning || 0
+                                            ).toFixed(2) %>
+
+
+                                        </div>
+
+
+                                        <small class="earning-small">
+
+                                            Current:
+                                            ₹<%= Number(
+                                                partner.currentEarning || 0
+                                            ).toFixed(2) %>
+
+                                        </small>
+
+
+                                    </td>
+
+
+
+                                    <!-- JOINED -->
+
+                                    <td>
+
+
+                                        <%= partner.createdAt
+                                            ? new Date(
+                                                partner.createdAt
+                                            ).toLocaleDateString("en-IN")
+                                            : "-"
+                                        %>
+
+
+                                    </td>
+
+
+
+                                    <!-- ACTIONS -->
+
+                                    <td>
+
+
+                                        <div class="delivery-actions">
+
+
+                                            <button
+                                                type="button"
+                                                class="delivery-btn view"
+                                                onclick="viewPartner('<%= partner._id %>')"
+                                            >
+                                                👁 View
+                                            </button>
+
+
+
+                                            <button
+                                                type="button"
+                                                class="delivery-btn <%= partner.isActive ? 'deactivate' : 'activate' %>"
+                                                id="toggle-btn-<%= partner._id %>"
+                                                onclick="togglePartner('<%= partner._id %>')"
+                                            >
+
+                                                <%= partner.isActive
+                                                    ? "Deactivate"
+                                                    : "Activate"
+                                                %>
+
+                                            </button>
+
+
+                                        </div>
+
+
+                                    </td>
+
+
+                                </tr>
+
+
+                            <% }) %>
+
+
+                        </tbody>
+
+
+                    </table>
+
+
+                </div>
+
+
+            <% } %>
+
+
+        </div>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     PARTNER DETAILS MODAL
+====================================================== -->
+
+<div
+    class="delivery-modal"
+    id="partnerModal"
+>
+
+
+    <div class="delivery-modal-box">
+
+
+        <div class="delivery-modal-header">
+
+
+            <div>
+
+                <span class="modal-eyebrow">
+                    DELIVERY PARTNER
+                </span>
+
+                <h3>
+                    Partner Details
+                </h3>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="delivery-modal-close"
+                onclick="closePartnerModal()"
+            >
+                ×
+            </button>
+
+
+        </div>
+
+
+
+        <div
+            class="delivery-modal-body"
+            id="partnerModalBody"
+        >
+
+            <div class="modal-loading">
+                Loading...
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+
+// ======================================================
+// VIEW PARTNER
+// ======================================================
+
+async function viewPartner(id) {
+
+
+    const modal =
+        document.getElementById(
+            "partnerModal"
+        );
+
+
+    const body =
+        document.getElementById(
+            "partnerModalBody"
+        );
+
+
+    modal.classList.add("show");
+
+
+    body.innerHTML = `
+
+        <div class="modal-loading">
+            Loading partner details...
+        </div>
+
+    `;
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `/admin/delivery/${id}`
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Failed to load partner."
+            );
+
+        }
+
+
+        const partner =
+            data.partner;
+
+
+        const stats =
+            data.stats || {};
+
+
+        const joined =
+            partner.createdAt
+                ? new Date(
+                    partner.createdAt
+                ).toLocaleDateString(
+                    "en-IN"
+                )
+                : "-";
+
+
+        body.innerHTML = `
+
+            <div class="modal-profile">
+
+                <div class="modal-avatar">
+
+                    ${
+                        partner.profileImage
+                            ? `
+                                <img
+                                    src="${escapeHtml(
+                                        partner.profileImage
+                                    )}"
+                                    alt="Partner"
+                                >
+                              `
+                            : `
+                                ${
+                                    partner.name
+                                        ? escapeHtml(
+                                            partner.name
+                                                .charAt(0)
+                                                .toUpperCase()
+                                        )
+                                        : "D"
+                                }
+                              `
+                    }
+
+                </div>
+
+
+                <div>
+
+                    <h4>
+                        ${escapeHtml(
+                            partner.name || "Unknown"
+                        )}
+                    </h4>
+
+                    <p>
+                        Delivery Partner
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="modal-status-row">
+
+                <span>
+                    Account Status
+                </span>
+
+                <strong class="${
+                    partner.isActive
+                        ? "text-active"
+                        : "text-inactive"
+                }">
+
+                    ${
+                        partner.isActive
+                            ? "🟢 Active"
+                            : "🔴 Inactive"
+                    }
+
+                </strong>
+
+            </div>
+
+
+
+            <div class="modal-detail-grid">
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Email
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            partner.email || "-"
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Mobile
+                    </span>
+
+                    <strong>
+                        ${escapeHtml(
+                            partner.mobile || "-"
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Joined
+                    </span>
+
+                    <strong>
+                        ${joined}
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Total Deliveries
+                    </span>
+
+                    <strong>
+                        ${stats.totalDeliveries || 0}
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Completed
+                    </span>
+
+                    <strong>
+                        ${stats.completedDeliveries || 0}
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Pending
+                    </span>
+
+                    <strong>
+                        ${stats.pendingDeliveries || 0}
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Active Deliveries
+                    </span>
+
+                    <strong>
+                        ${stats.activeDeliveries || 0}
+                    </strong>
+
+                </div>
+
+
+                <div class="modal-detail-item">
+
+                    <span>
+                        Total Earnings
+                    </span>
+
+                    <strong>
+                        ₹${Number(
+                            stats.totalEarning || 0
+                        ).toFixed(2)}
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        `;
+
+
+    } catch (error) {
+
+
+        body.innerHTML = `
+
+            <div class="modal-error">
+
+                ${escapeHtml(
+                    error.message
+                )}
+
+            </div>
+
+        `;
+
+    }
+
+}
+
+
+
+// ======================================================
+// CLOSE MODAL
+// ======================================================
+
+function closePartnerModal() {
+
+
+    document
+        .getElementById(
+            "partnerModal"
+        )
+        .classList
+        .remove("show");
+
+}
+
+
+
+// ======================================================
+// TOGGLE STATUS
+// ======================================================
+
+async function togglePartner(id) {
+
+
+    const button =
+        document.getElementById(
+            `toggle-btn-${id}`
+        );
+
+
+    if (!button) return;
+
+
+    const oldText =
+        button.innerText;
+
+
+    button.disabled = true;
+
+
+    button.innerText =
+        "Updating...";
+
+
+    try {
+
+
+        const response =
+            await fetch(
+                `/admin/delivery/${id}/toggle-status`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    }
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.message ||
+                "Failed to update status."
+            );
+
+        }
+
+
+        const statusElement =
+            document.getElementById(
+                `status-${id}`
+            );
+
+
+        if (data.isActive) {
+
+
+            statusElement.className =
+                "delivery-status active";
+
+
+            statusElement.innerHTML =
+                "🟢 Active";
+
+
+            button.className =
+                "delivery-btn deactivate";
+
+
+            button.innerText =
+                "Deactivate";
+
+
+        } else {
+
+
+            statusElement.className =
+                "delivery-status inactive";
+
+
+            statusElement.innerHTML =
+                "🔴 Inactive";
+
+
+            button.className =
+                "delivery-btn activate";
+
+
+            button.innerText =
+                "Activate";
+
+        }
+
+
+    } catch (error) {
+
+
+        alert(
+            error.message ||
+            "Something went wrong."
+        );
+
+
+        button.innerText =
+            oldText;
+
+    }
+
+
+    button.disabled = false;
+
+}
+
+
+
+// ======================================================
+// ESCAPE HTML
+// ======================================================
+
+function escapeHtml(value) {
+
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+
+        return "";
+
+    }
+
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+
+// ======================================================
+// BACKDROP CLICK
+// ======================================================
+
+document
+    .getElementById(
+        "partnerModal"
+    )
+    .addEventListener(
+        "click",
+        function(event) {
+
+
+            if (
+                event.target ===
+                this
+            ) {
+
+                closePartnerModal();
+
+            }
+
+        }
+    );
+
+
+
+// ======================================================
+// ESC KEY
+// ======================================================
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closePartnerModal();
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
