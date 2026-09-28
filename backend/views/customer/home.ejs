@@ -1,41 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>GharSetu | Home</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="/css/style.css">
+    <title>
+        GharSetu | Home
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
 </head>
+
 
 <body>
 
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
     <%- include("../partials/navbar") %>
+
+
 
     <main>
 
-        <!-- HERO -->
+
+        <!-- =========================================
+             HERO SECTION
+        ========================================== -->
 
         <section class="hero-section">
 
             <div class="hero-content">
 
-                <h1>Welcome to GharSetu</h1>
+                <h1>
+                    Welcome to GharSetu
+                </h1>
 
                 <p>
-                    Fresh food, delicious tiffins and trusted restaurants
-                    delivered to your doorstep.
+                    Fresh food, delicious tiffins and
+                    trusted restaurants delivered to
+                    your doorstep.
                 </p>
+
 
                 <div class="hero-buttons">
 
-                    <a href="/tiffins" class="btn">
-                        Explore Tiffins
+                    <a
+                        href="/customer/tiffins"
+                        class="btn"
+                    >
+                        🍱 Explore Tiffins
                     </a>
 
-                    <a href="/restaurants" class="btn">
-                        Find Restaurants
+
+                    <a
+                        href="/customer/restaurants"
+                        class="btn"
+                    >
+                        🍽️ Find Restaurants
                     </a>
 
                 </div>
@@ -45,48 +79,132 @@
         </section>
 
 
-        <!-- SERVICES -->
+
+        <!-- =========================================
+             SEARCH
+        ========================================== -->
+
+        <section class="search-page">
+
+            <div class="search-container">
+
+                <h2>
+                    What are you looking for?
+                </h2>
+
+                <p>
+                    Search restaurants, food and tiffins
+                </p>
+
+
+                <form
+                    action="/customer/search"
+                    method="GET"
+                >
+
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Search restaurants or food..."
+                        autocomplete="off"
+                    >
+
+
+                    <button
+                        type="submit"
+                        class="btn"
+                    >
+                        🔍 Search
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             SERVICES
+        ========================================== -->
 
         <section class="services-section">
 
-            <h2>What are you looking for?</h2>
+            <h2>
+                What are you looking for?
+            </h2>
+
 
             <div class="service-grid">
 
-                <a href="/tiffins" class="service-card">
 
-                    <div class="service-icon">🍱</div>
+                <!-- TIFFINS -->
 
-                    <h3>Tiffins</h3>
+                <a
+                    href="/customer/tiffins"
+                    class="service-card"
+                >
+
+                    <div class="service-icon">
+                        🍱
+                    </div>
+
+                    <h3>
+                        Tiffins
+                    </h3>
 
                     <p>
-                        Find fresh and affordable homemade tiffins.
+                        Find fresh, homemade and
+                        affordable daily tiffins.
                     </p>
 
                 </a>
 
 
-                <a href="/restaurants" class="service-card">
 
-                    <div class="service-icon">🍽️</div>
+                <!-- RESTAURANTS -->
 
-                    <h3>Restaurants</h3>
+                <a
+                    href="/customer/restaurants"
+                    class="service-card"
+                >
+
+                    <div class="service-icon">
+                        🍽️
+                    </div>
+
+                    <h3>
+                        Restaurants
+                    </h3>
 
                     <p>
-                        Explore restaurants and their delicious food.
+                        Explore restaurants and
+                        delicious food near you.
                     </p>
 
                 </a>
 
 
-                <a href="/subscriptions" class="service-card">
 
-                    <div class="service-icon">📅</div>
+                <!-- TIFFIN PLANS -->
 
-                    <h3>Subscriptions</h3>
+                <a
+                    href="/customer/subscriptions"
+                    class="service-card"
+                >
+
+                    <div class="service-icon">
+                        📅
+                    </div>
+
+                    <h3>
+                        Tiffin Plans
+                    </h3>
 
                     <p>
-                        Manage your monthly food subscriptions.
+                        Book daily, weekly or
+                        monthly tiffin plans.
                     </p>
 
                 </a>
@@ -96,35 +214,257 @@
         </section>
 
 
-        <!-- QUICK LINKS -->
+
+        <!-- =========================================
+             QUICK ACCESS
+        ========================================== -->
 
         <section class="quick-section">
 
-            <h2>Quick Access</h2>
+            <h2>
+                Quick Access
+            </h2>
+
 
             <div class="quick-links">
 
-                <a href="/search">
-                    🔍 Search Food
-                </a>
 
-                <a href="/orders">
+                <!-- ORDERS -->
+
+                <a
+                    href="/customer/orders"
+                >
                     📦 My Orders
                 </a>
 
-                <a href="/cart">
+
+
+                <!-- CART -->
+
+                <a
+                    href="/customer/cart"
+                >
                     🛒 My Cart
                 </a>
 
-                <a href="/profile">
+
+
+                <!-- PROFILE -->
+
+                <a
+                    href="/customer/profile"
+                >
                     👤 My Profile
+                </a>
+
+
+
+                <!-- SEARCH -->
+
+                <a
+                    href="/customer/search"
+                >
+                    🔍 Search Food
                 </a>
 
             </div>
 
         </section>
 
+
+
+        <!-- =========================================
+             POPULAR CATEGORIES
+        ========================================== -->
+
+        <section class="services-section">
+
+            <h2>
+                Popular Categories
+            </h2>
+
+
+            <div class="service-grid">
+
+
+                <a
+                    href="/customer/tiffins"
+                    class="service-card"
+                >
+
+                    <div class="service-icon">
+                        🍱
+                    </div>
+
+                    <h3>
+                        Tiffin
+                    </h3>
+
+                    <p>
+                        Homemade daily meals
+                    </p>
+
+                </a>
+
+
+
+                <a
+                    href="/customer/restaurants"
+                    class="service-card"
+                >
+
+                    <div class="service-icon">
+                        🍛
+                    </div>
+
+                    <h3>
+                        Indian Food
+                    </h3>
+
+                    <p>
+                        Delicious Indian dishes
+                    </p>
+
+                </a>
+
+
+
+                <a
+                    href="/customer/restaurants"
+                    class="service-card"
+                >
+
+                    <div class="service-icon">
+                        🍕
+                    </div>
+
+                    <h3>
+                        Fast Food
+                    </h3>
+
+                    <p>
+                        Pizza, burgers and more
+                    </p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================================
+             CUSTOMER INFORMATION
+        ========================================== -->
+
+        <section class="profile-page">
+
+            <div class="profile-container">
+
+                <h1>
+                    Your GharSetu Account
+                </h1>
+
+
+                <div class="profile-card">
+
+                    <div class="profile-avatar">
+                        👤
+                    </div>
+
+
+                    <h2>
+                        Welcome,
+                        <%= user?.name || "Customer" %>
+                    </h2>
+
+
+                    <div class="profile-info">
+
+                        <div>
+
+                            <strong>
+                                Name
+                            </strong>
+
+                            <p>
+                                <%= user?.name || "Customer" %>
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Email
+                            </strong>
+
+                            <p>
+                                <%= user?.email || "Not available" %>
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Mobile
+                            </strong>
+
+                            <p>
+                                <%= user?.mobile || "Not available" %>
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Account
+                            </strong>
+
+                            <p>
+                                Customer
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="profile-actions">
+
+                        <a
+                            href="/customer/profile"
+                            class="btn"
+                        >
+                            View Profile
+                        </a>
+
+
+                        <a
+                            href="/customer/orders"
+                            class="btn"
+                        >
+                            My Orders
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
     </main>
 
+
 </body>
+
 </html>

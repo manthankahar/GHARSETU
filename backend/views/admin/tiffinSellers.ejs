@@ -21,12 +21,16 @@
 
 <body>
 
+
 <div class="admin-layout">
 
 
-    <!-- SIDEBAR -->
+    <!-- =========================================
+         SIDEBAR
+    ========================================== -->
 
     <aside class="admin-sidebar">
+
 
         <div class="admin-brand">
 
@@ -36,7 +40,9 @@
 
             <div>
 
-                <h2>GHARSETU</h2>
+                <h2>
+                    GHARSETU
+                </h2>
 
                 <span>
                     ADMIN CONTROL
@@ -47,18 +53,34 @@
         </div>
 
 
+
+        <!-- NAVIGATION -->
+
         <nav class="admin-nav">
 
+
             <a href="/admin/dashboard">
+
                 📊
-                <span>Dashboard</span>
+
+                <span>
+                    Dashboard
+                </span>
+
             </a>
+
 
 
             <a href="/admin/restaurants">
+
                 🏪
-                <span>Restaurants</span>
+
+                <span>
+                    Restaurants
+                </span>
+
             </a>
+
 
 
             <a
@@ -72,7 +94,11 @@
                     Tiffin Sellers
                 </span>
 
-                <% if (pendingSellers > 0) { %>
+
+                <% if (
+                    typeof pendingSellers !== "undefined" &&
+                    pendingSellers > 0
+                ) { %>
 
                     <b class="nav-badge">
                         <%= pendingSellers %>
@@ -80,66 +106,115 @@
 
                 <% } %>
 
+
             </a>
+
 
 
             <a href="/admin/customers">
+
                 👥
-                <span>Customers</span>
+
+                <span>
+                    Customers
+                </span>
+
             </a>
+
 
 
             <a href="/admin/delivery">
+
                 🚴
-                <span>Delivery Partners</span>
+
+                <span>
+                    Delivery Partners
+                </span>
+
             </a>
+
 
 
             <a href="/admin/orders">
+
                 📦
-                <span>Orders</span>
+
+                <span>
+                    Orders
+                </span>
+
             </a>
+
 
 
             <a href="/admin/complaints">
+
                 💬
-                <span>Complaints</span>
+
+                <span>
+                    Complaints
+                </span>
+
             </a>
+
 
 
             <a href="/admin/analytics">
+
                 📈
-                <span>Analytics</span>
+
+                <span>
+                    Analytics
+                </span>
+
             </a>
+
 
 
             <a href="/admin/settings">
+
                 ⚙️
-                <span>Settings</span>
+
+                <span>
+                    Settings
+                </span>
+
             </a>
+
 
         </nav>
 
 
+
+        <!-- SIDEBAR BOTTOM -->
+
         <div class="sidebar-bottom">
+
 
             <div class="admin-user-mini">
 
+
                 <div class="admin-avatar">
 
-                    <%= admin.name
-                        ? admin.name
-                            .charAt(0)
-                            .toUpperCase()
-                        : "A" %>
+                    <%= admin && admin.name
+                        ? admin.name.charAt(0).toUpperCase()
+                        : "A"
+                    %>
 
                 </div>
+
 
                 <div>
 
                     <strong>
-                        <%= admin.name %>
+
+                        <%= admin && admin.name
+                            ? admin.name
+                            : "Admin"
+                        %>
+
                     </strong>
+
 
                     <small>
                         Administrator
@@ -147,7 +222,9 @@
 
                 </div>
 
+
             </div>
+
 
 
             <form
@@ -156,59 +233,84 @@
             >
 
                 <button
-                    class="logout-btn"
                     type="submit"
+                    class="logout-btn"
                 >
+
                     🚪 Logout
+
                 </button>
 
             </form>
 
+
         </div>
+
 
     </aside>
 
 
 
-    <!-- MAIN -->
+    <!-- =========================================
+         MAIN CONTENT
+    ========================================== -->
 
     <main class="admin-main">
 
 
+        <!-- TOP HEADER -->
+
         <header class="admin-topbar">
 
+
             <div>
+
 
                 <p class="eyebrow">
                     PARTNER MANAGEMENT
                 </p>
 
+
                 <h1>
                     Tiffin Seller Management 🍱
                 </h1>
 
+
                 <p class="top-description">
-                    Review and manage tiffin seller registration requests.
+                    Review and manage homemade tiffin service registration requests.
                 </p>
+
 
             </div>
 
 
+
+            <!-- ADMIN -->
+
             <div class="top-admin">
 
+
                 <div class="top-avatar">
-                    <%= admin.name
-                        ? admin.name
-                            .charAt(0)
-                            .toUpperCase()
-                        : "A" %>
+
+                    <%= admin && admin.name
+                        ? admin.name.charAt(0).toUpperCase()
+                        : "A"
+                    %>
+
                 </div>
+
 
                 <div>
 
                     <strong>
-                        <%= admin.name %>
+
+                        <%= admin && admin.name
+                            ? admin.name
+                            : "Admin"
+                        %>
+
                     </strong>
+
 
                     <span>
                         Administrator
@@ -216,75 +318,149 @@
 
                 </div>
 
+
             </div>
+
 
         </header>
 
 
 
-        <!-- STATS -->
+        <!-- =========================================
+             STATS
+        ========================================== -->
 
         <section class="partner-stats">
 
 
+            <!-- TOTAL -->
+
             <div class="partner-stat">
 
+
                 <span>
-                    Total
+                    Total Tiffin Sellers
                 </span>
+
 
                 <strong>
                     <%= totalSellers %>
                 </strong>
 
+
+                <small>
+                    All registered tiffin partners
+                </small>
+
+
             </div>
 
 
+
+            <!-- PENDING -->
+
             <div class="partner-stat pending">
 
+
                 <span>
-                    Pending
+                    Pending Approval
                 </span>
+
 
                 <strong>
                     <%= pendingSellers %>
                 </strong>
 
+
+                <small>
+                    Waiting for admin review
+                </small>
+
+
             </div>
 
 
+
+            <!-- APPROVED -->
+
             <div class="partner-stat approved">
+
 
                 <span>
                     Approved
                 </span>
 
+
                 <strong>
                     <%= approvedSellers %>
                 </strong>
 
+
+                <small>
+                    Active tiffin partners
+                </small>
+
+
             </div>
 
 
+
+            <!-- REJECTED -->
+
             <div class="partner-stat rejected">
+
 
                 <span>
                     Rejected
                 </span>
 
+
                 <strong>
                     <%= rejectedSellers %>
                 </strong>
 
+
+                <small>
+                    Rejected registration requests
+                </small>
+
+
             </div>
+
 
         </section>
 
 
 
-        <!-- FILTER -->
+        <!-- =========================================
+             SEARCH & FILTER
+        ========================================== -->
 
         <section class="management-panel">
+
+
+            <div class="section-heading">
+
+
+                <div>
+
+
+                    <p class="eyebrow">
+                        SEARCH & FILTER
+                    </p>
+
+
+                    <h2>
+                        Find Tiffin Sellers
+                    </h2>
+
+
+                </div>
+
+
+            </div>
+
+
 
             <form
                 method="GET"
@@ -292,229 +468,398 @@
                 class="filter-bar"
             >
 
+
+                <!-- SEARCH -->
+
                 <div class="search-box">
 
+
                     🔍
+
 
                     <input
                         type="text"
                         name="search"
-                        value="<%= search %>"
+                        value="<%= search || '' %>"
                         placeholder="Search company, owner, email or mobile..."
                     >
+
 
                 </div>
 
 
+
+                <!-- STATUS -->
+
                 <select name="status">
+
 
                     <option
                         value="all"
-                        <%= status === "all" ? "selected" : "" %>
+                        <%= status === "all"
+                            ? "selected"
+                            : ""
+                        %>
                     >
                         All Status
                     </option>
 
+
+
                     <option
                         value="pending"
-                        <%= status === "pending" ? "selected" : "" %>
+                        <%= status === "pending"
+                            ? "selected"
+                            : ""
+                        %>
                     >
                         Pending
                     </option>
 
+
+
                     <option
                         value="approved"
-                        <%= status === "approved" ? "selected" : "" %>
+                        <%= status === "approved"
+                            ? "selected"
+                            : ""
+                        %>
                     >
                         Approved
                     </option>
 
+
+
                     <option
                         value="rejected"
-                        <%= status === "rejected" ? "selected" : "" %>
+                        <%= status === "rejected"
+                            ? "selected"
+                            : ""
+                        %>
                     >
                         Rejected
                     </option>
 
+
                 </select>
+
 
 
                 <button
                     type="submit"
                     class="filter-btn"
                 >
+
                     Search
+
                 </button>
 
+
             </form>
+
 
         </section>
 
 
 
-        <!-- SELLERS -->
+        <!-- =========================================
+             TIFFIN SELLER TABLE
+        ========================================== -->
 
         <section class="management-panel">
 
+
             <div class="section-heading">
 
+
                 <div>
+
 
                     <p class="eyebrow">
                         TIFFIN PARTNERS
                     </p>
 
+
                     <h2>
                         Registration Requests
                     </h2>
 
+
+                    <p class="section-subtitle">
+                        Review seller information and approval status.
+                    </p>
+
+
                 </div>
 
+
+
                 <span class="section-count">
-                    <%= sellers.length %> Results
+
+                    <%= sellers.length %>
+                    Results
+
                 </span>
+
 
             </div>
 
 
+
+            <!-- TABLE -->
+
             <div class="partner-table-wrapper">
+
 
                 <table class="partner-table">
 
+
                     <thead>
+
 
                         <tr>
 
-                            <th>
-                                Tiffin Company
-                            </th>
 
                             <th>
-                                Owner
+                                TIFFIN COMPANY
                             </th>
 
-                            <th>
-                                Contact
-                            </th>
 
                             <th>
-                                Address
+                                OWNER
                             </th>
 
-                            <th>
-                                Status
-                            </th>
 
                             <th>
-                                Action
+                                CONTACT
                             </th>
+
+
+                            <th>
+                                ADDRESS
+                            </th>
+
+
+                            <th>
+                                STATUS
+                            </th>
+
+
+                            <th>
+                                ACTIONS
+                            </th>
+
 
                         </tr>
+
 
                     </thead>
 
 
+
                     <tbody>
+
 
                     <% if (sellers.length > 0) { %>
 
 
-                        <% sellers.forEach(seller => { %>
+                        <% sellers.forEach(function(seller) { %>
+
 
                             <tr>
 
+
+                                <!-- COMPANY -->
+
                                 <td>
 
+
                                     <div class="partner-name">
+
 
                                         <div class="partner-avatar">
                                             🍱
                                         </div>
 
+
                                         <div>
 
+
                                             <strong>
-                                                <%= seller.tiffinCompanyName %>
+
+                                                <%= seller.tiffinCompanyName
+                                                    || "Unnamed Tiffin Service"
+                                                %>
+
                                             </strong>
 
+
                                             <small>
-                                                <%= seller.email || "No email" %>
+
+                                                <%= seller.email
+                                                    || "No email available"
+                                                %>
+
                                             </small>
+
 
                                         </div>
 
+
                                     </div>
 
+
                                 </td>
 
 
+
+                                <!-- OWNER -->
+
                                 <td>
+
 
                                     <strong>
-                                        <%= seller.ownerName || "N/A" %>
+
+                                        <%= seller.ownerName
+                                            || "N/A"
+                                        %>
+
                                     </strong>
 
-                                </td>
-
-
-                                <td>
-
-                                    <span>
-                                        <%= seller.mobile || "N/A" %>
-                                    </span>
 
                                 </td>
 
 
+
+                                <!-- CONTACT -->
+
                                 <td>
+
+
+                                    <div>
+
+
+                                        <span>
+
+                                            📱
+
+                                            <%= seller.mobile
+                                                || "N/A"
+                                            %>
+
+                                        </span>
+
+
+
+                                        <% if (seller.email) { %>
+
+
+                                            <small
+                                                style="display:block;"
+                                            >
+
+                                                ✉️
+
+                                                <%= seller.email %>
+
+                                            </small>
+
+
+                                        <% } %>
+
+
+                                    </div>
+
+
+                                </td>
+
+
+
+                                <!-- ADDRESS -->
+
+                                <td>
+
 
                                     <span class="address-text">
-                                        <%= seller.address || "N/A" %>
+
+                                        <%= seller.address
+                                            || "N/A"
+                                        %>
+
                                     </span>
+
 
                                 </td>
 
 
+
+                                <!-- STATUS -->
+
                                 <td>
+
 
                                     <span
-                                        class="approval-status <%= seller.registrationStatus %>"
+                                        class="approval-status <%= seller.registrationStatus || 'pending' %>"
                                     >
-                                        <%= seller.registrationStatus || "pending" %>
+
+                                        <%= seller.registrationStatus
+                                            || "pending"
+                                        %>
+
                                     </span>
+
 
                                 </td>
 
 
+
+                                <!-- ACTIONS -->
+
                                 <td>
+
 
                                     <div class="approval-actions">
 
 
-                                        <% if (seller.registrationStatus === "pending") { %>
+                                        <% if (
+                                            (seller.registrationStatus || "pending")
+                                            === "pending"
+                                        ) { %>
 
 
                                             <button
+                                                type="button"
                                                 class="approve-btn"
                                                 onclick="approveSeller('<%= seller._id %>')"
                                             >
+
                                                 ✓ Approve
+
                                             </button>
+
 
 
                                             <button
+                                                type="button"
                                                 class="reject-btn"
                                                 onclick="rejectSeller('<%= seller._id %>')"
                                             >
+
                                                 ✕ Reject
+
                                             </button>
 
 
-                                        <% } else if (seller.registrationStatus === "approved") { %>
+                                        <% } else if (
+                                            seller.registrationStatus
+                                            === "approved"
+                                        ) { %>
 
 
                                             <span class="action-done">
+
                                                 ✓ Approved
+
                                             </span>
 
 
@@ -522,7 +867,9 @@
 
 
                                             <span class="action-rejected">
+
                                                 ✕ Rejected
+
                                             </span>
 
 
@@ -531,85 +878,133 @@
 
                                     </div>
 
+
                                 </td>
+
 
                             </tr>
 
-                        <% }) %>
+
+                        <% }); %>
 
 
                     <% } else { %>
 
+
                         <tr>
+
 
                             <td
                                 colspan="6"
                                 class="empty-table"
                             >
 
-                                No tiffin seller registration requests found.
+
+                                <div>
+                                    🍱
+                                </div>
+
+
+                                <strong>
+                                    No Tiffin Seller Requests Found
+                                </strong>
+
+
+                                <small>
+                                    Try changing your search or status filter.
+                                </small>
+
 
                             </td>
 
+
                         </tr>
+
 
                     <% } %>
 
+
                     </tbody>
+
 
                 </table>
 
+
             </div>
+
 
         </section>
 
 
     </main>
 
+
 </div>
 
 
 
+<!-- =========================================
+     JAVASCRIPT
+========================================= -->
+
 <script>
+
+
+/* =========================================
+   APPROVE SELLER
+========================================= */
 
 async function approveSeller(id) {
 
-    const confirmed =
-        confirm(
-            "Approve this tiffin seller?"
-        );
+
+    const confirmed = confirm(
+        "Approve this tiffin seller?"
+    );
 
 
     if (!confirmed) {
+
         return;
+
     }
+
 
 
     try {
 
-        const response =
-            await fetch(
-                `/admin/tiffin-sellers/${id}/approve`,
-                {
-                    method: "POST"
-                }
-            );
+
+        const response = await fetch(
+            "/admin/tiffin-sellers/" +
+            id +
+            "/approve",
+            {
+                method: "POST"
+            }
+        );
+
 
 
         const data =
             await response.json();
 
 
-        if (!response.ok || !data.success) {
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
 
             alert(
                 data.message ||
                 "Failed to approve seller."
             );
 
+
             return;
 
         }
+
 
 
         alert(
@@ -617,15 +1012,20 @@ async function approveSeller(id) {
         );
 
 
+
         window.location.reload();
+
 
     } catch (error) {
 
+
         console.error(error);
+
 
         alert(
             "Something went wrong."
         );
+
 
     }
 
@@ -633,44 +1033,76 @@ async function approveSeller(id) {
 
 
 
+/* =========================================
+   REJECT SELLER
+========================================= */
+
 async function rejectSeller(id) {
 
-    const confirmed =
-        confirm(
-            "Reject this tiffin seller?"
-        );
+
+    const reason = prompt(
+        "Enter rejection reason:"
+    );
 
 
-    if (!confirmed) {
+    if (reason === null) {
+
         return;
+
     }
+
 
 
     try {
 
-        const response =
-            await fetch(
-                `/admin/tiffin-sellers/${id}/reject`,
-                {
-                    method: "POST"
-                }
-            );
+
+        const response = await fetch(
+            "/admin/tiffin-sellers/" +
+            id +
+            "/reject",
+            {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    reason:
+                        reason.trim() ||
+                        "Registration request rejected by admin."
+
+                })
+
+            }
+        );
+
 
 
         const data =
             await response.json();
 
 
-        if (!response.ok || !data.success) {
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
 
             alert(
                 data.message ||
                 "Failed to reject seller."
             );
 
+
             return;
 
         }
+
 
 
         alert(
@@ -678,19 +1110,25 @@ async function rejectSeller(id) {
         );
 
 
+
         window.location.reload();
+
 
     } catch (error) {
 
+
         console.error(error);
+
 
         alert(
             "Something went wrong."
         );
 
+
     }
 
 }
+
 
 </script>
 

@@ -7,30 +7,60 @@ const jwt = require("jsonwebtoken");
 const authMiddleware = (req, res, next) => {
     try {
 
-        // Get Authorization header
+        // =====================================
+        // 1. Get token from Authorization header
+        // =====================================
+
         const authHeader = req.headers.authorization;
 
-        // Check token exists
-        if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        let token = null;
+
+        if (
+            authHeader &&
+            authHeader.startsWith("Bearer ")
+        ) {
+            token = authHeader.split(" ")[1];
+        }
+
+        // =====================================
+        // 2. If Bearer token not found,
+        //    check HTTP-only cookie
+        // =====================================
+
+        if (!token && req.cookies && req.cookies.token) {
+            token = req.cookies.token;
+        }
+
+        // =====================================
+        // 3. Check token exists
+        // =====================================
+
+        if (!token) {
             return res.status(401).json({
                 success: false,
                 message: "Authentication required. Please login."
             });
         }
 
-        // Extract token
-        const token = authHeader.split(" ")[1];
+        // =====================================
+        // 4. Verify JWT
+        // =====================================
 
-        // Verify token
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET
         );
 
-        // Store user information
+        // =====================================
+        // 5. Store user information
+        // =====================================
+
         req.user = decoded;
 
-        // Continue
+        // =====================================
+        // 6. Continue
+        // =====================================
+
         next();
 
     } catch (error) {

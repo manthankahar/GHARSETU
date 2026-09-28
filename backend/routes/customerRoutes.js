@@ -5,260 +5,216 @@ const mongoose = require("mongoose");
 const Order = require("../models/Order");
 const Cart = require("../models/cart");
 
-// =============================================
-// RESTAURANT MODELS
-// =============================================
-
 const Restaurant = require("../models/Restaurant");
 const MenuItem = require("../models/MenuItem");
 const RestaurantOrder = require("../models/RestaurantOrder");
 
+const authMiddleware = require("../middleware/authMiddleware");
 
 // =============================================
-// CUSTOMER LOGIN PAGE
+// HELPER
 // =============================================
 
-router.get("/login", (req, res) => {
-
-    res.render("customer/login");
-
-});
+function getUserId(req) {
+    return req.user?.id || req.user?._id || null;
+}
 
 
 // =============================================
 // CUSTOMER SIGNUP PAGE
+// PUBLIC
 // =============================================
 
 router.get("/signup", (req, res) => {
-
     res.render("customer/signup");
-
 });
 
 
 // =============================================
-// CUSTOMER HOME PAGE
+// CUSTOMER LOGIN PAGE
+// PUBLIC
 // =============================================
 
-router.get("/home", (req, res) => {
-
-    res.render("customer/home");
-
+router.get("/login", (req, res) => {
+    res.render("customer/login");
 });
 
 
 // =============================================
-// CUSTOMER TIFFINS PAGE
+// CUSTOMER MAIN PAGE
+// PROTECTED
 // =============================================
 
-router.get("/tiffins", (req, res) => {
+router.get(
+    "/home",
+    authMiddleware,
+    (req, res) => {
 
-    res.render("customer/tiffins");
+        const userId = getUserId(req);
 
-});
-
-
-// =============================================
-// CUSTOMER TIFFIN DETAILS
-// =============================================
-
-router.get("/tiffins/:id", (req, res) => {
-
-    const tiffinId = req.params.id;
-
-    res.render("customer/tiffinDetails", {
-        tiffinId
-    });
-
-});
-
-
-// =============================================
-// CUSTOMER CART PAGE
-// =============================================
-
-router.get("/cart", (req, res) => {
-
-    res.render("customer/cart");
-
-});
-
-
-// =============================================
-// CUSTOMER CHECKOUT PAGE
-// =============================================
-
-router.get("/checkout", (req, res) => {
-
-    res.render("customer/checkout");
-
-});
-
-
-// =============================================
-// CUSTOMER ORDERS PAGE
-// =============================================
-
-router.get("/orders", async (req, res) => {
-
-    try {
-
-        const query = {};
-
-        if (req.user && req.user._id) {
-
-            query.customer = req.user._id;
-
+        if (!userId) {
+            return res.redirect("/customer/login");
         }
 
-        const orders = await Order.find(query)
-            .populate("customer", "name email mobile")
-            .sort({
-                createdAt: -1
-            });
-
-        res.render("customer/orders", {
-            orders
-        });
-
-    } catch (error) {
-
-        console.error(
-            "Orders Page Error:",
-            error
-        );
-
-        res.status(500).send(
-            "Failed to load orders"
-        );
-
-    }
-
-});
-
-
-// =============================================
-// CUSTOMER ORDER DETAILS
-// =============================================
-
-router.get("/orders/:id", async (req, res) => {
-
-    try {
-
-        if (
-            !mongoose.Types.ObjectId.isValid(
-                req.params.id
-            )
-        ) {
-
-            return res.status(400).send(
-                "Invalid order ID"
-            );
-
-        }
-
-        const order = await Order.findById(
-            req.params.id
-        )
-        .populate(
-            "customer",
-            "name email mobile"
-        );
-
-        if (!order) {
-
-            return res.status(404).send(
-                "Order not found"
-            );
-
-        }
-
-        res.render(
-            "customer/orderDetails",
+        return res.render(
+            "customer/home",
             {
-                order
+                user: req.user
             }
         );
-
-    } catch (error) {
-
-        console.error(
-            "Order Details Error:",
-            error
-        );
-
-        res.status(500).send(
-            "Server Error"
-        );
-
     }
-
-});
-
-
-// =============================================
-// CUSTOMER PROFILE
-// =============================================
-
-router.get("/profile", (req, res) => {
-
-    res.render("customer/profile", {
-        user: req.user || null
-    });
-
-});
+);
 
 
 // =============================================
-// CUSTOMER RESTAURANTS
-// =============================================
-// Only APPROVED restaurants visible to customers
+// CUSTOMER TIFFINS
+// PUBLIC
 // =============================================
 
-router.get("/restaurants", async (req, res) => {
+router.get("/tiffins", async (req, res) => {
 
     try {
 
-        const restaurants =
-            await Restaurant.find({
-
-                approvalStatus: "approved",
-
-                isActive: {
-                    $ne: false
-                }
-
+        const products =
+            await MenuItem.find({
+                isAvailable: true
             })
             .sort({
                 createdAt: -1
             })
             .lean();
 
-        res.render(
-            "customer/restaurants",
+        return res.render(
+            "customer/tiffins",
             {
-                restaurants
+                products
             }
         );
 
     } catch (error) {
 
         console.error(
-            "Restaurants Page Error:",
+            "CUSTOMER TIFFINS ERROR:",
             error
         );
 
-        res.status(500).send(
-            "Failed to load restaurants"
+        return res.status(500).send(
+            "Failed to load tiffins"
         );
-
     }
-
 });
 
 
 // =============================================
+// CUSTOMER TIFFIN DETAILS
+// PUBLIC
+// =============================================
+
+router.get(
+    "/tiffins/:id",
+    async (req, res) => {
+
+        try {
+
+            const { id } = req.params;
+
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+
+                return res.status(400).send(
+                    "Invalid tiffin ID"
+                );
+            }
+
+            const tiffin =
+                await MenuItem.findOne({
+
+                    _id: id,
+
+                    isAvailable: true
+
+                })
+                .lean();
+
+            if (!tiffin) {
+
+                return res.status(404).send(
+                    "Tiffin not found"
+                );
+            }
+
+            return res.render(
+                "customer/tiffinDetails",
+                {
+                    tiffin
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "TIFFIN DETAILS ERROR:",
+                error
+            );
+
+            return res.status(500).send(
+                "Failed to load tiffin details"
+            );
+        }
+    }
+);
+
+
+// =============================================
+// CUSTOMER RESTAURANTS
+// PUBLIC
+// =============================================
+
+router.get(
+    "/restaurants",
+    async (req, res) => {
+
+        try {
+
+            const restaurants =
+                await Restaurant.find({
+
+                    approvalStatus: "approved",
+
+                    isActive: {
+                        $ne: false
+                    }
+
+                })
+                .sort({
+                    createdAt: -1
+                })
+                .lean();
+
+            return res.render(
+                "customer/restaurants",
+                {
+                    restaurants
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "CUSTOMER RESTAURANTS ERROR:",
+                error
+            );
+
+            return res.status(500).send(
+                "Failed to load restaurants"
+            );
+        }
+    }
+);
+
+
+// =============================================
 // RESTAURANT DETAILS + MENU
+// PUBLIC
 // =============================================
 
 router.get(
@@ -267,58 +223,42 @@ router.get(
 
         try {
 
-            // ---------------------------------
-            // CHECK RESTAURANT ID
-            // ---------------------------------
+            const { id } = req.params;
 
-            if (
-                !mongoose.Types.ObjectId.isValid(
-                    req.params.id
-                )
-            ) {
+            if (!mongoose.Types.ObjectId.isValid(id)) {
 
                 return res.status(400).send(
                     "Invalid restaurant ID"
                 );
-
             }
-
-
-            // ---------------------------------
-            // GET APPROVED RESTAURANT
-            // ---------------------------------
 
             const restaurant =
                 await Restaurant.findOne({
 
-                    _id: req.params.id,
+                    _id: id,
 
-                    approvalStatus: "approved"
+                    approvalStatus: "approved",
 
-                }).lean();
+                    isActive: {
+                        $ne: false
+                    }
 
+                })
+                .lean();
 
             if (!restaurant) {
 
                 return res.status(404).send(
-                    "Restaurant not found or not approved"
+                    "Restaurant not found"
                 );
-
             }
-
-
-            // ---------------------------------
-            // GET AVAILABLE MENU
-            // ---------------------------------
 
             const menuItems =
                 await MenuItem.find({
 
-                    restaurant:
-                        restaurant._id,
+                    restaurant: restaurant._id,
 
-                    isAvailable:
-                        true
+                    isAvailable: true
 
                 })
                 .sort({
@@ -326,215 +266,464 @@ router.get(
                 })
                 .lean();
 
-
-            // ---------------------------------
-            // SHOW RESTAURANT PAGE
-            // ---------------------------------
-
-            res.render(
+            return res.render(
                 "customer/restaurantDetails",
                 {
-
                     restaurant,
-
-                    products:
-                        menuItems,
-
+                    products: menuItems,
                     menuItems
-
                 }
             );
 
         } catch (error) {
 
             console.error(
-                "Restaurant Details Error:",
+                "RESTAURANT DETAILS ERROR:",
                 error
             );
 
-            res.status(500).send(
+            return res.status(500).send(
                 "Failed to load restaurant details"
             );
-
         }
-
     }
 );
 
 
 // =============================================
-// SEARCH
+// CUSTOMER SEARCH
+// PUBLIC
 // =============================================
 
-router.get("/search", async (req, res) => {
+router.get(
+    "/search",
+    async (req, res) => {
 
-    try {
+        try {
 
-        const q =
-            req.query.q || "";
+            const q =
+                (req.query.q || "").trim();
 
+            let results = [];
 
-        let results = [];
+            if (q) {
 
+                results =
+                    await Restaurant.find({
 
-        if (q.trim()) {
+                        approvalStatus:
+                            "approved",
 
-            results =
-                await Restaurant.find({
-
-                    approvalStatus:
-                        "approved",
-
-                    $or: [
-
-                        {
-                            name: {
-                                $regex: q,
-                                $options: "i"
-                            }
+                        isActive: {
+                            $ne: false
                         },
 
-                        {
-                            description: {
-                                $regex: q,
-                                $options: "i"
+                        $or: [
+
+                            {
+                                name: {
+                                    $regex: q,
+                                    $options: "i"
+                                }
+                            },
+
+                            {
+                                description: {
+                                    $regex: q,
+                                    $options: "i"
+                                }
                             }
-                        }
 
-                    ]
+                        ]
 
-                }).lean();
+                    })
+                    .sort({
+                        createdAt: -1
+                    })
+                    .lean();
+            }
 
+            return res.render(
+                "customer/search",
+                {
+                    q,
+                    results
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "CUSTOMER SEARCH ERROR:",
+                error
+            );
+
+            return res.status(500).send(
+                "Search failed"
+            );
+        }
+    }
+);
+
+
+// =============================================
+// CUSTOMER CART PAGE
+// PROTECTED
+// =============================================
+
+router.get(
+    "/cart",
+    authMiddleware,
+    (req, res) => {
+
+        const userId = getUserId(req);
+
+        if (!userId) {
+            return res.redirect("/customer/login");
         }
 
-
-        res.render(
-            "customer/search",
+        return res.render(
+            "customer/cart",
             {
-                q,
-                results
+                user: req.user
             }
         );
-
-    } catch (error) {
-
-        console.error(
-            "Search Error:",
-            error
-        );
-
-        res.status(500).send(
-            "Search failed"
-        );
-
     }
-
-});
+);
 
 
 // =============================================
-// SUBSCRIPTIONS
+// CUSTOMER CHECKOUT PAGE
+// PROTECTED
 // =============================================
 
-router.get("/subscriptions", (req, res) => {
+router.get(
+    "/checkout",
+    authMiddleware,
+    (req, res) => {
 
-    res.render(
-        "customer/subscriptions",
-        {
-            subscriptions: []
+        const userId = getUserId(req);
+
+        if (!userId) {
+            return res.redirect("/customer/login");
         }
-    );
 
-});
+        return res.render(
+            "customer/checkout",
+            {
+                user: req.user
+            }
+        );
+    }
+);
+
+
+// =============================================
+// CUSTOMER ORDERS
+// PROTECTED
+// =============================================
+
+router.get(
+    "/orders",
+    authMiddleware,
+    async (req, res) => {
+
+        try {
+
+            const userId =
+                getUserId(req);
+
+            if (!userId) {
+                return res.redirect(
+                    "/customer/login"
+                );
+            }
+
+            const orders =
+                await Order.find({
+                    customer: userId
+                })
+                .populate(
+                    "customer",
+                    "name email mobile"
+                )
+                .sort({
+                    createdAt: -1
+                })
+                .lean();
+
+            return res.render(
+                "customer/orders",
+                {
+                    orders,
+                    user: req.user
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "CUSTOMER ORDERS ERROR:",
+                error
+            );
+
+            return res.status(500).send(
+                "Failed to load orders"
+            );
+        }
+    }
+);
+
+
+// =============================================
+// CUSTOMER ORDER DETAILS
+// PROTECTED
+// =============================================
+
+router.get(
+    "/orders/:id",
+    authMiddleware,
+    async (req, res) => {
+
+        try {
+
+            const userId =
+                getUserId(req);
+
+            if (!userId) {
+                return res.redirect(
+                    "/customer/login"
+                );
+            }
+
+            const { id } = req.params;
+
+            if (
+                !mongoose.Types.ObjectId.isValid(id)
+            ) {
+
+                return res.status(400).send(
+                    "Invalid order ID"
+                );
+            }
+
+            const order =
+                await Order.findOne({
+
+                    _id: id,
+
+                    customer: userId
+
+                })
+                .populate(
+                    "customer",
+                    "name email mobile"
+                )
+                .lean();
+
+            if (!order) {
+
+                return res.status(404).send(
+                    "Order not found"
+                );
+            }
+
+            return res.render(
+                "customer/orderDetails",
+                {
+                    order,
+                    user: req.user
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "CUSTOMER ORDER DETAILS ERROR:",
+                error
+            );
+
+            return res.status(500).send(
+                "Failed to load order details"
+            );
+        }
+    }
+);
+
+
+// =============================================
+// CUSTOMER PROFILE
+// PROTECTED
+// =============================================
+
+router.get(
+    "/profile",
+    authMiddleware,
+    (req, res) => {
+
+        const userId =
+            getUserId(req);
+
+        if (!userId) {
+            return res.redirect(
+                "/customer/login"
+            );
+        }
+
+        return res.render(
+            "customer/profile",
+            {
+                user: req.user
+            }
+        );
+    }
+);
+
+
+// =============================================
+// CUSTOMER SUBSCRIPTIONS
+// PROTECTED
+// =============================================
+
+router.get(
+    "/subscriptions",
+    authMiddleware,
+    (req, res) => {
+
+        const userId =
+            getUserId(req);
+
+        if (!userId) {
+            return res.redirect(
+                "/customer/login"
+            );
+        }
+
+        return res.render(
+            "customer/subscriptions",
+            {
+                subscriptions: [],
+                user: req.user
+            }
+        );
+    }
+);
 
 
 // =============================================
 // TRACK ORDER
+// PROTECTED
 // =============================================
 
 router.get(
     "/track-order",
+    authMiddleware,
     async (req, res) => {
 
-        const orderId =
-            req.query.orderId;
+        try {
 
-        let order = null;
+            const userId =
+                getUserId(req);
 
-
-        if (orderId) {
-
-            try {
-
-                if (
-                    mongoose.Types.ObjectId.isValid(
-                        orderId
-                    )
-                ) {
-
-                    order =
-                        await Order.findById(
-                            orderId
-                        );
-
-                }
-
-            } catch (error) {
-
-                console.log(
-                    "Track Order Error:",
-                    error.message
+            if (!userId) {
+                return res.redirect(
+                    "/customer/login"
                 );
-
             }
 
+            const orderId =
+                req.query.orderId || "";
+
+            let order = null;
+
+            if (
+                orderId &&
+                mongoose.Types.ObjectId.isValid(
+                    orderId
+                )
+            ) {
+
+                order =
+                    await Order.findOne({
+
+                        _id: orderId,
+
+                        customer: userId
+
+                    })
+                    .lean();
+            }
+
+            return res.render(
+                "customer/trackOrder",
+                {
+                    orderId,
+                    order,
+                    user: req.user
+                }
+            );
+
+        } catch (error) {
+
+            console.error(
+                "CUSTOMER TRACK ORDER ERROR:",
+                error
+            );
+
+            return res.status(500).send(
+                "Failed to track order"
+            );
         }
-
-
-        res.render(
-            "customer/trackOrder",
-            {
-                orderId,
-                order
-            }
-        );
-
     }
 );
 
 
 // =============================================
 // PLACE ORDER
+// PROTECTED
 // =============================================
 
 router.post(
     "/place-order",
+    authMiddleware,
     async (req, res) => {
 
         try {
 
+            const userId =
+                getUserId(req);
+
+            if (!userId) {
+
+                return res.status(401).json({
+
+                    success: false,
+
+                    message:
+                        "Please login first"
+
+                });
+            }
+
+
+            // -----------------------------------------
+            // GET DATA
+            // -----------------------------------------
+
             const {
-
                 name,
-
                 mobile,
-
                 address,
-
                 city,
-
                 pincode,
-
                 payment,
-
                 restaurantId
-
             } = req.body;
 
 
-            // =================================
+            // -----------------------------------------
             // VALIDATION
-            // =================================
+            // -----------------------------------------
 
             if (
                 !name ||
@@ -545,23 +734,31 @@ router.post(
                 !payment
             ) {
 
-                return res.status(400).send(
-                    "Please provide all delivery details"
-                );
+                return res.status(400).json({
 
+                    success: false,
+
+                    message:
+                        "Please fill all delivery details"
+
+                });
             }
 
 
-            // =================================
-            // RESTAURANT VALIDATION
-            // =================================
+            // -----------------------------------------
+            // RESTAURANT ID
+            // -----------------------------------------
 
             if (!restaurantId) {
 
-                return res.status(400).send(
-                    "Restaurant is required"
-                );
+                return res.status(400).json({
 
+                    success: false,
+
+                    message:
+                        "Restaurant is required"
+
+                });
             }
 
 
@@ -571,47 +768,65 @@ router.post(
                 )
             ) {
 
-                return res.status(400).send(
-                    "Invalid restaurant ID"
-                );
+                return res.status(400).json({
 
+                    success: false,
+
+                    message:
+                        "Invalid restaurant ID"
+
+                });
             }
 
 
-            // =================================
-            // GET APPROVED RESTAURANT
-            // =================================
+            // -----------------------------------------
+            // CHECK RESTAURANT
+            // -----------------------------------------
 
             const restaurant =
                 await Restaurant.findOne({
 
                     _id: restaurantId,
 
-                    approvalStatus:
-                        "approved",
+                    approvalStatus: "approved",
 
                     isActive: {
                         $ne: false
                     }
 
-                }).lean();
+                })
+                .lean();
 
 
             if (!restaurant) {
 
-                return res.status(404).send(
-                    "Restaurant not available"
-                );
+                return res.status(404).json({
 
+                    success: false,
+
+                    message:
+                        "Restaurant is not available"
+
+                });
             }
 
 
-            // =================================
+            // -----------------------------------------
             // GET CART
-            // =================================
+            // -----------------------------------------
 
             const cart =
-                await Cart.findOne();
+                await Cart.findOne({
+
+                    user: userId
+
+                })
+                .populate(
+                    "items.product"
+                )
+                .populate(
+                    "items.menuItem"
+                );
 
 
             if (
@@ -620,255 +835,301 @@ router.post(
                 cart.items.length === 0
             ) {
 
-                return res.status(400).send(
-                    "Your cart is empty"
-                );
+                return res.status(400).json({
 
+                    success: false,
+
+                    message:
+                        "Your cart is empty"
+
+                });
             }
 
 
-            // =================================
-            // PREPARE ORDER ITEMS
-            // =================================
+            // -----------------------------------------
+            // PREPARE ITEMS
+            // -----------------------------------------
 
             const items =
-                cart.items.map(item => ({
+                cart.items
+                .map(item => {
 
-                    name:
-                        item.name,
+                    let product = null;
 
-                    price:
+                    if (
+                        item.itemType === "menuItem"
+                    ) {
+
+                        product =
+                            item.menuItem;
+
+                    } else {
+
+                        product =
+                            item.product;
+
+                    }
+
+                    if (!product) {
+                        return null;
+                    }
+
+                    const price =
                         Number(
-                            item.price || 0
-                        ),
+                            product.finalPrice ||
+                            product.price ||
+                            0
+                        );
 
-                    quantity:
-                        Number(
-                            item.quantity || 1
-                        ),
+                    return {
 
-                    // Keep restaurant/menu relation
-                    menuItem:
-                        item.product ||
-                        item.menuItem ||
-                        null
+                        name:
+                            product.name ||
+                            "Food Item",
 
-                }));
+                        price,
+
+                        quantity:
+                            Number(
+                                item.quantity || 1
+                            ),
+
+                        menuItem:
+                            item.itemType ===
+                            "menuItem"
+                                ? product._id
+                                : null
+
+                    };
+
+                })
+                .filter(Boolean);
 
 
-            // =================================
-            // CALCULATE SUBTOTAL
-            // =================================
+            if (items.length === 0) {
+
+                return res.status(400).json({
+
+                    success: false,
+
+                    message:
+                        "No valid items in cart"
+
+                });
+            }
+
+
+            // -----------------------------------------
+            // SUBTOTAL
+            // -----------------------------------------
 
             const subtotal =
                 items.reduce(
+                    (sum, item) => {
 
-                    (total, item) =>
+                        return (
+                            sum +
+                            (
+                                Number(item.price) *
+                                Number(item.quantity)
+                            )
+                        );
 
-                        total +
-                        (
-                            Number(item.price) *
-                            Number(item.quantity)
-                        ),
-
+                    },
                     0
-
                 );
 
 
-            // =================================
+            // -----------------------------------------
             // DELIVERY CHARGE
-            // =================================
+            // -----------------------------------------
 
-            const deliveryCharge =
-                20;
+            const deliveryCharge = 20;
 
 
-            // =================================
+            // -----------------------------------------
             // TOTAL
-            // =================================
+            // -----------------------------------------
 
             const total =
                 subtotal +
                 deliveryCharge;
 
 
-            // =================================
+            // -----------------------------------------
             // FOOD COST
-            // =================================
-            // If cart item has foodCost use it.
-            // Otherwise 0.
+            // -----------------------------------------
 
             const foodCost =
                 cart.items.reduce(
+                    (sum, item) => {
 
-                    (total, item) =>
+                        let product = null;
 
-                        total +
-                        (
+                        if (
+                            item.itemType === "menuItem"
+                        ) {
+
+                            product =
+                                item.menuItem;
+
+                        } else {
+
+                            product =
+                                item.product;
+
+                        }
+
+                        if (!product) {
+                            return sum;
+                        }
+
+                        const cost =
                             Number(
-                                item.foodCost || 0
-                            ) *
+                                product.foodCost || 0
+                            );
+
+                        const quantity =
                             Number(
                                 item.quantity || 1
+                            );
+
+                        return (
+                            sum +
+                            (
+                                cost *
+                                quantity
                             )
-                        ),
+                        );
 
+                    },
                     0
-
                 );
 
 
-            // =================================
-            // CREATE MAIN CUSTOMER ORDER
-            // =================================
+            // -----------------------------------------
+            // CREATE CUSTOMER ORDER
+            // -----------------------------------------
 
-            const orderData = {
+            const order =
+                await Order.create({
 
-                items,
+                    customer:
+                        userId,
 
-                deliveryDetails: {
+                    items,
 
-                    name,
+                    deliveryDetails: {
 
-                    mobile,
+                        name,
 
-                    address,
+                        mobile,
 
-                    city,
+                        address,
 
-                    pincode
+                        city,
 
-                },
+                        pincode
 
-                paymentMethod:
-                    payment,
+                    },
+
+                    paymentMethod:
+                        payment,
+
+                    subtotal,
+
+                    deliveryCharge,
+
+                    total,
+
+                    status:
+                        "placed"
+
+                });
+
+
+            // -----------------------------------------
+            // CREATE RESTAURANT ORDER
+            // -----------------------------------------
+
+            await RestaurantOrder.create({
+
+                order:
+                    order._id,
+
+                restaurant:
+                    restaurantId,
+
+                customer:
+                    userId,
+
+                status:
+                    "pending",
 
                 subtotal,
 
-                deliveryCharge,
+                platformFee:
+                    0,
 
-                total,
+                deliveryFee:
+                    deliveryCharge,
 
-                status:
-                    "placed"
+                restaurantEarning:
+                    subtotal,
 
-            };
+                restaurantProfit:
+                    subtotal -
+                    foodCost,
 
+                foodCost
 
-            // =================================
-            // ADD CUSTOMER
-            // =================================
-
-            if (
-                req.user &&
-                req.user._id
-            ) {
-
-                orderData.customer =
-                    req.user._id;
-
-            }
+            });
 
 
-            // =================================
-            // CREATE ORDER
-            // =================================
-
-            const order =
-                await Order.create(
-                    orderData
-                );
-
-
-            // =================================
-            // CREATE RESTAURANT ORDER
-            // =================================
-
-            let restaurantOrder =
-                null;
-
-
-            if (
-                req.user &&
-                req.user._id
-            ) {
-
-                restaurantOrder =
-                    await RestaurantOrder.create({
-
-                        order:
-                            order._id,
-
-                        restaurant:
-                            restaurantId,
-
-                        customer:
-                            req.user._id,
-
-                        status:
-                            "pending",
-
-                        subtotal:
-                            subtotal,
-
-                        platformFee:
-                            0,
-
-                        deliveryFee:
-                            deliveryCharge,
-
-                        restaurantEarning:
-                            subtotal,
-
-                        restaurantProfit:
-                            subtotal - foodCost,
-
-                        foodCost:
-                            foodCost
-
-                    });
-
-            } else {
-
-                console.log(
-                    "RestaurantOrder not created because customer is not logged in."
-                );
-
-            }
-
-
-            // =================================
+            // -----------------------------------------
             // CLEAR CART
-            // =================================
+            // -----------------------------------------
 
             cart.items = [];
 
             await cart.save();
 
 
-            // =================================
+            // -----------------------------------------
             // SUCCESS
-            // =================================
+            // -----------------------------------------
 
-            res.redirect(
-                `/customer/orders/${order._id}`
-            );
+            return res.status(201).json({
 
+                success: true,
+
+                message:
+                    "Order placed successfully",
+
+                orderId:
+                    order._id
+
+            });
 
         } catch (error) {
 
             console.error(
-                "PLACE ORDER ERROR:",
+                "CUSTOMER PLACE ORDER ERROR:",
                 error
             );
 
-            res.status(500).send(
-                "Failed to place order"
-            );
+            return res.status(500).json({
 
+                success: false,
+
+                message:
+                    "Failed to place order",
+
+                error:
+                    error.message
+
+            });
         }
-
     }
 );
 

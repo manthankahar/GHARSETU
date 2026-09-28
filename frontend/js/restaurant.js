@@ -836,11 +836,6 @@ function deleteMenuItem(id) {
     }
 
 
-    /*
-     * DELETE API will be connected
-     * after Menu model CRUD routes.
-     */
-
     alert(
         "Delete API will be connected with Menu model."
     );
@@ -972,223 +967,1244 @@ async function updateRestaurantProfile(
 // RESTAURANT LOGIN
 // ======================================================
 
-const restaurantLoginForm =
-    document.getElementById(
-        "restaurantLoginForm"
-    );
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-
-if (restaurantLoginForm) {
-
-    restaurantLoginForm.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-
-            const mobile =
-                document.getElementById(
-                    "loginMobile"
-                )?.value.trim();
-
-
-            const password =
-                document.getElementById(
-                    "loginPassword"
-                )?.value;
-
-
-            if (
-                !mobile ||
-                !/^\d{10}$/.test(mobile)
-            ) {
-
-                alert(
-                    "Enter valid 10-digit mobile number."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !password ||
-                password.length < 6
-            ) {
-
-                alert(
-                    "Password must be at least 6 characters."
-                );
-
-                return;
-
-            }
-
-
-            /*
-             * Actual login API depends on
-             * restaurant authentication route.
-             */
-
-            localStorage.setItem(
-                "restaurantMobile",
-                mobile
-            );
-
-            localStorage.setItem(
-                "restaurantLoggedIn",
-                "true"
+        const restaurantLoginForm =
+            document.getElementById(
+                "restaurantLoginForm"
             );
 
 
-            alert(
-                "Login successful!"
-            );
+        if (!restaurantLoginForm) {
 
-
-            window.location.href =
-                "/restaurant/dashboard";
+            return;
 
         }
-    );
 
-}
+
+        restaurantLoginForm.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                const mobile =
+                    document.getElementById(
+                        "loginMobile"
+                    )?.value.trim();
+
+
+                const password =
+                    document.getElementById(
+                        "loginPassword"
+                    )?.value;
+
+
+                if (
+                    !mobile ||
+                    !/^\d{10}$/.test(mobile)
+                ) {
+
+                    alert(
+                        "Enter valid 10-digit mobile number."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !password ||
+                    password.length < 6
+                ) {
+
+                    alert(
+                        "Password must be at least 6 characters."
+                    );
+
+                    return;
+
+                }
+
+
+                try {
+
+                    /*
+                     * REAL BACKEND LOGIN
+                     *
+                     * No localStorage fake login.
+                     */
+
+                    const formData =
+                        new URLSearchParams();
+
+                    formData.append(
+                        "mobile",
+                        mobile
+                    );
+
+                    formData.append(
+                        "password",
+                        password
+                    );
+
+
+                    const response =
+                        await fetch(
+                            "/restaurant/login",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded"
+                                },
+
+                                body:
+                                    formData
+                            }
+                        );
+
+
+                    if (response.redirected) {
+
+                        window.location.href =
+                            response.url;
+
+                        return;
+
+                    }
+
+
+                    const contentType =
+                        response.headers.get(
+                            "content-type"
+                        ) || "";
+
+
+                    if (
+                        contentType.includes(
+                            "text/html"
+                        )
+                    ) {
+
+                        const html =
+                            await response.text();
+
+                        document.open();
+
+                        document.write(
+                            html
+                        );
+
+                        document.close();
+
+                        return;
+
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            "Login failed."
+                        );
+
+                    }
+
+
+                    window.location.href =
+                        "/restaurant/dashboard";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Restaurant Login Error:",
+                        error
+                    );
+
+
+                    alert(
+                        error.message ||
+                        "Restaurant login failed."
+                    );
+
+                }
+
+            }
+        );
+
+    }
+);
 
 
 // ======================================================
-// RESTAURANT SIGNUP
+// RESTAURANT SIGNUP + OTP
 // ======================================================
 
-const restaurantSignupForm =
-    document.getElementById(
-        "restaurantSignupForm"
-    );
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
 
-
-if (restaurantSignupForm) {
-
-    restaurantSignupForm.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-
-            const name =
-                document.getElementById(
-                    "signupName"
-                )?.value.trim();
-
-
-            const email =
-                document.getElementById(
-                    "signupEmail"
-                )?.value.trim();
-
-
-            const mobile =
-                document.getElementById(
-                    "signupMobile"
-                )?.value.trim();
-
-
-            const password =
-                document.getElementById(
-                    "signupPassword"
-                )?.value;
-
-
-            if (
-                !name ||
-                name.length < 2
-            ) {
-
-                alert(
-                    "Enter restaurant name."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !email ||
-                !email.includes("@")
-            ) {
-
-                alert(
-                    "Enter valid email."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !mobile ||
-                !/^\d{10}$/.test(mobile)
-            ) {
-
-                alert(
-                    "Enter valid 10-digit mobile number."
-                );
-
-                return;
-
-            }
-
-
-            if (
-                !password ||
-                password.length < 6
-            ) {
-
-                alert(
-                    "Password must be at least 6 characters."
-                );
-
-                return;
-
-            }
-
-
-            /*
-             * Actual signup API will be connected
-             * with authentication backend.
-             */
-
-            localStorage.setItem(
-                "restaurantName",
-                name
-            );
-
-            localStorage.setItem(
-                "restaurantEmail",
-                email
-            );
-
-            localStorage.setItem(
-                "restaurantMobile",
-                mobile
+        const restaurantSignupForm =
+            document.getElementById(
+                "restaurantSignupForm"
             );
 
 
-            alert(
-                "Restaurant account created successfully!"
-            );
+        if (!restaurantSignupForm) {
 
-
-            window.location.href =
-                "/restaurant/login";
+            return;
 
         }
-    );
 
-}
+
+        // ==============================================
+        // ELEMENTS
+        // ==============================================
+
+        const restaurantNameInput =
+            document.getElementById(
+                "restaurantName"
+            );
+
+
+        const ownerNameInput =
+            document.getElementById(
+                "ownerName"
+            );
+
+
+        const contactInput =
+            document.getElementById(
+                "contact"
+            );
+
+
+        const sendOtpBtn =
+            document.getElementById(
+                "sendOtpBtn"
+            );
+
+
+        const otpSection =
+            document.getElementById(
+                "otpSection"
+            );
+
+
+        const otpInput =
+            document.getElementById(
+                "otp"
+            );
+
+
+        const verifyOtpSection =
+            document.getElementById(
+                "verifyOtpSection"
+            );
+
+
+        const verifyOtpBtn =
+            document.getElementById(
+                "verifyOtpBtn"
+            );
+
+
+        const contactMessage =
+            document.getElementById(
+                "contactMessage"
+            );
+
+
+        const otpMessage =
+            document.getElementById(
+                "otpMessage"
+            );
+
+
+        const passwordInput =
+            document.getElementById(
+                "password"
+            );
+
+
+        const confirmPasswordInput =
+            document.getElementById(
+                "confirmPassword"
+            );
+
+
+        const passwordMessage =
+            document.getElementById(
+                "passwordMessage"
+            );
+
+
+        const addressInput =
+            document.getElementById(
+                "address"
+            );
+
+
+        const createAccountBtn =
+            document.getElementById(
+                "createAccountBtn"
+            );
+
+
+        // ==============================================
+        // OTP STATE
+        // ==============================================
+
+        let otpVerified = false;
+
+
+        // ==============================================
+        // INITIAL BUTTON STATE
+        // ==============================================
+
+        if (createAccountBtn) {
+
+            createAccountBtn.disabled =
+                true;
+
+            createAccountBtn.style.opacity =
+                "0.5";
+
+            createAccountBtn.style.cursor =
+                "not-allowed";
+
+        }
+
+
+        // ==============================================
+        // CONTACT CHANGE
+        // ==============================================
+
+        if (contactInput) {
+
+            contactInput.addEventListener(
+                "input",
+                () => {
+
+                    otpVerified =
+                        false;
+
+
+                    if (createAccountBtn) {
+
+                        createAccountBtn.disabled =
+                            true;
+
+                        createAccountBtn.style.opacity =
+                            "0.5";
+
+                        createAccountBtn.style.cursor =
+                            "not-allowed";
+
+                    }
+
+
+                    if (otpSection) {
+
+                        otpSection.style.display =
+                            "none";
+
+                    }
+
+
+                    if (verifyOtpSection) {
+
+                        verifyOtpSection.style.display =
+                            "none";
+
+                    }
+
+
+                    if (otpInput) {
+
+                        otpInput.value =
+                            "";
+
+                    }
+
+
+                    if (otpMessage) {
+
+                        otpMessage.textContent =
+                            "Enter OTP after sending.";
+
+                        otpMessage.style.color =
+                            "";
+
+                    }
+
+
+                    if (contactMessage) {
+
+                        contactMessage.textContent =
+                            "Enter your email or 10-digit mobile number.";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        // ==============================================
+        // SEND OTP
+        // ==============================================
+
+        if (sendOtpBtn) {
+
+            sendOtpBtn.addEventListener(
+                "click",
+                async () => {
+
+                    const contact =
+                        contactInput
+                            ? contactInput.value.trim()
+                            : "";
+
+
+                    // ------------------------------
+                    // VALIDATE CONTACT
+                    // ------------------------------
+
+                    const emailRegex =
+                        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                    const mobileRegex =
+                        /^\d{10}$/;
+
+
+                    const isEmail =
+                        emailRegex.test(
+                            contact
+                        );
+
+
+                    const isMobile =
+                        mobileRegex.test(
+                            contact
+                        );
+
+
+                    if (
+                        !isEmail &&
+                        !isMobile
+                    ) {
+
+                        if (contactMessage) {
+
+                            contactMessage.textContent =
+                                "Please enter a valid email or 10-digit mobile number.";
+
+                            contactMessage.style.color =
+                                "red";
+
+                        }
+
+                        return;
+
+                    }
+
+
+                    // ------------------------------
+                    // DISABLE BUTTON
+                    // ------------------------------
+
+                    sendOtpBtn.disabled =
+                        true;
+
+                    sendOtpBtn.textContent =
+                        "Sending OTP...";
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/restaurant/send-otp",
+                                {
+
+                                    method:
+                                        "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json"
+
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            contact:
+                                                contact
+
+                                        })
+
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        // ------------------------------
+                        // SUCCESS
+                        // ------------------------------
+
+                        if (
+                            response.ok &&
+                            data.success
+                        ) {
+
+                            otpVerified =
+                                false;
+
+
+                            if (otpSection) {
+
+                                otpSection.style.display =
+                                    "block";
+
+                            }
+
+
+                            if (verifyOtpSection) {
+
+                                verifyOtpSection.style.display =
+                                    "block";
+
+                            }
+
+
+                            if (otpMessage) {
+
+                                otpMessage.textContent =
+                                    "OTP sent successfully. Check your email.";
+
+                                otpMessage.style.color =
+                                    "";
+
+                            }
+
+
+                            if (contactMessage) {
+
+                                contactMessage.textContent =
+                                    "OTP has been sent successfully.";
+
+                                contactMessage.style.color =
+                                    "green";
+
+                            }
+
+
+                            if (otpInput) {
+
+                                otpInput.focus();
+
+                            }
+
+
+                            return;
+
+                        }
+
+
+                        // ------------------------------
+                        // ERROR
+                        // ------------------------------
+
+                        if (contactMessage) {
+
+                            contactMessage.textContent =
+                                data.message ||
+                                "Failed to send OTP.";
+
+                            contactMessage.style.color =
+                                "red";
+
+                        }
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Send OTP Error:",
+                            error
+                        );
+
+
+                        if (contactMessage) {
+
+                            contactMessage.textContent =
+                                "Unable to connect to server.";
+
+                            contactMessage.style.color =
+                                "red";
+
+                        }
+
+                    } finally {
+
+                        sendOtpBtn.disabled =
+                            false;
+
+                        sendOtpBtn.textContent =
+                            "Send OTP";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        // ==============================================
+        // VERIFY OTP
+        // ==============================================
+
+        if (verifyOtpBtn) {
+
+            verifyOtpBtn.addEventListener(
+                "click",
+                async () => {
+
+                    const contact =
+                        contactInput
+                            ? contactInput.value.trim()
+                            : "";
+
+
+                    const otp =
+                        otpInput
+                            ? otpInput.value.trim()
+                            : "";
+
+
+                    if (!contact) {
+
+                        if (otpMessage) {
+
+                            otpMessage.textContent =
+                                "Please enter your email or mobile number.";
+
+                            otpMessage.style.color =
+                                "red";
+
+                        }
+
+                        return;
+
+                    }
+
+
+                    if (
+                        !/^\d{6}$/.test(
+                            otp
+                        )
+                    ) {
+
+                        if (otpMessage) {
+
+                            otpMessage.textContent =
+                                "Please enter a valid 6-digit OTP.";
+
+                            otpMessage.style.color =
+                                "red";
+
+                        }
+
+                        return;
+
+                    }
+
+
+                    verifyOtpBtn.disabled =
+                        true;
+
+                    verifyOtpBtn.textContent =
+                        "Verifying...";
+
+
+                    try {
+
+                        const response =
+                            await fetch(
+                                "/restaurant/verify-otp",
+                                {
+
+                                    method:
+                                        "POST",
+
+                                    headers: {
+
+                                        "Content-Type":
+                                            "application/json"
+
+                                    },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            contact:
+                                                contact,
+
+                                            otp:
+                                                otp
+
+                                        })
+
+                                }
+                            );
+
+
+                        const data =
+                            await response.json();
+
+
+                        // ------------------------------
+                        // VERIFIED
+                        // ------------------------------
+
+                        if (
+                            response.ok &&
+                            data.success
+                        ) {
+
+                            otpVerified =
+                                true;
+
+
+                            if (otpMessage) {
+
+                                otpMessage.textContent =
+                                    "✅ OTP verified successfully.";
+
+                                otpMessage.style.color =
+                                    "green";
+
+                            }
+
+
+                            verifyOtpBtn.textContent =
+                                "OTP Verified ✓";
+
+
+                            verifyOtpBtn.disabled =
+                                true;
+
+
+                            sendOtpBtn.disabled =
+                                true;
+
+
+                            sendOtpBtn.textContent =
+                                "OTP Verified";
+
+
+                            contactInput.readOnly =
+                                true;
+
+
+                            if (createAccountBtn) {
+
+                                createAccountBtn.disabled =
+                                    false;
+
+                                createAccountBtn.style.opacity =
+                                    "1";
+
+                                createAccountBtn.style.cursor =
+                                    "pointer";
+
+                            }
+
+
+                            return;
+
+                        }
+
+
+                        // ------------------------------
+                        // INVALID OTP
+                        // ------------------------------
+
+                        if (otpMessage) {
+
+                            otpMessage.textContent =
+                                data.message ||
+                                "Invalid or expired OTP.";
+
+                            otpMessage.style.color =
+                                "red";
+
+                        }
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Verify OTP Error:",
+                            error
+                        );
+
+
+                        if (otpMessage) {
+
+                            otpMessage.textContent =
+                                "Unable to connect to server.";
+
+                            otpMessage.style.color =
+                                "red";
+
+                        }
+
+                    } finally {
+
+                        if (!otpVerified) {
+
+                            verifyOtpBtn.disabled =
+                                false;
+
+                            verifyOtpBtn.textContent =
+                                "Verify OTP";
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        // ==============================================
+        // PASSWORD MATCH
+        // ==============================================
+
+        function checkPasswords() {
+
+            const password =
+                passwordInput
+                    ? passwordInput.value
+                    : "";
+
+
+            const confirmPassword =
+                confirmPasswordInput
+                    ? confirmPasswordInput.value
+                    : "";
+
+
+            if (!confirmPassword) {
+
+                if (passwordMessage) {
+
+                    passwordMessage.textContent =
+                        "";
+
+                }
+
+                return;
+
+            }
+
+
+            if (
+                password !==
+                confirmPassword
+            ) {
+
+                if (passwordMessage) {
+
+                    passwordMessage.textContent =
+                        "Passwords do not match.";
+
+                    passwordMessage.style.color =
+                        "red";
+
+                }
+
+            } else {
+
+                if (passwordMessage) {
+
+                    passwordMessage.textContent =
+                        "Passwords match ✓";
+
+                    passwordMessage.style.color =
+                        "green";
+
+                }
+
+            }
+
+        }
+
+
+        if (passwordInput) {
+
+            passwordInput.addEventListener(
+                "input",
+                checkPasswords
+            );
+
+        }
+
+
+        if (confirmPasswordInput) {
+
+            confirmPasswordInput.addEventListener(
+                "input",
+                checkPasswords
+            );
+
+        }
+
+
+        // ==============================================
+        // FINAL SIGNUP
+        // ==============================================
+
+        restaurantSignupForm.addEventListener(
+            "submit",
+            async (event) => {
+
+                event.preventDefault();
+
+
+                // ------------------------------
+                // OTP CHECK
+                // ------------------------------
+
+                if (!otpVerified) {
+
+                    alert(
+                        "Please verify OTP before creating your restaurant account."
+                    );
+
+                    return;
+
+                }
+
+
+                // ------------------------------
+                // GET VALUES
+                // ------------------------------
+
+                const restaurantName =
+                    restaurantNameInput
+                        ? restaurantNameInput.value.trim()
+                        : "";
+
+
+                const ownerName =
+                    ownerNameInput
+                        ? ownerNameInput.value.trim()
+                        : "";
+
+
+                const contact =
+                    contactInput
+                        ? contactInput.value.trim()
+                        : "";
+
+
+                const password =
+                    passwordInput
+                        ? passwordInput.value
+                        : "";
+
+
+                const confirmPassword =
+                    confirmPasswordInput
+                        ? confirmPasswordInput.value
+                        : "";
+
+
+                const address =
+                    addressInput
+                        ? addressInput.value.trim()
+                        : "";
+
+
+                // ------------------------------
+                // VALIDATION
+                // ------------------------------
+
+                if (
+                    !restaurantName ||
+                    restaurantName.length < 2
+                ) {
+
+                    alert(
+                        "Please enter a valid restaurant name."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !ownerName ||
+                    ownerName.length < 2
+                ) {
+
+                    alert(
+                        "Please enter a valid owner name."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!contact) {
+
+                    alert(
+                        "Please enter email or mobile number."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    !password ||
+                    password.length < 6
+                ) {
+
+                    alert(
+                        "Password must be at least 6 characters."
+                    );
+
+                    return;
+
+                }
+
+
+                if (
+                    password !==
+                    confirmPassword
+                ) {
+
+                    alert(
+                        "Passwords do not match."
+                    );
+
+                    return;
+
+                }
+
+
+                if (!address) {
+
+                    alert(
+                        "Please enter restaurant address."
+                    );
+
+                    return;
+
+                }
+
+
+                // ------------------------------
+                // DISABLE BUTTON
+                // ------------------------------
+
+                createAccountBtn.disabled =
+                    true;
+
+                createAccountBtn.textContent =
+                    "Creating Account...";
+
+
+                try {
+
+                    // --------------------------
+                    // REAL BACKEND SIGNUP
+                    // --------------------------
+
+                    const formData =
+                        new URLSearchParams();
+
+
+                    formData.append(
+                        "restaurantName",
+                        restaurantName
+                    );
+
+
+                    formData.append(
+                        "name",
+                        ownerName
+                    );
+
+
+                    formData.append(
+                        "contact",
+                        contact
+                    );
+
+
+                    formData.append(
+                        "password",
+                        password
+                    );
+
+
+                    formData.append(
+                        "confirmPassword",
+                        confirmPassword
+                    );
+
+
+                    formData.append(
+                        "address",
+                        address
+                    );
+
+
+                    const response =
+                        await fetch(
+                            "/restaurant/signup",
+                            {
+
+                                method:
+                                    "POST",
+
+                                headers: {
+
+                                    "Content-Type":
+                                        "application/x-www-form-urlencoded"
+
+                                },
+
+                                body:
+                                    formData
+
+                            }
+                        );
+
+
+                    // --------------------------
+                    // SUCCESS / REDIRECT
+                    // --------------------------
+
+                    if (response.redirected) {
+
+                        window.location.href =
+                            response.url;
+
+                        return;
+
+                    }
+
+
+                    const contentType =
+                        response.headers.get(
+                            "content-type"
+                        ) || "";
+
+
+                    if (
+                        contentType.includes(
+                            "text/html"
+                        )
+                    ) {
+
+                        const html =
+                            await response.text();
+
+
+                        document.open();
+
+                        document.write(
+                            html
+                        );
+
+                        document.close();
+
+                        return;
+
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            data.message ||
+                            "Restaurant signup failed."
+                        );
+
+                    }
+
+
+                    alert(
+                        data.message ||
+                        "Restaurant account created successfully."
+                    );
+
+
+                    window.location.href =
+                        "/restaurant/login";
+
+
+                } catch (error) {
+
+                    console.error(
+                        "Restaurant Signup Error:",
+                        error
+                    );
+
+
+                    alert(
+                        error.message ||
+                        "Restaurant signup failed."
+                    );
+
+
+                    createAccountBtn.disabled =
+                        false;
+
+                    createAccountBtn.textContent =
+                        "Create Restaurant Account";
+
+                }
+
+            }
+        );
+
+    }
+);
 
 
 // ======================================================
@@ -1210,25 +2226,13 @@ function restaurantLogout() {
     }
 
 
-    localStorage.removeItem(
-        "restaurantLoggedIn"
-    );
-
-    localStorage.removeItem(
-        "restaurantMobile"
-    );
-
-    localStorage.removeItem(
-        "restaurantName"
-    );
-
-    localStorage.removeItem(
-        "restaurantEmail"
-    );
-
+    /*
+     * Backend logout clears
+     * restaurantToken cookie.
+     */
 
     window.location.href =
-        "/restaurant/login";
+        "/restaurant/logout";
 
 }
 
@@ -1431,25 +2435,13 @@ document.addEventListener(
         }
 
 
-        const submitButton =
-            form.querySelector(
-                'button[type="submit"]'
-            );
-
-
-        if (!submitButton) {
-
-            return;
-
-        }
-
-
-        setTimeout(() => {
-
-            submitButton.disabled =
-                true;
-
-        }, 10);
+        /*
+         * OTP signup and login are handled
+         * separately above.
+         *
+         * Do not disable buttons here because
+         * backend requests may still be running.
+         */
 
     }
 );

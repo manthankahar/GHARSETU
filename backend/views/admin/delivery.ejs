@@ -14,10 +14,689 @@
         GharSetu | Delivery Management
     </title>
 
+    <link rel="stylesheet" href="/css/admin.css">
 
-    <!-- DELIVERY CSS -->
+    <style>
 
-<link rel="stylesheet" href="/css/admin.css">
+        /* =========================================
+           DELIVERY PAGE
+        ========================================== */
+
+        .delivery-page {
+            padding: 32px;
+        }
+
+        .delivery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+
+        .delivery-eyebrow {
+            color: #6f8062;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            margin-bottom: 8px;
+        }
+
+        .delivery-header h1 {
+            margin: 0;
+            color: #3d3028;
+            font-size: 32px;
+            font-weight: 800;
+        }
+
+        .delivery-header p {
+            margin-top: 8px;
+            color: #81766e;
+            font-size: 15px;
+        }
+
+
+        /* =========================================
+           STATS
+        ========================================== */
+
+        .delivery-stats {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+        .delivery-stat-card {
+            background: #fffaf3;
+            border: 1px solid #eadfd2;
+            border-radius: 18px;
+            padding: 22px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow:
+                0 8px 25px rgba(73, 55, 42, 0.06);
+            transition: 0.25s ease;
+        }
+
+        .delivery-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 14px 30px rgba(73, 55, 42, 0.10);
+        }
+
+        .delivery-stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 15px;
+            background: #edf3e8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .delivery-stat-label {
+            color: #82766d;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .delivery-stat-number {
+            color: #3d3028;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+
+        /* =========================================
+           FILTER
+        ========================================== */
+
+        .delivery-filter-box {
+            background: #fffaf3;
+            border: 1px solid #eadfd2;
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .delivery-filter-form {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .delivery-input-wrapper {
+            flex: 1;
+            min-width: 220px;
+            height: 48px;
+            background: #f8f1e8;
+            border: 1px solid #e4d8ca;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            gap: 10px;
+        }
+
+        .delivery-input-wrapper input {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #493b31;
+            font-size: 14px;
+        }
+
+        .delivery-input-wrapper input::placeholder {
+            color: #a1958c;
+        }
+
+        .delivery-filter-form select {
+            height: 48px;
+            min-width: 170px;
+            border: 1px solid #e4d8ca;
+            background: #f8f1e8;
+            border-radius: 12px;
+            padding: 0 14px;
+            color: #493b31;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .delivery-search-btn {
+            height: 48px;
+            padding: 0 25px;
+            border: none;
+            border-radius: 12px;
+            background: #657b55;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .delivery-search-btn:hover {
+            background: #536844;
+        }
+
+
+        /* =========================================
+           TABLE BOX
+        ========================================== */
+
+        .delivery-table-box {
+            background: #fffaf3;
+            border: 1px solid #eadfd2;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow:
+                0 8px 25px rgba(73, 55, 42, 0.05);
+        }
+
+        .delivery-table-header {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eadfd2;
+        }
+
+        .delivery-table-header h2 {
+            margin: 0;
+            color: #3d3028;
+            font-size: 20px;
+        }
+
+        .delivery-table-header p {
+            margin: 5px 0 0;
+            color: #8b7e74;
+            font-size: 13px;
+        }
+
+        .delivery-result-count {
+            background: #edf3e8;
+            color: #5b704d;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           TABLE
+        ========================================== */
+
+        .delivery-table-scroll {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .delivery-table {
+            width: 100%;
+            min-width: 1050px;
+            border-collapse: collapse;
+        }
+
+        .delivery-table thead {
+            background: #f8f1e8;
+        }
+
+        .delivery-table th {
+            padding: 15px 18px;
+            text-align: left;
+            color: #786b61;
+            font-size: 11px;
+            letter-spacing: 0.8px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .delivery-table td {
+            padding: 18px;
+            border-top: 1px solid #eee4da;
+            color: #594b41;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        .delivery-table tbody tr {
+            transition: 0.2s ease;
+        }
+
+        .delivery-table tbody tr:hover {
+            background: #fdf8f1;
+        }
+
+
+        /* =========================================
+           PARTNER
+        ========================================== */
+
+        .delivery-partner-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .delivery-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 13px;
+            background: #edf3e8;
+            color: #5c704f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 17px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .delivery-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .delivery-partner-name {
+            color: #3d3028;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+
+        .delivery-partner-email {
+            color: #94877d;
+            font-size: 12px;
+        }
+
+
+        /* =========================================
+           STATUS
+        ========================================== */
+
+        .delivery-status {
+            display: inline-flex;
+            align-items: center;
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .delivery-status.active {
+            background: #e9f4e5;
+            color: #4f7542;
+        }
+
+        .delivery-status.inactive {
+            background: #f8e8e5;
+            color: #a34e42;
+        }
+
+
+        /* =========================================
+           DELIVERY COUNT
+        ========================================== */
+
+        .delivery-count-box strong {
+            display: block;
+            color: #3d3028;
+            font-size: 17px;
+        }
+
+        .delivery-count-box small {
+            color: #91847a;
+            font-size: 11px;
+        }
+
+
+        /* =========================================
+           EARNINGS
+        ========================================== */
+
+        .delivery-earning {
+            color: #5e754e;
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        .earning-small {
+            color: #968980;
+            font-size: 11px;
+            display: block;
+            margin-top: 3px;
+        }
+
+
+        /* =========================================
+           ACTIONS
+        ========================================== */
+
+        .delivery-actions {
+            display: flex;
+            gap: 7px;
+            flex-wrap: wrap;
+        }
+
+        .delivery-btn {
+            border: none;
+            border-radius: 9px;
+            padding: 8px 11px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .delivery-btn.view {
+            background: #f0e9e0;
+            color: #65564b;
+        }
+
+        .delivery-btn.view:hover {
+            background: #e4d9cc;
+        }
+
+        .delivery-btn.activate {
+            background: #e7f2e2;
+            color: #4f7542;
+        }
+
+        .delivery-btn.activate:hover {
+            background: #d8e9d2;
+        }
+
+        .delivery-btn.deactivate {
+            background: #f8e6e2;
+            color: #a14f43;
+        }
+
+        .delivery-btn.deactivate:hover {
+            background: #f0d7d2;
+        }
+
+        .delivery-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+        /* =========================================
+           EMPTY
+        ========================================== */
+
+        .delivery-empty {
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .delivery-empty-icon {
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            border-radius: 20px;
+            background: #f4eee7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .delivery-empty h3 {
+            color: #4a3b31;
+            margin: 18px 0 7px;
+        }
+
+        .delivery-empty p {
+            color: #93867c;
+            margin: 0;
+            font-size: 14px;
+        }
+
+
+        /* =========================================
+           MODAL
+        ========================================== */
+
+        .delivery-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(40, 30, 23, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 9999;
+            backdrop-filter: blur(4px);
+        }
+
+        .delivery-modal.show {
+            display: flex;
+        }
+
+        .delivery-modal-box {
+            width: min(650px, 100%);
+            max-height: 90vh;
+            overflow-y: auto;
+            background: #fffaf3;
+            border-radius: 22px;
+            box-shadow:
+                0 25px 80px rgba(30, 20, 15, 0.25);
+        }
+
+        .delivery-modal-header {
+            padding: 22px 24px;
+            border-bottom: 1px solid #eadfd2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-eyebrow {
+            color: #71855f;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .delivery-modal-header h3 {
+            margin: 5px 0 0;
+            color: #3d3028;
+            font-size: 21px;
+        }
+
+        .delivery-modal-close {
+            width: 38px;
+            height: 38px;
+            border: none;
+            border-radius: 10px;
+            background: #f1e9e0;
+            color: #5c4d42;
+            font-size: 25px;
+            cursor: pointer;
+        }
+
+        .delivery-modal-body {
+            padding: 25px;
+        }
+
+
+        /* =========================================
+           MODAL PROFILE
+        ========================================== */
+
+        .modal-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eadfd2;
+        }
+
+        .modal-avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 18px;
+            background: #eaf1e5;
+            color: #5b704d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            overflow: hidden;
+        }
+
+        .modal-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-profile h4 {
+            margin: 0;
+            color: #3d3028;
+            font-size: 19px;
+        }
+
+        .modal-profile p {
+            margin: 5px 0 0;
+            color: #93867c;
+            font-size: 13px;
+        }
+
+        .modal-status-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 0;
+            border-bottom: 1px solid #eadfd2;
+        }
+
+        .modal-status-row span {
+            color: #80736a;
+            font-size: 13px;
+        }
+
+        .modal-status-row strong {
+            font-size: 13px;
+        }
+
+        .text-active {
+            color: #4f7542;
+        }
+
+        .text-inactive {
+            color: #a14f43;
+        }
+
+
+        /* =========================================
+           MODAL DETAILS
+        ========================================== */
+
+        .modal-detail-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .modal-detail-item {
+            background: #f7f0e7;
+            border-radius: 13px;
+            padding: 15px;
+        }
+
+        .modal-detail-item span {
+            display: block;
+            color: #92857b;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+
+        .modal-detail-item strong {
+            color: #493b31;
+            font-size: 13px;
+            word-break: break-word;
+        }
+
+        .modal-loading {
+            text-align: center;
+            padding: 30px;
+            color: #83766c;
+        }
+
+        .modal-error {
+            padding: 25px;
+            text-align: center;
+            color: #a34e42;
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 1100px) {
+
+            .delivery-stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .delivery-page {
+                padding: 20px;
+            }
+
+            .delivery-header {
+                flex-direction: column;
+            }
+
+            .delivery-header h1 {
+                font-size: 25px;
+            }
+
+            .delivery-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .delivery-filter-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .delivery-input-wrapper,
+            .delivery-filter-form select,
+            .delivery-search-btn {
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .delivery-table-header {
+                align-items: flex-start;
+                gap: 15px;
+                flex-direction: column;
+            }
+
+            .modal-detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -173,12 +852,19 @@
         </div>
 
 
-        <a
-            href="/admin/logout"
-            class="logout-btn"
+        <form
+            action="/admin/logout"
+            method="POST"
         >
-            🚪 Logout
-        </a>
+
+            <button
+                type="submit"
+                class="logout-btn"
+            >
+                🚪 Logout
+            </button>
+
+        </form>
 
 
     </div>
@@ -198,9 +884,7 @@
     <div class="delivery-page">
 
 
-        <!-- =================================================
-             HEADER
-        ================================================== -->
+        <!-- HEADER -->
 
         <div class="delivery-header">
 
@@ -208,18 +892,18 @@
             <div>
 
                 <div class="delivery-eyebrow">
-                    ADMIN MANAGEMENT
+                    DELIVERY OPERATIONS
                 </div>
 
 
                 <h1>
-                    Delivery Partner Management
+                    Delivery Partner Management 🚴
                 </h1>
 
 
                 <p>
-                    Manage GharSetu delivery partners,
-                    deliveries and earnings.
+                    Monitor delivery partners,
+                    deliveries and earnings from one place.
                 </p>
 
             </div>
@@ -230,13 +914,11 @@
 
 
         <!-- =================================================
-             STAT CARDS
+             STATS
         ================================================== -->
 
         <div class="delivery-stats">
 
-
-            <!-- TOTAL -->
 
             <div class="delivery-stat-card">
 
@@ -260,8 +942,6 @@
 
 
 
-            <!-- ACTIVE -->
-
             <div class="delivery-stat-card">
 
                 <div class="delivery-stat-icon">
@@ -283,8 +963,6 @@
             </div>
 
 
-
-            <!-- INACTIVE -->
 
             <div class="delivery-stat-card">
 
@@ -308,8 +986,6 @@
 
 
 
-            <!-- PENDING -->
-
             <div class="delivery-stat-card">
 
                 <div class="delivery-stat-icon">
@@ -332,8 +1008,6 @@
 
 
 
-            <!-- ACTIVE DELIVERY -->
-
             <div class="delivery-stat-card">
 
                 <div class="delivery-stat-icon">
@@ -355,8 +1029,6 @@
             </div>
 
 
-
-            <!-- COMPLETED -->
 
             <div class="delivery-stat-card">
 
@@ -384,7 +1056,7 @@
 
 
         <!-- =================================================
-             SEARCH / FILTER
+             FILTER
         ================================================== -->
 
         <div class="delivery-filter-box">
@@ -414,6 +1086,7 @@
 
 
                 <select name="status">
+
 
                     <option
                         value="all"
@@ -447,6 +1120,7 @@
                         Inactive
                     </option>
 
+
                 </select>
 
 
@@ -454,7 +1128,7 @@
                     type="submit"
                     class="delivery-search-btn"
                 >
-                    Search
+                    🔍 Search
                 </button>
 
 
@@ -482,7 +1156,7 @@
                     </h2>
 
                     <p>
-                        Manage registered delivery partners.
+                        Manage registered delivery partners and their performance.
                     </p>
 
                 </div>
@@ -528,7 +1202,6 @@
             <% } else { %>
 
 
-
                 <div class="delivery-table-scroll">
 
 
@@ -570,7 +1243,6 @@
                             </tr>
 
                         </thead>
-
 
 
                         <tbody>
@@ -619,7 +1291,6 @@
 
 
                                             </div>
-
 
 
                                             <div>
@@ -728,11 +1399,9 @@
 
                                         <div class="delivery-earning">
 
-
                                             ₹<%= Number(
                                                 partner.totalEarning || 0
                                             ).toFixed(2) %>
-
 
                                         </div>
 
@@ -781,7 +1450,9 @@
                                                 class="delivery-btn view"
                                                 onclick="viewPartner('<%= partner._id %>')"
                                             >
+
                                                 👁 View
+
                                             </button>
 
 
@@ -836,7 +1507,7 @@
 
 
 <!-- =====================================================
-     PARTNER DETAILS MODAL
+     MODAL
 ====================================================== -->
 
 <div
@@ -857,6 +1528,7 @@
                     DELIVERY PARTNER
                 </span>
 
+
                 <h3>
                     Partner Details
                 </h3>
@@ -874,7 +1546,6 @@
 
 
         </div>
-
 
 
         <div
@@ -899,9 +1570,9 @@
 <script>
 
 
-// ======================================================
-// VIEW PARTNER
-// ======================================================
+/* ======================================================
+   VIEW PARTNER
+====================================================== */
 
 async function viewPartner(id) {
 
@@ -924,7 +1595,9 @@ async function viewPartner(id) {
     body.innerHTML = `
 
         <div class="modal-loading">
+
             Loading partner details...
+
         </div>
 
     `;
@@ -978,6 +1651,7 @@ async function viewPartner(id) {
 
             <div class="modal-profile">
 
+
                 <div class="modal-avatar">
 
                     ${
@@ -1014,11 +1688,13 @@ async function viewPartner(id) {
                         )}
                     </h4>
 
+
                     <p>
-                        Delivery Partner
+                        GharSetu Delivery Partner
                     </p>
 
                 </div>
+
 
             </div>
 
@@ -1026,15 +1702,19 @@ async function viewPartner(id) {
 
             <div class="modal-status-row">
 
+
                 <span>
                     Account Status
                 </span>
 
-                <strong class="${
-                    partner.isActive
-                        ? "text-active"
-                        : "text-inactive"
-                }">
+
+                <strong
+                    class="${
+                        partner.isActive
+                            ? "text-active"
+                            : "text-inactive"
+                    }"
+                >
 
                     ${
                         partner.isActive
@@ -1043,6 +1723,7 @@ async function viewPartner(id) {
                     }
 
                 </strong>
+
 
             </div>
 
@@ -1066,6 +1747,7 @@ async function viewPartner(id) {
                 </div>
 
 
+
                 <div class="modal-detail-item">
 
                     <span>
@@ -1081,6 +1763,7 @@ async function viewPartner(id) {
                 </div>
 
 
+
                 <div class="modal-detail-item">
 
                     <span>
@@ -1092,6 +1775,7 @@ async function viewPartner(id) {
                     </strong>
 
                 </div>
+
 
 
                 <div class="modal-detail-item">
@@ -1107,6 +1791,7 @@ async function viewPartner(id) {
                 </div>
 
 
+
                 <div class="modal-detail-item">
 
                     <span>
@@ -1118,6 +1803,7 @@ async function viewPartner(id) {
                     </strong>
 
                 </div>
+
 
 
                 <div class="modal-detail-item">
@@ -1133,6 +1819,7 @@ async function viewPartner(id) {
                 </div>
 
 
+
                 <div class="modal-detail-item">
 
                     <span>
@@ -1144,6 +1831,7 @@ async function viewPartner(id) {
                     </strong>
 
                 </div>
+
 
 
                 <div class="modal-detail-item">
@@ -1174,7 +1862,8 @@ async function viewPartner(id) {
             <div class="modal-error">
 
                 ${escapeHtml(
-                    error.message
+                    error.message ||
+                    "Something went wrong."
                 )}
 
             </div>
@@ -1187,9 +1876,9 @@ async function viewPartner(id) {
 
 
 
-// ======================================================
-// CLOSE MODAL
-// ======================================================
+/* ======================================================
+   CLOSE MODAL
+====================================================== */
 
 function closePartnerModal() {
 
@@ -1205,9 +1894,9 @@ function closePartnerModal() {
 
 
 
-// ======================================================
-// TOGGLE STATUS
-// ======================================================
+/* ======================================================
+   TOGGLE PARTNER
+====================================================== */
 
 async function togglePartner(id) {
 
@@ -1218,7 +1907,11 @@ async function togglePartner(id) {
         );
 
 
-    if (!button) return;
+    if (!button) {
+
+        return;
+
+    }
 
 
     const oldText =
@@ -1270,6 +1963,13 @@ async function togglePartner(id) {
             document.getElementById(
                 `status-${id}`
             );
+
+
+        if (!statusElement) {
+
+            return;
+
+        }
 
 
         if (data.isActive) {
@@ -1333,9 +2033,9 @@ async function togglePartner(id) {
 
 
 
-// ======================================================
-// ESCAPE HTML
-// ======================================================
+/* ======================================================
+   ESCAPE HTML
+====================================================== */
 
 function escapeHtml(value) {
 
@@ -1381,9 +2081,9 @@ function escapeHtml(value) {
 
 
 
-// ======================================================
-// BACKDROP CLICK
-// ======================================================
+/* ======================================================
+   BACKDROP CLICK
+====================================================== */
 
 document
     .getElementById(
@@ -1408,9 +2108,9 @@ document
 
 
 
-// ======================================================
-// ESC KEY
-// ======================================================
+/* ======================================================
+   ESC KEY
+====================================================== */
 
 document.addEventListener(
     "keydown",

@@ -22,18 +22,18 @@ const restaurantSchema = new mongoose.Schema(
             trim: true
         },
 
-        email: {
-            type: String,
-            required: true,
-            trim: true,
-            lowercase: true
-        },
+email: {
+    type: String,
+    required: false,
+    trim: true,
+    lowercase: true
+},
 
-        mobile: {
-            type: String,
-            required: true,
-            trim: true
-        },
+mobile: {
+    type: String,
+    required: false,
+    trim: true
+},
 
         address: {
             type: String,

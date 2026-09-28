@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -11,12 +10,1247 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        GHARSETU | Admin Dashboard
-    </title>
+    <title>GharSetu | Admin Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: #f8f3ed;
+
+            color: #30251e;
+        }
 
 
-<link rel="stylesheet" href="/css/admin.css">
+        /* =================================
+           LAYOUT
+        ================================= */
+
+        .admin-layout {
+            min-height: 100vh;
+
+            display: flex;
+        }
+
+
+        /* =================================
+           SIDEBAR
+        ================================= */
+
+        .sidebar {
+
+            width: 250px;
+
+            min-height: 100vh;
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            background: #fffaf5;
+
+            border-right:
+                1px solid #eaded2;
+
+            padding: 24px 16px;
+
+            overflow-y: auto;
+
+            z-index: 100;
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                0 10px 28px;
+
+            border-bottom:
+                1px solid #eaded2;
+
+            margin-bottom: 22px;
+        }
+
+
+        .brand-icon {
+
+            width: 44px;
+            height: 44px;
+
+            border-radius: 13px;
+
+            background: #174f3a;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+
+        .brand-text h2 {
+
+            font-size: 20px;
+
+            color: #2f241d;
+        }
+
+
+        .brand-text span {
+
+            font-size: 10px;
+
+            color: #8b7768;
+
+            letter-spacing: 1px;
+
+            font-weight: 700;
+        }
+
+
+        .menu-title {
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            color: #a18d7d;
+
+            letter-spacing: 1.4px;
+
+            padding:
+                0 12px 10px;
+        }
+
+
+        .nav-menu {
+
+            list-style: none;
+        }
+
+
+        .nav-menu li {
+
+            margin-bottom: 5px;
+        }
+
+
+        .nav-menu a {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                11px 12px;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            color: #6d5c4f;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .nav-menu a:hover {
+
+            background: #f3e9df;
+
+            color: #174f3a;
+        }
+
+
+        .nav-menu a.active {
+
+            background: #174f3a;
+
+            color: white;
+
+            box-shadow:
+                0 8px 18px
+                rgba(23,79,58,0.15);
+        }
+
+
+        .nav-icon {
+
+            width: 20px;
+
+            text-align: center;
+
+            font-size: 16px;
+        }
+
+
+        .notification-count {
+
+            margin-left: auto;
+
+            min-width: 20px;
+
+            height: 20px;
+
+            padding: 0 6px;
+
+            border-radius: 20px;
+
+            background: #d48a3b;
+
+            color: white;
+
+            font-size: 10px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        /* =================================
+           MAIN
+        ================================= */
+
+        .main-content {
+
+            margin-left: 250px;
+
+            width: calc(100% - 250px);
+
+            min-height: 100vh;
+        }
+
+
+        /* =================================
+           TOPBAR
+        ================================= */
+
+        .topbar {
+
+            height: 76px;
+
+            background: #fffdf9;
+
+            border-bottom:
+                1px solid #eaded2;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding:
+                0 32px;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 50;
+        }
+
+
+        .page-heading h1 {
+
+            font-size: 21px;
+
+            color: #30251e;
+
+            margin-bottom: 4px;
+        }
+
+
+        .page-heading p {
+
+            font-size: 12px;
+
+            color: #907d6e;
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 18px;
+        }
+
+
+        .top-icon {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            border:
+                1px solid #eaded2;
+
+            background: #fffaf5;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            cursor: pointer;
+
+            position: relative;
+        }
+
+
+        .top-icon .dot {
+
+            position: absolute;
+
+            width: 7px;
+            height: 7px;
+
+            background: #d45745;
+
+            border-radius: 50%;
+
+            top: 7px;
+            right: 7px;
+        }
+
+
+        .admin-profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding-left: 16px;
+
+            border-left:
+                1px solid #eaded2;
+        }
+
+
+        .profile-avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 50%;
+
+            background: #e5c7a9;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 16px;
+
+            font-weight: 800;
+
+            color: #65462f;
+        }
+
+
+        .profile-info strong {
+
+            display: block;
+
+            font-size: 12px;
+
+            color: #3b2b21;
+        }
+
+
+        .profile-info span {
+
+            display: block;
+
+            font-size: 10px;
+
+            color: #988577;
+        }
+
+
+        /* =================================
+           CONTENT
+        ================================= */
+
+        .dashboard-content {
+
+            padding: 30px 32px 40px;
+        }
+
+
+        .welcome-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .welcome h2 {
+
+            font-size: 25px;
+
+            color: #30251e;
+
+            margin-bottom: 5px;
+        }
+
+
+        .welcome p {
+
+            font-size: 13px;
+
+            color: #8b7768;
+        }
+
+
+        .date-button {
+
+            padding:
+                10px 15px;
+
+            background: #fffaf5;
+
+            border:
+                1px solid #e4d6ca;
+
+            border-radius: 10px;
+
+            color: #725c4d;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        /* =================================
+           STAT CARDS
+        ================================= */
+
+        .stats-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 25px;
+        }
+
+
+        .stat-card {
+
+            background: #fffdf9;
+
+            border:
+                1px solid #eaded2;
+
+            border-radius: 17px;
+
+            padding: 20px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(91,65,43,0.04);
+        }
+
+
+        .stat-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+
+        .stat-icon {
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 13px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+
+        .icon-green {
+            background: #e1eee7;
+        }
+
+
+        .icon-brown {
+            background: #f1e4d7;
+        }
+
+
+        .icon-orange {
+            background: #f8e6cc;
+        }
+
+
+        .icon-blue {
+            background: #e1ebef;
+        }
+
+
+        .stat-label {
+
+            font-size: 11px;
+
+            color: #927e6e;
+
+            font-weight: 700;
+        }
+
+
+        .stat-value {
+
+            font-size: 27px;
+
+            font-weight: 800;
+
+            color: #30251e;
+
+            margin-bottom: 8px;
+        }
+
+
+        .stat-change {
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            color: #26825d;
+        }
+
+
+        .stat-change.neutral {
+
+            color: #907d6e;
+        }
+
+
+        /* =================================
+           GRID
+        ================================= */
+
+        .dashboard-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1.7fr
+                1fr;
+
+            gap: 20px;
+
+            margin-bottom: 20px;
+        }
+
+
+        .panel {
+
+            background: #fffdf9;
+
+            border:
+                1px solid #eaded2;
+
+            border-radius: 17px;
+
+            padding: 21px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(91,65,43,0.04);
+        }
+
+
+        .panel-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+
+        .panel-header h3 {
+
+            font-size: 15px;
+
+            color: #3c2d24;
+        }
+
+
+        .panel-header a {
+
+            font-size: 11px;
+
+            color: #174f3a;
+
+            text-decoration: none;
+
+            font-weight: 800;
+        }
+
+
+        /* =================================
+           CHART
+        ================================= */
+
+        .chart-area {
+
+            height: 245px;
+
+            display: flex;
+
+            align-items: flex-end;
+
+            gap: 14px;
+
+            padding:
+                15px 8px 0;
+
+            border-bottom:
+                1px solid #e8ddd3;
+        }
+
+
+        .bar-column {
+
+            flex: 1;
+
+            height: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: flex-end;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .bar {
+
+            width: 100%;
+
+            max-width: 34px;
+
+            background:
+                linear-gradient(
+                    to top,
+                    #174f3a,
+                    #3d8469
+                );
+
+            border-radius:
+                7px 7px 0 0;
+
+            min-height: 12px;
+        }
+
+
+        .bar-label {
+
+            font-size: 10px;
+
+            color: #9b897a;
+        }
+
+
+        /* =================================
+           QUICK ACTIONS
+        ================================= */
+
+        .quick-actions {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .quick-action {
+
+            padding: 14px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid #eaded2;
+
+            background: #fffaf5;
+
+            text-decoration: none;
+
+            color: #574539;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            transition: 0.2s ease;
+        }
+
+
+        .quick-action:hover {
+
+            border-color:
+                #cdb8a6;
+
+            transform:
+                translateY(-1px);
+        }
+
+
+        .quick-action-icon {
+
+            width: 34px;
+            height: 34px;
+
+            border-radius: 9px;
+
+            background: #e7efe9;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+        }
+
+
+        .quick-action strong {
+
+            font-size: 11px;
+
+            display: block;
+        }
+
+
+        .quick-action span {
+
+            font-size: 9px;
+
+            color: #9a8778;
+        }
+
+
+        /* =================================
+           APPROVALS
+        ================================= */
+
+        .approval-list {
+
+            display: grid;
+
+            gap: 11px;
+        }
+
+
+        .approval-item {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding: 11px;
+
+            background: #fffaf5;
+
+            border-radius: 11px;
+        }
+
+
+        .approval-avatar {
+
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            background: #e8d6c4;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 17px;
+        }
+
+
+        .approval-info {
+
+            flex: 1;
+        }
+
+
+        .approval-info strong {
+
+            display: block;
+
+            font-size: 11px;
+
+            color: #49372b;
+        }
+
+
+        .approval-info span {
+
+            display: block;
+
+            font-size: 9px;
+
+            color: #998679;
+
+            margin-top: 3px;
+        }
+
+
+        .pending-badge {
+
+            background: #f8e8ce;
+
+            color: #a46725;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            padding:
+                5px 8px;
+
+            border-radius: 20px;
+        }
+
+
+        /* =================================
+           RECENT ORDERS
+        ================================= */
+
+        .orders-panel {
+
+            width: 100%;
+        }
+
+
+        .table-wrapper {
+
+            overflow-x: auto;
+        }
+
+
+        table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+        }
+
+
+        th {
+
+            text-align: left;
+
+            padding:
+                11px 10px;
+
+            font-size: 10px;
+
+            color: #9a8778;
+
+            border-bottom:
+                1px solid #eaded2;
+
+            white-space: nowrap;
+        }
+
+
+        td {
+
+            padding:
+                13px 10px;
+
+            font-size: 11px;
+
+            color: #5c4b3f;
+
+            border-bottom:
+                1px solid #f0e7df;
+
+            white-space: nowrap;
+        }
+
+
+        .order-id {
+
+            font-weight: 800;
+
+            color: #174f3a;
+        }
+
+
+        .customer-name {
+
+            font-weight: 700;
+
+            color: #49372b;
+        }
+
+
+        .status {
+
+            display: inline-block;
+
+            padding:
+                5px 9px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 800;
+        }
+
+
+        .status.completed {
+
+            background: #e1eee7;
+
+            color: #267052;
+        }
+
+
+        .status.pending {
+
+            background: #f8e8ce;
+
+            color: #a46725;
+        }
+
+
+        .status.preparing {
+
+            background: #e5edf1;
+
+            color: #557381;
+        }
+
+
+        /* =================================
+           BOTTOM CARDS
+        ================================= */
+
+        .bottom-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr 1fr;
+
+            gap: 20px;
+        }
+
+
+        .mini-stat {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+
+        .mini-icon {
+
+            width: 45px;
+            height: 45px;
+
+            border-radius: 13px;
+
+            background: #f0e3d5;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+
+        .mini-stat strong {
+
+            display: block;
+
+            font-size: 21px;
+
+            color: #34271f;
+        }
+
+
+        .mini-stat span {
+
+            display: block;
+
+            font-size: 10px;
+
+            color: #948174;
+
+            margin-top: 3px;
+        }
+
+
+        /* =================================
+           MOBILE
+        ================================= */
+
+        .mobile-menu {
+
+            display: none;
+
+            width: 38px;
+            height: 38px;
+
+            border:
+                1px solid #eaded2;
+
+            border-radius: 10px;
+
+            background: #fffaf5;
+
+            cursor: pointer;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+            .bottom-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+        }
+
+
+        @media (max-width: 760px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+                transition:
+                    0.3s ease;
+            }
+
+
+            .sidebar.open {
+
+                transform:
+                    translateX(0);
+            }
+
+
+            .main-content {
+
+                margin-left: 0;
+
+                width: 100%;
+            }
+
+
+            .mobile-menu {
+
+                display: flex;
+            }
+
+
+            .topbar {
+
+                padding:
+                    0 16px;
+
+                height: 68px;
+            }
+
+
+            .page-heading {
+
+                display: none;
+            }
+
+
+            .admin-profile {
+
+                padding-left: 8px;
+
+                border-left: none;
+            }
+
+
+            .profile-info {
+
+                display: none;
+            }
+
+
+            .dashboard-content {
+
+                padding:
+                    22px 16px 30px;
+            }
+
+
+            .welcome-row {
+
+                align-items: flex-start;
+            }
+
+
+            .welcome h2 {
+
+                font-size: 21px;
+            }
+
+
+            .stats-grid {
+
+                grid-template-columns: 1fr;
+
+                gap: 12px;
+            }
+
+
+            .bottom-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .quick-actions {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .welcome-row {
+
+                display: block;
+            }
+
+
+            .date-button {
+
+                display: inline-block;
+
+                margin-top: 12px;
+            }
+
+
+            .chart-area {
+
+                gap: 7px;
+            }
+
+
+            .bar {
+
+                max-width: 24px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -27,29 +1261,30 @@
 <div class="admin-layout">
 
 
-    <!-- ==================================================
+    <!-- ======================================
          SIDEBAR
-    =================================================== -->
+    ======================================= -->
 
-    <aside class="admin-sidebar">
+    <aside
+        class="sidebar"
+        id="sidebar"
+    >
 
 
-        <!-- LOGO -->
+        <div class="brand">
 
-        <div class="admin-logo">
-
-            <div class="admin-logo-icon">
-                🏠
+            <div class="brand-icon">
+                🍽️
             </div>
 
-            <div>
+            <div class="brand-text">
 
                 <h2>
-                    GHARSETU
+                    GharSetu
                 </h2>
 
                 <span>
-                    ADMIN CONTROL
+                    ADMIN PANEL
                 </span>
 
             </div>
@@ -57,850 +1292,1160 @@
         </div>
 
 
-
-        <!-- NAVIGATION -->
-
-        <nav class="admin-nav">
-
-
-            <div class="admin-nav-title">
-                MAIN
-            </div>
+        <div class="menu-title">
+            MAIN MENU
+        </div>
 
 
-            <a
-                href="/admin/dashboard"
-                class="admin-nav-link active"
-            >
+        <ul class="nav-menu">
 
-                <div class="admin-nav-icon">
-                    📊
-                </div>
 
-                <span>
+            <li>
+
+                <a
+                    href="/admin/dashboard"
+                    class="active"
+                >
+
+                    <span class="nav-icon">
+                        📊
+                    </span>
+
                     Dashboard
-                </span>
 
-            </a>
+                </a>
 
-
-            <a
-                href="/admin/restaurants"
-                class="admin-nav-link"
-            >
-
-                <div class="admin-nav-icon">
-                    🏪
-                </div>
-
-                <span>
-                    Restaurants
-                </span>
-
-            </a>
+            </li>
 
 
-            <a
-                href="/admin/tiffin-sellers"
-                class="admin-nav-link"
-            >
+            <li>
 
-                <div class="admin-nav-icon">
-                    🍱
-                </div>
+                <a href="/admin/customers">
 
-                <span>
-                    Tiffin Sellers
-                </span>
+                    <span class="nav-icon">
+                        👥
+                    </span>
 
-            </a>
-
-
-            <a
-                href="/admin/customers"
-                class="admin-nav-link"
-            >
-
-                <div class="admin-nav-icon">
-                    👥
-                </div>
-
-                <span>
                     Customers
-                </span>
 
-            </a>
+                </a>
+
+            </li>
 
 
-            <a
-                href="/admin/delivery"
-                class="admin-nav-link"
-            >
+            <li>
 
-                <div class="admin-nav-icon">
-                    🚴
-                </div>
+                <a href="/admin/restaurants">
 
-                <span>
+                    <span class="nav-icon">
+                        🍽️
+                    </span>
+
+                    Restaurants
+
+                    <span class="notification-count">
+                        3
+                    </span>
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/admin/tiffin-sellers">
+
+                    <span class="nav-icon">
+                        🏠
+                    </span>
+
+                    Tiffin Sellers
+
+                    <span class="notification-count">
+                        2
+                    </span>
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/admin/delivery">
+
+                    <span class="nav-icon">
+                        🛵
+                    </span>
+
                     Delivery Partners
-                </span>
 
-            </a>
+                </a>
 
-
-
-            <div
-                class="admin-nav-title"
-                style="margin-top:25px;"
-            >
-                OPERATIONS
-            </div>
+            </li>
 
 
-            <a
-                href="/admin/orders"
-                class="admin-nav-link"
-            >
+        </ul>
 
-                <div class="admin-nav-icon">
-                    📦
-                </div>
 
-                <span>
+        <div
+            class="menu-title"
+            style="margin-top: 22px;"
+        >
+            MANAGEMENT
+        </div>
+
+
+        <ul class="nav-menu">
+
+
+            <li>
+
+                <a href="/admin/orders">
+
+                    <span class="nav-icon">
+                        📦
+                    </span>
+
                     Orders
-                </span>
 
-            </a>
+                </a>
 
-
-            <a
-                href="/admin/complaints"
-                class="admin-nav-link"
-            >
-
-                <div class="admin-nav-icon">
-                    💬
-                </div>
-
-                <span>
-                    Complaints
-                </span>
-
-            </a>
+            </li>
 
 
-            <a
-                href="/admin/analytics"
-                class="admin-nav-link"
-            >
+            <li>
 
-                <div class="admin-nav-icon">
-                    📈
-                </div>
+                <a href="/admin/payments">
 
-                <span>
+                    <span class="nav-icon">
+                        💳
+                    </span>
+
+                    Payments
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/admin/coupons">
+
+                    <span class="nav-icon">
+                        🎟️
+                    </span>
+
+                    Coupons
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/admin/reviews">
+
+                    <span class="nav-icon">
+                        ⭐
+                    </span>
+
+                    Reviews
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/admin/messages">
+
+                    <span class="nav-icon">
+                        💬
+                    </span>
+
+                    Mail Center
+
+                    <span class="notification-count">
+                        4
+                    </span>
+
+                </a>
+
+            </li>
+
+
+        </ul>
+
+
+        <div
+            class="menu-title"
+            style="margin-top: 22px;"
+        >
+            SYSTEM
+        </div>
+
+
+        <ul class="nav-menu">
+
+
+            <li>
+
+                <a href="/admin/analytics">
+
+                    <span class="nav-icon">
+                        📈
+                    </span>
+
                     Analytics
-                </span>
 
-            </a>
+                </a>
 
-
-
-            <div
-                class="admin-nav-title"
-                style="margin-top:25px;"
-            >
-                SYSTEM
-            </div>
+            </li>
 
 
-            <a
-                href="/admin/settings"
-                class="admin-nav-link"
-            >
+            <li>
 
-                <div class="admin-nav-icon">
-                    ⚙️
-                </div>
+                <a href="/admin/complaints">
 
-                <span>
+                    <span class="nav-icon">
+                        ⚠️
+                    </span>
+
+                    Complaints
+
+                </a>
+
+            </li>
+
+
+            <li>
+
+                <a href="/admin/settings">
+
+                    <span class="nav-icon">
+                        ⚙️
+                    </span>
+
                     Settings
-                </span>
 
-            </a>
+                </a>
+
+            </li>
 
 
-            <a
-                href="/admin/logout"
-                class="admin-nav-link"
-            >
+            <li>
 
-                <div class="admin-nav-icon">
-                    🚪
-                </div>
+                <a href="/admin/logout">
 
-                <span>
+                    <span class="nav-icon">
+                        🚪
+                    </span>
+
                     Logout
-                </span>
 
-            </a>
+                </a>
+
+            </li>
 
 
-        </nav>
+        </ul>
 
 
     </aside>
 
 
 
-    <!-- ==================================================
-         MAIN
-    =================================================== -->
+    <!-- ======================================
+         MAIN CONTENT
+    ======================================= -->
 
-    <main class="admin-main">
-
-
-        <!-- =================================================
-             TOPBAR
-        ================================================== -->
-
-        <div class="admin-topbar">
+    <main class="main-content">
 
 
-            <div>
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+
+            <div class="page-heading">
 
                 <h1>
-                    Dashboard
+                    Admin Dashboard
                 </h1>
 
                 <p>
-                    Welcome back, Admin 👋
+                    GharSetu platform overview
                 </p>
 
             </div>
 
 
-            <div class="admin-profile">
+            <div class="top-actions">
 
-                <div>
 
-                    <strong>
-                        Administrator
-                    </strong>
+                <button
+                    class="mobile-menu"
+                    id="mobileMenu"
+                    type="button"
+                >
+                    ☰
+                </button>
+
+
+                <div class="top-icon">
+
+                    🔔
+
+                    <span class="dot"></span>
 
                 </div>
 
 
-                <div class="admin-avatar">
-                    A
+                <div class="top-icon">
+
+                    💬
+
                 </div>
+
+
+                <div class="admin-profile">
+
+                    <div class="profile-avatar">
+                        A
+                    </div>
+
+                    <div class="profile-info">
+
+                        <strong>
+                            Admin
+                        </strong>
+
+                        <span>
+                            Super Administrator
+                        </span>
+
+                    </div>
+
+                </div>
+
 
             </div>
 
 
-        </div>
+        </header>
 
 
 
-        <!-- =================================================
-             WELCOME
-        ================================================== -->
+        <!-- DASHBOARD -->
 
-        <div class="admin-dashboard-welcome">
+        <section class="dashboard-content">
 
-            <div>
 
-                <div class="admin-dashboard-label">
-                    GHARSETU CONTROL CENTER
+            <!-- WELCOME -->
+
+            <div class="welcome-row">
+
+
+                <div class="welcome">
+
+                    <h2>
+                        Good Morning, Admin 👋
+                    </h2>
+
+                    <p>
+                        Here's what's happening
+                        with GharSetu today.
+                    </p>
+
                 </div>
 
-                <h2>
-                    Everything is under control.
-                </h2>
 
-                <p>
-                    Monitor your complete platform
-                    from one place.
-                </p>
-
-            </div>
-
-
-            <div class="admin-dashboard-date">
-
-                <span>
-                    TODAY
-                </span>
-
-                <strong id="todayDate">
-                    —
-                </strong>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- =================================================
-             STAT CARDS
-        ================================================== -->
-
-        <div class="admin-card-grid">
-
-
-            <!-- CUSTOMERS -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    👥
+                <div class="date-button">
+                    📅 Today
                 </div>
 
-                <div class="admin-card-label">
-                    TOTAL CUSTOMERS
-                </div>
-
-                <div class="admin-card-value">
-                    <%= totalCustomers || 0 %>
-                </div>
-
-            </div>
-
-
-
-            <!-- RESTAURANTS -->
-
-            <div class="admin-card">
-
-                <div class="admin-card-icon">
-                    🏪
-                </div>
-
-                <div class="admin-card-label">
-                    RESTAURANTS
-                </div>
-
-                <div class="admin-card-value">
-                    <%= totalRestaurants || 0 %>
-                </div>
 
             </div>
 
 
 
-            <!-- TIFFIN -->
+            <!-- =================================
+                 STATISTICS
+            ================================== -->
 
-            <div class="admin-card">
+            <div class="stats-grid">
 
-                <div class="admin-card-icon">
-                    🍱
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            TOTAL CUSTOMERS
+                        </div>
+
+                        <div class="stat-icon icon-green">
+                            👥
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        2,548
+                    </div>
+
+                    <div class="stat-change">
+                        ↑ 12.5% this month
+                    </div>
+
                 </div>
 
-                <div class="admin-card-label">
-                    TIFFIN SELLERS
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            FOOD PARTNERS
+                        </div>
+
+                        <div class="stat-icon icon-brown">
+                            🍽️
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        186
+                    </div>
+
+                    <div class="stat-change">
+                        ↑ 8 new this month
+                    </div>
+
                 </div>
 
-                <div class="admin-card-value">
-                    <%= totalTiffinSellers || 0 %>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            TOTAL ORDERS
+                        </div>
+
+                        <div class="stat-icon icon-orange">
+                            📦
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        8,642
+                    </div>
+
+                    <div class="stat-change">
+                        ↑ 18.2% this month
+                    </div>
+
                 </div>
+
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-label">
+                            TOTAL REVENUE
+                        </div>
+
+                        <div class="stat-icon icon-blue">
+                            💰
+                        </div>
+
+                    </div>
+
+                    <div class="stat-value">
+                        ₹4.82L
+                    </div>
+
+                    <div class="stat-change">
+                        ↑ 14.7% this month
+                    </div>
+
+                </div>
+
 
             </div>
 
 
 
-            <!-- DELIVERY -->
+            <!-- =================================
+                 CHART + QUICK ACTIONS
+            ================================== -->
 
-            <div class="admin-card">
+            <div class="dashboard-grid">
 
-                <div class="admin-card-icon">
-                    🚴
-                </div>
 
-                <div class="admin-card-label">
-                    DELIVERY PARTNERS
-                </div>
+                <!-- ORDERS CHART -->
 
-                <div class="admin-card-value">
-                    <%= totalDeliveryPartners || 0 %>
-                </div>
+                <div class="panel">
 
-            </div>
+                    <div class="panel-header">
 
+                        <h3>
+                            Orders Overview
+                        </h3>
 
-        </div>
+                        <a href="/admin/analytics">
+                            View Analytics →
+                        </a>
 
+                    </div>
 
 
-        <!-- =================================================
-             SECOND ROW
-        ================================================== -->
+                    <div class="chart-area">
 
-        <div
-            class="admin-card-grid"
-            style="margin-top:14px;"
-        >
 
+                        <div class="bar-column">
 
-            <!-- ORDERS -->
+                            <div
+                                class="bar"
+                                style="height: 45%;"
+                            ></div>
 
-            <div class="admin-card">
+                            <span class="bar-label">
+                                Mon
+                            </span>
 
-                <div class="admin-card-icon">
-                    📦
-                </div>
+                        </div>
 
-                <div class="admin-card-label">
-                    TOTAL ORDERS
-                </div>
 
-                <div class="admin-card-value">
-                    <%= totalOrders || 0 %>
-                </div>
+                        <div class="bar-column">
 
-            </div>
+                            <div
+                                class="bar"
+                                style="height: 62%;"
+                            ></div>
 
+                            <span class="bar-label">
+                                Tue
+                            </span>
 
+                        </div>
 
-            <!-- REVENUE -->
 
-            <div class="admin-card">
+                        <div class="bar-column">
 
-                <div class="admin-card-icon">
-                    💰
-                </div>
+                            <div
+                                class="bar"
+                                style="height: 52%;"
+                            ></div>
 
-                <div class="admin-card-label">
-                    TOTAL REVENUE
-                </div>
+                            <span class="bar-label">
+                                Wed
+                            </span>
 
-                <div class="admin-card-value">
+                        </div>
 
-                    ₹<%= Number(
-                        totalRevenue || 0
-                    ).toLocaleString("en-IN") %>
 
-                </div>
+                        <div class="bar-column">
 
-            </div>
+                            <div
+                                class="bar"
+                                style="height: 78%;"
+                            ></div>
 
+                            <span class="bar-label">
+                                Thu
+                            </span>
 
+                        </div>
 
-            <!-- RESTAURANT REQUEST -->
 
-            <div class="admin-card">
+                        <div class="bar-column">
 
-                <div class="admin-card-icon">
-                    🏪
-                </div>
+                            <div
+                                class="bar"
+                                style="height: 68%;"
+                            ></div>
 
-                <div class="admin-card-label">
-                    RESTAURANT REQUESTS
-                </div>
+                            <span class="bar-label">
+                                Fri
+                            </span>
 
-                <div class="admin-card-value">
-                    <%= pendingRestaurants || 0 %>
-                </div>
+                        </div>
 
-            </div>
 
+                        <div class="bar-column">
 
+                            <div
+                                class="bar"
+                                style="height: 91%;"
+                            ></div>
 
-            <!-- TIFFIN REQUEST -->
+                            <span class="bar-label">
+                                Sat
+                            </span>
 
-            <div class="admin-card">
+                        </div>
 
-                <div class="admin-card-icon">
-                    🍱
-                </div>
 
-                <div class="admin-card-label">
-                    TIFFIN REQUESTS
-                </div>
+                        <div class="bar-column">
 
-                <div class="admin-card-value">
-                    <%= pendingTiffinSellers || 0 %>
-                </div>
+                            <div
+                                class="bar"
+                                style="height: 73%;"
+                            ></div>
 
-            </div>
+                            <span class="bar-label">
+                                Sun
+                            </span>
 
+                        </div>
 
-        </div>
 
-
-
-        <!-- =================================================
-             QUICK ACTIONS
-        ================================================== -->
-
-        <div class="admin-section-header">
-
-            <div>
-
-                <h2>
-                    Quick Management
-                </h2>
-
-                <p>
-                    Manage your platform quickly.
-                </p>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="admin-quick-grid">
-
-
-            <a
-                href="/admin/restaurants"
-                class="admin-quick-card"
-            >
-
-                <div class="admin-quick-icon">
-                    🏪
-                </div>
-
-                <div>
-
-                    <strong>
-                        Restaurants
-                    </strong>
-
-                    <span>
-                        Manage restaurant partners
-                    </span>
+                    </div>
 
                 </div>
 
-                <b>
-                    →
-                </b>
 
-            </a>
 
+                <!-- QUICK ACTIONS -->
 
+                <div class="panel">
 
-            <a
-                href="/admin/tiffin-sellers"
-                class="admin-quick-card"
-            >
+                    <div class="panel-header">
 
-                <div class="admin-quick-icon">
-                    🍱
-                </div>
+                        <h3>
+                            Quick Actions
+                        </h3>
 
-                <div>
+                    </div>
 
-                    <strong>
-                        Tiffin Sellers
-                    </strong>
 
-                    <span>
-                        Approve and manage sellers
-                    </span>
+                    <div class="quick-actions">
 
-                </div>
 
-                <b>
-                    →
-                </b>
-
-            </a>
-
-
-
-            <a
-                href="/admin/customers"
-                class="admin-quick-card"
-            >
-
-                <div class="admin-quick-icon">
-                    👥
-                </div>
-
-                <div>
-
-                    <strong>
-                        Customers
-                    </strong>
-
-                    <span>
-                        View customer accounts
-                    </span>
-
-                </div>
-
-                <b>
-                    →
-                </b>
-
-            </a>
-
-
-
-            <a
-                href="/admin/orders"
-                class="admin-quick-card"
-            >
-
-                <div class="admin-quick-icon">
-                    📦
-                </div>
-
-                <div>
-
-                    <strong>
-                        Orders
-                    </strong>
-
-                    <span>
-                        Monitor platform orders
-                    </span>
-
-                </div>
-
-                <b>
-                    →
-                </b>
-
-            </a>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             RECENT ORDERS
-        ================================================== -->
-
-        <div class="admin-section-header">
-
-            <div>
-
-                <h2>
-                    Recent Orders
-                </h2>
-
-                <p>
-                    Latest activity on GHARSETU.
-                </p>
-
-            </div>
-
-
-            <a
-                href="/admin/orders"
-                class="admin-btn admin-btn-primary"
-            >
-                View All
-            </a>
-
-        </div>
-
-
-
-        <div class="admin-table-container">
-
-
-            <table class="admin-table">
-
-
-                <thead>
-
-                    <tr>
-
-                        <th>
-                            Order
-                        </th>
-
-                        <th>
-                            Customer
-                        </th>
-
-                        <th>
-                            Amount
-                        </th>
-
-                        <th>
-                            Status
-                        </th>
-
-                        <th>
-                            Date
-                        </th>
-
-                    </tr>
-
-                </thead>
-
-
-
-                <tbody>
-
-
-                <% if (
-                    recentOrders &&
-                    recentOrders.length > 0
-                ) { %>
-
-
-                    <% recentOrders.forEach(
-                        order => {
-                    %>
-
-
-                        <tr>
-
-
-                            <td>
-
-                                <strong>
-                                    #<%=
-                                        order._id
-                                            .toString()
-                                            .slice(-6)
-                                            .toUpperCase()
-                                    %>
-                                </strong>
-
-                            </td>
-
-
-                            <td>
-
-                                <%=
-
-                                    order.customer?.name
-                                    ||
-                                    order.customerMobile
-                                    ||
-                                    "Customer"
-
-                                %>
-
-                            </td>
-
-
-                            <td>
-
-                                ₹<%= Number(
-                                    order.totalAmount ||
-                                    order.amount ||
-                                    0
-                                ).toLocaleString(
-                                    "en-IN"
-                                ) %>
-
-                            </td>
-
-
-                            <td>
-
-
-                                <% const status =
-                                    String(
-                                        order.status ||
-                                        "pending"
-                                    ).toLowerCase();
-                                %>
-
-
-                                <span
-                                    class="
-                                        admin-status
-                                        <%=
-
-                                        status ===
-                                        "delivered" ||
-                                        status ===
-                                        "completed"
-
-                                        ?
-
-                                        "status-success"
-
-                                        :
-
-                                        status ===
-                                        "cancelled"
-
-                                        ?
-
-                                        "status-danger"
-
-                                        :
-
-                                        "status-warning"
-
-                                        %>
-                                    "
-                                >
-
-                                    <%= order.status || "Pending" %>
-
-                                </span>
-
-
-                            </td>
-
-
-                            <td>
-
-                                <%= order.createdAt
-                                    ?
-                                    new Date(
-                                        order.createdAt
-                                    ).toLocaleDateString(
-                                        "en-IN"
-                                    )
-                                    :
-                                    "-"
-                                %>
-
-                            </td>
-
-
-                        </tr>
-
-
-                    <% }) %>
-
-
-                <% } else { %>
-
-
-                    <tr>
-
-                        <td
-                            colspan="5"
-                            style="
-                                text-align:center;
-                                padding:35px;
-                                color:#988a80;
-                            "
+                        <a
+                            href="/admin/restaurants"
+                            class="quick-action"
                         >
 
-                            No orders found yet.
+                            <div class="quick-action-icon">
+                                🍽️
+                            </div>
 
-                        </td>
+                            <div>
 
-                    </tr>
+                                <strong>
+                                    Review Restaurants
+                                </strong>
+
+                                <span>
+                                    3 pending
+                                </span>
+
+                            </div>
+
+                        </a>
 
 
-                <% } %>
+
+                        <a
+                            href="/admin/tiffin-sellers"
+                            class="quick-action"
+                        >
+
+                            <div class="quick-action-icon">
+                                🏠
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Review Sellers
+                                </strong>
+
+                                <span>
+                                    2 pending
+                                </span>
+
+                            </div>
+
+                        </a>
 
 
-                </tbody>
+
+                        <a
+                            href="/admin/orders"
+                            class="quick-action"
+                        >
+
+                            <div class="quick-action-icon">
+                                📦
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    View Orders
+                                </strong>
+
+                                <span>
+                                    124 today
+                                </span>
+
+                            </div>
+
+                        </a>
 
 
-            </table>
+
+                        <a
+                            href="/admin/messages"
+                            class="quick-action"
+                        >
+
+                            <div class="quick-action-icon">
+                                💬
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Mail Center
+                                </strong>
+
+                                <span>
+                                    4 unread
+                                </span>
+
+                            </div>
+
+                        </a>
 
 
-        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 PENDING APPROVALS
+            ================================== -->
+
+            <div class="dashboard-grid">
+
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Pending Approvals
+                        </h3>
+
+                        <a href="/admin/restaurants">
+                            View All →
+                        </a>
+
+                    </div>
+
+
+                    <div class="approval-list">
+
+
+                        <div class="approval-item">
+
+                            <div class="approval-avatar">
+                                🍴
+                            </div>
+
+                            <div class="approval-info">
+
+                                <strong>
+                                    Shree Krishna Restaurant
+                                </strong>
+
+                                <span>
+                                    Restaurant • Applied 25 min ago
+                                </span>
+
+                            </div>
+
+                            <span class="pending-badge">
+                                Pending
+                            </span>
+
+                        </div>
+
+
+                        <div class="approval-item">
+
+                            <div class="approval-avatar">
+                                🍱
+                            </div>
+
+                            <div class="approval-info">
+
+                                <strong>
+                                    Maa Tiffin Service
+                                </strong>
+
+                                <span>
+                                    Tiffin Seller • Applied 1 hr ago
+                                </span>
+
+                            </div>
+
+                            <span class="pending-badge">
+                                Pending
+                            </span>
+
+                        </div>
+
+
+                        <div class="approval-item">
+
+                            <div class="approval-avatar">
+                                🍛
+                            </div>
+
+                            <div class="approval-info">
+
+                                <strong>
+                                    Urban Food Corner
+                                </strong>
+
+                                <span>
+                                    Restaurant • Applied 2 hrs ago
+                                </span>
+
+                            </div>
+
+                            <span class="pending-badge">
+                                Pending
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- PLATFORM SUMMARY -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Platform Summary
+                        </h3>
+
+                    </div>
+
+
+                    <div class="approval-list">
+
+
+                        <div class="approval-item">
+
+                            <div class="approval-avatar">
+                                👥
+                            </div>
+
+                            <div class="approval-info">
+
+                                <strong>
+                                    Active Customers
+                                </strong>
+
+                                <span>
+                                    Currently using GharSetu
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                2.1K
+                            </strong>
+
+                        </div>
+
+
+                        <div class="approval-item">
+
+                            <div class="approval-avatar">
+                                🍽️
+                            </div>
+
+                            <div class="approval-info">
+
+                                <strong>
+                                    Active Partners
+                                </strong>
+
+                                <span>
+                                    Restaurants + Sellers
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                172
+                            </strong>
+
+                        </div>
+
+
+                        <div class="approval-item">
+
+                            <div class="approval-avatar">
+                                🛵
+                            </div>
+
+                            <div class="approval-info">
+
+                                <strong>
+                                    Active Delivery
+                                </strong>
+
+                                <span>
+                                    Delivery partners online
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                64
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 RECENT ORDERS
+            ================================== -->
+
+            <div class="panel orders-panel">
+
+
+                <div class="panel-header">
+
+                    <h3>
+                        Recent Orders
+                    </h3>
+
+                    <a href="/admin/orders">
+                        View All Orders →
+                    </a>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+
+                    <table>
+
+
+                        <thead>
+
+                            <tr>
+
+                                <th>
+                                    ORDER ID
+                                </th>
+
+                                <th>
+                                    CUSTOMER
+                                </th>
+
+                                <th>
+                                    PARTNER
+                                </th>
+
+                                <th>
+                                    AMOUNT
+                                </th>
+
+                                <th>
+                                    PAYMENT
+                                </th>
+
+                                <th>
+                                    STATUS
+                                </th>
+
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+
+                            <tr>
+
+                                <td class="order-id">
+                                    #GS10284
+                                </td>
+
+                                <td class="customer-name">
+                                    Rahul Patel
+                                </td>
+
+                                <td>
+                                    Shree Food Hub
+                                </td>
+
+                                <td>
+                                    ₹420
+                                </td>
+
+                                <td>
+                                    Online
+                                </td>
+
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td class="order-id">
+                                    #GS10283
+                                </td>
+
+                                <td class="customer-name">
+                                    Priya Shah
+                                </td>
+
+                                <td>
+                                    Maa Tiffin Service
+                                </td>
+
+                                <td>
+                                    ₹280
+                                </td>
+
+                                <td>
+                                    Cash
+                                </td>
+
+                                <td>
+                                    <span class="status pending">
+                                        Pending
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td class="order-id">
+                                    #GS10282
+                                </td>
+
+                                <td class="customer-name">
+                                    Jay Mehta
+                                </td>
+
+                                <td>
+                                    Urban Food Corner
+                                </td>
+
+                                <td>
+                                    ₹560
+                                </td>
+
+                                <td>
+                                    Online
+                                </td>
+
+                                <td>
+                                    <span class="status preparing">
+                                        Preparing
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td class="order-id">
+                                    #GS10281
+                                </td>
+
+                                <td class="customer-name">
+                                    Neha Joshi
+                                </td>
+
+                                <td>
+                                    Ghar Ka Swad
+                                </td>
+
+                                <td>
+                                    ₹350
+                                </td>
+
+                                <td>
+                                    Online
+                                </td>
+
+                                <td>
+                                    <span class="status completed">
+                                        Completed
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+        </section>
 
 
     </main>
@@ -912,25 +2457,51 @@
 
 <script>
 
-    // =====================================================
-    // TODAY DATE
-    // =====================================================
+    const mobileMenu =
+        document.getElementById(
+            "mobileMenu"
+        );
 
-    const today =
-        new Date();
+    const sidebar =
+        document.getElementById(
+            "sidebar"
+        );
+
+
+    mobileMenu.addEventListener(
+        "click",
+        function () {
+
+            sidebar.classList.toggle(
+                "open"
+            );
+
+        }
+    );
 
 
     document
-        .getElementById("todayDate")
-        .textContent =
-            today.toLocaleDateString(
-                "en-IN",
-                {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric"
+        .querySelectorAll(".nav-menu a")
+        .forEach(function (link) {
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        window.innerWidth <= 760
+                    ) {
+
+                        sidebar.classList.remove(
+                            "open"
+                        );
+
+                    }
+
                 }
             );
+
+        });
 
 </script>
 

@@ -25,6 +25,8 @@
 
     <div class="auth-card">
 
+        <!-- LOGO -->
+
         <div class="auth-logo">
             🍽️
         </div>
@@ -47,79 +49,178 @@
         <form
             action="/restaurant/signup"
             method="POST"
+            id="restaurantSignupForm"
         >
-
-
-            <!-- OWNER NAME -->
-
-            <div class="form-group">
-
-                <label>
-                    Owner Name
-                </label>
-
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Enter owner name"
-                    required
-                >
-
-            </div>
 
 
             <!-- RESTAURANT NAME -->
 
             <div class="form-group">
 
-                <label>
+                <label for="restaurantName">
                     Restaurant Name
                 </label>
 
                 <input
                     type="text"
+                    id="restaurantName"
                     name="restaurantName"
                     placeholder="Enter restaurant name"
+                    autocomplete="organization"
                     required
                 >
 
             </div>
 
 
-            <!-- MOBILE -->
+            <!-- OWNER NAME -->
 
             <div class="form-group">
 
-                <label>
-                    Mobile Number
+                <label for="ownerName">
+                    Owner Name
                 </label>
 
                 <input
-                    type="tel"
-                    name="mobile"
-                    placeholder="Enter 10-digit mobile"
-                    maxlength="10"
-                    pattern="[0-9]{10}"
+                    type="text"
+                    id="ownerName"
+                    name="name"
+                    placeholder="Enter owner name"
+                    autocomplete="name"
                     required
                 >
 
             </div>
 
 
-            <!-- EMAIL -->
+            <!-- EMAIL / MOBILE -->
 
             <div class="form-group">
 
-                <label>
-                    Email
+                <label for="contact">
+                    Email / Mobile Number
                 </label>
 
                 <input
-                    type="email"
-                    name="email"
-                    placeholder="Enter restaurant email"
+                    type="text"
+                    id="contact"
+                    name="contact"
+                    placeholder="Enter email or mobile number"
+                    autocomplete="email"
                     required
                 >
+
+                <small id="contactMessage">
+                    Enter your email or 10-digit mobile number.
+                </small>
+
+            </div>
+
+
+            <!-- SEND OTP -->
+
+            <div class="otp-action">
+
+                <button
+                    type="button"
+                    class="primary-button full-button"
+                    id="sendOtpBtn"
+                >
+                    Send OTP
+                </button>
+
+            </div>
+
+
+            <!-- OTP -->
+
+            <div
+                class="form-group otp-section"
+                id="otpSection"
+                style="display: none;"
+            >
+
+                <label for="otp">
+                    Enter OTP
+                </label>
+
+                <input
+                    type="text"
+                    id="otp"
+                    name="otp"
+                    placeholder="Enter 6-digit OTP"
+                    maxlength="6"
+                    inputmode="numeric"
+                    pattern="[0-9]{6}"
+                    autocomplete="one-time-code"
+                >
+
+                <small id="otpMessage">
+                    OTP sent successfully.
+                </small>
+
+            </div>
+
+
+            <!-- VERIFY OTP -->
+
+            <div
+                class="otp-action"
+                id="verifyOtpSection"
+                style="display: none;"
+            >
+
+                <button
+                    type="button"
+                    class="primary-button full-button"
+                    id="verifyOtpBtn"
+                >
+                    Verify OTP
+                </button>
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create password"
+                    minlength="6"
+                    autocomplete="new-password"
+                    required
+                >
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="confirmPassword">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    placeholder="Confirm password"
+                    minlength="6"
+                    autocomplete="new-password"
+                    required
+                >
+
+                <small id="passwordMessage"></small>
 
             </div>
 
@@ -128,11 +229,12 @@
 
             <div class="form-group">
 
-                <label>
+                <label for="address">
                     Restaurant Address
                 </label>
 
                 <textarea
+                    id="address"
                     name="address"
                     placeholder="Enter restaurant address"
                     rows="3"
@@ -142,30 +244,12 @@
             </div>
 
 
-            <!-- PASSWORD -->
-
-            <div class="form-group">
-
-                <label>
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Create password"
-                    minlength="6"
-                    required
-                >
-
-            </div>
-
-
-            <!-- SUBMIT -->
+            <!-- CREATE ACCOUNT -->
 
             <button
                 type="submit"
                 class="primary-button full-button"
+                id="createAccountBtn"
             >
                 Create Restaurant Account
             </button>

@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Messages</title>
+
+    <style>
+
+        :root {
+            --ivory: #fffdf8;
+            --cream: #f8f1e5;
+            --beige: #eadbc8;
+            --coffee: #5b3a29;
+            --coffee-dark: #3e281d;
+            --green: #4f7d58;
+            --green-dark: #3e6546;
+            --green-light: #e8f1e9;
+            --text: #30271f;
+            --muted: #897c70;
+            --border: #e7ddd0;
+            --white: #ffffff;
+            --danger: #b94b4b;
+            --danger-light: #f9e8e8;
+            --shadow: 0 10px 35px rgba(91, 58, 41, 0.08);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+
+        .brand {
+            padding: 8px 12px 26px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+
+        .brand-name {
+            font-size: 25px;
+            font-weight: 800;
+            color: var(--coffee);
+        }
+
+
+        .brand-subtitle {
+            margin-top: 5px;
+            font-size: 10px;
+            color: var(--muted);
+            letter-spacing: 1.3px;
+            text-transform: uppercase;
+        }
+
+
+        .nav-title {
+            padding: 0 12px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #aa9c8e;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 13px;
+            border-radius: 12px;
+            color: #65594f;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+
+        .nav-link:hover {
+            background: var(--cream);
+            color: var(--coffee);
+        }
+
+
+        .nav-link.active {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+
+        .nav-icon {
+            width: 23px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+
+        .topbar {
+            height: 76px;
+            padding: 0 34px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(255, 253, 248, 0.96);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+
+
+        .page-title h1 {
+            font-size: 23px;
+            color: var(--coffee-dark);
+            margin-bottom: 4px;
+        }
+
+
+        .page-title p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+
+        .admin-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .admin-info {
+            text-align: right;
+        }
+
+
+        .admin-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+
+        .admin-role {
+            margin-top: 2px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+
+        .admin-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--coffee);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+
+        .content {
+            padding: 30px 34px 45px;
+        }
+
+
+        /* ================= STATS ================= */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: var(--cream);
+            font-size: 19px;
+        }
+
+
+        .stat-label {
+            margin-top: 15px;
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+
+        .stat-value {
+            margin-top: 5px;
+            font-size: 27px;
+            font-weight: 800;
+            color: var(--coffee-dark);
+        }
+
+
+        .stat-note {
+            margin-top: 6px;
+            font-size: 11px;
+            color: var(--green);
+        }
+
+
+        /* ================= MAIL LAYOUT ================= */
+
+        .mail-layout {
+            display: grid;
+            grid-template-columns: 220px minmax(400px, 1fr) 380px;
+            min-height: 650px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+
+        /* ================= MAIL MENU ================= */
+
+        .mail-menu {
+            padding: 22px 15px;
+            border-right: 1px solid var(--border);
+            background: #fffefa;
+        }
+
+
+        .compose-btn {
+            width: 100%;
+            height: 45px;
+            border: none;
+            border-radius: 12px;
+            background: var(--green);
+            color: white;
+            font-weight: 800;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+
+        .compose-btn:hover {
+            background: var(--green-dark);
+        }
+
+
+        .mail-menu-title {
+            padding: 0 10px 9px;
+            font-size: 10px;
+            font-weight: 800;
+            color: #a09284;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+
+        .mail-menu-link {
+            width: 100%;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 10px;
+            border-radius: 10px;
+            color: #675b51;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+
+        .mail-menu-link:hover {
+            background: var(--cream);
+        }
+
+
+        .mail-menu-link.active {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+
+        .mail-menu-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .mail-badge {
+            min-width: 22px;
+            height: 20px;
+            padding: 0 6px;
+            border-radius: 20px;
+            background: var(--green);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        /* ================= MESSAGE LIST ================= */
+
+        .message-list {
+            border-right: 1px solid var(--border);
+            background: white;
+            overflow: hidden;
+        }
+
+
+        .message-toolbar {
+            height: 68px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .message-search {
+            flex: 1;
+            position: relative;
+        }
+
+
+        .message-search span {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a49586;
+        }
+
+
+        .message-search input {
+            width: 100%;
+            height: 39px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0 12px 0 35px;
+            outline: none;
+            background: #fffefa;
+            font-size: 12px;
+        }
+
+
+        .toolbar-btn {
+            width: 39px;
+            height: 39px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--ivory);
+            color: var(--coffee);
+        }
+
+
+        .messages {
+            height: 582px;
+            overflow-y: auto;
+        }
+
+
+        .message-item {
+            padding: 16px;
+            border-bottom: 1px solid #f0e8dd;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+
+        .message-item:hover {
+            background: #fffaf3;
+        }
+
+
+        .message-item.active {
+            background: var(--green-light);
+            border-left: 3px solid var(--green);
+        }
+
+
+        .message-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+        }
+
+
+        .sender-avatar {
+            width: 39px;
+            height: 39px;
+            flex-shrink: 0;
+            border-radius: 12px;
+            background: var(--cream);
+            color: var(--coffee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        .message-main {
+            min-width: 0;
+            flex: 1;
+        }
+
+
+        .sender-name {
+            color: var(--coffee-dark);
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+
+        .message-date {
+            color: var(--muted);
+            font-size: 9px;
+            float: right;
+        }
+
+
+        .message-subject {
+            margin-top: 5px;
+            color: #55493f;
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        .message-preview {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.4;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+
+        .message-item.unread .sender-name,
+        .message-item.unread .message-subject {
+            font-weight: 900;
+        }
+
+
+        .unread-dot {
+            width: 7px;
+            height: 7px;
+            margin-top: 7px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+
+        /* ================= MESSAGE DETAIL ================= */
+
+        .message-detail {
+            background: #fffefa;
+        }
+
+
+        .detail-header {
+            min-height: 68px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .detail-header h2 {
+            color: var(--coffee-dark);
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+
+        .detail-actions {
+            display: flex;
+            gap: 7px;
+        }
+
+
+        .detail-btn {
+            width: 34px;
+            height: 34px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            background: white;
+            color: var(--coffee);
+        }
+
+
+        .detail-body {
+            padding: 25px;
+            height: 582px;
+            overflow-y: auto;
+        }
+
+
+        .detail-subject {
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--coffee-dark);
+            margin-bottom: 19px;
+        }
+
+
+        .sender-detail {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .sender-large-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 13px;
+            background: var(--cream);
+            color: var(--coffee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+
+        .sender-detail strong {
+            display: block;
+            color: var(--coffee-dark);
+            font-size: 13px;
+        }
+
+
+        .sender-detail span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+
+        .detail-date {
+            margin-left: auto;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+
+        .message-content {
+            padding: 22px 0;
+            color: #5a4e45;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+
+        .message-content p {
+            margin-bottom: 13px;
+        }
+
+
+        .message-tag {
+            display: inline-block;
+            margin-top: 7px;
+            padding: 5px 9px;
+            border-radius: 20px;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+
+        .reply-area {
+            margin-top: 10px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+
+        .reply-area textarea {
+            width: 100%;
+            height: 85px;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            resize: vertical;
+            outline: none;
+            font-size: 11px;
+            background: white;
+        }
+
+
+        .reply-bottom {
+            margin-top: 9px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .reply-note {
+            font-size: 9px;
+            color: var(--muted);
+        }
+
+
+        .reply-btn {
+            border: none;
+            border-radius: 10px;
+            background: var(--green);
+            color: white;
+            padding: 10px 16px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        /* ================= COMPOSE MODAL ================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(48, 39, 31, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 3000;
+        }
+
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+
+        .compose-modal {
+            width: 100%;
+            max-width: 650px;
+            background: white;
+            border-radius: 21px;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(48, 39, 31, 0.2);
+        }
+
+
+        .compose-header {
+            padding: 20px 23px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .compose-header h2 {
+            font-size: 18px;
+            color: var(--coffee-dark);
+        }
+
+
+        .close-btn {
+            width: 34px;
+            height: 34px;
+            border: none;
+            border-radius: 9px;
+            background: var(--cream);
+            color: var(--coffee);
+            font-size: 18px;
+        }
+
+
+        .compose-body {
+            padding: 22px;
+        }
+
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            color: #66594f;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            background: #fffefa;
+            font-size: 12px;
+        }
+
+
+        .form-group input,
+        .form-group select {
+            height: 42px;
+            padding: 0 12px;
+        }
+
+
+        .form-group textarea {
+            min-height: 145px;
+            padding: 12px;
+            resize: vertical;
+        }
+
+
+        .compose-footer {
+            padding: 17px 22px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 9px;
+        }
+
+
+        .cancel-btn {
+            height: 40px;
+            padding: 0 17px;
+            border: none;
+            border-radius: 10px;
+            background: var(--cream);
+            color: var(--coffee);
+            font-weight: 700;
+        }
+
+
+        .send-btn {
+            height: 40px;
+            padding: 0 18px;
+            border: none;
+            border-radius: 10px;
+            background: var(--green);
+            color: white;
+            font-weight: 800;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1250px) {
+
+            .mail-layout {
+                grid-template-columns: 190px minmax(350px, 1fr);
+            }
+
+            .message-detail {
+                display: none;
+            }
+        }
+
+
+        @media (max-width: 1050px) {
+
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .mail-layout {
+                grid-template-columns: 180px 1fr;
+            }
+        }
+
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                width: 72px;
+                padding: 18px 10px;
+            }
+
+            .brand,
+            .nav-title,
+            .nav-text {
+                display: none;
+            }
+
+            .nav-link {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .main {
+                margin-left: 72px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 24px 20px;
+            }
+        }
+
+
+        @media (max-width: 620px) {
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+            .mail-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .mail-menu {
+                display: none;
+            }
+
+            .message-list {
+                border-right: none;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+
+            <div class="brand-name">
+                GharSetu
+            </div>
+
+            <div class="brand-subtitle">
+                Admin Control Center
+            </div>
+
+        </div>
+
+
+        <div class="nav-title">
+            Main Menu
+        </div>
+
+
+        <nav class="nav-menu">
+
+
+            <a
+                href="/admin/dashboard"
+                class="nav-link"
+            >
+                <span class="nav-icon">⌂</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
+
+
+            <a
+                href="/admin/customers"
+                class="nav-link"
+            >
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Customers</span>
+            </a>
+
+
+            <a
+                href="/admin/restaurants"
+                class="nav-link"
+            >
+                <span class="nav-icon">🍽</span>
+                <span class="nav-text">Restaurants</span>
+            </a>
+
+
+            <a
+                href="/admin/tiffin-sellers"
+                class="nav-link"
+            >
+                <span class="nav-icon">🥘</span>
+                <span class="nav-text">Tiffin Sellers</span>
+            </a>
+
+
+            <a
+                href="/admin/delivery"
+                class="nav-link"
+            >
+                <span class="nav-icon">🛵</span>
+                <span class="nav-text">Delivery Partners</span>
+            </a>
+
+
+            <a
+                href="/admin/orders"
+                class="nav-link"
+            >
+                <span class="nav-icon">📦</span>
+                <span class="nav-text">Orders</span>
+            </a>
+
+
+            <a
+                href="/admin/payments"
+                class="nav-link"
+            >
+                <span class="nav-icon">💳</span>
+                <span class="nav-text">Payments</span>
+            </a>
+
+
+            <a
+                href="/admin/complaints"
+                class="nav-link"
+            >
+                <span class="nav-icon">💬</span>
+                <span class="nav-text">Complaints</span>
+            </a>
+
+
+            <a
+                href="/admin/analytics"
+                class="nav-link"
+            >
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Analytics</span>
+            </a>
+
+
+            <a
+                href="/admin/coupons"
+                class="nav-link"
+            >
+                <span class="nav-icon">🎟</span>
+                <span class="nav-text">Coupons</span>
+            </a>
+
+
+            <a
+                href="/admin/reviews"
+                class="nav-link"
+            >
+                <span class="nav-icon">⭐</span>
+                <span class="nav-text">Reviews</span>
+            </a>
+
+
+            <a
+                href="/admin/messages"
+                class="nav-link active"
+            >
+                <span class="nav-icon">✉</span>
+                <span class="nav-text">Messages</span>
+            </a>
+
+
+            <a
+                href="/admin/settings"
+                class="nav-link"
+            >
+                <span class="nav-icon">⚙</span>
+                <span class="nav-text">Settings</span>
+            </a>
+
+
+            <a
+                href="/admin/profile"
+                class="nav-link"
+            >
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">Admin Profile</span>
+            </a>
+
+
+            <a
+                href="/admin/logout"
+                class="nav-link"
+            >
+                <span class="nav-icon">↪</span>
+                <span class="nav-text">Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>
+                    Messages & Mail Center
+                </h1>
+
+                <p>
+                    Manage customer and partner communication
+                </p>
+
+            </div>
+
+
+            <div class="admin-area">
+
+                <div class="admin-info">
+
+                    <div class="admin-name">
+                        <%= admin?.name || "Administrator" %>
+                    </div>
+
+                    <div class="admin-role">
+                        GharSetu Admin
+                    </div>
+
+                </div>
+
+
+                <div class="admin-avatar">
+                    <%= (admin?.name || "A").charAt(0).toUpperCase() %>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+
+            <!-- ================= STATS ================= -->
+
+            <div class="stats">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📩
+                    </div>
+
+                    <div class="stat-label">
+                        Total Messages
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof totalMessages !== "undefined"
+                            ? totalMessages
+                            : "1,286" %>
+                    </div>
+
+                    <div class="stat-note">
+                        All conversations
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        🔵
+                    </div>
+
+                    <div class="stat-label">
+                        Unread
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof unreadMessages !== "undefined"
+                            ? unreadMessages
+                            : "24" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Need attention
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        📤
+                    </div>
+
+                    <div class="stat-label">
+                        Sent
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof sentMessages !== "undefined"
+                            ? sentMessages
+                            : "642" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Admin communication
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        ⭐
+                    </div>
+
+                    <div class="stat-label">
+                        Important
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof importantMessages !== "undefined"
+                            ? importantMessages
+                            : "18" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Flagged conversations
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= MAIL CENTER ================= -->
+
+            <div class="mail-layout">
+
+
+                <!-- ================= MAIL MENU ================= -->
+
+                <div class="mail-menu">
+
+
+                    <button
+                        type="button"
+                        class="compose-btn"
+                        onclick="openCompose()"
+                    >
+                        ＋ Compose Message
+                    </button>
+
+
+                    <div class="mail-menu-title">
+                        Mailbox
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link active"
+                        onclick="selectMailbox(this, 'Inbox')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                📥
+                            </span>
+
+                            <span>
+                                Inbox
+                            </span>
+
+                        </span>
+
+                        <span class="mail-badge">
+                            24
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="selectMailbox(this, 'Sent')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                📤
+                            </span>
+
+                            <span>
+                                Sent
+                            </span>
+
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="selectMailbox(this, 'Important')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                ⭐
+                            </span>
+
+                            <span>
+                                Important
+                            </span>
+
+                        </span>
+
+                        <span class="mail-badge">
+                            18
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="selectMailbox(this, 'Drafts')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                📝
+                            </span>
+
+                            <span>
+                                Drafts
+                            </span>
+
+                        </span>
+
+                        <span class="mail-badge">
+                            3
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="selectMailbox(this, 'Trash')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                🗑
+                            </span>
+
+                            <span>
+                                Trash
+                            </span>
+
+                        </span>
+
+                    </button>
+
+
+                    <div
+                        class="mail-menu-title"
+                        style="margin-top: 25px;"
+                    >
+                        Contacts
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="filterContact('Customers')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                👥
+                            </span>
+
+                            <span>
+                                Customers
+                            </span>
+
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="filterContact('Restaurants')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                🍽
+                            </span>
+
+                            <span>
+                                Restaurants
+                            </span>
+
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="filterContact('Tiffin Sellers')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                🥘
+                            </span>
+
+                            <span>
+                                Tiffin Sellers
+                            </span>
+
+                        </span>
+
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="mail-menu-link"
+                        onclick="filterContact('Delivery Partners')"
+                    >
+
+                        <span class="mail-menu-left">
+
+                            <span>
+                                🛵
+                            </span>
+
+                            <span>
+                                Delivery Partners
+                            </span>
+
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+                <!-- ================= MESSAGE LIST ================= -->
+
+                <div class="message-list">
+
+
+                    <div class="message-toolbar">
+
+
+                        <div class="message-search">
+
+                            <span>
+                                ⌕
+                            </span>
+
+                            <input
+                                type="text"
+                                id="messageSearch"
+                                placeholder="Search messages..."
+                                oninput="searchMessages()"
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="button"
+                            class="toolbar-btn"
+                            title="Refresh"
+                            onclick="refreshMessages()"
+                        >
+                            ↻
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="toolbar-btn"
+                            title="More"
+                            onclick="moreOptions()"
+                        >
+                            ⋮
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="messages"
+                        id="messagesList"
+                    >
+
+
+                        <!-- MESSAGE 1 -->
+
+                        <div
+                            class="message-item unread active"
+                            data-search="rahul order delayed delivery complaint"
+                            onclick="openMessage(
+                                'Rahul Patel',
+                                'Order delivery is delayed',
+                                'rahul@example.com',
+                                '11 Sep 2026',
+                                'Hi GharSetu Team, my order has been delayed for more than 40 minutes. Please check the delivery status and help me with the current update.'
+                            )"
+                        >
+
+                            <div class="message-top">
+
+                                <div class="sender-avatar">
+                                    RP
+                                </div>
+
+                                <div class="message-main">
+
+                                    <span class="message-date">
+                                        10:42 AM
+                                    </span>
+
+                                    <div class="sender-name">
+                                        Rahul Patel
+                                    </div>
+
+                                    <div class="message-subject">
+                                        Order delivery is delayed
+                                    </div>
+
+                                    <div class="message-preview">
+                                        Hi GharSetu Team, my order has been delayed...
+                                    </div>
+
+                                </div>
+
+                                <div class="unread-dot"></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MESSAGE 2 -->
+
+                        <div
+                            class="message-item unread"
+                            data-search="spice garden restaurant menu update"
+                            onclick="openMessage(
+                                'Spice Garden',
+                                'Request to update restaurant menu',
+                                'spicegarden@example.com',
+                                '11 Sep 2026',
+                                'Hello Admin, we have added some new dishes to our restaurant menu. Please approve and publish the updated menu for our customers.'
+                            )"
+                        >
+
+                            <div class="message-top">
+
+                                <div class="sender-avatar">
+                                    SG
+                                </div>
+
+                                <div class="message-main">
+
+                                    <span class="message-date">
+                                        9:58 AM
+                                    </span>
+
+                                    <div class="sender-name">
+                                        Spice Garden
+                                    </div>
+
+                                    <div class="message-subject">
+                                        Request to update restaurant menu
+                                    </div>
+
+                                    <div class="message-preview">
+                                        We have added some new dishes to our restaurant menu...
+                                    </div>
+
+                                </div>
+
+                                <div class="unread-dot"></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MESSAGE 3 -->
+
+                        <div
+                            class="message-item"
+                            data-search="home taste tiffin subscription"
+                            onclick="openMessage(
+                                'Home Taste Tiffin',
+                                'Monthly subscription update',
+                                'hometaste@example.com',
+                                '10 Sep 2026',
+                                'Our monthly tiffin subscription plan has been updated. We would like to discuss the new pricing and delivery schedule with the GharSetu team.'
+                            )"
+                        >
+
+                            <div class="message-top">
+
+                                <div class="sender-avatar">
+                                    HT
+                                </div>
+
+                                <div class="message-main">
+
+                                    <span class="message-date">
+                                        Yesterday
+                                    </span>
+
+                                    <div class="sender-name">
+                                        Home Taste Tiffin
+                                    </div>
+
+                                    <div class="message-subject">
+                                        Monthly subscription update
+                                    </div>
+
+                                    <div class="message-preview">
+                                        Our monthly tiffin subscription plan has been updated...
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MESSAGE 4 -->
+
+                        <div
+                            class="message-item unread"
+                            data-search="priya refund payment issue"
+                            onclick="openMessage(
+                                'Priya Shah',
+                                'Refund request for cancelled order',
+                                'priya@example.com',
+                                '10 Sep 2026',
+                                'I cancelled my order yesterday but I have not received the refund yet. Kindly check the payment status and let me know when the amount will be credited.'
+                            )"
+                        >
+
+                            <div class="message-top">
+
+                                <div class="sender-avatar">
+                                    PS
+                                </div>
+
+                                <div class="message-main">
+
+                                    <span class="message-date">
+                                        Yesterday
+                                    </span>
+
+                                    <div class="sender-name">
+                                        Priya Shah
+                                    </div>
+
+                                    <div class="message-subject">
+                                        Refund request for cancelled order
+                                    </div>
+
+                                    <div class="message-preview">
+                                        I cancelled my order yesterday but I have not received...
+                                    </div>
+
+                                </div>
+
+                                <div class="unread-dot"></div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MESSAGE 5 -->
+
+                        <div
+                            class="message-item"
+                            data-search="delivery partner earning payment"
+                            onclick="openMessage(
+                                'Amit Delivery',
+                                'Earning calculation query',
+                                'amitdelivery@example.com',
+                                '09 Sep 2026',
+                                'Hello Admin, I have a question regarding my delivery earnings for yesterday. One completed order seems to be missing from my earning summary.'
+                            )"
+                        >
+
+                            <div class="message-top">
+
+                                <div class="sender-avatar">
+                                    AD
+                                </div>
+
+                                <div class="message-main">
+
+                                    <span class="message-date">
+                                        09 Sep
+                                    </span>
+
+                                    <div class="sender-name">
+                                        Amit Delivery
+                                    </div>
+
+                                    <div class="message-subject">
+                                        Earning calculation query
+                                    </div>
+
+                                    <div class="message-preview">
+                                        I have a question regarding my delivery earnings...
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- MESSAGE 6 -->
+
+                        <div
+                            class="message-item"
+                            data-search="customer account login problem"
+                            onclick="openMessage(
+                                'Neha Mehta',
+                                'Unable to login to my account',
+                                'neha@example.com',
+                                '08 Sep 2026',
+                                'I am unable to login to my GharSetu account even after resetting my password. Please help me access my account again.'
+                            )"
+                        >
+
+                            <div class="message-top">
+
+                                <div class="sender-avatar">
+                                    NM
+                                </div>
+
+                                <div class="message-main">
+
+                                    <span class="message-date">
+                                        08 Sep
+                                    </span>
+
+                                    <div class="sender-name">
+                                        Neha Mehta
+                                    </div>
+
+                                    <div class="message-subject">
+                                        Unable to login to my account
+                                    </div>
+
+                                    <div class="message-preview">
+                                        I am unable to login to my GharSetu account...
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- ================= MESSAGE DETAIL ================= -->
+
+                <div class="message-detail">
+
+
+                    <div class="detail-header">
+
+                        <h2 id="detailTitle">
+                            Order delivery is delayed
+                        </h2>
+
+
+                        <div class="detail-actions">
+
+                            <button
+                                type="button"
+                                class="detail-btn"
+                                title="Star"
+                                onclick="toggleImportant()"
+                            >
+                                ☆
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="detail-btn"
+                                title="Archive"
+                                onclick="archiveMessage()"
+                            >
+                                ▢
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="detail-btn"
+                                title="Delete"
+                                onclick="deleteMessage()"
+                            >
+                                🗑
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="detail-body">
+
+
+                        <div
+                            class="detail-subject"
+                            id="detailSubject"
+                        >
+                            Order delivery is delayed
+                        </div>
+
+
+                        <div class="sender-detail">
+
+
+                            <div
+                                class="sender-large-avatar"
+                                id="detailAvatar"
+                            >
+                                RP
+                            </div>
+
+
+                            <div>
+
+                                <strong id="detailSender">
+                                    Rahul Patel
+                                </strong>
+
+                                <span id="detailEmail">
+                                    rahul@example.com
+                                </span>
+
+                            </div>
+
+
+                            <div
+                                class="detail-date"
+                                id="detailDate"
+                            >
+                                11 Sep 2026
+                            </div>
+
+                        </div>
+
+
+                        <div class="message-content">
+
+                            <p id="detailContent">
+                                Hi GharSetu Team, my order has been delayed
+                                for more than 40 minutes. Please check the
+                                delivery status and help me with the current
+                                update.
+                            </p>
+
+
+                            <span class="message-tag">
+                                Customer Support
+                            </span>
+
+                        </div>
+
+
+                        <div class="reply-area">
+
+                            <textarea
+                                id="replyText"
+                                placeholder="Write your reply..."
+                            ></textarea>
+
+
+                            <div class="reply-bottom">
+
+                                <span class="reply-note">
+                                    Reply will be sent from GharSetu Admin
+                                </span>
+
+
+                                <button
+                                    type="button"
+                                    class="reply-btn"
+                                    onclick="sendReply()"
+                                >
+                                    Send Reply
+                                </button>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= COMPOSE MODAL ================= -->
+
+    <div
+        class="modal-overlay"
+        id="composeModal"
+    >
+
+
+        <div class="compose-modal">
+
+
+            <div class="compose-header">
+
+                <h2>
+                    Compose Message
+                </h2>
+
+
+                <button
+                    type="button"
+                    class="close-btn"
+                    onclick="closeCompose()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="compose-body">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Recipient Type
+                    </label>
+
+                    <select id="recipientType">
+
+                        <option value="">
+                            Select recipient type
+                        </option>
+
+                        <option value="customer">
+                            Customer
+                        </option>
+
+                        <option value="restaurant">
+                            Restaurant
+                        </option>
+
+                        <option value="tiffin">
+                            Tiffin Seller
+                        </option>
+
+                        <option value="delivery">
+                            Delivery Partner
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Recipient Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="recipientEmail"
+                        placeholder="Enter recipient email"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        id="messageSubject"
+                        placeholder="Enter message subject"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Message
+                    </label>
+
+                    <textarea
+                        id="composeMessage"
+                        placeholder="Write your message..."
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+
+            <div class="compose-footer">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeCompose()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="button"
+                    class="send-btn"
+                    onclick="sendMessage()"
+                >
+                    Send Message
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        function openCompose() {
+
+            document
+                .getElementById("composeModal")
+                .classList
+                .add("show");
+
+        }
+
+
+        function closeCompose() {
+
+            document
+                .getElementById("composeModal")
+                .classList
+                .remove("show");
+
+        }
+
+
+        function sendMessage() {
+
+            var type =
+                document
+                    .getElementById("recipientType")
+                    .value;
+
+            var email =
+                document
+                    .getElementById("recipientEmail")
+                    .value
+                    .trim();
+
+            var subject =
+                document
+                    .getElementById("messageSubject")
+                    .value
+                    .trim();
+
+            var message =
+                document
+                    .getElementById("composeMessage")
+                    .value
+                    .trim();
+
+
+            if (!type) {
+
+                alert(
+                    "Please select recipient type."
+                );
+
+                return;
+            }
+
+
+            if (!email) {
+
+                alert(
+                    "Please enter recipient email."
+                );
+
+                return;
+            }
+
+
+            if (!subject) {
+
+                alert(
+                    "Please enter message subject."
+                );
+
+                return;
+            }
+
+
+            if (!message) {
+
+                alert(
+                    "Please write a message."
+                );
+
+                return;
+            }
+
+
+            alert(
+                "Message sent successfully in demo mode."
+            );
+
+
+            document
+                .getElementById("recipientType")
+                .value = "";
+
+            document
+                .getElementById("recipientEmail")
+                .value = "";
+
+            document
+                .getElementById("messageSubject")
+                .value = "";
+
+            document
+                .getElementById("composeMessage")
+                .value = "";
+
+
+            closeCompose();
+
+        }
+
+
+        function openMessage(
+            sender,
+            subject,
+            email,
+            date,
+            content
+        ) {
+
+            document
+                .getElementById("detailTitle")
+                .textContent = subject;
+
+
+            document
+                .getElementById("detailSubject")
+                .textContent = subject;
+
+
+            document
+                .getElementById("detailSender")
+                .textContent = sender;
+
+
+            document
+                .getElementById("detailEmail")
+                .textContent = email;
+
+
+            document
+                .getElementById("detailDate")
+                .textContent = date;
+
+
+            document
+                .getElementById("detailContent")
+                .textContent = content;
+
+
+            document
+                .getElementById("detailAvatar")
+                .textContent =
+                getInitials(sender);
+
+
+            var items =
+                document.querySelectorAll(
+                    ".message-item"
+                );
+
+
+            items.forEach(function(item) {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            if (
+                event &&
+                event.currentTarget
+            ) {
+
+                event
+                    .currentTarget
+                    .classList
+                    .add("active");
+
+                event
+                    .currentTarget
+                    .classList
+                    .remove("unread");
+
+            }
+
+        }
+
+
+        function getInitials(name) {
+
+            var parts =
+                name
+                    .trim()
+                    .split(" ");
+
+
+            if (parts.length === 1) {
+
+                return parts[0]
+                    .substring(0, 2)
+                    .toUpperCase();
+
+            }
+
+
+            return (
+                parts[0].charAt(0) +
+                parts[parts.length - 1].charAt(0)
+            ).toUpperCase();
+
+        }
+
+
+        function searchMessages() {
+
+            var search =
+                document
+                    .getElementById("messageSearch")
+                    .value
+                    .toLowerCase()
+                    .trim();
+
+
+            var items =
+                document.querySelectorAll(
+                    ".message-item"
+                );
+
+
+            items.forEach(function(item) {
+
+                var text =
+                    item
+                        .getAttribute("data-search")
+                        .toLowerCase();
+
+
+                if (
+                    !search ||
+                    text.indexOf(search) !== -1
+                ) {
+
+                    item.style.display = "";
+
+                } else {
+
+                    item.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+
+        function refreshMessages() {
+
+            alert(
+                "Messages refreshed successfully."
+            );
+
+        }
+
+
+        function moreOptions() {
+
+            alert(
+                "More message options will be connected with backend later."
+            );
+
+        }
+
+
+        function selectMailbox(button, mailbox) {
+
+            var buttons =
+                document.querySelectorAll(
+                    ".mail-menu-link"
+                );
+
+
+            buttons.forEach(function(item) {
+
+                item.classList.remove(
+                    "active"
+                );
+
+            });
+
+
+            button.classList.add("active");
+
+
+            if (
+                mailbox !== "Inbox"
+            ) {
+
+                alert(
+                    mailbox +
+                    " mailbox selected. Backend connection will be added later."
+                );
+
+            }
+
+        }
+
+
+        function filterContact(type) {
+
+            alert(
+                type +
+                " messages filter will be connected with backend later."
+            );
+
+        }
+
+
+        function toggleImportant() {
+
+            alert(
+                "Message marked as important in demo mode."
+            );
+
+        }
+
+
+        function archiveMessage() {
+
+            alert(
+                "Message archived in demo mode."
+            );
+
+        }
+
+
+        function deleteMessage() {
+
+            var result =
+                confirm(
+                    "Are you sure you want to delete this message?"
+                );
+
+
+            if (!result) {
+                return;
+            }
+
+
+            alert(
+                "Message deleted in demo mode."
+            );
+
+        }
+
+
+        function sendReply() {
+
+            var reply =
+                document
+                    .getElementById("replyText")
+                    .value
+                    .trim();
+
+
+            if (!reply) {
+
+                alert(
+                    "Please write a reply first."
+                );
+
+                return;
+            }
+
+
+            alert(
+                "Reply sent successfully in demo mode."
+            );
+
+
+            document
+                .getElementById("replyText")
+                .value = "";
+
+        }
+
+
+        document
+            .getElementById("composeModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target ===
+                        document.getElementById(
+                            "composeModal"
+                        )
+                    ) {
+
+                        closeCompose();
+
+                    }
+
+                }
+            );
+
+
+    </script>
+
+
+</body>
+</html>

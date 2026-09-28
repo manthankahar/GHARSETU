@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
@@ -11,22 +10,148 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>GharSetu | Tiffin Details</title>
+    <title>
+        GharSetu | <%= tiffin.name %>
+    </title>
 
-    <link rel="stylesheet" href="/css/style.css">
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
+
+    <style>
+
+        .popup-message {
+
+            position: fixed;
+
+            top: 25px;
+            right: 25px;
+
+            z-index: 99999;
+
+            min-width: 280px;
+
+            padding: 16px 20px;
+
+            border-radius: 12px;
+
+            color: white;
+
+            background: #5b3a29;
+
+            box-shadow:
+                0 12px 35px rgba(0,0,0,.2);
+
+            transform: translateX(150%);
+
+            transition:
+                transform .3s ease;
+        }
+
+        .popup-message.show {
+
+            transform: translateX(0);
+        }
+
+        .popup-message.success {
+
+            background: #3f6f45;
+        }
+
+        .popup-message.error {
+
+            background: #a94442;
+        }
+
+        .quantity-box {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            border: 1px solid #ddd;
+
+            padding: 6px;
+
+            border-radius: 10px;
+
+            width: fit-content;
+        }
+
+        .quantity-box button {
+
+            width: 38px;
+
+            height: 38px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #eee;
+
+            font-size: 22px;
+
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .quantity-box button:hover {
+
+            background: #5b3a29;
+
+            color: white;
+        }
+
+        .quantity-box span {
+
+            min-width: 25px;
+
+            text-align: center;
+
+            font-weight: 700;
+
+            font-size: 18px;
+        }
+
+        .primary-btn {
+
+            border: none;
+
+            cursor: pointer;
+        }
+
+    </style>
 
 </head>
 
+
 <body>
+
 
     <%- include("../partials/navbar") %>
 
 
+    <!-- =============================== -->
+    <!-- POPUP -->
+    <!-- =============================== -->
+
+    <div
+        id="popupMessage"
+        class="popup-message"
+    ></div>
+
+
     <main class="tiffin-details-page">
 
-        <!-- =========================
-             BACK
-        ========================== -->
+
+        <!-- =============================== -->
+        <!-- BACK -->
+        <!-- =============================== -->
 
         <a
             href="/customer/tiffins"
@@ -36,9 +161,9 @@
         </a>
 
 
-        <!-- =========================
-             DETAILS
-        ========================== -->
+        <!-- =============================== -->
+        <!-- DETAILS -->
+        <!-- =============================== -->
 
         <section class="tiffin-detail-card">
 
@@ -47,10 +172,21 @@
 
             <div class="detail-image">
 
-                <img
-                    src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
-                    alt="Gujarati Home Tiffin"
-                >
+                <% if (tiffin.image) { %>
+
+                    <img
+                        src="<%= tiffin.image %>"
+                        alt="<%= tiffin.name %>"
+                    >
+
+                <% } else { %>
+
+                    <img
+                        src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1200&q=85"
+                        alt="<%= tiffin.name %>"
+                    >
+
+                <% } %>
 
             </div>
 
@@ -59,21 +195,21 @@
 
             <div class="detail-content">
 
+
                 <span class="tiffin-badge">
                     HOMEMADE
                 </span>
 
 
                 <h1>
-                    Gujarati Ghar Nu Tiffin
+                    <%= tiffin.name %>
                 </h1>
 
 
                 <p class="detail-description">
 
-                    Enjoy a fresh and comforting Gujarati
-                    homemade meal prepared with love by
-                    local home kitchens.
+                    <%= tiffin.description ||
+                        "Enjoy a fresh and comforting homemade meal prepared with love." %>
 
                 </p>
 
@@ -82,7 +218,9 @@
 
                 <div class="detail-price">
 
-                    <span>₹120</span>
+                    <span>
+                        ₹<%= Number(tiffin.price || 0).toFixed(0) %>
+                    </span>
 
                     <small>
                         / meal
@@ -101,17 +239,29 @@
 
                     <ul>
 
-                        <li>🍚 Steamed Rice</li>
+                        <li>
+                            🍚 Steamed Rice
+                        </li>
 
-                        <li>🥣 Dal</li>
+                        <li>
+                            🥣 Dal
+                        </li>
 
-                        <li>🥘 Gujarati Shaak</li>
+                        <li>
+                            🥘 Gujarati Shaak
+                        </li>
 
-                        <li>🫓 Fresh Rotli</li>
+                        <li>
+                            🫓 Fresh Rotli
+                        </li>
 
-                        <li>🥗 Fresh Salad</li>
+                        <li>
+                            🥗 Fresh Salad
+                        </li>
 
-                        <li>🍬 Homemade Sweet</li>
+                        <li>
+                            🍬 Homemade Sweet
+                        </li>
 
                     </ul>
 
@@ -122,52 +272,74 @@
 
                 <div class="detail-actions">
 
+
+                    <!-- QUANTITY -->
+
                     <div class="quantity-box">
 
-                        <button type="button">
+                        <button
+                            type="button"
+                            onclick="changeQuantity(-1)"
+                        >
                             −
                         </button>
 
-                        <span>
+
+                        <span id="quantity">
                             1
                         </span>
 
-                        <button type="button">
+
+                        <button
+                            type="button"
+                            onclick="changeQuantity(1)"
+                        >
                             +
                         </button>
 
                     </div>
 
 
-                    <a href="/customer/cart" class="primary-btn">
-                             Add to Cart →
-                    </a>
+                    <!-- ADD CART -->
+
+                    <button
+                        type="button"
+                        id="addToCartBtn"
+                        class="primary-btn"
+                        onclick="addToCart()"
+                    >
+                        Add to Cart →
+                    </button>
+
 
                 </div>
 
+
             </div>
+
 
         </section>
 
 
-        <!-- =========================
-             INFO SECTION
-        ========================== -->
+        <!-- =============================== -->
+        <!-- INFO -->
+        <!-- =============================== -->
 
         <section class="detail-info-grid">
 
 
             <div class="info-box">
 
-                <span>🏠</span>
+                <span>
+                    🏠
+                </span>
 
                 <h3>
                     Home Made
                 </h3>
 
                 <p>
-                    Freshly prepared by trusted
-                    home kitchens.
+                    Freshly prepared by trusted home kitchens.
                 </p>
 
             </div>
@@ -175,15 +347,16 @@
 
             <div class="info-box">
 
-                <span>🥗</span>
+                <span>
+                    🥗
+                </span>
 
                 <h3>
                     Fresh Ingredients
                 </h3>
 
                 <p>
-                    Quality ingredients prepared
-                    fresh every day.
+                    Quality ingredients prepared fresh every day.
                 </p>
 
             </div>
@@ -191,7 +364,9 @@
 
             <div class="info-box">
 
-                <span>🚴</span>
+                <span>
+                    🚴
+                </span>
 
                 <h3>
                     Fresh Delivery
@@ -206,10 +381,274 @@
 
         </section>
 
+
     </main>
 
 
     <%- include("../partials/footer") %>
+
+
+    <script>
+
+
+        // ==========================================
+        // TIFFIN ID
+        // ==========================================
+
+        const tiffinId =
+            "<%= tiffin._id %>";
+
+
+        // ==========================================
+        // QUANTITY
+        // ==========================================
+
+        let quantity = 1;
+
+
+        const quantityElement =
+            document.getElementById("quantity");
+
+
+        const addButton =
+            document.getElementById("addToCartBtn");
+
+
+        // ==========================================
+        // CHANGE QUANTITY
+        // ==========================================
+
+        function changeQuantity(change) {
+
+            quantity += change;
+
+
+            if (quantity < 1) {
+
+                quantity = 1;
+
+            }
+
+
+            quantityElement.textContent =
+                quantity;
+
+        }
+
+
+        // ==========================================
+        // POPUP
+        // ==========================================
+
+        function showPopup(
+            message,
+            type = "success"
+        ) {
+
+            const popup =
+                document.getElementById(
+                    "popupMessage"
+                );
+
+
+            popup.textContent =
+                message;
+
+
+            popup.className =
+                "popup-message " +
+                type +
+                " show";
+
+
+            setTimeout(() => {
+
+                popup.classList.remove(
+                    "show"
+                );
+
+            }, 2500);
+
+        }
+
+
+        // ==========================================
+        // ADD TIFFIN TO CART
+        // ==========================================
+
+        async function addToCart() {
+
+
+            if (!tiffinId) {
+
+                showPopup(
+                    "❌ Tiffin not found",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            addButton.disabled =
+                true;
+
+
+            addButton.textContent =
+                "Adding...";
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        "/api/cart/add",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            credentials:
+                                "include",
+
+                            body:
+                                JSON.stringify({
+
+                                    itemType:
+                                        "menuItem",
+
+                                    menuItemId:
+                                        tiffinId,
+
+                                    quantity:
+                                        quantity
+
+                                })
+
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // ==================================
+                // LOGIN REQUIRED
+                // ==================================
+
+                if (
+                    response.status === 401
+                ) {
+
+                    showPopup(
+                        "🔐 Please login before adding to cart.",
+                        "error"
+                    );
+
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "/customer/login";
+
+                    }, 1200);
+
+
+                    return;
+
+                }
+
+
+                // ==================================
+                // ERROR
+                // ==================================
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    showPopup(
+
+                        "❌ " +
+                        (
+                            data.message ||
+                            "Failed to add tiffin"
+                        ),
+
+                        "error"
+
+                    );
+
+                    return;
+
+                }
+
+
+                // ==================================
+                // SUCCESS
+                // ==================================
+
+                showPopup(
+
+                    "✅ " +
+                    (
+                        data.message ||
+                        "Tiffin added to cart"
+                    ),
+
+                    "success"
+
+                );
+
+
+                quantity = 1;
+
+
+                quantityElement.textContent =
+                    "1";
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "ADD TIFFIN CART ERROR:",
+                    error
+                );
+
+
+                showPopup(
+                    "❌ Something went wrong. Please try again.",
+                    "error"
+                );
+
+
+            } finally {
+
+
+                addButton.disabled =
+                    false;
+
+
+                addButton.textContent =
+                    "Add to Cart →";
+
+            }
+
+        }
+
+    </script>
+
 
 </body>
 

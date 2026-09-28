@@ -10,23 +10,1384 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        GHARSETU | Restaurant Management
-    </title>
+    <title>GharSetu | Restaurant Management</title>
 
-<link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <style>
+
+        /* =====================================================
+           RESTAURANT MANAGEMENT PAGE
+        ===================================================== */
+
+        :root {
+
+            --rm-green: #145c45;
+            --rm-green-dark: #0e4937;
+            --rm-green-light: #e8f3ed;
+
+            --rm-cream: #f8f4ed;
+            --rm-card: #fffdf9;
+            --rm-border: #eadfd2;
+
+            --rm-brown: #3e2c22;
+            --rm-muted: #8b7c70;
+
+            --rm-orange: #d98b32;
+            --rm-orange-light: #fff1dc;
+
+            --rm-red: #c94a4a;
+            --rm-red-light: #fdeaea;
+
+            --rm-blue: #4d7ea8;
+            --rm-blue-light: #eaf2f8;
+
+            --rm-shadow:
+                0 8px 25px rgba(77, 55, 38, 0.06);
+
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background: var(--rm-cream);
+
+            color: var(--rm-brown);
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+        }
+
+
+        /* =====================================================
+           LAYOUT
+        ===================================================== */
+
+        .restaurant-page {
+
+            padding: 28px 30px 45px;
+
+            min-height: 100vh;
+
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .restaurant-page-header {
+
+            display: flex;
+
+            align-items: flex-end;
+
+            justify-content: space-between;
+
+            gap: 20px;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .restaurant-eyebrow {
+
+            margin-bottom: 7px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.4px;
+
+            color: var(--rm-green);
+
+            text-transform: uppercase;
+
+        }
+
+
+        .restaurant-page-header h1 {
+
+            margin: 0;
+
+            font-size: 29px;
+
+            line-height: 1.15;
+
+            color: #2f2119;
+
+            letter-spacing: -0.6px;
+
+        }
+
+
+        .restaurant-page-header p {
+
+            margin: 8px 0 0;
+
+            color: var(--rm-muted);
+
+            font-size: 13px;
+
+        }
+
+
+        .restaurant-directory-btn {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            padding: 11px 16px;
+
+            border: 1px solid var(--rm-border);
+
+            border-radius: 10px;
+
+            background: var(--rm-card);
+
+            color: var(--rm-green);
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            box-shadow: var(--rm-shadow);
+
+        }
+
+
+        /* =====================================================
+           STAT CARDS
+        ===================================================== */
+
+        .restaurant-stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 15px;
+
+            margin-bottom: 18px;
+
+        }
+
+
+        .restaurant-stat-card {
+
+            position: relative;
+
+            padding: 19px 20px;
+
+            min-height: 130px;
+
+            background: var(--rm-card);
+
+            border: 1px solid var(--rm-border);
+
+            border-radius: 13px;
+
+            box-shadow: var(--rm-shadow);
+
+            overflow: hidden;
+
+        }
+
+
+        .restaurant-stat-card::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 65px;
+
+            height: 65px;
+
+            right: -20px;
+
+            bottom: -20px;
+
+            border-radius: 50%;
+
+            background: var(--rm-green-light);
+
+            opacity: 0.55;
+
+        }
+
+
+        .restaurant-stat-card.pending::after {
+            background: var(--rm-orange-light);
+        }
+
+
+        .restaurant-stat-card.approved::after {
+            background: var(--rm-green-light);
+        }
+
+
+        .restaurant-stat-card.rejected::after {
+            background: var(--rm-red-light);
+        }
+
+
+        .restaurant-stat-top {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+        }
+
+
+        .restaurant-stat-label {
+
+            color: #8d7e72;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.8px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .restaurant-stat-number {
+
+            margin-top: 13px;
+
+            color: #2d2018;
+
+            font-size: 28px;
+
+            line-height: 1;
+
+            font-weight: 800;
+
+        }
+
+
+        .restaurant-stat-description {
+
+            margin-top: 9px;
+
+            color: #a29488;
+
+            font-size: 10px;
+
+        }
+
+
+        .restaurant-stat-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: var(--rm-green-light);
+
+            font-size: 18px;
+
+        }
+
+
+        .pending .restaurant-stat-icon {
+            background: var(--rm-orange-light);
+        }
+
+
+        .approved .restaurant-stat-icon {
+            background: var(--rm-green-light);
+        }
+
+
+        .rejected .restaurant-stat-icon {
+            background: var(--rm-red-light);
+        }
+
+
+        /* =====================================================
+           MAIN PANEL
+        ===================================================== */
+
+        .restaurant-panel {
+
+            background: var(--rm-card);
+
+            border: 1px solid var(--rm-border);
+
+            border-radius: 14px;
+
+            box-shadow: var(--rm-shadow);
+
+            margin-bottom: 18px;
+
+            overflow: hidden;
+
+        }
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        .restaurant-search-panel {
+
+            padding: 18px;
+
+            border-bottom: 1px solid var(--rm-border);
+
+        }
+
+
+        .restaurant-search-title {
+
+            margin-bottom: 11px;
+
+            color: #37271e;
+
+            font-size: 13px;
+
+            font-weight: 800;
+
+        }
+
+
+        .restaurant-filter-form {
+
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                175px
+                100px;
+
+            gap: 10px;
+
+        }
+
+
+        .restaurant-search-input,
+        .restaurant-status-select {
+
+            height: 43px;
+
+            padding: 0 13px;
+
+            border: 1px solid #e5d8ca;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            background: #fffdf9;
+
+            color: #46352a;
+
+            font-size: 12px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .restaurant-search-input:focus,
+        .restaurant-status-select:focus {
+
+            border-color: var(--rm-green);
+
+            box-shadow:
+                0 0 0 3px rgba(20, 92, 69, 0.08);
+
+        }
+
+
+        .restaurant-search-btn {
+
+            height: 43px;
+
+            border: 0;
+
+            border-radius: 9px;
+
+            background: var(--rm-green);
+
+            color: white;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .restaurant-search-btn:hover {
+
+            background: var(--rm-green-dark);
+
+            transform: translateY(-1px);
+
+        }
+
+
+        /* =====================================================
+           TABLE HEADER
+        ===================================================== */
+
+        .restaurant-table-heading {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 18px 19px 15px;
+
+        }
+
+
+        .restaurant-table-heading h2 {
+
+            margin: 0;
+
+            color: #34251d;
+
+            font-size: 16px;
+
+        }
+
+
+        .restaurant-table-heading p {
+
+            margin: 4px 0 0;
+
+            color: #9b8d81;
+
+            font-size: 10px;
+
+        }
+
+
+        .restaurant-result-count {
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            background: #f5efe7;
+
+            color: #806f62;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =====================================================
+           TABLE
+        ===================================================== */
+
+        .restaurant-table-wrapper {
+
+            overflow-x: auto;
+
+        }
+
+
+        .restaurant-table {
+
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 980px;
+
+        }
+
+
+        .restaurant-table thead {
+
+            background: #fbf7f1;
+
+        }
+
+
+        .restaurant-table th {
+
+            padding: 11px 18px;
+
+            border-top: 1px solid var(--rm-border);
+
+            border-bottom: 1px solid var(--rm-border);
+
+            color: #9a8b7e;
+
+            text-align: left;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 0.6px;
+
+            text-transform: uppercase;
+
+        }
+
+
+        .restaurant-table td {
+
+            padding: 13px 18px;
+
+            border-bottom: 1px solid #f0e8de;
+
+            vertical-align: middle;
+
+            color: #65564b;
+
+            font-size: 11px;
+
+        }
+
+
+        .restaurant-table tbody tr {
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .restaurant-table tbody tr:hover {
+
+            background: #fdfaf5;
+
+        }
+
+
+        .restaurant-table tbody tr:last-child td {
+
+            border-bottom: 0;
+
+        }
+
+
+        /* =====================================================
+           RESTAURANT INFO
+        ===================================================== */
+
+        .restaurant-info {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 11px;
+
+            min-width: 230px;
+
+        }
+
+
+        .restaurant-avatar {
+
+            width: 40px;
+
+            height: 40px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #f1e7d9;
+
+            font-size: 18px;
+
+        }
+
+
+        .restaurant-info strong {
+
+            display: block;
+
+            color: #34251d;
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+        }
+
+
+        .restaurant-info small {
+
+            display: block;
+
+            margin-top: 4px;
+
+            color: #a29488;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =====================================================
+           OWNER
+        ===================================================== */
+
+        .restaurant-owner {
+
+            color: #44342a;
+
+            font-weight: 700;
+
+        }
+
+
+        .restaurant-owner small {
+
+            display: block;
+
+            margin-top: 3px;
+
+            color: #a29488;
+
+            font-size: 9px;
+
+            font-weight: 400;
+
+        }
+
+
+        /* =====================================================
+           CONTACT
+        ===================================================== */
+
+        .restaurant-contact {
+
+            line-height: 1.6;
+
+        }
+
+
+        .restaurant-contact span {
+
+            display: block;
+
+        }
+
+
+        .restaurant-contact .email {
+
+            color: #9b8d81;
+
+            font-size: 9px;
+
+        }
+
+
+        /* =====================================================
+           ADDRESS
+        ===================================================== */
+
+        .restaurant-address {
+
+            max-width: 190px;
+
+            color: #76675b;
+
+            line-height: 1.5;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .restaurant-status {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 6px 10px;
+
+            border-radius: 20px;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            text-transform: capitalize;
+
+        }
+
+
+        .restaurant-status.pending {
+
+            background: var(--rm-orange-light);
+
+            color: #b66c16;
+
+        }
+
+
+        .restaurant-status.approved {
+
+            background: var(--rm-green-light);
+
+            color: #197354;
+
+        }
+
+
+        .restaurant-status.rejected {
+
+            background: var(--rm-red-light);
+
+            color: #b63c3c;
+
+        }
+
+
+        .restaurant-status::before {
+
+            content: "";
+
+            width: 5px;
+
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+
+        }
+
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .restaurant-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+
+            white-space: nowrap;
+
+        }
+
+
+        .restaurant-action-btn {
+
+            height: 31px;
+
+            padding: 0 10px;
+
+            border: 0;
+
+            border-radius: 7px;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .restaurant-action-btn:hover {
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .restaurant-view-btn {
+
+            background: #eef4f1;
+
+            color: var(--rm-green);
+
+        }
+
+
+        .restaurant-approve-btn {
+
+            background: var(--rm-green);
+
+            color: white;
+
+        }
+
+
+        .restaurant-approve-btn:hover {
+
+            background: var(--rm-green-dark);
+
+        }
+
+
+        .restaurant-reject-btn {
+
+            background: var(--rm-red-light);
+
+            color: var(--rm-red);
+
+        }
+
+
+        .restaurant-done {
+
+            padding: 7px 10px;
+
+            border-radius: 7px;
+
+            background: var(--rm-green-light);
+
+            color: #197354;
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+        }
+
+
+        .restaurant-rejected-label {
+
+            padding: 7px 10px;
+
+            border-radius: 7px;
+
+            background: var(--rm-red-light);
+
+            color: var(--rm-red);
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+        }
+
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .restaurant-empty {
+
+            padding: 60px 20px;
+
+            text-align: center;
+
+        }
+
+
+        .restaurant-empty-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            margin: 0 auto 12px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background: #f2e9dc;
+
+            font-size: 25px;
+
+        }
+
+
+        .restaurant-empty h3 {
+
+            margin: 0;
+
+            color: #403027;
+
+            font-size: 15px;
+
+        }
+
+
+        .restaurant-empty p {
+
+            margin: 6px 0 0;
+
+            color: #9b8d81;
+
+            font-size: 11px;
+
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .restaurant-modal {
+
+            position: fixed;
+
+            inset: 0;
+
+            z-index: 9999;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background: rgba(38, 29, 23, 0.42);
+
+            backdrop-filter: blur(4px);
+
+        }
+
+
+        .restaurant-modal.show {
+
+            display: flex;
+
+        }
+
+
+        .restaurant-modal-box {
+
+            width: 100%;
+
+            max-width: 510px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            border-radius: 16px;
+
+            background: #fffdf9;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.2);
+
+            animation: restaurantModalIn 0.2s ease;
+
+        }
+
+
+        @keyframes restaurantModalIn {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(12px)
+                    scale(0.98);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+
+            }
+
+        }
+
+
+        .restaurant-modal-header {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 18px 20px;
+
+            border-bottom: 1px solid var(--rm-border);
+
+        }
+
+
+        .restaurant-modal-header h3 {
+
+            margin: 0;
+
+            color: #34251d;
+
+            font-size: 17px;
+
+        }
+
+
+        .restaurant-modal-close {
+
+            width: 32px;
+
+            height: 32px;
+
+            border: 0;
+
+            border-radius: 8px;
+
+            background: #f4eee7;
+
+            color: #6d5e52;
+
+            font-size: 21px;
+
+            cursor: pointer;
+
+        }
+
+
+        .restaurant-modal-body {
+
+            padding: 20px;
+
+        }
+
+
+        .restaurant-detail-top {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 20px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid var(--rm-border);
+
+        }
+
+
+        .restaurant-detail-avatar {
+
+            width: 55px;
+
+            height: 55px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background: #f0e4d5;
+
+            font-size: 25px;
+
+        }
+
+
+        .restaurant-detail-top h4 {
+
+            margin: 0;
+
+            color: #34251d;
+
+            font-size: 16px;
+
+        }
+
+
+        .restaurant-detail-top span {
+
+            display: block;
+
+            margin-top: 5px;
+
+            color: #9a8c80;
+
+            font-size: 10px;
+
+        }
+
+
+        .restaurant-detail-grid {
+
+            display: grid;
+
+            grid-template-columns: 1fr 1fr;
+
+            gap: 10px;
+
+        }
+
+
+        .restaurant-detail-item {
+
+            padding: 12px;
+
+            border: 1px solid #eee4d9;
+
+            border-radius: 9px;
+
+            background: #fcf9f4;
+
+        }
+
+
+        .restaurant-detail-item.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        .restaurant-detail-label {
+
+            margin-bottom: 5px;
+
+            color: #9a8c80;
+
+            font-size: 8px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.6px;
+
+        }
+
+
+        .restaurant-detail-value {
+
+            color: #46362b;
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            word-break: break-word;
+
+        }
+
+
+        .restaurant-modal-footer {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 8px;
+
+            padding: 16px 20px;
+
+            border-top: 1px solid var(--rm-border);
+
+        }
+
+
+        /* =====================================================
+           CONFIRM / REJECT MODAL
+        ===================================================== */
+
+        .restaurant-confirm-text {
+
+            color: #75665b;
+
+            font-size: 12px;
+
+            line-height: 1.6;
+
+            margin: 0 0 15px;
+
+        }
+
+
+        .restaurant-reason-input {
+
+            width: 100%;
+
+            min-height: 100px;
+
+            resize: vertical;
+
+            padding: 11px;
+
+            border: 1px solid #e2d6c9;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            font-family: inherit;
+
+            font-size: 11px;
+
+            background: #fffdf9;
+
+        }
+
+
+        .restaurant-reason-input:focus {
+
+            border-color: var(--rm-green);
+
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .restaurant-stats {
+
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+
+            }
+
+        }
+
+
+        @media (max-width: 750px) {
+
+            .restaurant-page {
+
+                padding: 20px 15px 35px;
+
+            }
+
+
+            .restaurant-page-header {
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+            }
+
+
+            .restaurant-filter-form {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .restaurant-stats {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .restaurant-detail-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .restaurant-detail-item.full {
+
+                grid-column: auto;
+
+            }
+
+        }
+
+    </style>
 
 </head>
 
 
 <body>
 
+
 <div class="admin-layout">
 
 
-    <!-- SIDEBAR -->
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
 
     <aside class="admin-sidebar">
+
 
         <div class="admin-brand">
 
@@ -36,7 +1397,9 @@
 
             <div>
 
-                <h2>GHARSETU</h2>
+                <h2>
+                    GHARSETU
+                </h2>
 
                 <span>
                     ADMIN CONTROL
@@ -49,9 +1412,15 @@
 
         <nav class="admin-nav">
 
+
             <a href="/admin/dashboard">
+
                 📊
-                <span>Dashboard</span>
+
+                <span>
+                    Dashboard
+                </span>
+
             </a>
 
 
@@ -59,16 +1428,25 @@
                 href="/admin/restaurants"
                 class="active"
             >
+
                 🏪
-                <span>Restaurants</span>
 
-               <% if (typeof pendingRestaurants !== "undefined" && pendingRestaurants > 0) { %>
+                <span>
+                    Restaurants
+                </span>
 
-    <b class="nav-badge">
-        <%= pendingRestaurants %>
-    </b>
 
-<% } %>
+                <% if (
+                    typeof pendingRestaurants !== "undefined"
+                    &&
+                    pendingRestaurants > 0
+                ) { %>
+
+                    <b class="nav-badge">
+                        <%= pendingRestaurants %>
+                    </b>
+
+                <% } %>
 
             </a>
 
@@ -77,60 +1455,100 @@
 
                 🍱
 
-                <span>Tiffin Sellers</span>
+                <span>
+                    Tiffin Sellers
+                </span>
 
-               <% if (typeof pendingSellers !== "undefined" && pendingSellers > 0) { %>
 
-    <b class="nav-badge">
-        <%= pendingSellers %>
-    </b>
+                <% if (
+                    typeof pendingSellers !== "undefined"
+                    &&
+                    pendingSellers > 0
+                ) { %>
 
-<% } %>
+                    <b class="nav-badge">
+                        <%= pendingSellers %>
+                    </b>
+
+                <% } %>
 
             </a>
 
 
             <a href="/admin/customers">
+
                 👥
-                <span>Customers</span>
+
+                <span>
+                    Customers
+                </span>
+
             </a>
 
 
             <a href="/admin/delivery">
+
                 🚴
-                <span>Delivery Partners</span>
+
+                <span>
+                    Delivery Partners
+                </span>
+
             </a>
 
 
             <a href="/admin/orders">
+
                 📦
-                <span>Orders</span>
+
+                <span>
+                    Orders
+                </span>
+
             </a>
 
 
             <a href="/admin/complaints">
+
                 💬
-                <span>Complaints</span>
+
+                <span>
+                    Complaints
+                </span>
+
             </a>
 
 
             <a href="/admin/analytics">
+
                 📈
-                <span>Analytics</span>
+
+                <span>
+                    Analytics
+                </span>
+
             </a>
 
 
             <a href="/admin/settings">
+
                 ⚙️
-                <span>Settings</span>
+
+                <span>
+                    Settings
+                </span>
+
             </a>
+
 
         </nav>
 
 
         <div class="sidebar-bottom">
 
+
             <div class="admin-user-mini">
+
 
                 <div class="admin-avatar">
 
@@ -138,7 +1556,8 @@
                         ? admin.name
                             .charAt(0)
                             .toUpperCase()
-                        : "A" %>
+                        : "A"
+                    %>
 
                 </div>
 
@@ -146,7 +1565,7 @@
                 <div>
 
                     <strong>
-                        <%= admin.name %>
+                        <%= admin.name || "Admin" %>
                     </strong>
 
                     <small>
@@ -154,6 +1573,7 @@
                     </small>
 
                 </div>
+
 
             </div>
 
@@ -167,548 +1587,1502 @@
                     class="logout-btn"
                     type="submit"
                 >
+
                     🚪 Logout
+
                 </button>
 
             </form>
 
+
         </div>
+
 
     </aside>
 
 
-
-    <!-- MAIN -->
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
 
     <main class="admin-main">
 
 
-        <header class="admin-topbar">
-
-            <div>
-
-                <p class="eyebrow">
-                    PARTNER MANAGEMENT
-                </p>
-
-                <h1>
-                    Restaurant Management 🏪
-                </h1>
-
-                <p class="top-description">
-                    Review and manage restaurant registration requests.
-                </p>
-
-            </div>
+        <div class="restaurant-page">
 
 
-            <div class="top-admin">
+            <!-- =================================================
+                 PAGE HEADER
+            ================================================== -->
 
-                <div class="top-avatar">
-                    <%= admin.name
-                        ? admin.name
-                            .charAt(0)
-                            .toUpperCase()
-                        : "A" %>
-                </div>
+            <div class="restaurant-page-header">
+
 
                 <div>
 
-                    <strong>
-                        <%= admin.name %>
-                    </strong>
 
-                    <span>
-                        Administrator
-                    </span>
-
-                </div>
-
-            </div>
-
-        </header>
+                    <div class="restaurant-eyebrow">
+                        PARTNER MANAGEMENT
+                    </div>
 
 
-
-        <!-- STATS -->
-
-        <section class="partner-stats">
-
-
-            <div class="partner-stat">
-
-                <span>
-                    Total
-                </span>
-
-                <strong>
-                    <%= totalRestaurants %>
-                </strong>
-
-            </div>
+                    <h1>
+                        Restaurant Management 🏪
+                    </h1>
 
 
-            <div class="partner-stat pending">
-
-                <span>
-                    Pending
-                </span>
-
-                <strong>
-                    <%= pendingRestaurants %>
-                </strong>
-
-            </div>
-
-
-            <div class="partner-stat approved">
-
-                <span>
-                    Approved
-                </span>
-
-                <strong>
-                    <%= approvedRestaurants %>
-                </strong>
-
-            </div>
-
-
-            <div class="partner-stat rejected">
-
-                <span>
-                    Rejected
-                </span>
-
-                <strong>
-                    <%= rejectedRestaurants %>
-                </strong>
-
-            </div>
-
-        </section>
-
-
-
-        <!-- FILTER -->
-
-        <section class="management-panel">
-
-            <form
-                method="GET"
-                action="/admin/restaurants"
-                class="filter-bar"
-            >
-
-                <div class="search-box">
-
-                    🔍
-
-                    <input
-                        type="text"
-                        name="search"
-                        value="<%= search %>"
-                        placeholder="Search restaurant, email or mobile..."
-                    >
-
-                </div>
-
-
-                <select name="status">
-
-                    <option
-                        value="all"
-                        <%= status === "all" ? "selected" : "" %>
-                    >
-                        All Status
-                    </option>
-
-                    <option
-                        value="pending"
-                        <%= status === "pending" ? "selected" : "" %>
-                    >
-                        Pending
-                    </option>
-
-                    <option
-                        value="approved"
-                        <%= status === "approved" ? "selected" : "" %>
-                    >
-                        Approved
-                    </option>
-
-                    <option
-                        value="rejected"
-                        <%= status === "rejected" ? "selected" : "" %>
-                    >
-                        Rejected
-                    </option>
-
-                </select>
-
-
-                <button
-                    type="submit"
-                    class="filter-btn"
-                >
-                    Search
-                </button>
-
-            </form>
-
-        </section>
-
-
-
-        <!-- RESTAURANTS -->
-
-        <section class="management-panel">
-
-            <div class="section-heading">
-
-                <div>
-
-                    <p class="eyebrow">
-                        RESTAURANT PARTNERS
+                    <p>
+                        Review, approve and manage
+                        GharSetu restaurant partners.
                     </p>
 
-                    <h2>
-                        Registration Requests
-                    </h2>
 
                 </div>
 
-                <span class="section-count">
-                    <%= restaurants.length %> Results
-                </span>
+
+                <div class="restaurant-directory-btn">
+
+                    🏪
+
+                    Restaurant Directory
+
+                </div>
+
 
             </div>
 
 
-            <div class="partner-table-wrapper">
+            <!-- =================================================
+                 STATISTICS
+            ================================================== -->
 
-                <table class="partner-table">
+            <section class="restaurant-stats">
 
-                    <thead>
 
-                        <tr>
+                <!-- TOTAL -->
 
-                            <th>
-                                Restaurant
-                            </th>
+                <div class="restaurant-stat-card">
 
-                            <th>
-                                Owner
-                            </th>
 
-                            <th>
-                                Contact
-                            </th>
+                    <div class="restaurant-stat-top">
 
-                            <th>
-                                Address
-                            </th>
 
-                            <th>
-                                Status
-                            </th>
+                        <div>
 
-                            <th>
-                                Action
-                            </th>
 
-                        </tr>
+                            <div class="restaurant-stat-label">
+                                Total Restaurants
+                            </div>
 
-                    </thead>
 
+                            <div class="restaurant-stat-number">
+                                <%= totalRestaurants %>
+                            </div>
 
-                    <tbody>
 
-                    <% if (restaurants.length > 0) { %>
+                            <div class="restaurant-stat-description">
+                                All registered restaurant partners
+                            </div>
 
 
-                        <% restaurants.forEach(restaurant => { %>
+                        </div>
 
-                            <tr>
 
-                                <td>
+                        <div class="restaurant-stat-icon">
+                            🏪
+                        </div>
 
-                                    <div class="partner-name">
 
-                                        <div class="partner-avatar">
-                                            🏪
-                                        </div>
+                    </div>
 
-                                        <div>
 
-                                            <strong>
-                                                <%= restaurant.restaurantName %>
-                                            </strong>
+                </div>
 
-                                            <small>
-                                                <%= restaurant.email || "No email" %>
-                                            </small>
 
-                                        </div>
+                <!-- PENDING -->
 
-                                    </div>
+                <div class="restaurant-stat-card pending">
 
-                                </td>
 
+                    <div class="restaurant-stat-top">
 
-                                <td>
 
-                                    <strong>
-                                        <%= restaurant.owner?.name || "N/A" %>
-                                    </strong>
+                        <div>
 
-                                </td>
 
+                            <div class="restaurant-stat-label">
+                                Pending Approval
+                            </div>
 
-                                <td>
 
-                                    <span>
-                                        <%= restaurant.mobile || "N/A" %>
-                                    </span>
+                            <div class="restaurant-stat-number">
+                                <%= pendingRestaurants %>
+                            </div>
 
-                                </td>
 
+                            <div class="restaurant-stat-description">
+                                Waiting for admin review
+                            </div>
 
-                                <td>
 
-                                    <span class="address-text">
-                                        <%= restaurant.address || "N/A" %>
-                                    </span>
+                        </div>
 
-                                </td>
 
+                        <div class="restaurant-stat-icon">
+                            ⏳
+                        </div>
 
-                                <td>
 
-                                    <span
-                                        class="approval-status <%= restaurant.approvalStatus %>"
-                                    >
-                                        <%= restaurant.approvalStatus || "pending" %>
-                                    </span>
+                    </div>
 
-                                </td>
 
+                </div>
 
-                                <td>
 
-                                    <div class="approval-actions">
+                <!-- APPROVED -->
 
+                <div class="restaurant-stat-card approved">
 
-                                        <% if (restaurant.approvalStatus === "pending") { %>
 
+                    <div class="restaurant-stat-top">
 
-                                            <button
-                                                class="approve-btn"
-                                                onclick="approveRestaurant('<%= restaurant._id %>')"
-                                            >
-                                                ✓ Approve
-                                            </button>
 
+                        <div>
 
-                                            <button
-                                                class="reject-btn"
-                                                onclick="rejectRestaurant('<%= restaurant._id %>')"
-                                            >
-                                                ✕ Reject
-                                            </button>
 
+                            <div class="restaurant-stat-label">
+                                Approved
+                            </div>
 
-                                        <% } else if (restaurant.approvalStatus === "approved") { %>
 
+                            <div class="restaurant-stat-number">
+                                <%= approvedRestaurants %>
+                            </div>
 
-                                            <span class="action-done">
-                                                ✓ Approved
-                                            </span>
 
+                            <div class="restaurant-stat-description">
+                                Active restaurant partners
+                            </div>
 
-                                        <% } else { %>
 
+                        </div>
 
-                                            <span class="action-rejected">
-                                                ✕ Rejected
-                                            </span>
 
+                        <div class="restaurant-stat-icon">
+                            ✓
+                        </div>
 
-                                        <% } %>
 
+                    </div>
 
-                                    </div>
 
-                                </td>
+                </div>
 
-                            </tr>
 
-                        <% }) %>
+                <!-- REJECTED -->
 
+                <div class="restaurant-stat-card rejected">
 
-                    <% } else { %>
 
-                        <tr>
+                    <div class="restaurant-stat-top">
 
-                            <td
-                                colspan="6"
-                                class="empty-table"
+
+                        <div>
+
+
+                            <div class="restaurant-stat-label">
+                                Rejected
+                            </div>
+
+
+                            <div class="restaurant-stat-number">
+                                <%= rejectedRestaurants %>
+                            </div>
+
+
+                            <div class="restaurant-stat-description">
+                                Rejected registration requests
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="restaurant-stat-icon">
+                            ✕
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 SEARCH + FILTER
+            ================================================== -->
+
+            <section class="restaurant-panel">
+
+
+                <div class="restaurant-search-panel">
+
+
+                    <div class="restaurant-search-title">
+                        🔍 Search Restaurants
+                    </div>
+
+
+                    <form
+                        method="GET"
+                        action="/admin/restaurants"
+                        class="restaurant-filter-form"
+                    >
+
+
+                        <input
+                            class="restaurant-search-input"
+                            type="text"
+                            name="search"
+                            value="<%= search || '' %>"
+                            placeholder="Search restaurant, owner, email or mobile..."
+                        >
+
+
+                        <select
+                            class="restaurant-status-select"
+                            name="status"
+                        >
+
+
+                            <option
+                                value="all"
+                                <%= status === "all"
+                                    ? "selected"
+                                    : ""
+                                %>
                             >
+                                All Status
+                            </option>
 
-                                No restaurant registration requests found.
 
-                            </td>
+                            <option
+                                value="pending"
+                                <%= status === "pending"
+                                    ? "selected"
+                                    : ""
+                                %>
+                            >
+                                Pending
+                            </option>
 
-                        </tr>
 
-                    <% } %>
+                            <option
+                                value="approved"
+                                <%= status === "approved"
+                                    ? "selected"
+                                    : ""
+                                %>
+                            >
+                                Approved
+                            </option>
 
-                    </tbody>
 
-                </table>
+                            <option
+                                value="rejected"
+                                <%= status === "rejected"
+                                    ? "selected"
+                                    : ""
+                                %>
+                            >
+                                Rejected
+                            </option>
 
-            </div>
 
-        </section>
+                        </select>
+
+
+                        <button
+                            class="restaurant-search-btn"
+                            type="submit"
+                        >
+                            Search
+                        </button>
+
+
+                    </form>
+
+
+                </div>
+
+
+            </section>
+
+
+            <!-- =================================================
+                 RESTAURANT DIRECTORY
+            ================================================== -->
+
+            <section class="restaurant-panel">
+
+
+                <div class="restaurant-table-heading">
+
+
+                    <div>
+
+
+                        <h2>
+                            Registration Requests
+                        </h2>
+
+
+                        <p>
+                            Review restaurant partner applications
+                            and approval status.
+                        </p>
+
+
+                    </div>
+
+
+                    <span class="restaurant-result-count">
+
+                        <%= restaurants.length %>
+
+                        Result(s)
+
+                    </span>
+
+
+                </div>
+
+
+                <% if (restaurants.length > 0) { %>
+
+
+                    <div class="restaurant-table-wrapper">
+
+
+                        <table class="restaurant-table">
+
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Restaurant
+                                    </th>
+
+                                    <th>
+                                        Owner
+                                    </th>
+
+                                    <th>
+                                        Contact
+                                    </th>
+
+                                    <th>
+                                        Address
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <% restaurants.forEach(
+                                    restaurant => {
+                                %>
+
+
+                                    <tr
+                                        id="restaurant-row-<%= restaurant._id %>"
+                                    >
+
+
+                                        <!-- RESTAURANT -->
+
+                                        <td>
+
+
+                                            <div class="restaurant-info">
+
+
+                                                <div class="restaurant-avatar">
+                                                    🏪
+                                                </div>
+
+
+                                                <div>
+
+
+                                                    <strong>
+                                                        <%= restaurant.restaurantName || "Unnamed Restaurant" %>
+                                                    </strong>
+
+
+                                                    <small>
+
+                                                        Partner ID:
+
+                                                        <%= String(
+                                                            restaurant._id
+                                                        ).slice(-8) %>
+
+                                                    </small>
+
+
+                                                </div>
+
+
+                                            </div>
+
+
+                                        </td>
+
+
+                                        <!-- OWNER -->
+
+                                        <td>
+
+
+                                            <div class="restaurant-owner">
+
+                                                <%= restaurant.owner?.name || "N/A" %>
+
+                                                <small>
+                                                    Restaurant Owner
+                                                </small>
+
+                                            </div>
+
+
+                                        </td>
+
+
+                                        <!-- CONTACT -->
+
+                                        <td>
+
+
+                                            <div class="restaurant-contact">
+
+
+                                                <span>
+
+                                                    📱
+
+                                                    <%= restaurant.mobile || "N/A" %>
+
+                                                </span>
+
+
+                                                <span class="email">
+
+                                                    ✉️
+
+                                                    <%= restaurant.email || "No email" %>
+
+                                                </span>
+
+
+                                            </div>
+
+
+                                        </td>
+
+
+                                        <!-- ADDRESS -->
+
+                                        <td>
+
+
+                                            <div class="restaurant-address">
+
+                                                <%= restaurant.address || "Address not provided" %>
+
+                                            </div>
+
+
+                                        </td>
+
+
+                                        <!-- STATUS -->
+
+                                        <td>
+
+
+                                            <span
+                                                id="status-<%= restaurant._id %>"
+                                                class="restaurant-status <%= restaurant.approvalStatus || 'pending' %>"
+                                            >
+
+                                                <%= restaurant.approvalStatus || "pending" %>
+
+                                            </span>
+
+
+                                        </td>
+
+
+                                        <!-- ACTIONS -->
+
+                                        <td>
+
+
+                                            <div
+                                                class="restaurant-actions"
+                                                id="actions-<%= restaurant._id %>"
+                                            >
+
+
+                                                <button
+                                                    type="button"
+                                                    class="restaurant-action-btn restaurant-view-btn"
+                                                    onclick="viewRestaurant('<%= restaurant._id %>')"
+                                                >
+
+                                                    👁 View
+
+                                                </button>
+
+
+                                                <% if (
+                                                    restaurant.approvalStatus === "pending"
+                                                ) { %>
+
+
+                                                    <button
+                                                        type="button"
+                                                        class="restaurant-action-btn restaurant-approve-btn"
+                                                        onclick="approveRestaurant('<%= restaurant._id %>')"
+                                                    >
+
+                                                        ✓ Approve
+
+                                                    </button>
+
+
+                                                    <!-- FIXED REJECT BUTTON -->
+
+                                                    <button
+                                                        type="button"
+                                                        class="restaurant-action-btn restaurant-reject-btn"
+                                                        onclick="openRejectModal('<%= restaurant._id %>')"
+                                                    >
+
+                                                        ✕ Reject
+
+                                                    </button>
+
+
+                                                <% } else if (
+                                                    restaurant.approvalStatus === "approved"
+                                                ) { %>
+
+
+                                                    <span class="restaurant-done">
+
+                                                        ✓ Approved
+
+                                                    </span>
+
+
+                                                <% } else { %>
+
+
+                                                    <span class="restaurant-rejected-label">
+
+                                                        ✕ Rejected
+
+                                                    </span>
+
+
+                                                <% } %>
+
+
+                                            </div>
+
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                <% }) %>
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+                <% } else { %>
+
+
+                    <div class="restaurant-empty">
+
+
+                        <div class="restaurant-empty-icon">
+                            🏪
+                        </div>
+
+
+                        <h3>
+                            No Restaurants Found
+                        </h3>
+
+
+                        <p>
+                            There are no restaurant registration
+                            requests matching your search.
+                        </p>
+
+
+                    </div>
+
+
+                <% } %>
+
+
+            </section>
+
+
+        </div>
 
 
     </main>
 
+
 </div>
 
+
+<!-- =========================================================
+     VIEW RESTAURANT MODAL
+========================================================== -->
+
+<div
+    class="restaurant-modal"
+    id="restaurantViewModal"
+>
+
+
+    <div class="restaurant-modal-box">
+
+
+        <div class="restaurant-modal-header">
+
+
+            <h3>
+                Restaurant Details
+            </h3>
+
+
+            <button
+                type="button"
+                class="restaurant-modal-close"
+                onclick="closeRestaurantView()"
+            >
+                ×
+            </button>
+
+
+        </div>
+
+
+        <div
+            class="restaurant-modal-body"
+            id="restaurantViewBody"
+        >
+
+            Loading...
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================================================
+     REJECT MODAL
+========================================================== -->
+
+<div
+    class="restaurant-modal"
+    id="restaurantRejectModal"
+>
+
+
+    <div class="restaurant-modal-box">
+
+
+        <div class="restaurant-modal-header">
+
+
+            <h3>
+                Reject Restaurant
+            </h3>
+
+
+            <button
+                type="button"
+                class="restaurant-modal-close"
+                onclick="closeRejectModal()"
+            >
+                ×
+            </button>
+
+
+        </div>
+
+
+        <div class="restaurant-modal-body">
+
+
+            <p
+                class="restaurant-confirm-text"
+                id="rejectRestaurantText"
+            >
+
+                Please enter a reason for rejection.
+
+            </p>
+
+
+            <textarea
+                class="restaurant-reason-input"
+                id="rejectionReason"
+                placeholder="Example: Required documents are incomplete..."
+            ></textarea>
+
+
+        </div>
+
+
+        <div class="restaurant-modal-footer">
+
+
+            <button
+                type="button"
+                class="restaurant-action-btn restaurant-view-btn"
+                onclick="closeRejectModal()"
+            >
+
+                Cancel
+
+            </button>
+
+
+            <button
+                type="button"
+                class="restaurant-action-btn restaurant-reject-btn"
+                id="confirmRejectBtn"
+            >
+
+                ✕ Reject Restaurant
+
+            </button>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
 
 
 <script>
 
-async function approveRestaurant(id) {
 
-    const confirmed =
-        confirm(
-            "Approve this restaurant?"
-        );
+    /* =====================================================
+       VIEW RESTAURANT
+    ===================================================== */
 
-    if (!confirmed) {
-        return;
+
+    async function viewRestaurant(id) {
+
+
+        const modal =
+            document.getElementById(
+                "restaurantViewModal"
+            );
+
+
+        const body =
+            document.getElementById(
+                "restaurantViewBody"
+            );
+
+
+        modal.classList.add("show");
+
+
+        body.innerHTML = `
+
+            <div style="
+                text-align:center;
+                padding:30px;
+                color:#8b7c70;
+            ">
+
+                Loading restaurant details...
+
+            </div>
+
+        `;
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    `/admin/restaurants/${id}`
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (
+                !response.ok ||
+                !data.success
+            ) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load restaurant details."
+                );
+
+            }
+
+
+            const restaurant =
+                data.restaurant;
+
+
+            body.innerHTML = `
+
+                <div class="restaurant-detail-top">
+
+                    <div class="restaurant-detail-avatar">
+                        🏪
+                    </div>
+
+
+                    <div>
+
+                        <h4>
+                            ${escapeHtml(
+                                restaurant.restaurantName ||
+                                "Restaurant"
+                            )}
+                        </h4>
+
+
+                        <span>
+                            GharSetu Restaurant Partner
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="restaurant-detail-grid">
+
+
+                    <div class="restaurant-detail-item">
+
+                        <div class="restaurant-detail-label">
+                            Restaurant Name
+                        </div>
+
+                        <div class="restaurant-detail-value">
+
+                            ${escapeHtml(
+                                restaurant.restaurantName ||
+                                "N/A"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="restaurant-detail-item">
+
+                        <div class="restaurant-detail-label">
+                            Owner
+                        </div>
+
+                        <div class="restaurant-detail-value">
+
+                            ${escapeHtml(
+                                restaurant.owner?.name ||
+                                "N/A"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="restaurant-detail-item">
+
+                        <div class="restaurant-detail-label">
+                            Email
+                        </div>
+
+                        <div class="restaurant-detail-value">
+
+                            ${escapeHtml(
+                                restaurant.email ||
+                                "N/A"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="restaurant-detail-item">
+
+                        <div class="restaurant-detail-label">
+                            Mobile
+                        </div>
+
+                        <div class="restaurant-detail-value">
+
+                            ${escapeHtml(
+                                restaurant.mobile ||
+                                "N/A"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="restaurant-detail-item">
+
+                        <div class="restaurant-detail-label">
+                            Status
+                        </div>
+
+                        <div class="restaurant-detail-value">
+
+                            ${escapeHtml(
+                                restaurant.approvalStatus ||
+                                "pending"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="restaurant-detail-item">
+
+                        <div class="restaurant-detail-label">
+                            Restaurant ID
+                        </div>
+
+                        <div class="restaurant-detail-value">
+
+                            ${escapeHtml(
+                                restaurant._id ||
+                                "N/A"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="restaurant-detail-item full">
+
+                        <div class="restaurant-detail-label">
+                            Address
+                        </div>
+
+                        <div class="restaurant-detail-value">
+
+                            ${escapeHtml(
+                                restaurant.address ||
+                                "Address not provided"
+                            )}
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+        } catch (error) {
+
+
+            body.innerHTML = `
+
+                <div style="
+                    padding:25px;
+                    text-align:center;
+                    color:#c94a4a;
+                    font-size:12px;
+                ">
+
+                    ${escapeHtml(
+                        error.message
+                    )}
+
+                </div>
+
+            `;
+
+        }
+
     }
 
 
-    try {
+    /* =====================================================
+       CLOSE VIEW MODAL
+    ===================================================== */
 
-        const response =
-            await fetch(
-                `/admin/restaurants/${id}/approve`,
-                {
-                    method: "POST"
-                }
+
+    function closeRestaurantView() {
+
+
+        document
+            .getElementById(
+                "restaurantViewModal"
+            )
+            .classList
+            .remove("show");
+
+    }
+
+
+    /* =====================================================
+       APPROVE RESTAURANT
+    ===================================================== */
+
+
+    async function approveRestaurant(id) {
+
+
+        const confirmed =
+            confirm(
+                "Approve this restaurant registration?"
             );
 
 
-        const data =
-            await response.json();
-
-
-        if (!response.ok || !data.success) {
-
-            alert(
-                data.message ||
-                "Failed to approve restaurant."
-            );
+        if (!confirmed) {
 
             return;
 
         }
 
 
-        alert(
-            "Restaurant approved successfully! ✓"
-        );
+        try {
 
 
-        window.location.reload();
-
-    } catch (error) {
-
-        console.error(error);
-
-        alert(
-            "Something went wrong."
-        );
-
-    }
-
-}
+            const response =
+                await fetch(
+                    `/admin/restaurants/${id}/approve`,
+                    {
+                        method: "POST"
+                    }
+                );
 
 
-
-async function rejectRestaurant(id) {
-
-    const reason =
-        prompt(
-            "Enter rejection reason:"
-        );
+            const data =
+                await response.json();
 
 
-    if (reason === null) {
-        return;
-    }
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
+                throw new Error(
+                    data.message ||
+                    "Failed to approve restaurant."
+                );
 
-    try {
+            }
 
-        const response =
-            await fetch(
-                `/admin/restaurants/${id}/reject`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body: JSON.stringify({
-                        reason:
-                            reason.trim() ||
-                            "Registration request rejected by admin."
-                    })
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (!response.ok || !data.success) {
 
             alert(
-                data.message ||
-                "Failed to reject restaurant."
+                "Restaurant approved successfully! ✓"
             );
 
-            return;
+
+            window.location.reload();
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+            alert(
+                error.message ||
+                "Something went wrong."
+            );
+
+        }
+
+    }
+
+
+    /* =====================================================
+       OPEN REJECT MODAL
+    ===================================================== */
+
+
+    let selectedRestaurantId = null;
+
+
+    function openRejectModal(id) {
+
+
+        selectedRestaurantId = id;
+
+
+        document
+            .getElementById(
+                "restaurantRejectModal"
+            )
+            .classList
+            .add("show");
+
+
+        document
+            .getElementById(
+                "rejectionReason"
+            )
+            .value = "";
+
+
+        document
+            .getElementById(
+                "rejectRestaurantText"
+            )
+            .innerHTML = `
+
+                You are rejecting
+                <strong>this restaurant</strong>.
+                Please provide a reason.
+
+            `;
+
+    }
+
+
+    /* =====================================================
+       CLOSE REJECT MODAL
+    ===================================================== */
+
+
+    function closeRejectModal() {
+
+
+        selectedRestaurantId = null;
+
+
+        document
+            .getElementById(
+                "restaurantRejectModal"
+            )
+            .classList
+            .remove("show");
+
+    }
+
+
+    /* =====================================================
+       CONFIRM REJECTION
+    ===================================================== */
+
+
+    document
+        .getElementById(
+            "confirmRejectBtn"
+        )
+        .addEventListener(
+            "click",
+            async function() {
+
+
+                if (!selectedRestaurantId) {
+
+                    return;
+
+                }
+
+
+                const reason =
+                    document
+                        .getElementById(
+                            "rejectionReason"
+                        )
+                        .value
+                        .trim();
+
+
+                if (!reason) {
+
+
+                    alert(
+                        "Please enter a rejection reason."
+                    );
+
+
+                    return;
+
+                }
+
+
+                const button = this;
+
+
+                button.disabled = true;
+
+
+                button.innerText =
+                    "Rejecting...";
+
+
+                try {
+
+
+                    const response =
+                        await fetch(
+                            `/admin/restaurants/${selectedRestaurantId}/reject`,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify({
+                                        reason:
+                                            reason
+                                    })
+
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (
+                        !response.ok ||
+                        !data.success
+                    ) {
+
+
+                        throw new Error(
+                            data.message ||
+                            "Failed to reject restaurant."
+                        );
+
+                    }
+
+
+                    closeRejectModal();
+
+
+                    alert(
+                        "Restaurant rejected successfully."
+                    );
+
+
+                    window.location.reload();
+
+
+                } catch (error) {
+
+
+                    console.error(error);
+
+
+                    alert(
+                        error.message ||
+                        "Something went wrong."
+                    );
+
+
+                    button.disabled = false;
+
+
+                    button.innerText =
+                        "✕ Reject Restaurant";
+
+                }
+
+            }
+        );
+
+
+    /* =====================================================
+       ESCAPE HTML
+    ===================================================== */
+
+
+    function escapeHtml(value) {
+
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
 
         }
 
 
-        alert(
-            "Restaurant rejected successfully."
-        );
+        return String(value)
 
+            .replace(
+                /&/g,
+                "&amp;"
+            )
 
-        window.location.reload();
+            .replace(
+                /</g,
+                "&lt;"
+            )
 
-    } catch (error) {
+            .replace(
+                />/g,
+                "&gt;"
+            )
 
-        console.error(error);
+            .replace(
+                /"/g,
+                "&quot;"
+            )
 
-        alert(
-            "Something went wrong."
-        );
+            .replace(
+                /'/g,
+                "&#039;"
+            );
 
     }
 
-}
+
+    /* =====================================================
+       BACKDROP CLICK
+    ===================================================== */
+
+
+    document
+        .getElementById(
+            "restaurantViewModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeRestaurantView();
+
+                }
+
+            }
+        );
+
+
+    document
+        .getElementById(
+            "restaurantRejectModal"
+        )
+        .addEventListener(
+            "click",
+            function(event) {
+
+
+                if (
+                    event.target ===
+                    this
+                ) {
+
+                    closeRejectModal();
+
+                }
+
+            }
+        );
+
+
+    /* =====================================================
+       ESC KEY
+    ===================================================== */
+
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeRestaurantView();
+
+                closeRejectModal();
+
+            }
+
+        }
+    );
+
 
 </script>
 

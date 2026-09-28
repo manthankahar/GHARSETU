@@ -1,0 +1,3141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Reviews & Ratings</title>
+
+    <style>
+
+        :root {
+            --ivory: #fffdf8;
+            --cream: #f8f1e5;
+            --beige: #eadbc8;
+            --coffee: #5b3a29;
+            --coffee-dark: #3e281d;
+            --green: #4f7d58;
+            --green-dark: #3e6546;
+            --green-light: #e8f1e9;
+            --text: #30271f;
+            --muted: #897c70;
+            --border: #e7ddd0;
+            --white: #ffffff;
+            --danger: #b94b4b;
+            --danger-light: #f9e8e8;
+            --warning: #b27a2c;
+            --warning-light: #fff3dc;
+            --shadow: 0 10px 35px rgba(91, 58, 41, 0.08);
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+
+        .brand {
+            padding: 8px 12px 26px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+
+        .brand-name {
+            color: var(--coffee);
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 5px;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+
+        .nav-title {
+            color: #aa9c8e;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            padding: 0 12px 10px;
+            text-transform: uppercase;
+        }
+
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #65594f;
+            padding: 12px 13px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+
+        .nav-link:hover {
+            background: var(--cream);
+            color: var(--coffee);
+        }
+
+
+        .nav-link.active {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+
+        .nav-icon {
+            width: 23px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+
+        .topbar {
+            height: 76px;
+            background: rgba(255, 253, 248, 0.96);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+
+
+        .page-title h1 {
+            font-size: 23px;
+            color: var(--coffee-dark);
+            margin-bottom: 4px;
+        }
+
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+
+        .admin-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+
+        .admin-info {
+            text-align: right;
+        }
+
+
+        .admin-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+
+        .admin-role {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+
+        .admin-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--coffee);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+
+        .content {
+            padding: 30px 34px 45px;
+        }
+
+
+        /* ================= STATS ================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 21px;
+            box-shadow: var(--shadow);
+        }
+
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            font-size: 19px;
+        }
+
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 17px;
+        }
+
+
+        .stat-value {
+            font-size: 27px;
+            color: var(--coffee-dark);
+            font-weight: 800;
+            margin-top: 5px;
+        }
+
+
+        .stat-note {
+            font-size: 11px;
+            color: var(--green);
+            margin-top: 7px;
+        }
+
+
+        /* ================= RATING OVERVIEW ================= */
+
+        .rating-overview {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 18px;
+            margin-bottom: 24px;
+        }
+
+
+        .rating-summary {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+
+        .rating-number {
+            font-size: 48px;
+            line-height: 1;
+            font-weight: 800;
+            color: var(--coffee-dark);
+        }
+
+
+        .stars {
+            color: #d99a32;
+            font-size: 23px;
+            letter-spacing: 2px;
+            margin: 10px 0 6px;
+        }
+
+
+        .rating-summary p {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+
+        .rating-breakdown {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 22px 25px;
+            box-shadow: var(--shadow);
+        }
+
+
+        .rating-breakdown h3 {
+            color: var(--coffee-dark);
+            font-size: 15px;
+            margin-bottom: 17px;
+        }
+
+
+        .rating-row {
+            display: grid;
+            grid-template-columns: 45px 1fr 45px;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+
+        .rating-row-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #66594e;
+        }
+
+
+        .rating-bar {
+            height: 7px;
+            background: #eee5da;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+
+        .rating-fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 20px;
+        }
+
+
+        .rating-count {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: right;
+        }
+
+
+        /* ================= TOOLBAR ================= */
+
+        .toolbar {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+
+        .toolbar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+
+        .search-box {
+            flex: 1;
+            min-width: 230px;
+            position: relative;
+        }
+
+
+        .search-box span {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a69889;
+        }
+
+
+        .search-box input {
+            width: 100%;
+            height: 43px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 0 14px 0 40px;
+            outline: none;
+            background: #fffefa;
+            font-size: 13px;
+        }
+
+
+        .filter-select {
+            height: 43px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 0 35px 0 13px;
+            background: #fffefa;
+            color: var(--text);
+            outline: none;
+            min-width: 145px;
+            font-size: 13px;
+        }
+
+
+        .btn {
+            border: none;
+            border-radius: 11px;
+            height: 43px;
+            padding: 0 18px;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+        }
+
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+        }
+
+
+        .btn-secondary {
+            background: var(--cream);
+            color: var(--coffee);
+        }
+
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+
+        .table-header {
+            padding: 21px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+
+        .table-header h2 {
+            font-size: 16px;
+            color: var(--coffee-dark);
+        }
+
+
+        .table-header p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+
+        .review-count {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1050px;
+        }
+
+
+        th {
+            text-align: left;
+            background: #fcf8f1;
+            color: #85776a;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 13px 18px;
+            white-space: nowrap;
+        }
+
+
+        td {
+            padding: 16px 18px;
+            border-top: 1px solid #f0e8dd;
+            color: #51463d;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+
+        tbody tr:hover {
+            background: #fffdf9;
+        }
+
+
+        .customer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .customer-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 11px;
+            background: var(--cream);
+            color: var(--coffee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+
+        .customer-name {
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+
+        .small-text {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+
+        .partner-name {
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+
+        .order-id {
+            color: var(--green-dark);
+            font-weight: 700;
+            font-size: 11px;
+        }
+
+
+        .rating-stars {
+            color: #d99a32;
+            font-size: 14px;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+
+        .rating-value {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+
+        .review-text {
+            max-width: 250px;
+            line-height: 1.5;
+            color: #5d5147;
+        }
+
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+
+        .status.approved {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+
+        .status.pending {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+
+        .status.hidden {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: var(--ivory);
+            color: var(--coffee);
+            font-size: 13px;
+        }
+
+
+        .action-btn:hover {
+            background: var(--cream);
+        }
+
+
+        .action-btn.delete {
+            color: var(--danger);
+        }
+
+
+        .action-btn.delete:hover {
+            background: var(--danger-light);
+        }
+
+
+        /* ================= MODAL ================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(48, 39, 31, 0.48);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: 20px;
+        }
+
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+
+        .modal {
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            border-radius: 22px;
+            box-shadow: 0 25px 80px rgba(48, 39, 31, 0.2);
+        }
+
+
+        .modal-header {
+            padding: 21px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+
+        .modal-header h2 {
+            font-size: 18px;
+            color: var(--coffee-dark);
+        }
+
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 10px;
+            background: var(--cream);
+            color: var(--coffee);
+            font-size: 18px;
+        }
+
+
+        .modal-body {
+            padding: 24px;
+        }
+
+
+        .review-box {
+            background: #fcf8f1;
+            border-radius: 15px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 13px;
+        }
+
+
+        .review-customer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+
+        .review-avatar {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            background: var(--cream);
+            color: var(--coffee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+
+        .review-customer strong {
+            display: block;
+            font-size: 13px;
+            color: var(--coffee-dark);
+        }
+
+
+        .review-customer span {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+
+        .modal-stars {
+            color: #d99a32;
+            font-size: 18px;
+        }
+
+
+        .review-content {
+            color: #5d5147;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+
+        .detail-item {
+            padding: 13px;
+            background: var(--cream);
+            border-radius: 11px;
+        }
+
+
+        .detail-item small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+
+
+        .detail-item strong {
+            color: var(--coffee-dark);
+            font-size: 12px;
+        }
+
+
+        .reply-box {
+            margin-top: 18px;
+        }
+
+
+        .reply-box label {
+            display: block;
+            color: #675b51;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+
+        .reply-box textarea {
+            width: 100%;
+            height: 85px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 12px;
+            resize: vertical;
+            outline: none;
+            font-size: 12px;
+        }
+
+
+        .modal-footer {
+            padding: 18px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+
+        /* ================= EMPTY ================= */
+
+        .empty-state {
+            text-align: center;
+            padding: 65px 25px;
+        }
+
+
+        .empty-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 22px;
+            background: var(--cream);
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+
+        .empty-state h3 {
+            color: var(--coffee-dark);
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .rating-overview {
+                grid-template-columns: 1fr;
+            }
+        }
+
+
+        @media (max-width: 850px) {
+
+            .sidebar {
+                width: 72px;
+                padding: 18px 10px;
+            }
+
+            .brand {
+                display: none;
+            }
+
+            .nav-title {
+                display: none;
+            }
+
+            .nav-link {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .nav-text {
+                display: none;
+            }
+
+            .main {
+                margin-left: 72px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 24px 20px;
+            }
+        }
+
+
+        @media (max-width: 620px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+            .page-title h1 {
+                font-size: 19px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-name">GharSetu</div>
+            <div class="brand-subtitle">
+                Admin Control Center
+            </div>
+        </div>
+
+
+        <div class="nav-title">
+            Main Menu
+        </div>
+
+
+        <nav class="nav-menu">
+
+            <a href="/admin/dashboard" class="nav-link">
+                <span class="nav-icon">⌂</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
+
+
+            <a href="/admin/customers" class="nav-link">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Customers</span>
+            </a>
+
+
+            <a href="/admin/restaurants" class="nav-link">
+                <span class="nav-icon">🍽</span>
+                <span class="nav-text">Restaurants</span>
+            </a>
+
+
+            <a href="/admin/tiffin-sellers" class="nav-link">
+                <span class="nav-icon">🥘</span>
+                <span class="nav-text">Tiffin Sellers</span>
+            </a>
+
+
+            <a href="/admin/delivery" class="nav-link">
+                <span class="nav-icon">🛵</span>
+                <span class="nav-text">Delivery Partners</span>
+            </a>
+
+
+            <a href="/admin/orders" class="nav-link">
+                <span class="nav-icon">📦</span>
+                <span class="nav-text">Orders</span>
+            </a>
+
+
+            <a href="/admin/payments" class="nav-link">
+                <span class="nav-icon">💳</span>
+                <span class="nav-text">Payments</span>
+            </a>
+
+
+            <a href="/admin/complaints" class="nav-link">
+                <span class="nav-icon">💬</span>
+                <span class="nav-text">Complaints</span>
+            </a>
+
+
+            <a href="/admin/analytics" class="nav-link">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Analytics</span>
+            </a>
+
+
+            <a href="/admin/coupons" class="nav-link">
+                <span class="nav-icon">🎟</span>
+                <span class="nav-text">Coupons</span>
+            </a>
+
+
+            <a href="/admin/reviews" class="nav-link active">
+                <span class="nav-icon">⭐</span>
+                <span class="nav-text">Reviews</span>
+            </a>
+
+
+            <a href="/admin/settings" class="nav-link">
+                <span class="nav-icon">⚙</span>
+                <span class="nav-text">Settings</span>
+            </a>
+
+
+            <a href="/admin/profile" class="nav-link">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">Admin Profile</span>
+            </a>
+
+
+            <a href="/admin/logout" class="nav-link">
+                <span class="nav-icon">↪</span>
+                <span class="nav-text">Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+
+        <header class="topbar">
+
+            <div class="page-title">
+
+                <h1>
+                    Reviews & Ratings
+                </h1>
+
+                <p>
+                    Monitor customer feedback and food partner ratings
+                </p>
+
+            </div>
+
+
+            <div class="admin-area">
+
+                <div class="admin-info">
+
+                    <div class="admin-name">
+                        <%= admin?.name || "Administrator" %>
+                    </div>
+
+                    <div class="admin-role">
+                        GharSetu Admin
+                    </div>
+
+                </div>
+
+
+                <div class="admin-avatar">
+
+                    <%= (admin?.name || "A").charAt(0).toUpperCase() %>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+
+            <!-- ================= STATS ================= -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ⭐
+                        </div>
+
+                    </div>
+
+                    <div class="stat-label">
+                        Total Reviews
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof totalReviews !== "undefined"
+                            ? totalReviews
+                            : "1,842" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Customer feedback received
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ★
+                        </div>
+
+                    </div>
+
+                    <div class="stat-label">
+                        Average Rating
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof averageRating !== "undefined"
+                            ? averageRating
+                            : "4.6" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Overall platform rating
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            👍
+                        </div>
+
+                    </div>
+
+                    <div class="stat-label">
+                        5 Star Reviews
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof fiveStarReviews !== "undefined"
+                            ? fiveStarReviews
+                            : "1,124" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Highly satisfied customers
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <div class="stat-icon">
+                            ⚠
+                        </div>
+
+                    </div>
+
+                    <div class="stat-label">
+                        Low Rating Reviews
+                    </div>
+
+                    <div class="stat-value">
+                        <%= typeof lowRatingReviews !== "undefined"
+                            ? lowRatingReviews
+                            : "86" %>
+                    </div>
+
+                    <div class="stat-note">
+                        1–2 star reviews
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= RATING OVERVIEW ================= -->
+
+            <div class="rating-overview">
+
+
+                <div class="rating-summary">
+
+                    <div class="rating-number">
+                        <%= typeof averageRating !== "undefined"
+                            ? averageRating
+                            : "4.6" %>
+                    </div>
+
+
+                    <div class="stars">
+                        ★★★★★
+                    </div>
+
+
+                    <p>
+                        Based on
+                        <%= typeof totalReviews !== "undefined"
+                            ? totalReviews
+                            : "1,842" %>
+                        reviews
+                    </p>
+
+                </div>
+
+
+                <div class="rating-breakdown">
+
+                    <h3>
+                        Rating Breakdown
+                    </h3>
+
+
+                    <div class="rating-row">
+
+                        <div class="rating-row-label">
+                            5 ★
+                        </div>
+
+                        <div class="rating-bar">
+
+                            <div
+                                class="rating-fill"
+                                style="width: 72%;"
+                            ></div>
+
+                        </div>
+
+                        <div class="rating-count">
+                            72%
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-row">
+
+                        <div class="rating-row-label">
+                            4 ★
+                        </div>
+
+                        <div class="rating-bar">
+
+                            <div
+                                class="rating-fill"
+                                style="width: 18%;"
+                            ></div>
+
+                        </div>
+
+                        <div class="rating-count">
+                            18%
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-row">
+
+                        <div class="rating-row-label">
+                            3 ★
+                        </div>
+
+                        <div class="rating-bar">
+
+                            <div
+                                class="rating-fill"
+                                style="width: 6%;"
+                            ></div>
+
+                        </div>
+
+                        <div class="rating-count">
+                            6%
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-row">
+
+                        <div class="rating-row-label">
+                            2 ★
+                        </div>
+
+                        <div class="rating-bar">
+
+                            <div
+                                class="rating-fill"
+                                style="width: 3%;"
+                            ></div>
+
+                        </div>
+
+                        <div class="rating-count">
+                            3%
+                        </div>
+
+                    </div>
+
+
+                    <div class="rating-row">
+
+                        <div class="rating-row-label">
+                            1 ★
+                        </div>
+
+                        <div class="rating-bar">
+
+                            <div
+                                class="rating-fill"
+                                style="width: 1%;"
+                            ></div>
+
+                        </div>
+
+                        <div class="rating-count">
+                            1%
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= FILTERS ================= -->
+
+            <div class="toolbar">
+
+                <form
+                    method="GET"
+                    action="/admin/reviews"
+                >
+
+                    <div class="toolbar-row">
+
+
+                        <div class="search-box">
+
+                            <span>
+                                ⌕
+                            </span>
+
+                            <input
+                                type="text"
+                                name="search"
+                                value="<%= typeof search !== 'undefined' ? search : '' %>"
+                                placeholder="Search customer, review or order..."
+                            >
+
+                        </div>
+
+
+                        <select
+                            name="rating"
+                            class="filter-select"
+                        >
+
+                            <option value="">
+                                All Ratings
+                            </option>
+
+                            <option value="5">
+                                5 Stars
+                            </option>
+
+                            <option value="4">
+                                4 Stars
+                            </option>
+
+                            <option value="3">
+                                3 Stars
+                            </option>
+
+                            <option value="2">
+                                2 Stars
+                            </option>
+
+                            <option value="1">
+                                1 Star
+                            </option>
+
+                        </select>
+
+
+                        <select
+                            name="role"
+                            class="filter-select"
+                        >
+
+                            <option value="">
+                                All Partners
+                            </option>
+
+                            <option value="restaurant">
+                                Restaurants
+                            </option>
+
+                            <option value="tiffin">
+                                Tiffin Sellers
+                            </option>
+
+                            <option value="cafe">
+                                Cafés
+                            </option>
+
+                        </select>
+
+
+                        <select
+                            name="status"
+                            class="filter-select"
+                        >
+
+                            <option value="">
+                                All Status
+                            </option>
+
+                            <option value="approved">
+                                Approved
+                            </option>
+
+                            <option value="pending">
+                                Pending
+                            </option>
+
+                            <option value="hidden">
+                                Hidden
+                            </option>
+
+                        </select>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-secondary"
+                        >
+                            Filter
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- ================= REVIEWS TABLE ================= -->
+
+            <div class="table-card">
+
+
+                <div class="table-header">
+
+                    <div>
+
+                        <h2>
+                            Customer Reviews
+                        </h2>
+
+                        <p>
+                            Review and manage customer feedback
+                        </p>
+
+                    </div>
+
+
+                    <div class="review-count">
+
+                        <%= typeof reviews !== "undefined" && reviews
+                            ? reviews.length
+                            : "6" %>
+                        reviews
+
+                    </div>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+
+                    <% if (
+                        typeof reviews !== "undefined" &&
+                        reviews &&
+                        reviews.length > 0
+                    ) { %>
+
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Food Partner
+                                    </th>
+
+                                    <th>
+                                        Order
+                                    </th>
+
+                                    <th>
+                                        Rating
+                                    </th>
+
+                                    <th>
+                                        Review
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <% reviews.forEach(function(review) { %>
+
+
+                                    <tr>
+
+
+                                        <td>
+
+                                            <div class="customer">
+
+                                                <div class="customer-avatar">
+
+                                                    <%= (
+                                                        review.customer?.name ||
+                                                        "C"
+                                                    ).charAt(0).toUpperCase() %>
+
+                                                </div>
+
+
+                                                <div>
+
+                                                    <div class="customer-name">
+
+                                                        <%= review.customer?.name ||
+                                                            "Customer" %>
+
+                                                    </div>
+
+
+                                                    <div class="small-text">
+
+                                                        <%= review.customer?.email ||
+                                                            review.customer?.mobile ||
+                                                            "-" %>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="partner-name">
+
+                                                <%= review.restaurant?.restaurantName ||
+                                                    review.restaurant?.name ||
+                                                    review.tiffinSeller?.name ||
+                                                    review.partnerName ||
+                                                    "Food Partner" %>
+
+                                            </div>
+
+
+                                            <div class="small-text">
+
+                                                <%= review.partnerType ||
+                                                    "Food Partner" %>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="order-id">
+
+                                                #<%= review.order?._id ||
+                                                    review.orderId ||
+                                                    "-" %>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="rating-stars">
+
+                                                <%
+                                                    var currentRating =
+                                                        Number(review.rating || 0);
+                                                %>
+
+
+                                                <% for (
+                                                    var i = 1;
+                                                    i <= 5;
+                                                    i++
+                                                ) { %>
+
+                                                    <%= i <= currentRating
+                                                        ? "★"
+                                                        : "☆" %>
+
+                                                <% } %>
+
+                                            </div>
+
+
+                                            <div class="rating-value">
+
+                                                <%= currentRating %>/5
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="review-text">
+
+                                                <%= review.comment ||
+                                                    review.review ||
+                                                    review.text ||
+                                                    "No review text" %>
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <%= review.createdAt
+                                                ? new Date(
+                                                    review.createdAt
+                                                ).toLocaleDateString()
+                                                : "-" %>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <%
+                                                var reviewStatus =
+                                                    review.status || "approved";
+                                            %>
+
+
+                                            <span
+                                                class="status <%= reviewStatus %>"
+                                            >
+
+                                                <%= reviewStatus
+                                                    .charAt(0)
+                                                    .toUpperCase() +
+                                                    reviewStatus.slice(1) %>
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="actions">
+
+                                                <button
+                                                    type="button"
+                                                    class="action-btn"
+                                                    title="View"
+                                                    onclick="viewReview('<%= review._id %>')"
+                                                >
+                                                    👁
+                                                </button>
+
+
+                                                <button
+                                                    type="button"
+                                                    class="action-btn"
+                                                    title="Reply"
+                                                    onclick="replyReview('<%= review._id %>')"
+                                                >
+                                                    ↩
+                                                </button>
+
+
+                                                <button
+                                                    type="button"
+                                                    class="action-btn delete"
+                                                    title="Delete"
+                                                    onclick="deleteReview('<%= review._id %>')"
+                                                >
+                                                    🗑
+                                                </button>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+
+                                <% }); %>
+
+
+                            </tbody>
+
+                        </table>
+
+
+                    <% } else { %>
+
+
+                        <!-- DEMO DATA -->
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Food Partner
+                                    </th>
+
+                                    <th>
+                                        Order
+                                    </th>
+
+                                    <th>
+                                        Rating
+                                    </th>
+
+                                    <th>
+                                        Review
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+
+                                <!-- REVIEW 1 -->
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="customer">
+
+                                            <div class="customer-avatar">
+                                                M
+                                            </div>
+
+                                            <div>
+
+                                                <div class="customer-name">
+                                                    Manthan
+                                                </div>
+
+                                                <div class="small-text">
+                                                    customer@example.com
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="partner-name">
+                                            Gujarati Rasoi
+                                        </div>
+
+                                        <div class="small-text">
+                                            Restaurant
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="order-id">
+                                            #ORD10241
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="rating-stars">
+                                            ★★★★★
+                                        </div>
+
+                                        <div class="rating-value">
+                                            5/5
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="review-text">
+                                            Amazing food and very good quality.
+                                            Delivery was also on time.
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        10/09/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status approved">
+                                            Approved
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoReview(
+                                                    'Manthan',
+                                                    'Gujarati Rasoi',
+                                                    '5',
+                                                    'Amazing food and very good quality. Delivery was also on time.'
+                                                )"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="replyDemoReview('Manthan')"
+                                            >
+                                                ↩
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoReview('Manthan')"
+                                            >
+                                                🗑
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <!-- REVIEW 2 -->
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="customer">
+
+                                            <div class="customer-avatar">
+                                                R
+                                            </div>
+
+                                            <div>
+
+                                                <div class="customer-name">
+                                                    Rahul
+                                                </div>
+
+                                                <div class="small-text">
+                                                    rahul@example.com
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="partner-name">
+                                            Home Taste Tiffin
+                                        </div>
+
+                                        <div class="small-text">
+                                            Tiffin Seller
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="order-id">
+                                            #ORD10238
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="rating-stars">
+                                            ★★★★☆
+                                        </div>
+
+                                        <div class="rating-value">
+                                            4/5
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="review-text">
+                                            Homemade taste was really good.
+                                            Packaging can be improved.
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        09/09/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status approved">
+                                            Approved
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoReview(
+                                                    'Rahul',
+                                                    'Home Taste Tiffin',
+                                                    '4',
+                                                    'Homemade taste was really good. Packaging can be improved.'
+                                                )"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="replyDemoReview('Rahul')"
+                                            >
+                                                ↩
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoReview('Rahul')"
+                                            >
+                                                🗑
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <!-- REVIEW 3 -->
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="customer">
+
+                                            <div class="customer-avatar">
+                                                P
+                                            </div>
+
+                                            <div>
+
+                                                <div class="customer-name">
+                                                    Priya
+                                                </div>
+
+                                                <div class="small-text">
+                                                    priya@example.com
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="partner-name">
+                                            Café Aroma
+                                        </div>
+
+                                        <div class="small-text">
+                                            Café
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="order-id">
+                                            #ORD10234
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="rating-stars">
+                                            ★★★☆☆
+                                        </div>
+
+                                        <div class="rating-value">
+                                            3/5
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="review-text">
+                                            Food was okay but delivery took
+                                            longer than expected.
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        08/09/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status pending">
+                                            Pending
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoReview(
+                                                    'Priya',
+                                                    'Café Aroma',
+                                                    '3',
+                                                    'Food was okay but delivery took longer than expected.'
+                                                )"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="replyDemoReview('Priya')"
+                                            >
+                                                ↩
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoReview('Priya')"
+                                            >
+                                                🗑
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <!-- REVIEW 4 -->
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="customer">
+
+                                            <div class="customer-avatar">
+                                                A
+                                            </div>
+
+                                            <div>
+
+                                                <div class="customer-name">
+                                                    Amit
+                                                </div>
+
+                                                <div class="small-text">
+                                                    amit@example.com
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="partner-name">
+                                            Maa Nu Ghar
+                                        </div>
+
+                                        <div class="small-text">
+                                            Tiffin Seller
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="order-id">
+                                            #ORD10229
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="rating-stars">
+                                            ★★☆☆☆
+                                        </div>
+
+                                        <div class="rating-value">
+                                            2/5
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="review-text">
+                                            Food arrived cold and the quantity
+                                            was less than expected.
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        07/09/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status pending">
+                                            Pending
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoReview(
+                                                    'Amit',
+                                                    'Maa Nu Ghar',
+                                                    '2',
+                                                    'Food arrived cold and the quantity was less than expected.'
+                                                )"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="replyDemoReview('Amit')"
+                                            >
+                                                ↩
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoReview('Amit')"
+                                            >
+                                                🗑
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <!-- REVIEW 5 -->
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="customer">
+
+                                            <div class="customer-avatar">
+                                                N
+                                            </div>
+
+                                            <div>
+
+                                                <div class="customer-name">
+                                                    Neha
+                                                </div>
+
+                                                <div class="small-text">
+                                                    neha@example.com
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="partner-name">
+                                            Spice Garden
+                                        </div>
+
+                                        <div class="small-text">
+                                            Restaurant
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="order-id">
+                                            #ORD10221
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="rating-stars">
+                                            ★★★★★
+                                        </div>
+
+                                        <div class="rating-value">
+                                            5/5
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="review-text">
+                                            Excellent taste. Definitely
+                                            ordering again.
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        06/09/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status approved">
+                                            Approved
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoReview(
+                                                    'Neha',
+                                                    'Spice Garden',
+                                                    '5',
+                                                    'Excellent taste. Definitely ordering again.'
+                                                )"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="replyDemoReview('Neha')"
+                                            >
+                                                ↩
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoReview('Neha')"
+                                            >
+                                                🗑
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                                <!-- REVIEW 6 -->
+
+                                <tr>
+
+                                    <td>
+
+                                        <div class="customer">
+
+                                            <div class="customer-avatar">
+                                                K
+                                            </div>
+
+                                            <div>
+
+                                                <div class="customer-name">
+                                                    Karan
+                                                </div>
+
+                                                <div class="small-text">
+                                                    karan@example.com
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="partner-name">
+                                            Ghar Ka Tiffin
+                                        </div>
+
+                                        <div class="small-text">
+                                            Tiffin Seller
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="order-id">
+                                            #ORD10218
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="rating-stars">
+                                            ★☆☆☆☆
+                                        </div>
+
+                                        <div class="rating-value">
+                                            1/5
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="review-text">
+                                            Very poor experience. Order was
+                                            delayed and food quality was poor.
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+                                        05/09/2026
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="status hidden">
+                                            Hidden
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoReview(
+                                                    'Karan',
+                                                    'Ghar Ka Tiffin',
+                                                    '1',
+                                                    'Very poor experience. Order was delayed and food quality was poor.'
+                                                )"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="replyDemoReview('Karan')"
+                                            >
+                                                ↩
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoReview('Karan')"
+                                            >
+                                                🗑
+                                            </button>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+
+                            </tbody>
+
+                        </table>
+
+
+                    <% } %>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= VIEW REVIEW MODAL ================= -->
+
+    <div
+        class="modal-overlay"
+        id="reviewModal"
+    >
+
+        <div class="modal">
+
+
+            <div class="modal-header">
+
+                <h2>
+                    Review Details
+                </h2>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    onclick="closeReviewModal()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+
+                <div class="review-box">
+
+
+                    <div class="review-header">
+
+
+                        <div class="review-customer">
+
+                            <div
+                                class="review-avatar"
+                                id="modalAvatar"
+                            >
+                                M
+                            </div>
+
+
+                            <div>
+
+                                <strong id="modalCustomer">
+                                    Manthan
+                                </strong>
+
+                                <span id="modalPartner">
+                                    Gujarati Rasoi
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div
+                            class="modal-stars"
+                            id="modalStars"
+                        >
+                            ★★★★★
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="review-content"
+                        id="modalReview"
+                    >
+                        Amazing food and very good quality.
+                        Delivery was also on time.
+                    </div>
+
+                </div>
+
+
+                <div class="detail-grid">
+
+
+                    <div class="detail-item">
+
+                        <small>
+                            Customer
+                        </small>
+
+                        <strong id="detailCustomer">
+                            Manthan
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <small>
+                            Food Partner
+                        </small>
+
+                        <strong id="detailPartner">
+                            Gujarati Rasoi
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <small>
+                            Order ID
+                        </small>
+
+                        <strong>
+                            #ORD10241
+                        </strong>
+
+                    </div>
+
+
+                    <div class="detail-item">
+
+                        <small>
+                            Rating
+                        </small>
+
+                        <strong id="detailRating">
+                            5 / 5
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="reply-box">
+
+                    <label>
+                        Admin Response
+                    </label>
+
+                    <textarea
+                        id="adminReply"
+                        placeholder="Write a response to this customer..."
+                    ></textarea>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="closeReviewModal()"
+                >
+                    Close
+                </button>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="sendReviewReply()"
+                >
+                    Send Response
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        function openReviewModal(
+            customer,
+            partner,
+            rating,
+            review
+        ) {
+
+            document
+                .getElementById("modalCustomer")
+                .textContent = customer;
+
+
+            document
+                .getElementById("modalPartner")
+                .textContent = partner;
+
+
+            document
+                .getElementById("detailCustomer")
+                .textContent = customer;
+
+
+            document
+                .getElementById("detailPartner")
+                .textContent = partner;
+
+
+            document
+                .getElementById("detailRating")
+                .textContent =
+                rating + " / 5";
+
+
+            document
+                .getElementById("modalReview")
+                .textContent = review;
+
+
+            document
+                .getElementById("modalAvatar")
+                .textContent =
+                customer.charAt(0).toUpperCase();
+
+
+            var stars = "";
+
+
+            for (
+                var i = 1;
+                i <= 5;
+                i++
+            ) {
+
+                if (i <= Number(rating)) {
+                    stars += "★";
+                } else {
+                    stars += "☆";
+                }
+
+            }
+
+
+            document
+                .getElementById("modalStars")
+                .textContent = stars;
+
+
+            document
+                .getElementById("reviewModal")
+                .classList
+                .add("show");
+
+        }
+
+
+        function viewDemoReview(
+            customer,
+            partner,
+            rating,
+            review
+        ) {
+
+            openReviewModal(
+                customer,
+                partner,
+                rating,
+                review
+            );
+
+        }
+
+
+        function closeReviewModal() {
+
+            document
+                .getElementById("reviewModal")
+                .classList
+                .remove("show");
+
+        }
+
+
+        function replyDemoReview(customer) {
+
+            alert(
+                "Reply feature for " +
+                customer +
+                " backend connection pachi activate karishu."
+            );
+
+        }
+
+
+        function sendReviewReply() {
+
+            var reply =
+                document
+                    .getElementById("adminReply")
+                    .value
+                    .trim();
+
+
+            if (!reply) {
+
+                alert(
+                    "Please write a response first."
+                );
+
+                return;
+            }
+
+
+            alert(
+                "Admin response sent successfully in demo mode."
+            );
+
+
+            document
+                .getElementById("adminReply")
+                .value = "";
+
+        }
+
+
+        function viewReview(id) {
+
+            fetch(
+                "/admin/reviews/" + id
+            )
+            .then(function(response) {
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Failed to load review."
+                    );
+                }
+
+                return response.json();
+
+            })
+            .then(function(data) {
+
+                if (
+                    !data ||
+                    !data.review
+                ) {
+
+                    throw new Error(
+                        "Review data not found."
+                    );
+
+                }
+
+
+                var review =
+                    data.review;
+
+
+                var customer =
+                    review.customer?.name ||
+                    "Customer";
+
+
+                var partner =
+                    review.restaurant?.restaurantName ||
+                    review.restaurant?.name ||
+                    review.tiffinSeller?.name ||
+                    review.partnerName ||
+                    "Food Partner";
+
+
+                var rating =
+                    Number(review.rating || 0);
+
+
+                var reviewText =
+                    review.comment ||
+                    review.review ||
+                    review.text ||
+                    "No review text";
+
+
+                openReviewModal(
+                    customer,
+                    partner,
+                    rating,
+                    reviewText
+                );
+
+            })
+            .catch(function(error) {
+
+                console.error(error);
+
+                alert(
+                    "Review details are not connected yet."
+                );
+
+            });
+
+        }
+
+
+        function replyReview(id) {
+
+            alert(
+                "Reply feature backend connection pachi activate karishu."
+            );
+
+        }
+
+
+        function deleteReview(id) {
+
+            var confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this review?"
+                );
+
+
+            if (!confirmDelete) {
+                return;
+            }
+
+
+            alert(
+                "Delete feature backend connection pachi activate karishu."
+            );
+
+        }
+
+
+        function deleteDemoReview(customer) {
+
+            var confirmDelete =
+                confirm(
+                    "Delete review from " +
+                    customer +
+                    "?"
+                );
+
+
+            if (!confirmDelete) {
+                return;
+            }
+
+
+            alert(
+                "Demo review delete action."
+            );
+
+        }
+
+
+        document
+            .getElementById("reviewModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target ===
+                        document.getElementById("reviewModal")
+                    ) {
+
+                        closeReviewModal();
+
+                    }
+
+                }
+            );
+
+
+    </script>
+
+
+</body>
+</html>

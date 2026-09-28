@@ -24,6 +24,28 @@ const getAdminSettings = async (req, res) => {
 
 
 // ==========================================
+// GET ADMIN PROFILE
+// ==========================================
+const getAdminProfile = async (req, res) => {
+    try {
+        const admin = await Admin.findById(req.admin._id).select("-password");
+
+        if (!admin) {
+            return res.status(404).send("Admin not found.");
+        }
+
+        return res.render("admin/profile", {
+            admin
+        });
+
+    } catch (error) {
+        console.error("ADMIN PROFILE PAGE ERROR:", error);
+        return res.status(500).send("Failed to load admin profile.");
+    }
+};
+
+
+// ==========================================
 // UPDATE ADMIN PROFILE
 // ==========================================
 const updateAdminProfile = async (req, res) => {
@@ -129,6 +151,7 @@ const changeAdminPassword = async (req, res) => {
 // ==========================================
 module.exports = {
     getAdminSettings,
+    getAdminProfile,
     updateAdminProfile,
     changeAdminPassword
 };

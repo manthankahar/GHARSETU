@@ -8,20 +8,22 @@ const userSchema = new mongoose.Schema(
             trim: true
         },
 
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-            lowercase: true,
-            trim: true
-        },
+email: {
+    type: String,
+    required: false,
+    unique: true,
+    sparse: true,
+    lowercase: true,
+    trim: true
+},
 
-        mobile: {
-            type: String,
-            required: true,
-            unique: true,
-            trim: true
-        },
+mobile: {
+    type: String,
+    required: false,
+    unique: true,
+    sparse: true,
+    trim: true
+},
 
         password: {
             type: String,
@@ -56,6 +58,9 @@ const userSchema = new mongoose.Schema(
     }
 );
 
-const User = mongoose.model("User", userSchema);
+// Prevent OverwriteModelError
+const User =
+    mongoose.models.User ||
+    mongoose.model("User", userSchema);
 
 module.exports = User;

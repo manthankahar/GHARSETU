@@ -8,8 +8,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         e.preventDefault();
 
+        // =====================================
+        // GET FORM VALUES
+        // =====================================
+
         const email = form.querySelector("[name='email']").value.trim();
         const password = form.querySelector("[name='password']").value;
+
+        // =====================================
+        // VALIDATION
+        // =====================================
 
         if (!email || !password) {
             alert("Please enter email and password.");
@@ -18,11 +26,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 
+            // =====================================
+            // LOGIN API
+            // =====================================
+
             const response = await fetch("/api/auth/login", {
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json"
                 },
+
+                credentials: "include",
+
                 body: JSON.stringify({
                     email,
                     password
@@ -31,18 +47,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const data = await response.json();
 
+            // =====================================
+            // LOGIN FAILED
+            // =====================================
+
             if (!response.ok) {
                 alert(data.message || "Login failed.");
                 return;
             }
 
+            // =====================================
+            // SAVE TOKEN
+            // =====================================
+            // Keep this for API compatibility
+
             if (data.token) {
                 localStorage.setItem("token", data.token);
             }
 
+            // =====================================
+            // LOGIN SUCCESS
+            // =====================================
+
             alert(data.message || "Login successful!");
 
-            window.location.href = "/customer/home";
+            // =====================================
+            // GO TO CART
+            // =====================================
+
+            window.location.href = "/customer/cart";
 
         } catch (error) {
 

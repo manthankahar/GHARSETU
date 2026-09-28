@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Coupons & Discounts</title>
+
+    <style>
+        :root {
+            --ivory: #fffdf8;
+            --cream: #f8f1e5;
+            --beige: #eadbc8;
+            --coffee: #5b3a29;
+            --coffee-dark: #3e281d;
+            --green: #4f7d58;
+            --green-dark: #3e6546;
+            --green-light: #e8f1e9;
+            --text: #30271f;
+            --muted: #897c70;
+            --border: #e7ddd0;
+            --white: #ffffff;
+            --danger: #b94b4b;
+            --danger-light: #f9e8e8;
+            --warning: #b27a2c;
+            --warning-light: #fff3dc;
+            --shadow: 0 10px 35px rgba(91, 58, 41, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 250px;
+            height: 100vh;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 24px 16px;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 8px 12px 26px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+
+        .brand-name {
+            color: var(--coffee);
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-subtitle {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .nav-title {
+            color: #aa9c8e;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            padding: 0 12px 10px;
+            text-transform: uppercase;
+        }
+
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #65594f;
+            padding: 12px 13px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--cream);
+            color: var(--coffee);
+        }
+
+        .nav-link.active {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .nav-icon {
+            width: 23px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 76px;
+            background: rgba(255, 253, 248, 0.95);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 34px;
+            position: sticky;
+            top: 0;
+            z-index: 900;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title h1 {
+            font-size: 23px;
+            color: var(--coffee-dark);
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-info {
+            text-align: right;
+        }
+
+        .admin-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+        .admin-role {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .admin-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--coffee);
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        .content {
+            padding: 30px 34px 45px;
+        }
+
+        /* ================= STATS ================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 21px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            right: -30px;
+            top: -30px;
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            background: var(--cream);
+            opacity: 0.7;
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--cream);
+            font-size: 19px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 17px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-value {
+            font-size: 27px;
+            color: var(--coffee-dark);
+            font-weight: 800;
+            margin-top: 5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-note {
+            font-size: 11px;
+            color: var(--green);
+            margin-top: 7px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ================= TOOLBAR ================= */
+
+        .toolbar {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .toolbar-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 230px;
+            position: relative;
+        }
+
+        .search-box span {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a69889;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 43px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 0 14px 0 40px;
+            outline: none;
+            background: #fffefa;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .search-box input:focus,
+        .filter-select:focus,
+        .coupon-input:focus,
+        .coupon-select:focus {
+            border-color: var(--green);
+        }
+
+        .filter-select {
+            height: 43px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 0 35px 0 13px;
+            background: #fffefa;
+            color: var(--text);
+            outline: none;
+            min-width: 145px;
+            font-size: 13px;
+        }
+
+        .btn {
+            border: none;
+            border-radius: 11px;
+            height: 43px;
+            padding: 0 18px;
+            font-weight: 700;
+            font-size: 13px;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--cream);
+            color: var(--coffee);
+        }
+
+        .btn-secondary:hover {
+            background: var(--beige);
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 21px 22px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .table-header h2 {
+            font-size: 16px;
+            color: var(--coffee-dark);
+        }
+
+        .table-header span {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            text-align: left;
+            background: #fcf8f1;
+            color: #85776a;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 13px 18px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 16px 18px;
+            border-top: 1px solid #f0e8dd;
+            color: #51463d;
+            font-size: 12px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fffdf9;
+        }
+
+        .coupon-code {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--cream);
+            color: var(--coffee);
+            border: 1px dashed #d6c4ae;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .coupon-name {
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+        .discount-value {
+            font-weight: 800;
+            color: var(--green-dark);
+        }
+
+        .small-text {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .status::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status.active {
+            background: var(--green-light);
+            color: var(--green-dark);
+        }
+
+        .status.active::before {
+            background: var(--green);
+        }
+
+        .status.inactive {
+            background: #eeeae6;
+            color: #71675f;
+        }
+
+        .status.inactive::before {
+            background: #928980;
+        }
+
+        .status.expired {
+            background: var(--danger-light);
+            color: var(--danger);
+        }
+
+        .status.expired::before {
+            background: var(--danger);
+        }
+
+        .status.scheduled {
+            background: var(--warning-light);
+            color: var(--warning);
+        }
+
+        .status.scheduled::before {
+            background: var(--warning);
+        }
+
+        .usage {
+            font-weight: 700;
+            color: var(--coffee-dark);
+        }
+
+        .usage-bar {
+            width: 90px;
+            height: 5px;
+            background: #eee5da;
+            border-radius: 20px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .usage-fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 20px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: var(--ivory);
+            color: var(--coffee);
+            font-size: 13px;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            background: var(--cream);
+            border-color: var(--beige);
+        }
+
+        .action-btn.delete {
+            color: var(--danger);
+        }
+
+        .action-btn.delete:hover {
+            background: var(--danger-light);
+            border-color: #edcccc;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-state {
+            text-align: center;
+            padding: 70px 25px;
+        }
+
+        .empty-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 22px;
+            background: var(--cream);
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .empty-state h3 {
+            color: var(--coffee-dark);
+            font-size: 17px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            color: var(--muted);
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(48, 39, 31, 0.48);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: var(--white);
+            border-radius: 22px;
+            box-shadow: 0 25px 80px rgba(48, 39, 31, 0.2);
+        }
+
+        .modal-header {
+            padding: 21px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            color: var(--coffee-dark);
+        }
+
+        .modal-close {
+            width: 35px;
+            height: 35px;
+            border: none;
+            border-radius: 10px;
+            background: var(--cream);
+            color: var(--coffee);
+            font-size: 18px;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+        }
+
+        .form-group label {
+            display: block;
+            color: #675b51;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .coupon-input,
+        .coupon-select {
+            width: 100%;
+            height: 43px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0 12px;
+            background: #fffefa;
+            color: var(--text);
+            outline: none;
+            font-size: 13px;
+        }
+
+        textarea.coupon-input {
+            height: 85px;
+            padding: 12px;
+            resize: vertical;
+        }
+
+        .modal-footer {
+            padding: 18px 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* ================= DETAIL MODAL ================= */
+
+        .detail-code {
+            background: var(--cream);
+            border-radius: 15px;
+            padding: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .detail-code small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 6px;
+        }
+
+        .detail-code strong {
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: var(--coffee);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .detail-item {
+            padding: 13px;
+            background: #fcf8f1;
+            border-radius: 11px;
+        }
+
+        .detail-item small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-bottom: 5px;
+        }
+
+        .detail-item strong {
+            color: var(--coffee-dark);
+            font-size: 13px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 850px) {
+            .sidebar {
+                width: 72px;
+                padding: 18px 10px;
+            }
+
+            .brand-name,
+            .brand-subtitle,
+            .brand,
+            .nav-title {
+                display: none;
+            }
+
+            .nav-link {
+                justify-content: center;
+                padding: 13px 8px;
+            }
+
+            .nav-text {
+                display: none;
+            }
+
+            .main {
+                margin-left: 72px;
+            }
+
+            .topbar {
+                padding: 0 20px;
+            }
+
+            .content {
+                padding: 24px 20px;
+            }
+        }
+
+        @media (max-width: 620px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-info {
+                display: none;
+            }
+
+            .page-title h1 {
+                font-size: 19px;
+            }
+
+            .form-grid,
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group.full {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-name">GharSetu</div>
+            <div class="brand-subtitle">Admin Control Center</div>
+        </div>
+
+        <div class="nav-title">Main Menu</div>
+
+        <nav class="nav-menu">
+
+            <a href="/admin/dashboard" class="nav-link">
+                <span class="nav-icon">⌂</span>
+                <span class="nav-text">Dashboard</span>
+            </a>
+
+            <a href="/admin/customers" class="nav-link">
+                <span class="nav-icon">👥</span>
+                <span class="nav-text">Customers</span>
+            </a>
+
+            <a href="/admin/restaurants" class="nav-link">
+                <span class="nav-icon">🍽</span>
+                <span class="nav-text">Restaurants</span>
+            </a>
+
+            <a href="/admin/tiffin-sellers" class="nav-link">
+                <span class="nav-icon">🥘</span>
+                <span class="nav-text">Tiffin Sellers</span>
+            </a>
+
+            <a href="/admin/delivery" class="nav-link">
+                <span class="nav-icon">🛵</span>
+                <span class="nav-text">Delivery Partners</span>
+            </a>
+
+            <a href="/admin/orders" class="nav-link">
+                <span class="nav-icon">📦</span>
+                <span class="nav-text">Orders</span>
+            </a>
+
+            <a href="/admin/payments" class="nav-link">
+                <span class="nav-icon">💳</span>
+                <span class="nav-text">Payments</span>
+            </a>
+
+            <a href="/admin/complaints" class="nav-link">
+                <span class="nav-icon">💬</span>
+                <span class="nav-text">Complaints</span>
+            </a>
+
+            <a href="/admin/analytics" class="nav-link">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Analytics</span>
+            </a>
+
+            <a href="/admin/coupons" class="nav-link active">
+                <span class="nav-icon">🎟</span>
+                <span class="nav-text">Coupons</span>
+            </a>
+
+            <a href="/admin/settings" class="nav-link">
+                <span class="nav-icon">⚙</span>
+                <span class="nav-text">Settings</span>
+            </a>
+
+            <a href="/admin/profile" class="nav-link">
+                <span class="nav-icon">👤</span>
+                <span class="nav-text">Admin Profile</span>
+            </a>
+
+            <a href="/admin/logout" class="nav-link">
+                <span class="nav-icon">↪</span>
+                <span class="nav-text">Logout</span>
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="page-title">
+                <h1>Coupons & Discounts</h1>
+                <p>Manage promotional offers and discount campaigns</p>
+            </div>
+
+            <div class="admin-area">
+
+                <div class="admin-info">
+                    <div class="admin-name">
+                        <%= admin?.name || "Administrator" %>
+                    </div>
+
+                    <div class="admin-role">
+                        GharSetu Admin
+                    </div>
+                </div>
+
+                <div class="admin-avatar">
+                    <%= (admin?.name || "A").charAt(0).toUpperCase() %>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <section class="content">
+
+            <!-- ================= STATS ================= -->
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon">🎟</div>
+                    </div>
+
+                    <div class="stat-label">Total Coupons</div>
+
+                    <div class="stat-value">
+                        <%= typeof totalCoupons !== "undefined" ? totalCoupons : "12" %>
+                    </div>
+
+                    <div class="stat-note">
+                        All created coupons
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon">✓</div>
+                    </div>
+
+                    <div class="stat-label">Active Coupons</div>
+
+                    <div class="stat-value">
+                        <%= typeof activeCoupons !== "undefined" ? activeCoupons : "7" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Currently available
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon">⏱</div>
+                    </div>
+
+                    <div class="stat-label">Expired Coupons</div>
+
+                    <div class="stat-value">
+                        <%= typeof expiredCoupons !== "undefined" ? expiredCoupons : "3" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Campaigns ended
+                    </div>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <div class="stat-icon">📈</div>
+                    </div>
+
+                    <div class="stat-label">Total Usage</div>
+
+                    <div class="stat-value">
+                        <%= typeof totalCouponUsage !== "undefined" ? totalCouponUsage : "1,248" %>
+                    </div>
+
+                    <div class="stat-note">
+                        Coupon redemptions
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= TOOLBAR ================= -->
+
+            <div class="toolbar">
+
+                <form method="GET" action="/admin/coupons">
+
+                    <div class="toolbar-row">
+
+                        <div class="search-box">
+
+                            <span>⌕</span>
+
+                            <input
+                                type="text"
+                                name="search"
+                                value="<%= typeof search !== 'undefined' ? search : '' %>"
+                                placeholder="Search coupon code or campaign..."
+                            >
+
+                        </div>
+
+
+                        <select
+                            name="status"
+                            class="filter-select"
+                        >
+                            <option value="">All Status</option>
+                            <option value="active"
+                                <%= typeof status !== "undefined" && status === "active" ? "selected" : "" %>>
+                                Active
+                            </option>
+                            <option value="inactive"
+                                <%= typeof status !== "undefined" && status === "inactive" ? "selected" : "" %>>
+                                Inactive
+                            </option>
+                            <option value="scheduled"
+                                <%= typeof status !== "undefined" && status === "scheduled" ? "selected" : "" %>>
+                                Scheduled
+                            </option>
+                            <option value="expired"
+                                <%= typeof status !== "undefined" && status === "expired" ? "selected" : "" %>>
+                                Expired
+                            </option>
+                        </select>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-secondary"
+                        >
+                            Filter
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            onclick="openCreateCoupon()"
+                        >
+                            + Create Coupon
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- ================= TABLE ================= -->
+
+            <div class="table-card">
+
+                <div class="table-header">
+
+                    <div>
+                        <h2>Coupon Management</h2>
+                        <span>
+                            Manage all GharSetu promotional campaigns
+                        </span>
+                    </div>
+
+                    <span>
+                        <%= typeof coupons !== "undefined" && coupons ? coupons.length : 6 %> coupons
+                    </span>
+
+                </div>
+
+
+                <div class="table-wrapper">
+
+                    <% if (typeof coupons !== "undefined" && coupons && coupons.length > 0) { %>
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Coupon</th>
+                                    <th>Discount</th>
+                                    <th>Minimum Order</th>
+                                    <th>Usage</th>
+                                    <th>Validity</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <% coupons.forEach(function(coupon) { %>
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="coupon-code">
+                                                🎟
+                                                <%= coupon.code || "COUPON" %>
+                                            </div>
+
+                                            <div class="small-text">
+                                                <%= coupon.name || "Discount Campaign" %>
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="discount-value">
+
+                                                <% if (coupon.discountType === "percentage") { %>
+                                                    <%= coupon.discountValue || 0 %>%
+                                                <% } else { %>
+                                                    ₹<%= coupon.discountValue || 0 %>
+                                                <% } %>
+
+                                            </div>
+
+                                            <div class="small-text">
+                                                <%= coupon.discountType === "percentage"
+                                                    ? "Percentage discount"
+                                                    : "Fixed discount" %>
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <strong>
+                                                ₹<%= coupon.minimumOrder || 0 %>
+                                            </strong>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="usage">
+                                                <%= coupon.usedCount || 0 %>
+                                                /
+                                                <%= coupon.usageLimit || "∞" %>
+                                            </div>
+
+                                            <% if (coupon.usageLimit) { %>
+
+    <div class="usage-bar">
+        <div
+            class="usage-fill"
+            data-width="<%= Math.min(((coupon.usedCount || 0) / coupon.usageLimit) * 100, 100) %>"
+        ></div>
+    </div>
+
+<% } %>
+
+                                            <% } %>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div>
+                                                <%= coupon.startDate
+                                                    ? new Date(coupon.startDate).toLocaleDateString()
+                                                    : "-" %>
+                                            </div>
+
+                                            <div class="small-text">
+                                                to
+                                                <%= coupon.expiryDate
+                                                    ? new Date(coupon.expiryDate).toLocaleDateString()
+                                                    : "-" %>
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <%
+                                                var couponStatus =
+                                                    coupon.status ||
+                                                    "active";
+                                            %>
+
+                                            <span class="status <%= couponStatus %>">
+                                                <%= couponStatus.charAt(0).toUpperCase() + couponStatus.slice(1) %>
+                                            </span>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="actions">
+
+                                                <button
+                                                    type="button"
+                                                    class="action-btn"
+                                                    title="View"
+                                                    onclick="viewCoupon('<%= coupon._id %>')"
+                                                >
+                                                    👁
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    class="action-btn"
+                                                    title="Edit"
+                                                    onclick="editCoupon('<%= coupon._id %>')"
+                                                >
+                                                    ✎
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    class="action-btn delete"
+                                                    title="Delete"
+                                                    onclick="deleteCoupon('<%= coupon._id %>')"
+                                                >
+                                                    🗑
+                                                </button>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                <% }); %>
+
+                            </tbody>
+
+                        </table>
+
+                    <% } else { %>
+
+                        <!-- DEMO TABLE -->
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Coupon</th>
+                                    <th>Discount</th>
+                                    <th>Minimum Order</th>
+                                    <th>Usage</th>
+                                    <th>Validity</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr>
+
+                                    <td>
+                                        <div class="coupon-code">
+                                            🎟 GHAR50
+                                        </div>
+                                        <div class="small-text">
+                                            Welcome Offer
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="discount-value">
+                                            50%
+                                        </div>
+                                        <div class="small-text">
+                                            Percentage discount
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong>₹299</strong>
+                                    </td>
+
+                                    <td>
+                                        <div class="usage">420 / 1000</div>
+                                        <div class="usage-bar">
+                                            <div
+                                                class="usage-fill"
+                                                style="width:42%"
+                                            ></div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        01/09/2026
+                                        <div class="small-text">
+                                            to 30/09/2026
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoCoupon('GHAR50')"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="openCreateCoupon()"
+                                            >
+                                                ✎
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoCoupon('GHAR50')"
+                                            >
+                                                🗑
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <div class="coupon-code">
+                                            🎟 TIFFIN100
+                                        </div>
+                                        <div class="small-text">
+                                            Tiffin First Order
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="discount-value">
+                                            ₹100
+                                        </div>
+                                        <div class="small-text">
+                                            Fixed discount
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong>₹399</strong>
+                                    </td>
+
+                                    <td>
+                                        <div class="usage">185 / 500</div>
+                                        <div class="usage-bar">
+                                            <div
+                                                class="usage-fill"
+                                                style="width:37%"
+                                            ></div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        01/09/2026
+                                        <div class="small-text">
+                                            to 15/09/2026
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="status active">
+                                            Active
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoCoupon('TIFFIN100')"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="openCreateCoupon()"
+                                            >
+                                                ✎
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoCoupon('TIFFIN100')"
+                                            >
+                                                🗑
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <div class="coupon-code">
+                                            🎟 FOOD20
+                                        </div>
+                                        <div class="small-text">
+                                            Food Partner Offer
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="discount-value">
+                                            20%
+                                        </div>
+                                        <div class="small-text">
+                                            Percentage discount
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong>₹499</strong>
+                                    </td>
+
+                                    <td>
+                                        <div class="usage">312 / 800</div>
+                                        <div class="usage-bar">
+                                            <div
+                                                class="usage-fill"
+                                                style="width:39%"
+                                            ></div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        05/09/2026
+                                        <div class="small-text">
+                                            to 05/10/2026
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="status scheduled">
+                                            Scheduled
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoCoupon('FOOD20')"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="openCreateCoupon()"
+                                            >
+                                                ✎
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoCoupon('FOOD20')"
+                                            >
+                                                🗑
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <div class="coupon-code">
+                                            🎟 SAVE75
+                                        </div>
+                                        <div class="small-text">
+                                            Weekend Special
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="discount-value">
+                                            ₹75
+                                        </div>
+                                        <div class="small-text">
+                                            Fixed discount
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong>₹349</strong>
+                                    </td>
+
+                                    <td>
+                                        <div class="usage">275 / 300</div>
+                                        <div class="usage-bar">
+                                            <div
+                                                class="usage-fill"
+                                                style="width:91%"
+                                            ></div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        01/08/2026
+                                        <div class="small-text">
+                                            to 31/08/2026
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="status expired">
+                                            Expired
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoCoupon('SAVE75')"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="openCreateCoupon()"
+                                            >
+                                                ✎
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoCoupon('SAVE75')"
+                                            >
+                                                🗑
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <div class="coupon-code">
+                                            🎟 NEWUSER150
+                                        </div>
+                                        <div class="small-text">
+                                            New Customer Offer
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="discount-value">
+                                            ₹150
+                                        </div>
+                                        <div class="small-text">
+                                            Fixed discount
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong>₹699</strong>
+                                    </td>
+
+                                    <td>
+                                        <div class="usage">48 / 200</div>
+                                        <div class="usage-bar">
+                                            <div
+                                                class="usage-fill"
+                                                style="width:24%"
+                                            ></div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        10/09/2026
+                                        <div class="small-text">
+                                            to 10/10/2026
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="status scheduled">
+                                            Scheduled
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoCoupon('NEWUSER150')"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="openCreateCoupon()"
+                                            >
+                                                ✎
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoCoupon('NEWUSER150')"
+                                            >
+                                                🗑
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr>
+
+                                    <td>
+                                        <div class="coupon-code">
+                                            🎟 CAFE30
+                                        </div>
+                                        <div class="small-text">
+                                            Cafe Orders
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="discount-value">
+                                            30%
+                                        </div>
+                                        <div class="small-text">
+                                            Percentage discount
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <strong>₹599</strong>
+                                    </td>
+
+                                    <td>
+                                        <div class="usage">8 / 100</div>
+                                        <div class="usage-bar">
+                                            <div
+                                                class="usage-fill"
+                                                style="width:8%"
+                                            ></div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        15/09/2026
+                                        <div class="small-text">
+                                            to 15/10/2026
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <span class="status inactive">
+                                            Inactive
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <div class="actions">
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="viewDemoCoupon('CAFE30')"
+                                            >
+                                                👁
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn"
+                                                onclick="openCreateCoupon()"
+                                            >
+                                                ✎
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="action-btn delete"
+                                                onclick="deleteDemoCoupon('CAFE30')"
+                                            >
+                                                🗑
+                                            </button>
+                                        </div>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ================= CREATE COUPON MODAL ================= -->
+
+    <div
+        class="modal-overlay"
+        id="createCouponModal"
+    >
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2>Create New Coupon</h2>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    onclick="closeCreateCoupon()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                onsubmit="createCoupon(event)"
+            >
+
+                <div class="modal-body">
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+
+                            <label>Coupon Code</label>
+
+                            <input
+                                type="text"
+                                id="couponCode"
+                                class="coupon-input"
+                                placeholder="Example: GHAR50"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Campaign Name</label>
+
+                            <input
+                                type="text"
+                                id="couponName"
+                                class="coupon-input"
+                                placeholder="Example: Welcome Offer"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Discount Type</label>
+
+                            <select
+                                id="discountType"
+                                class="coupon-select"
+                            >
+                                <option value="percentage">
+                                    Percentage
+                                </option>
+                                <option value="fixed">
+                                    Fixed Amount
+                                </option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Discount Value</label>
+
+                            <input
+                                type="number"
+                                id="discountValue"
+                                class="coupon-input"
+                                placeholder="50"
+                                min="1"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Minimum Order</label>
+
+                            <input
+                                type="number"
+                                id="minimumOrder"
+                                class="coupon-input"
+                                placeholder="299"
+                                min="0"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Maximum Discount</label>
+
+                            <input
+                                type="number"
+                                id="maximumDiscount"
+                                class="coupon-input"
+                                placeholder="500"
+                                min="0"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Start Date</label>
+
+                            <input
+                                type="date"
+                                id="startDate"
+                                class="coupon-input"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Expiry Date</label>
+
+                            <input
+                                type="date"
+                                id="expiryDate"
+                                class="coupon-input"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Usage Limit</label>
+
+                            <input
+                                type="number"
+                                id="usageLimit"
+                                class="coupon-input"
+                                placeholder="1000"
+                                min="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>Status</label>
+
+                            <select
+                                id="couponStatus"
+                                class="coupon-select"
+                            >
+                                <option value="active">
+                                    Active
+                                </option>
+                                <option value="inactive">
+                                    Inactive
+                                </option>
+                                <option value="scheduled">
+                                    Scheduled
+                                </option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="form-group full">
+
+                            <label>Description</label>
+
+                            <textarea
+                                id="couponDescription"
+                                class="coupon-input"
+                                placeholder="Write a short description for this campaign..."
+                            ></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="closeCreateCoupon()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Create Coupon
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= VIEW COUPON MODAL ================= -->
+
+    <div
+        class="modal-overlay"
+        id="viewCouponModal"
+    >
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2>Coupon Details</h2>
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    onclick="closeViewCoupon()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="modal-body">
+
+                <div class="detail-code">
+
+                    <small>COUPON CODE</small>
+
+                    <strong id="detailCode">
+                        GHAR50
+                    </strong>
+
+                </div>
+
+
+                <div class="detail-grid">
+
+                    <div class="detail-item">
+                        <small>Campaign Name</small>
+                        <strong id="detailName">
+                            Welcome Offer
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <small>Discount</small>
+                        <strong id="detailDiscount">
+                            50%
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <small>Minimum Order</small>
+                        <strong id="detailMinimum">
+                            ₹299
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <small>Maximum Discount</small>
+                        <strong id="detailMaximum">
+                            ₹500
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <small>Usage</small>
+                        <strong id="detailUsage">
+                            420 / 1000
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <small>Status</small>
+                        <strong id="detailStatus">
+                            Active
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <small>Start Date</small>
+                        <strong id="detailStart">
+                            01/09/2026
+                        </strong>
+                    </div>
+
+                    <div class="detail-item">
+                        <small>Expiry Date</small>
+                        <strong id="detailExpiry">
+                            30/09/2026
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    onclick="closeViewCoupon()"
+                >
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function openCreateCoupon() {
+            document
+                .getElementById("createCouponModal")
+                .classList
+                .add("show");
+        }
+
+
+        function closeCreateCoupon() {
+            document
+                .getElementById("createCouponModal")
+                .classList
+                .remove("show");
+        }
+
+
+        function closeViewCoupon() {
+            document
+                .getElementById("viewCouponModal")
+                .classList
+                .remove("show");
+        }
+
+
+        function createCoupon(event) {
+
+            event.preventDefault();
+
+            var code =
+                document
+                    .getElementById("couponCode")
+                    .value
+                    .trim()
+                    .toUpperCase();
+
+            var name =
+                document
+                    .getElementById("couponName")
+                    .value
+                    .trim();
+
+            var type =
+                document
+                    .getElementById("discountType")
+                    .value;
+
+            var value =
+                document
+                    .getElementById("discountValue")
+                    .value;
+
+            if (!code || !name || !value) {
+                alert("Please fill all required fields.");
+                return;
+            }
+
+            alert(
+                "Coupon " +
+                code +
+                " created successfully in demo mode."
+            );
+
+            closeCreateCoupon();
+
+            event.target.reset();
+        }
+
+
+        function viewDemoCoupon(code) {
+
+            document
+                .getElementById("detailCode")
+                .textContent = code;
+
+            if (code === "GHAR50") {
+
+                document
+                    .getElementById("detailName")
+                    .textContent = "Welcome Offer";
+
+                document
+                    .getElementById("detailDiscount")
+                    .textContent = "50%";
+
+                document
+                    .getElementById("detailMinimum")
+                    .textContent = "₹299";
+
+                document
+                    .getElementById("detailMaximum")
+                    .textContent = "₹500";
+
+                document
+                    .getElementById("detailUsage")
+                    .textContent = "420 / 1000";
+
+                document
+                    .getElementById("detailStatus")
+                    .textContent = "Active";
+
+                document
+                    .getElementById("detailStart")
+                    .textContent = "01/09/2026";
+
+                document
+                    .getElementById("detailExpiry")
+                    .textContent = "30/09/2026";
+
+            } else if (code === "TIFFIN100") {
+
+                document
+                    .getElementById("detailName")
+                    .textContent = "Tiffin First Order";
+
+                document
+                    .getElementById("detailDiscount")
+                    .textContent = "₹100";
+
+                document
+                    .getElementById("detailMinimum")
+                    .textContent = "₹399";
+
+                document
+                    .getElementById("detailMaximum")
+                    .textContent = "₹100";
+
+                document
+                    .getElementById("detailUsage")
+                    .textContent = "185 / 500";
+
+                document
+                    .getElementById("detailStatus")
+                    .textContent = "Active";
+
+                document
+                    .getElementById("detailStart")
+                    .textContent = "01/09/2026";
+
+                document
+                    .getElementById("detailExpiry")
+                    .textContent = "15/09/2026";
+
+            } else {
+
+                document
+                    .getElementById("detailName")
+                    .textContent = "GharSetu Campaign";
+
+                document
+                    .getElementById("detailDiscount")
+                    .textContent = "Special Offer";
+
+                document
+                    .getElementById("detailMinimum")
+                    .textContent = "₹299";
+
+                document
+                    .getElementById("detailMaximum")
+                    .textContent = "₹500";
+
+                document
+                    .getElementById("detailUsage")
+                    .textContent = "Demo Usage";
+
+                document
+                    .getElementById("detailStatus")
+                    .textContent = "Campaign";
+
+                document
+                    .getElementById("detailStart")
+                    .textContent = "01/09/2026";
+
+                document
+                    .getElementById("detailExpiry")
+                    .textContent = "30/09/2026";
+            }
+
+            document
+                .getElementById("viewCouponModal")
+                .classList
+                .add("show");
+        }
+
+
+        function viewCoupon(id) {
+
+            fetch("/admin/coupons/" + id)
+                .then(function(response) {
+
+                    if (!response.ok) {
+                        throw new Error("Failed to load coupon.");
+                    }
+
+                    return response.json();
+
+                })
+                .then(function(data) {
+
+                    if (!data || !data.coupon) {
+                        throw new Error("Coupon data not found.");
+                    }
+
+                    var coupon = data.coupon;
+
+                    document
+                        .getElementById("detailCode")
+                        .textContent =
+                        coupon.code || "COUPON";
+
+                    document
+                        .getElementById("detailName")
+                        .textContent =
+                        coupon.name || "Discount Campaign";
+
+                    document
+                        .getElementById("detailDiscount")
+                        .textContent =
+                        coupon.discountType === "percentage"
+                            ? (coupon.discountValue || 0) + "%"
+                            : "₹" + (coupon.discountValue || 0);
+
+                    document
+                        .getElementById("detailMinimum")
+                        .textContent =
+                        "₹" + (coupon.minimumOrder || 0);
+
+                    document
+                        .getElementById("detailMaximum")
+                        .textContent =
+                        coupon.maximumDiscount
+                            ? "₹" + coupon.maximumDiscount
+                            : "-";
+
+                    document
+                        .getElementById("detailUsage")
+                        .textContent =
+                        (coupon.usedCount || 0) +
+                        " / " +
+                        (coupon.usageLimit || "∞");
+
+                    document
+                        .getElementById("detailStatus")
+                        .textContent =
+                        coupon.status || "Active";
+
+                    document
+                        .getElementById("detailStart")
+                        .textContent =
+                        coupon.startDate
+                            ? new Date(coupon.startDate).toLocaleDateString()
+                            : "-";
+
+                    document
+                        .getElementById("detailExpiry")
+                        .textContent =
+                        coupon.expiryDate
+                            ? new Date(coupon.expiryDate).toLocaleDateString()
+                            : "-";
+
+                    document
+                        .getElementById("viewCouponModal")
+                        .classList
+                        .add("show");
+
+                })
+                .catch(function(error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Coupon details are not connected yet."
+                    );
+
+                });
+        }
+
+
+        function editCoupon(id) {
+
+            alert(
+                "Edit feature backend connection pachi activate karishu."
+            );
+        }
+
+
+        function deleteCoupon(id) {
+
+            var confirmDelete =
+                confirm(
+                    "Are you sure you want to delete this coupon?"
+                );
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            alert(
+                "Delete feature backend connection pachi activate karishu."
+            );
+        }
+
+
+        function deleteDemoCoupon(code) {
+
+            var confirmDelete =
+                confirm(
+                    "Delete coupon " +
+                    code +
+                    "?"
+                );
+
+            if (!confirmDelete) {
+                return;
+            }
+
+            alert(
+                "Demo coupon " +
+                code +
+                " delete action."
+            );
+        }
+
+
+        document
+            .getElementById("createCouponModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target ===
+                        document.getElementById("createCouponModal")
+                    ) {
+                        closeCreateCoupon();
+                    }
+
+                }
+            );
+
+
+        document
+            .getElementById("viewCouponModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target ===
+                        document.getElementById("viewCouponModal")
+                    ) {
+                        closeViewCoupon();
+                    }
+
+                }
+            );
+
+    </script>
+
+</body>
+</html>

@@ -10,9 +10,1188 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Admin | Complaints</title>
+    <title>Complaints Management | GHARSETU</title>
 
     <link rel="stylesheet" href="/css/admin.css">
+
+    <style>
+
+        :root {
+            --ivory: #f8f4ec;
+            --ivory-light: #fffdf8;
+            --beige: #eee4d3;
+            --beige-dark: #ddcdb7;
+
+            --coffee: #3f2d25;
+            --coffee-light: #6d564b;
+            --coffee-soft: #907b70;
+
+            --green: #2f6f4e;
+            --green-dark: #245b3f;
+            --green-light: #e5f1e9;
+
+            --yellow: #b98216;
+            --yellow-light: #fff4d6;
+
+            --blue: #46718f;
+            --blue-light: #eaf3f8;
+
+            --red: #b84b4b;
+            --red-light: #fdeaea;
+
+            --white: #ffffff;
+
+            --text: #30251f;
+            --muted: #83746b;
+
+            --border: rgba(63, 45, 37, 0.10);
+
+            --shadow:
+                0 12px 35px
+                rgba(63, 45, 37, 0.07);
+
+            --radius: 20px;
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+            margin: 0;
+
+            background: var(--ivory);
+
+            color: var(--text);
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+
+        /* =====================================================
+           MAIN
+        ===================================================== */
+
+        .admin-main {
+            min-height: 100vh;
+
+            padding: 34px;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .page-header {
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 28px;
+        }
+
+
+        .page-header::before {
+            content: "ADMIN MANAGEMENT";
+
+            position: absolute;
+
+            margin-top: -58px;
+
+            color: var(--green);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.8px;
+        }
+
+
+        .page-header h1 {
+            margin: 0;
+
+            color: var(--coffee);
+
+            font-size: 34px;
+
+            line-height: 1.1;
+
+            letter-spacing: -0.8px;
+        }
+
+
+        .page-header p {
+            margin: 8px 0 0;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           STATISTICS
+        ===================================================== */
+
+        .stats-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 15px;
+
+            margin-bottom: 22px;
+        }
+
+
+        .stat-card {
+            position: relative;
+
+            min-height: 125px;
+
+            padding: 20px;
+
+            overflow: hidden;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+
+            box-shadow:
+                0 18px 40px
+                rgba(63, 45, 37, 0.10);
+        }
+
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            right: -25px;
+
+            bottom: -25px;
+
+            width: 80px;
+
+            height: 80px;
+
+            border-radius: 50%;
+
+            background: var(--green-light);
+
+            opacity: 0.8;
+        }
+
+
+        .stat-title {
+            position: relative;
+
+            z-index: 2;
+
+            display: block;
+
+            margin-bottom: 10px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+        }
+
+
+        .stat-card strong {
+            position: relative;
+
+            z-index: 2;
+
+            color: var(--coffee);
+
+            font-size: 30px;
+
+            line-height: 1;
+        }
+
+
+        .stat-card.pending::after {
+            background: var(--yellow-light);
+        }
+
+
+        .stat-card.progress::after {
+            background: var(--blue-light);
+        }
+
+
+        .stat-card.resolved::after {
+            background: var(--green-light);
+        }
+
+
+        .stat-card.closed::after {
+            background: var(--red-light);
+        }
+
+
+        .stat-card.pending strong {
+            color: var(--yellow);
+        }
+
+
+        .stat-card.progress strong {
+            color: var(--blue);
+        }
+
+
+        .stat-card.resolved strong {
+            color: var(--green);
+        }
+
+
+        .stat-card.closed strong {
+            color: var(--red);
+        }
+
+
+        /* =====================================================
+           FILTER CARD
+        ===================================================== */
+
+        .filter-card {
+            margin-bottom: 22px;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+        }
+
+
+        .filter-card form {
+            display: grid;
+
+            grid-template-columns:
+                minmax(260px, 1fr)
+                180px
+                180px
+                105px
+                85px;
+
+            gap: 10px;
+
+            padding: 18px;
+        }
+
+
+        .search-box {
+            min-height: 46px;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 14px;
+
+            background: var(--ivory-light);
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+        }
+
+
+        .search-box::before {
+            content: "🔍";
+
+            margin-right: 9px;
+
+            opacity: 0.65;
+        }
+
+
+        .search-box input {
+            width: 100%;
+
+            border: 0;
+
+            outline: 0;
+
+            background: transparent;
+
+            color: var(--coffee);
+
+            font-size: 13px;
+        }
+
+
+        .search-box input::placeholder {
+            color: #a89a91;
+        }
+
+
+        .filter-card select {
+            min-height: 46px;
+
+            padding: 0 12px;
+
+            background: var(--ivory-light);
+
+            color: var(--coffee);
+
+            border: 1px solid var(--border);
+
+            border-radius: 12px;
+
+            outline: 0;
+
+            cursor: pointer;
+
+            font-size: 12px;
+        }
+
+
+        .filter-btn,
+        .reset-btn {
+            min-height: 46px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border: 0;
+
+            border-radius: 12px;
+
+            cursor: pointer;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            font-weight: 750;
+        }
+
+
+        .filter-btn {
+            background: var(--green);
+
+            color: white;
+        }
+
+
+        .filter-btn:hover {
+            background: var(--green-dark);
+        }
+
+
+        .reset-btn {
+            background: var(--beige);
+
+            color: var(--coffee);
+        }
+
+
+        .reset-btn:hover {
+            background: var(--beige-dark);
+        }
+
+
+        /* =====================================================
+           TABLE CARD
+        ===================================================== */
+
+        .table-card {
+            overflow: hidden;
+
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+        }
+
+
+        .table-header {
+            min-height: 80px;
+
+            padding: 18px 22px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        .table-header h2 {
+            margin: 0;
+
+            color: var(--coffee);
+
+            font-size: 20px;
+        }
+
+
+        .table-header h2::before {
+            content: "SUPPORT CENTER";
+
+            display: block;
+
+            margin-bottom: 5px;
+
+            color: var(--green);
+
+            font-size: 9px;
+
+            font-weight: 800;
+
+            letter-spacing: 1.5px;
+        }
+
+
+        .table-header > span {
+            padding: 7px 11px;
+
+            border-radius: 9px;
+
+            background: var(--green-light);
+
+            color: var(--green);
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .table-wrapper {
+            width: 100%;
+
+            overflow-x: auto;
+        }
+
+
+        table {
+            width: 100%;
+
+            min-width: 1000px;
+
+            border-collapse: collapse;
+        }
+
+
+        thead th {
+            padding: 13px 18px;
+
+            background: #fcfaf6;
+
+            color: var(--coffee-soft);
+
+            text-align: left;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+
+        tbody td {
+            padding: 15px 18px;
+
+            border-bottom:
+                1px solid
+                rgba(63, 45, 37, 0.07);
+
+            vertical-align: middle;
+
+            font-size: 12px;
+        }
+
+
+        tbody tr {
+            transition: background 0.15s ease;
+        }
+
+
+        tbody tr:hover {
+            background: #fcfaf6;
+        }
+
+
+        tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+
+        /* =====================================================
+           COMPLAINT
+        ===================================================== */
+
+        .complaint-title {
+            max-width: 260px;
+        }
+
+
+        .complaint-title strong {
+            display: block;
+
+            overflow: hidden;
+
+            color: var(--coffee);
+
+            font-size: 12px;
+
+            text-overflow: ellipsis;
+
+            white-space: nowrap;
+        }
+
+
+        .complaint-title small {
+            display: block;
+
+            margin-top: 5px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+
+            line-height: 1.45;
+        }
+
+
+        /* =====================================================
+           USER
+        ===================================================== */
+
+        .user-info strong {
+            display: block;
+
+            color: var(--coffee);
+
+            font-size: 12px;
+        }
+
+
+        .user-info small {
+            display: block;
+
+            margin-top: 4px;
+
+            color: var(--muted);
+
+            font-size: 10px;
+        }
+
+
+        /* =====================================================
+           ROLE
+        ===================================================== */
+
+        .role-badge {
+            display: inline-flex;
+
+            padding: 6px 9px;
+
+            background: var(--beige);
+
+            color: var(--coffee-light);
+
+            border-radius: 8px;
+
+            font-size: 10px;
+
+            font-weight: 750;
+
+            text-transform: capitalize;
+
+            white-space: nowrap;
+        }
+
+
+        /* =====================================================
+           CATEGORY
+        ===================================================== */
+
+        tbody td:nth-child(4) {
+            color: var(--coffee-light);
+
+            font-weight: 600;
+
+            text-transform: capitalize;
+        }
+
+
+        /* =====================================================
+           STATUS
+        ===================================================== */
+
+        .status-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            padding: 6px 10px;
+
+            border-radius: 8px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: capitalize;
+
+            white-space: nowrap;
+        }
+
+
+        .status-pending {
+            background: var(--yellow-light);
+
+            color: var(--yellow);
+        }
+
+
+        .status-in_progress {
+            background: var(--blue-light);
+
+            color: var(--blue);
+        }
+
+
+        .status-resolved {
+            background: var(--green-light);
+
+            color: var(--green);
+        }
+
+
+        .status-closed {
+            background: var(--red-light);
+
+            color: var(--red);
+        }
+
+
+        /* =====================================================
+           VIEW BUTTON
+        ===================================================== */
+
+        .view-btn {
+            min-width: 62px;
+
+            min-height: 34px;
+
+            padding: 0 12px;
+
+            border: 0;
+
+            border-radius: 9px;
+
+            background: var(--coffee);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            transition: all 0.2s ease;
+        }
+
+
+        .view-btn:hover {
+            background: var(--green);
+
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .empty {
+            padding: 70px 20px !important;
+
+            color: var(--muted);
+
+            text-align: center;
+
+            font-size: 13px;
+        }
+
+
+        .empty::before {
+            content: "📭";
+
+            display: block;
+
+            margin-bottom: 12px;
+
+            font-size: 30px;
+        }
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .modal {
+            position: fixed;
+
+            inset: 0;
+
+            display: none;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            background:
+                rgba(45, 33, 27, 0.58);
+
+            backdrop-filter: blur(7px);
+
+            z-index: 9999;
+        }
+
+
+        .modal.show {
+            display: flex;
+        }
+
+
+        .modal-box {
+            position: relative;
+
+            width: min(760px, 100%);
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            padding: 27px;
+
+            background: var(--ivory-light);
+
+            border-radius: 24px;
+
+            box-shadow:
+                0 30px 90px
+                rgba(40, 27, 20, 0.28);
+        }
+
+
+        .close-btn {
+            position: absolute;
+
+            top: 17px;
+
+            right: 17px;
+
+            width: 36px;
+
+            height: 36px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: var(--beige);
+
+            color: var(--coffee);
+
+            cursor: pointer;
+
+            font-size: 23px;
+
+            line-height: 1;
+        }
+
+
+        .close-btn:hover {
+            background: var(--beige-dark);
+        }
+
+
+        .modal-box > h2 {
+            margin: 0;
+
+            padding-right: 45px;
+
+            color: var(--coffee);
+
+            font-size: 23px;
+        }
+
+
+        .modal-box > h2::after {
+            content: "Review, update and respond to this complaint";
+
+            display: block;
+
+            margin-top: 6px;
+
+            color: var(--muted);
+
+            font-size: 11px;
+
+            font-weight: 500;
+        }
+
+
+        #complaintDetails {
+            margin-top: 22px;
+        }
+
+
+        /* =====================================================
+           DETAIL ROW
+        ===================================================== */
+
+        .detail-row {
+            padding: 15px;
+
+            margin-bottom: 10px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: 14px;
+        }
+
+
+        .detail-row label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: var(--green);
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.8px;
+        }
+
+
+        .detail-row p {
+            margin: 0;
+
+            color: var(--coffee-light);
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+            word-break: break-word;
+        }
+
+
+        .detail-row select {
+            width: 100%;
+
+            min-height: 42px;
+
+            padding: 0 12px;
+
+            border: 1px solid var(--border);
+
+            border-radius: 10px;
+
+            background: var(--ivory);
+
+            color: var(--coffee);
+
+            outline: none;
+
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           REPLY
+        ===================================================== */
+
+        .reply-section {
+            padding: 17px;
+
+            margin-top: 15px;
+
+            background: var(--green-light);
+
+            border: 1px solid rgba(47, 111, 78, 0.12);
+
+            border-radius: 15px;
+        }
+
+
+        .reply-section label {
+            display: block;
+
+            margin-bottom: 9px;
+
+            color: var(--green-dark);
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .reply-section textarea {
+            width: 100%;
+
+            min-height: 110px;
+
+            padding: 12px;
+
+            resize: vertical;
+
+            border: 1px solid rgba(47, 111, 78, 0.16);
+
+            border-radius: 11px;
+
+            outline: none;
+
+            background: white;
+
+            color: var(--coffee);
+
+            font-size: 12px;
+        }
+
+
+        .reply-section textarea:focus {
+            border-color: var(--green);
+        }
+
+
+        .reply-btn {
+            min-height: 40px;
+
+            margin-top: 10px;
+
+            padding: 0 17px;
+
+            border: 0;
+
+            border-radius: 10px;
+
+            background: var(--green);
+
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+            font-weight: 750;
+        }
+
+
+        .reply-btn:hover {
+            background: var(--green-dark);
+        }
+
+
+        /* =====================================================
+           DELETE
+        ===================================================== */
+
+        .delete-btn {
+            width: 100%;
+
+            min-height: 42px;
+
+            margin-top: 14px;
+
+            border: 0;
+
+            border-radius: 11px;
+
+            background: var(--red-light);
+
+            color: var(--red);
+
+            cursor: pointer;
+
+            font-size: 11px;
+
+            font-weight: 800;
+        }
+
+
+        .delete-btn:hover {
+            background: #f8dada;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 1250px) {
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+
+            .filter-card form {
+                grid-template-columns:
+                    minmax(240px, 1fr)
+                    160px
+                    160px
+                    100px
+                    80px;
+            }
+
+        }
+
+
+        @media (max-width: 950px) {
+
+            .admin-main {
+                padding: 25px;
+            }
+
+
+            .stats-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .filter-card form {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .search-box {
+                grid-column: 1 / -1;
+            }
+
+        }
+
+
+        @media (max-width: 600px) {
+
+            .admin-main {
+                padding: 15px;
+            }
+
+
+            .page-header h1 {
+                font-size: 27px;
+            }
+
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+
+            .filter-card form {
+                grid-template-columns: 1fr;
+            }
+
+
+            .search-box {
+                grid-column: auto;
+            }
+
+
+            .table-header {
+                padding: 16px;
+
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+
+            .modal {
+                padding: 10px;
+            }
+
+
+            .modal-box {
+                padding: 19px;
+
+                border-radius: 20px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
@@ -34,8 +1213,6 @@
 <main class="admin-main">
 
 
-    <!-- HEADER -->
-
     <section class="page-header">
 
         <div>
@@ -53,10 +1230,9 @@
     </section>
 
 
-
-    <!-- =================================================
+    <!-- =====================================================
          STATISTICS
-    ================================================== -->
+    ===================================================== -->
 
     <section class="stats-grid">
 
@@ -64,11 +1240,11 @@
         <div class="stat-card">
 
             <span class="stat-title">
-                Total
+                Total Complaints
             </span>
 
             <strong>
-                <%= totalComplaints %>
+                <%= totalComplaints || 0 %>
             </strong>
 
         </div>
@@ -81,7 +1257,7 @@
             </span>
 
             <strong>
-                <%= pendingComplaints %>
+                <%= pendingComplaints || 0 %>
             </strong>
 
         </div>
@@ -94,7 +1270,7 @@
             </span>
 
             <strong>
-                <%= inProgressComplaints %>
+                <%= inProgressComplaints || 0 %>
             </strong>
 
         </div>
@@ -107,7 +1283,7 @@
             </span>
 
             <strong>
-                <%= resolvedComplaints %>
+                <%= resolvedComplaints || 0 %>
             </strong>
 
         </div>
@@ -120,7 +1296,7 @@
             </span>
 
             <strong>
-                <%= closedComplaints %>
+                <%= closedComplaints || 0 %>
             </strong>
 
         </div>
@@ -129,10 +1305,9 @@
     </section>
 
 
-
-    <!-- =================================================
+    <!-- =====================================================
          FILTER
-    ================================================== -->
+    ===================================================== -->
 
     <section class="filter-card">
 
@@ -149,7 +1324,7 @@
                     type="text"
                     name="search"
                     placeholder="Search complaint, name, mobile..."
-                    value="<%= search %>"
+                    value="<%= search || '' %>"
                 >
 
             </div>
@@ -164,12 +1339,14 @@
                     All Status
                 </option>
 
+
                 <option
                     value="pending"
                     <%= status === "pending" ? "selected" : "" %>
                 >
                     Pending
                 </option>
+
 
                 <option
                     value="in_progress"
@@ -178,6 +1355,7 @@
                     In Progress
                 </option>
 
+
                 <option
                     value="resolved"
                     <%= status === "resolved" ? "selected" : "" %>
@@ -185,12 +1363,14 @@
                     Resolved
                 </option>
 
+
                 <option
                     value="closed"
                     <%= status === "closed" ? "selected" : "" %>
                 >
                     Closed
                 </option>
+
 
             </select>
 
@@ -204,12 +1384,14 @@
                     All Users
                 </option>
 
+
                 <option
                     value="customer"
                     <%= role === "customer" ? "selected" : "" %>
                 >
                     Customer
                 </option>
+
 
                 <option
                     value="restaurant"
@@ -218,6 +1400,7 @@
                     Restaurant
                 </option>
 
+
                 <option
                     value="tiffinSeller"
                     <%= role === "tiffinSeller" ? "selected" : "" %>
@@ -225,12 +1408,14 @@
                     Tiffin Seller
                 </option>
 
+
                 <option
                     value="delivery"
                     <%= role === "delivery" ? "selected" : "" %>
                 >
                     Delivery Partner
                 </option>
+
 
             </select>
 
@@ -257,10 +1442,9 @@
     </section>
 
 
-
-    <!-- =================================================
+    <!-- =====================================================
          TABLE
-    ================================================== -->
+    ===================================================== -->
 
     <section class="table-card">
 
@@ -271,8 +1455,16 @@
                 Complaints
             </h2>
 
+
             <span>
-                <%= complaints.length %> results
+
+                <%= complaints
+                    ? complaints.length
+                    : 0
+                %>
+
+                results
+
             </span>
 
         </div>
@@ -324,7 +1516,10 @@
                 <tbody>
 
 
-                    <% if (complaints.length === 0) { %>
+                    <% if (
+                        !complaints ||
+                        complaints.length === 0
+                    ) { %>
 
 
                         <tr>
@@ -339,121 +1534,162 @@
                         </tr>
 
 
+                    <% } else { %>
+
+
+                        <% complaints.forEach(
+                            complaint => {
+                        %>
+
+
+                            <tr>
+
+
+                                <td>
+
+                                    <div class="complaint-title">
+
+                                        <strong>
+
+                                            <%= complaint.subject ||
+                                                "Untitled Complaint"
+                                            %>
+
+                                        </strong>
+
+
+                                        <small>
+
+                                            <%= complaint.description
+                                                ? (
+                                                    complaint.description.length > 70
+                                                        ? complaint.description.substring(
+                                                            0,
+                                                            70
+                                                        ) + "..."
+                                                        : complaint.description
+                                                )
+                                                : "No description available"
+                                            %>
+
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="user-info">
+
+                                        <strong>
+
+                                            <%= complaint.complainantName ||
+
+                                                (
+                                                    complaint.complainant
+                                                        ? complaint.complainant.name
+                                                        : "Unknown"
+                                                )
+                                            %>
+
+                                        </strong>
+
+
+                                        <small>
+
+                                            <%= complaint.complainantMobile ||
+
+                                                (
+                                                    complaint.complainant
+                                                        ? complaint.complainant.mobile
+                                                        : "-"
+                                                )
+                                            %>
+
+                                        </small>
+
+                                    </div>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span class="role-badge">
+
+                                        <%= complaint.complainantRole ||
+                                            "Unknown"
+                                        %>
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <%= complaint.category ||
+                                        "-"
+                                    %>
+
+                                </td>
+
+
+                                <td>
+
+                                    <span
+                                        class="status-badge status-<%= complaint.status || 'pending' %>"
+                                    >
+
+                                        <%= (
+                                            complaint.status ||
+                                            "pending"
+                                        ).replace(
+                                            "_",
+                                            " "
+                                        ) %>
+
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    <%= complaint.createdAt
+                                        ? new Date(
+                                            complaint.createdAt
+                                        ).toLocaleDateString(
+                                            "en-IN"
+                                        )
+                                        : "-"
+                                    %>
+
+                                </td>
+
+
+                                <td>
+
+                                    <button
+                                        type="button"
+                                        class="view-btn"
+                                        onclick="openComplaint('<%= complaint._id %>')"
+                                    >
+                                        View
+                                    </button>
+
+                                </td>
+
+
+                            </tr>
+
+
+                        <% }) %>
+
+
                     <% } %>
-
-
-                    <% complaints.forEach(complaint => { %>
-
-
-                        <tr>
-
-
-                            <td>
-
-                                <div class="complaint-title">
-
-                                    <strong>
-                                        <%= complaint.subject %>
-                                    </strong>
-
-                                    <small>
-                                        <%= complaint.description.length > 70
-                                            ? complaint.description.substring(0, 70) + "..."
-                                            : complaint.description
-                                        %>
-                                    </small>
-
-                                </div>
-
-                            </td>
-
-
-                            <td>
-
-                                <div class="user-info">
-
-                                    <strong>
-                                        <%= complaint.complainantName ||
-                                            (complaint.complainant
-                                                ? complaint.complainant.name
-                                                : "Unknown")
-                                        %>
-                                    </strong>
-
-                                    <small>
-                                        <%= complaint.complainantMobile ||
-                                            (complaint.complainant
-                                                ? complaint.complainant.mobile
-                                                : "-")
-                                        %>
-                                    </small>
-
-                                </div>
-
-                            </td>
-
-
-                            <td>
-
-                                <span class="role-badge">
-
-                                    <%= complaint.complainantRole %>
-
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <%= complaint.category %>
-
-                            </td>
-
-
-                            <td>
-
-                                <span
-                                    class="status-badge status-<%= complaint.status %>"
-                                >
-
-                                    <%= complaint.status.replace(
-                                        "_",
-                                        " "
-                                    ) %>
-
-                                </span>
-
-                            </td>
-
-
-                            <td>
-
-                                <%= new Date(
-                                    complaint.createdAt
-                                ).toLocaleDateString(
-                                    "en-IN"
-                                ) %>
-
-                            </td>
-
-
-                            <td>
-
-                                <button
-                                    class="view-btn"
-                                    onclick="openComplaint('<%= complaint._id %>')"
-                                >
-                                    View
-                                </button>
-
-                            </td>
-
-
-                        </tr>
-
-
-                    <% }) %>
 
 
                 </tbody>
@@ -471,7 +1707,6 @@
 </main>
 
 
-
 <!-- =====================================================
      MODAL
 ===================================================== -->
@@ -486,6 +1721,7 @@
 
 
         <button
+            type="button"
             class="close-btn"
             onclick="closeComplaint()"
         >
@@ -507,20 +1743,26 @@
 
     </div>
 
-</div>
 
+</div>
 
 
 <script>
 
+
+/* =====================================================
+   OPEN COMPLAINT
+===================================================== */
+
 async function openComplaint(id) {
 
-    const modal =
+    var modal =
         document.getElementById(
             "complaintModal"
         );
 
-    const details =
+
+    var details =
         document.getElementById(
             "complaintDetails"
         );
@@ -528,208 +1770,322 @@ async function openComplaint(id) {
 
     modal.classList.add("show");
 
+
     details.innerHTML =
-        "Loading...";
+        '<div class="detail-row">' +
+            '<p>Loading complaint details...</p>' +
+        '</div>';
 
 
     try {
 
-        const response =
+        var response =
             await fetch(
-                "/admin/complaints/" + id
+                "/admin/complaints/" +
+                encodeURIComponent(id)
             );
 
 
-        const data =
+        var data =
             await response.json();
 
 
-        if (!data.success) {
+        if (
+            !response.ok ||
+            !data.success
+        ) {
 
             details.innerHTML =
-                "<p>Complaint not found.</p>";
+                '<div class="detail-row">' +
+                    '<p>Complaint not found.</p>' +
+                '</div>';
 
             return;
 
         }
 
 
-        const complaint =
-            data.complaint;
+        var complaint =
+            data.complaint || {};
 
 
-        details.innerHTML = `
-
-            <div class="detail-row">
-
-                <label>Subject</label>
-
-                <p>
-                    ${escapeHtml(
-                        complaint.subject
-                    )}
-                </p>
-
-            </div>
+        var subject =
+            complaint.subject ||
+            "Untitled Complaint";
 
 
-            <div class="detail-row">
-
-                <label>Description</label>
-
-                <p>
-                    ${escapeHtml(
-                        complaint.description
-                    )}
-                </p>
-
-            </div>
+        var description =
+            complaint.description ||
+            "No description available";
 
 
-            <div class="detail-row">
+        var complainantName =
+            complaint.complainantName ||
+            (
+                complaint.complainant
+                    ? complaint.complainant.name
+                    : "Unknown"
+            );
 
-                <label>User</label>
 
-                <p>
-                    ${escapeHtml(
-                        complaint.complainantName ||
+        var complainantMobile =
+            complaint.complainantMobile ||
+            (
+                complaint.complainant
+                    ? complaint.complainant.mobile
+                    : "-"
+            );
+
+
+        var category =
+            complaint.category ||
+            "-";
+
+
+        var currentStatus =
+            complaint.status ||
+            "pending";
+
+
+        var adminResponse =
+            complaint.adminResponse ||
+            "";
+
+
+        var complaintId =
+            String(
+                complaint._id || id
+            );
+
+
+        var html = "";
+
+
+        html +=
+            '<div class="detail-row">' +
+
+                '<label>Subject</label>' +
+
+                '<p>' +
+                    escapeHtml(subject) +
+                '</p>' +
+
+            '</div>';
+
+
+        html +=
+            '<div class="detail-row">' +
+
+                '<label>Description</label>' +
+
+                '<p>' +
+                    escapeHtml(description) +
+                '</p>' +
+
+            '</div>';
+
+
+        html +=
+            '<div class="detail-row">' +
+
+                '<label>User</label>' +
+
+                '<p>' +
+                    escapeHtml(
+                        complainantName
+                    ) +
+                '</p>' +
+
+            '</div>';
+
+
+        html +=
+            '<div class="detail-row">' +
+
+                '<label>Mobile</label>' +
+
+                '<p>' +
+                    escapeHtml(
+                        complainantMobile
+                    ) +
+                '</p>' +
+
+            '</div>';
+
+
+        html +=
+            '<div class="detail-row">' +
+
+                '<label>Category</label>' +
+
+                '<p>' +
+                    escapeHtml(category) +
+                '</p>' +
+
+            '</div>';
+
+
+        html +=
+            '<div class="detail-row">' +
+
+                '<label>Status</label>' +
+
+                '<select ' +
+                    'id="statusSelect" ' +
+                    'data-id="' +
+                        escapeHtml(
+                            complaintId
+                        ) +
+                    '" ' +
+                    'onchange="updateStatus(this.dataset.id)"' +
+                '>' +
+
+                    '<option ' +
+                        'value="pending" ' +
                         (
-                            complaint.complainant
-                                ? complaint.complainant.name
-                                : "Unknown"
-                        )
-                    )}
-                </p>
+                            currentStatus === "pending"
+                                ? "selected"
+                                : ""
+                        ) +
+                    '>' +
+                        'Pending' +
+                    '</option>' +
 
-            </div>
-
-
-            <div class="detail-row">
-
-                <label>Mobile</label>
-
-                <p>
-                    ${escapeHtml(
-                        complaint.complainantMobile ||
+                    '<option ' +
+                        'value="in_progress" ' +
                         (
-                            complaint.complainant
-                                ? complaint.complainant.mobile
-                                : "-"
-                        )
-                    )}
-                </p>
+                            currentStatus === "in_progress"
+                                ? "selected"
+                                : ""
+                        ) +
+                    '>' +
+                        'In Progress' +
+                    '</option>' +
 
-            </div>
+                    '<option ' +
+                        'value="resolved" ' +
+                        (
+                            currentStatus === "resolved"
+                                ? "selected"
+                                : ""
+                        ) +
+                    '>' +
+                        'Resolved' +
+                    '</option>' +
 
+                    '<option ' +
+                        'value="closed" ' +
+                        (
+                            currentStatus === "closed"
+                                ? "selected"
+                                : ""
+                        ) +
+                    '>' +
+                        'Closed' +
+                    '</option>' +
 
-            <div class="detail-row">
+                '</select>' +
 
-                <label>Category</label>
-
-                <p>
-                    ${escapeHtml(
-                        complaint.category
-                    )}
-                </p>
-
-            </div>
-
-
-            <div class="detail-row">
-
-                <label>Status</label>
-
-                <select
-                    id="statusSelect"
-                    onchange="updateStatus('${complaint._id}')"
-                >
-
-                    <option value="pending"
-                        ${complaint.status === "pending" ? "selected" : ""}>
-                        Pending
-                    </option>
-
-                    <option value="in_progress"
-                        ${complaint.status === "in_progress" ? "selected" : ""}>
-                        In Progress
-                    </option>
-
-                    <option value="resolved"
-                        ${complaint.status === "resolved" ? "selected" : ""}>
-                        Resolved
-                    </option>
-
-                    <option value="closed"
-                        ${complaint.status === "closed" ? "selected" : ""}>
-                        Closed
-                    </option>
-
-                </select>
-
-            </div>
+            '</div>';
 
 
-            <div class="reply-section">
+        html +=
+            '<div class="reply-section">' +
 
-                <label>
-                    Admin Reply
-                </label>
+                '<label>' +
+                    'Admin Reply' +
+                '</label>' +
 
-                <textarea
-                    id="adminReply"
-                    placeholder="Write your response..."
-                >${escapeHtml(
-                    complaint.adminResponse || ""
-                )}</textarea>
+                '<textarea ' +
+                    'id="adminReply" ' +
+                    'placeholder="Write your response..."' +
+                '>' +
+                    escapeHtml(
+                        adminResponse
+                    ) +
+                '</textarea>' +
+
+                '<button ' +
+                    'type="button" ' +
+                    'class="reply-btn" ' +
+                    'data-id="' +
+                        escapeHtml(
+                            complaintId
+                        ) +
+                    '" ' +
+                    'onclick="sendReply(this.dataset.id)"' +
+                '>' +
+                    'Send Reply' +
+                '</button>' +
+
+            '</div>';
 
 
-                <button
-                    class="reply-btn"
-                    onclick="sendReply('${complaint._id}')"
-                >
-                    Send Reply
-                </button>
+        html +=
+            '<button ' +
+                'type="button" ' +
+                'class="delete-btn" ' +
+                'data-id="' +
+                    escapeHtml(
+                        complaintId
+                    ) +
+                '" ' +
+                'onclick="deleteComplaint(this.dataset.id)"' +
+            '>' +
+                'Delete Complaint' +
+            '</button>';
 
-            </div>
 
-
-            <button
-                class="delete-btn"
-                onclick="deleteComplaint('${complaint._id}')"
-            >
-                Delete Complaint
-            </button>
-
-        `;
+        details.innerHTML = html;
 
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "COMPLAINT DETAILS ERROR:",
+            error
+        );
+
 
         details.innerHTML =
-            "<p>Failed to load complaint.</p>";
+            '<div class="detail-row">' +
+                '<p>Failed to load complaint.</p>' +
+            '</div>';
 
     }
 
 }
 
 
+/* =====================================================
+   UPDATE STATUS
+===================================================== */
 
 async function updateStatus(id) {
 
-    const status =
+    var select =
         document.getElementById(
             "statusSelect"
-        ).value;
+        );
+
+
+    if (!select) {
+
+        return;
+
+    }
+
+
+    var status =
+        select.value;
 
 
     try {
 
-        const response =
+        var response =
             await fetch(
                 "/admin/complaints/" +
-                id +
+                encodeURIComponent(id) +
                 "/status",
                 {
 
@@ -744,14 +2100,14 @@ async function updateStatus(id) {
 
                     body:
                         JSON.stringify({
-                            status
+                            status: status
                         })
 
                 }
             );
 
 
-        const data =
+        var data =
             await response.json();
 
 
@@ -760,6 +2116,7 @@ async function updateStatus(id) {
             alert(
                 "Status updated successfully."
             );
+
 
             location.reload();
 
@@ -775,7 +2132,11 @@ async function updateStatus(id) {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "UPDATE STATUS ERROR:",
+            error
+        );
+
 
         alert(
             "Server error."
@@ -786,16 +2147,26 @@ async function updateStatus(id) {
 }
 
 
+/* =====================================================
+   SEND REPLY
+===================================================== */
 
 async function sendReply(id) {
 
-    const textarea =
+    var textarea =
         document.getElementById(
             "adminReply"
         );
 
 
-    const adminResponse =
+    if (!textarea) {
+
+        return;
+
+    }
+
+
+    var adminResponse =
         textarea.value.trim();
 
 
@@ -812,10 +2183,10 @@ async function sendReply(id) {
 
     try {
 
-        const response =
+        var response =
             await fetch(
                 "/admin/complaints/" +
-                id +
+                encodeURIComponent(id) +
                 "/reply",
                 {
 
@@ -830,14 +2201,15 @@ async function sendReply(id) {
 
                     body:
                         JSON.stringify({
-                            adminResponse
+                            adminResponse:
+                                adminResponse
                         })
 
                 }
             );
 
 
-        const data =
+        var data =
             await response.json();
 
 
@@ -846,6 +2218,7 @@ async function sendReply(id) {
             alert(
                 "Reply sent successfully."
             );
+
 
             location.reload();
 
@@ -861,7 +2234,11 @@ async function sendReply(id) {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "SEND REPLY ERROR:",
+            error
+        );
+
 
         alert(
             "Server error."
@@ -872,10 +2249,13 @@ async function sendReply(id) {
 }
 
 
+/* =====================================================
+   DELETE COMPLAINT
+===================================================== */
 
 async function deleteComplaint(id) {
 
-    const confirmDelete =
+    var confirmDelete =
         confirm(
             "Are you sure you want to delete this complaint?"
         );
@@ -890,10 +2270,10 @@ async function deleteComplaint(id) {
 
     try {
 
-        const response =
+        var response =
             await fetch(
                 "/admin/complaints/" +
-                id +
+                encodeURIComponent(id) +
                 "/delete",
                 {
 
@@ -903,15 +2283,16 @@ async function deleteComplaint(id) {
             );
 
 
-        const data =
+        var data =
             await response.json();
 
 
         if (data.success) {
 
             alert(
-                "Complaint deleted."
+                "Complaint deleted successfully."
             );
+
 
             location.reload();
 
@@ -927,7 +2308,11 @@ async function deleteComplaint(id) {
 
     } catch (error) {
 
-        console.error(error);
+        console.error(
+            "DELETE COMPLAINT ERROR:",
+            error
+        );
+
 
         alert(
             "Server error."
@@ -938,24 +2323,89 @@ async function deleteComplaint(id) {
 }
 
 
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
 
 function closeComplaint() {
 
-    document
-        .getElementById(
+    var modal =
+        document.getElementById(
             "complaintModal"
-        )
-        .classList.remove(
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove(
             "show"
         );
+
+    }
 
 }
 
 
+/* =====================================================
+   OUTSIDE CLICK
+===================================================== */
+
+var complaintModal =
+    document.getElementById(
+        "complaintModal"
+    );
+
+
+if (complaintModal) {
+
+    complaintModal.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target === complaintModal
+            ) {
+
+                closeComplaint();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =====================================================
+   ESC KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Escape"
+        ) {
+
+            closeComplaint();
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHtml(value) {
 
-    if (!value) {
+    if (
+        value === null ||
+        value === undefined
+    ) {
 
         return "";
 
@@ -964,28 +2414,28 @@ function escapeHtml(value) {
 
     return String(value)
 
-        .replaceAll(
-            "&",
+        .replace(
+            /&/g,
             "&amp;"
         )
 
-        .replaceAll(
-            "<",
+        .replace(
+            /</g,
             "&lt;"
         )
 
-        .replaceAll(
-            ">",
+        .replace(
+            />/g,
             "&gt;"
         )
 
-        .replaceAll(
-            '"',
+        .replace(
+            /"/g,
             "&quot;"
         )
 
-        .replaceAll(
-            "'",
+        .replace(
+            /'/g,
             "&#039;"
         );
 

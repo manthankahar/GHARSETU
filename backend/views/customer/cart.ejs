@@ -3,22 +3,42 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>GharSetu | Cart</title>
 
-    <link rel="stylesheet" href="/css/style.css">
+    <link
+        rel="stylesheet"
+        href="/css/style.css"
+    >
 </head>
 
 <body>
 
+    <!-- =================================
+         NAVBAR
+    ================================== -->
+
     <%- include("../partials/navbar") %>
+
+
+    <!-- =================================
+         MAIN CART
+    ================================== -->
 
     <main class="cart-page">
 
+        <!-- CART HEADER -->
+
         <section class="cart-header">
 
-            <p class="section-label">YOUR CART</p>
+            <p class="section-label">
+                YOUR CART
+            </p>
 
             <h1>
                 Your <span>GharSetu</span> meals.
@@ -31,93 +51,83 @@
         </section>
 
 
+        <!-- =================================
+             CART CONTAINER
+        ================================== -->
+
         <section class="cart-container">
 
-            <!-- CART ITEM -->
+            <div id="cartItems">
 
-            <div class="cart-item">
-
-                <div class="cart-image">
-
-                    <img
-                        src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80"
-                        alt="Gujarati Home Tiffin"
-                    >
-
-                </div>
-
-
-                <div class="cart-info">
-
-                    <span class="tiffin-badge">
-                        HOMEMADE
-                    </span>
+                <div class="cart-loading">
 
                     <h2>
-                        Gujarati Ghar Nu Tiffin
+                        Loading your cart...
                     </h2>
-
-                    <p>
-                        Rotli, shaak, dal, rice, salad and homemade sweet.
-                    </p>
-
-                    <div class="cart-price">
-                        ₹120
-                    </div>
-
-                </div>
-
-
-                <div class="cart-quantity">
-
-                    <button>-</button>
-
-                    <span>1</span>
-
-                    <button>+</button>
-
-                </div>
-
-
-                <div class="cart-total">
-
-                    <strong>
-                        ₹120
-                    </strong>
-
-                    <button class="remove-btn">
-                        Remove
-                    </button>
 
                 </div>
 
             </div>
 
 
-            <!-- CART SUMMARY -->
+            <!-- =================================
+                 CART SUMMARY
+            ================================== -->
 
-            <div class="cart-summary">
+            <div
+                class="cart-summary"
+                id="cartSummary"
+                style="display: none;"
+            >
 
                 <h2>
                     Order Summary
                 </h2>
 
                 <div class="summary-row">
-                    <span>Subtotal</span>
-                    <strong>₹120</strong>
+
+                    <span>
+                        Subtotal
+                    </span>
+
+                    <strong id="subtotal">
+                        ₹0
+                    </strong>
+
                 </div>
+
 
                 <div class="summary-row">
-                    <span>Delivery</span>
-                    <strong>₹20</strong>
+
+                    <span>
+                        Delivery
+                    </span>
+
+                    <strong id="deliveryCharge">
+                        ₹0
+                    </strong>
+
                 </div>
+
 
                 <div class="summary-row total">
-                    <span>Total</span>
-                    <strong>₹140</strong>
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="grandTotal">
+                        ₹0
+                    </strong>
+
                 </div>
 
-                <a href="/customer/checkout" class="primary-btn">
+
+                <a
+                    href="/customer/checkout"
+                    class="primary-btn"
+                    id="checkoutBtn"
+                >
                     Proceed to Checkout →
                 </a>
 
@@ -128,9 +138,1231 @@
     </main>
 
 
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
     <%- include("../partials/footer") %>
 
-    <script src="/js/cart.js"></script>
+
+    <!-- =================================
+         POPUP MESSAGE
+    ================================== -->
+
+    <div
+        id="cartMessage"
+        class="cart-message"
+    ></div>
+
+
+    <!-- =================================
+         JAVASCRIPT
+    ================================== -->
+
+    <script>
+
+        // =========================================
+        // ELEMENTS
+        // =========================================
+
+        const cartItemsContainer =
+            document.getElementById("cartItems");
+
+        const cartSummary =
+            document.getElementById("cartSummary");
+
+        const subtotalElement =
+            document.getElementById("subtotal");
+
+        const deliveryElement =
+            document.getElementById("deliveryCharge");
+
+        const grandTotalElement =
+            document.getElementById("grandTotal");
+
+        const cartMessage =
+            document.getElementById("cartMessage");
+
+        const checkoutBtn =
+            document.getElementById("checkoutBtn");
+
+
+        // =========================================
+        // CONSTANTS
+        // =========================================
+
+        const DELIVERY_CHARGE = 20;
+
+        const CART_API = "/api/cart";
+
+
+        // =========================================
+        // DEFAULT IMAGE
+        // =========================================
+
+        const DEFAULT_IMAGE =
+            "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=600&q=80";
+
+
+        // =========================================
+        // SHOW MESSAGE
+        // =========================================
+
+        function showMessage(message, type = "success") {
+
+            cartMessage.textContent = message;
+
+            cartMessage.classList.remove(
+                "show",
+                "error"
+            );
+
+            if (type === "error") {
+
+                cartMessage.classList.add("error");
+
+            }
+
+            cartMessage.classList.add("show");
+
+
+            setTimeout(() => {
+
+                cartMessage.classList.remove("show");
+
+            }, 2500);
+
+        }
+
+
+        // =========================================
+        // LOAD CART
+        // =========================================
+
+        async function loadCart() {
+
+            try {
+
+                cartItemsContainer.innerHTML = `
+
+                    <div class="cart-loading">
+
+                        <h2>
+                            Loading your cart...
+                        </h2>
+
+                    </div>
+
+                `;
+
+
+                const response = await fetch(
+                    CART_API,
+                    {
+                        method: "GET",
+
+                        credentials: "include",
+
+                        headers: {
+                            "Accept": "application/json"
+                        }
+                    }
+                );
+
+
+                const contentType =
+                    response.headers.get("content-type") || "";
+
+
+                if (!contentType.includes("application/json")) {
+
+                    throw new Error(
+                        "Server returned an invalid response"
+                    );
+
+                }
+
+
+                const data =
+                    await response.json();
+
+
+                // =================================
+                // AUTH ERROR
+                // =================================
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    cartSummary.style.display = "none";
+
+
+                    cartItemsContainer.innerHTML = `
+
+                        <div class="cart-error">
+
+                            <h2>
+                                Please Login
+                            </h2>
+
+                            <p>
+                                Login to see your cart.
+                            </p>
+
+                            <a
+                                href="/customer/login"
+                                class="primary-btn"
+                            >
+                                Login →
+                            </a>
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                // =================================
+                // GENERAL ERROR
+                // =================================
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to load cart"
+                    );
+
+                }
+
+
+                // =================================
+                // RENDER CART
+                // =================================
+
+                renderCart(
+                    data.items || []
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "LOAD CART ERROR:",
+                    error
+                );
+
+
+                cartItemsContainer.innerHTML = `
+
+                    <div class="cart-error">
+
+                        <h2>
+                            Unable to load cart
+                        </h2>
+
+                        <p>
+                            ${escapeHtml(
+                                error.message ||
+                                "Please try again."
+                            )}
+                        </p>
+
+                        <button
+                            type="button"
+                            class="primary-btn"
+                            onclick="loadCart()"
+                        >
+                            Try Again
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                cartSummary.style.display = "none";
+
+            }
+
+        }
+
+
+        // =========================================
+        // RENDER CART
+        // =========================================
+
+        function renderCart(items) {
+
+            // =================================
+            // EMPTY CART
+            // =================================
+
+            if (
+                !Array.isArray(items) ||
+                items.length === 0
+            ) {
+
+                cartItemsContainer.innerHTML = `
+
+                    <div class="cart-empty">
+
+                        <h2>
+                            Your cart is empty 🛒
+                        </h2>
+
+                        <p>
+                            Add some delicious meals
+                            to your cart.
+                        </p>
+
+                        <a
+                            href="/customer/tiffins"
+                            class="primary-btn"
+                        >
+                            Explore Tiffins →
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                cartSummary.style.display = "none";
+
+                return;
+
+            }
+
+
+            let html = "";
+
+            let subtotal = 0;
+
+
+            // =================================
+            // LOOP ITEMS
+            // =================================
+
+            items.forEach((item) => {
+
+                if (!item) {
+                    return;
+                }
+
+
+                // =================================
+                // ITEM TYPE
+                // =================================
+
+                let itemType =
+                    item.itemType;
+
+
+                // =================================
+                // OLD CART DATA SUPPORT
+                // =================================
+
+                if (
+                    !itemType &&
+                    item.product
+                ) {
+
+                    itemType = "product";
+
+                }
+
+
+                if (
+                    !itemType &&
+                    item.menuItem
+                ) {
+
+                    itemType = "menuItem";
+
+                }
+
+
+                // =================================
+                // ITEM DATA
+                // =================================
+
+                const itemData =
+                    itemType === "menuItem"
+                        ? item.menuItem
+                        : item.product;
+
+
+                if (
+                    !itemData ||
+                    typeof itemData !== "object"
+                ) {
+
+                    return;
+
+                }
+
+
+                // =================================
+                // ITEM ID
+                // =================================
+
+                const itemId =
+                    itemData._id;
+
+
+                if (!itemId) {
+
+                    return;
+
+                }
+
+
+                // =================================
+                // PRICE
+                // =================================
+
+                let price = 0;
+
+
+                if (itemType === "menuItem") {
+
+                    price =
+                        Number(
+                            itemData.finalPrice ??
+                            itemData.price ??
+                            0
+                        );
+
+                } else {
+
+                    price =
+                        Number(
+                            itemData.price ??
+                            0
+                        );
+
+                }
+
+
+                if (!Number.isFinite(price)) {
+
+                    price = 0;
+
+                }
+
+
+                // =================================
+                // QUANTITY
+                // =================================
+
+                let quantity =
+                    Number(
+                        item.quantity || 1
+                    );
+
+
+                if (
+                    !Number.isFinite(quantity) ||
+                    quantity < 1
+                ) {
+
+                    quantity = 1;
+
+                }
+
+
+                quantity =
+                    Math.floor(quantity);
+
+
+                // =================================
+                // ITEM TOTAL
+                // =================================
+
+                const itemTotal =
+                    price * quantity;
+
+
+                subtotal += itemTotal;
+
+
+                // =================================
+                // IMAGE
+                // =================================
+
+                const image =
+                    itemData.image ||
+                    DEFAULT_IMAGE;
+
+
+                // =================================
+                // NAME
+                // =================================
+
+                const name =
+                    itemData.name ||
+                    "Food Item";
+
+
+                // =================================
+                // DESCRIPTION
+                // =================================
+
+                const description =
+                    itemData.description ||
+                    "Fresh and delicious food.";
+
+
+                // =================================
+                // BADGE
+                // =================================
+
+                const badge =
+                    itemType === "menuItem"
+                        ? "RESTAURANT"
+                        : "HOMEMADE";
+
+
+                // =================================
+                // SAFE VALUES
+                // =================================
+
+                const safeType =
+                    escapeHtml(itemType);
+
+                const safeId =
+                    escapeHtml(String(itemId));
+
+                const safeImage =
+                    escapeHtml(image);
+
+                const safeName =
+                    escapeHtml(name);
+
+                const safeDescription =
+                    escapeHtml(description);
+
+                const safeBadge =
+                    escapeHtml(badge);
+
+
+                // =================================
+                // CART ITEM HTML
+                // =================================
+
+                html += `
+
+                    <div
+                        class="cart-item"
+                        data-item-type="${safeType}"
+                        data-item-id="${safeId}"
+                    >
+
+                        <div class="cart-image">
+
+                            <img
+                                src="${safeImage}"
+                                alt="${safeName}"
+                                onerror="this.onerror=null; this.src='${DEFAULT_IMAGE}'"
+                            >
+
+                        </div>
+
+
+                        <div class="cart-info">
+
+                            <span class="tiffin-badge">
+                                ${safeBadge}
+                            </span>
+
+                            <h2>
+                                ${safeName}
+                            </h2>
+
+                            <p>
+                                ${safeDescription}
+                            </p>
+
+                            <div class="cart-price">
+                                ₹${formatPrice(price)}
+                            </div>
+
+                        </div>
+
+
+                        <div class="cart-quantity">
+
+                            <button
+                                type="button"
+                                onclick="updateQuantity(
+                                    '${safeType}',
+                                    '${safeId}',
+                                    -1
+                                )"
+                                aria-label="Decrease quantity"
+                            >
+                                −
+                            </button>
+
+
+                            <span>
+                                ${quantity}
+                            </span>
+
+
+                            <button
+                                type="button"
+                                onclick="updateQuantity(
+                                    '${safeType}',
+                                    '${safeId}',
+                                    1
+                                )"
+                                aria-label="Increase quantity"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+
+                        <div class="cart-total">
+
+                            <strong>
+                                ₹${formatPrice(itemTotal)}
+                            </strong>
+
+
+                            <button
+                                type="button"
+                                class="remove-btn"
+                                onclick="removeFromCart(
+                                    '${safeType}',
+                                    '${safeId}'
+                                )"
+                            >
+                                Remove
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            });
+
+
+            // =================================
+            // NO VALID ITEMS
+            // =================================
+
+            if (!html.trim()) {
+
+                cartItemsContainer.innerHTML = `
+
+                    <div class="cart-empty">
+
+                        <h2>
+                            Your cart is empty 🛒
+                        </h2>
+
+                        <p>
+                            The items in your cart
+                            are no longer available.
+                        </p>
+
+                        <a
+                            href="/customer/tiffins"
+                            class="primary-btn"
+                        >
+                            Explore Tiffins →
+                        </a>
+
+                    </div>
+
+                `;
+
+
+                cartSummary.style.display = "none";
+
+                return;
+
+            }
+
+
+            // =================================
+            // INSERT CART
+            // =================================
+
+            cartItemsContainer.innerHTML =
+                html;
+
+
+            // =================================
+            // DELIVERY CHARGE
+            // =================================
+
+            const deliveryCharge =
+                subtotal > 0
+                    ? DELIVERY_CHARGE
+                    : 0;
+
+
+            // =================================
+            // GRAND TOTAL
+            // =================================
+
+            const grandTotal =
+                subtotal +
+                deliveryCharge;
+
+
+            // =================================
+            // DISPLAY TOTALS
+            // =================================
+
+            subtotalElement.textContent =
+                "₹" +
+                formatPrice(subtotal);
+
+
+            deliveryElement.textContent =
+                "₹" +
+                formatPrice(deliveryCharge);
+
+
+            grandTotalElement.textContent =
+                "₹" +
+                formatPrice(grandTotal);
+
+
+            cartSummary.style.display =
+                "block";
+
+        }
+
+
+        // =========================================
+        // UPDATE QUANTITY
+        // =========================================
+
+        async function updateQuantity(
+            itemType,
+            itemId,
+            change
+        ) {
+
+            try {
+
+                if (
+                    !itemType ||
+                    !itemId
+                ) {
+
+                    showMessage(
+                        "Invalid cart item",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                const body = {
+                    itemType: itemType,
+                    change: Number(change)
+                };
+
+
+                // =================================
+                // MENU ITEM
+                // =================================
+
+                if (itemType === "menuItem") {
+
+                    body.menuItemId =
+                        itemId;
+
+                }
+
+                // =================================
+                // PRODUCT
+                // =================================
+
+                else {
+
+                    body.productId =
+                        itemId;
+
+                }
+
+
+                const response =
+                    await fetch(
+                        `${CART_API}/update`,
+                        {
+                            method: "PUT",
+
+                            credentials: "include",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(body)
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // =================================
+                // AUTH
+                // =================================
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    showMessage(
+                        "Please login first",
+                        "error"
+                    );
+
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "/customer/login";
+
+                    }, 700);
+
+
+                    return;
+
+                }
+
+
+                // =================================
+                // ERROR
+                // =================================
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to update cart"
+                    );
+
+                }
+
+
+                // =================================
+                // SUCCESS
+                // =================================
+
+                showMessage(
+                    change > 0
+                        ? "Quantity increased"
+                        : "Quantity decreased"
+                );
+
+
+                await loadCart();
+
+
+            } catch (error) {
+
+                console.error(
+                    "UPDATE QUANTITY ERROR:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Failed to update cart",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // REMOVE FROM CART
+        // =========================================
+
+        async function removeFromCart(
+            itemType,
+            itemId
+        ) {
+
+            try {
+
+                if (
+                    !itemType ||
+                    !itemId
+                ) {
+
+                    showMessage(
+                        "Invalid cart item",
+                        "error"
+                    );
+
+                    return;
+
+                }
+
+
+                const body = {
+                    itemType: itemType
+                };
+
+
+                // =================================
+                // MENU ITEM
+                // =================================
+
+                if (itemType === "menuItem") {
+
+                    body.menuItemId =
+                        itemId;
+
+                }
+
+                // =================================
+                // PRODUCT
+                // =================================
+
+                else {
+
+                    body.productId =
+                        itemId;
+
+                }
+
+
+                const response =
+                    await fetch(
+                        `${CART_API}/remove`,
+                        {
+                            method: "DELETE",
+
+                            credentials: "include",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(body)
+                        }
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+                // =================================
+                // AUTH
+                // =================================
+
+                if (
+                    response.status === 401 ||
+                    response.status === 403
+                ) {
+
+                    showMessage(
+                        "Please login first",
+                        "error"
+                    );
+
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            "/customer/login";
+
+                    }, 700);
+
+
+                    return;
+
+                }
+
+
+                // =================================
+                // ERROR
+                // =================================
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to remove item"
+                    );
+
+                }
+
+
+                showMessage(
+                    "Item removed from cart"
+                );
+
+
+                await loadCart();
+
+
+            } catch (error) {
+
+                console.error(
+                    "REMOVE CART ERROR:",
+                    error
+                );
+
+
+                showMessage(
+                    error.message ||
+                    "Failed to remove item",
+                    "error"
+                );
+
+            }
+
+        }
+
+
+        // =========================================
+        // CHECKOUT
+        // =========================================
+
+        checkoutBtn.addEventListener(
+            "click",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            CART_API,
+                            {
+                                method: "GET",
+
+                                credentials: "include",
+
+                                headers: {
+                                    "Accept":
+                                        "application/json"
+                                }
+                            }
+                        );
+
+
+                    const contentType =
+                        response.headers.get(
+                            "content-type"
+                        ) || "";
+
+
+                    if (
+                        !contentType.includes(
+                            "application/json"
+                        )
+                    ) {
+
+                        throw new Error(
+                            "Invalid server response"
+                        );
+
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    // =================================
+                    // AUTH
+                    // =================================
+
+                    if (
+                        response.status === 401 ||
+                        response.status === 403
+                    ) {
+
+                        showMessage(
+                            "Please login first",
+                            "error"
+                        );
+
+
+                        setTimeout(() => {
+
+                            window.location.href =
+                                "/customer/login";
+
+                        }, 800);
+
+
+                        return;
+
+                    }
+
+
+                    // =================================
+                    // ERROR
+                    // =================================
+
+                    if (
+                        !response.ok ||
+                        !data.success
+                    ) {
+
+                        throw new Error(
+                            data.message ||
+                            "Unable to verify cart"
+                        );
+
+                    }
+
+
+                    // =================================
+                    // EMPTY CART
+                    // =================================
+
+                    if (
+                        !Array.isArray(data.items) ||
+                        data.items.length === 0
+                    ) {
+
+                        showMessage(
+                            "Your cart is empty",
+                            "error"
+                        );
+
+
+                        return;
+
+                    }
+
+
+                    // =================================
+                    // GO CHECKOUT
+                    // =================================
+
+                    window.location.href =
+                        "/customer/checkout";
+
+                } catch (error) {
+
+                    console.error(
+                        "CHECKOUT ERROR:",
+                        error
+                    );
+
+
+                    showMessage(
+                        error.message ||
+                        "Unable to continue to checkout",
+                        "error"
+                    );
+
+                }
+
+            }
+        );
+
+
+        // =========================================
+        // FORMAT PRICE
+        // =========================================
+
+        function formatPrice(value) {
+
+            const number =
+                Number(value || 0);
+
+
+            return number.toLocaleString(
+                "en-IN",
+                {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                }
+            );
+
+        }
+
+
+        // =========================================
+        // ESCAPE HTML
+        // =========================================
+
+        function escapeHtml(value) {
+
+            return String(value)
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // =========================================
+        // PAGE LOAD
+        // =========================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
+
+                loadCart();
+
+            }
+        );
+
+    </script>
 
 </body>
 

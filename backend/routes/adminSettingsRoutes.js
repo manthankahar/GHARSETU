@@ -4,6 +4,7 @@ const router = express.Router();
 
 const {
     getAdminSettings,
+    getAdminProfile,
     updateAdminProfile,
     changeAdminPassword
 } = require("../controllers/adminSettingsController");
@@ -18,6 +19,16 @@ router.get(
     "/settings",
     adminMiddleware,
     getAdminSettings
+);
+
+
+// ==========================================
+// ADMIN PROFILE PAGE
+// ==========================================
+router.get(
+    "/profile",
+    adminMiddleware,
+    getAdminProfile
 );
 
 

@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>GharSetu | Payments</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ivory: #fffaf2;
+            --cream: #f7efe2;
+            --beige: #eadbc8;
+            --brown: #684832;
+            --dark-brown: #3f2b20;
+            --green: #47755b;
+            --green-dark: #31583f;
+            --green-light: #e8f2eb;
+            --white: #ffffff;
+            --text: #30241e;
+            --muted: #8a7b70;
+            --border: #eadfd2;
+            --shadow: 0 12px 35px rgba(72, 48, 30, 0.08);
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--ivory);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 250px;
+            background: #fffdf8;
+            border-right: 1px solid var(--border);
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .brand {
+            padding: 25px 22px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-name {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--brown);
+            letter-spacing: -0.8px;
+        }
+
+        .brand-subtitle {
+            margin-top: 5px;
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+        }
+
+        .admin-badge {
+            margin-top: 15px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--green-light);
+            color: var(--green-dark);
+            padding: 7px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .admin-badge-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+        .nav-section {
+            padding: 22px 14px 8px;
+        }
+
+        .nav-title {
+            font-size: 10px;
+            font-weight: 800;
+            color: #aa9b8e;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            padding: 0 12px 9px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 12px;
+            border-radius: 11px;
+            margin-bottom: 4px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #76675d;
+            transition: 0.2s ease;
+        }
+
+        .nav-link:hover {
+            background: #f7efe3;
+            color: var(--brown);
+        }
+
+        .nav-link.active {
+            background: var(--green);
+            color: white;
+            box-shadow: 0 7px 18px rgba(71, 117, 91, 0.20);
+        }
+
+        .nav-icon {
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 7px;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .nav-link.active .nav-icon {
+            background: rgba(255,255,255,0.16);
+        }
+
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 28px 32px 50px;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+
+        .page-title h1 {
+            font-size: 29px;
+            color: var(--dark-brown);
+            letter-spacing: -0.7px;
+        }
+
+        .page-title p {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            padding: 8px 13px 8px 8px;
+            border-radius: 14px;
+            box-shadow: 0 5px 18px rgba(72,48,30,0.05);
+        }
+
+        .admin-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 11px;
+            background: var(--green);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .admin-info strong {
+            display: block;
+            font-size: 12px;
+            color: var(--dark-brown);
+        }
+
+        .admin-info span {
+            display: block;
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 19px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            right: -28px;
+            bottom: -28px;
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #f7efe4;
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .icon-total {
+            background: #f5eadb;
+        }
+
+        .icon-success {
+            background: var(--green-light);
+        }
+
+        .icon-pending {
+            background: #fff3d8;
+        }
+
+        .icon-failed {
+            background: #f9e6df;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .stat-value {
+            margin-top: 14px;
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--dark-brown);
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-bottom {
+            margin-top: 7px;
+            color: var(--muted);
+            font-size: 11px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-bottom strong {
+            color: var(--green);
+        }
+
+        /* =========================
+           FILTER BOX
+        ========================= */
+
+        .filter-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 17px;
+            box-shadow: var(--shadow);
+            margin-bottom: 22px;
+        }
+
+        .filter-form {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 1fr auto;
+            gap: 12px;
+            align-items: end;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            color: #76675d;
+            margin-bottom: 7px;
+        }
+
+        .input-wrap {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a49589;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 42px;
+            border: 1px solid var(--border);
+            background: #fffdf9;
+            border-radius: 10px;
+            outline: none;
+            padding: 0 12px;
+            color: var(--text);
+            font-size: 12px;
+            transition: 0.2s ease;
+        }
+
+        .search-input {
+            padding-left: 36px;
+        }
+
+        .form-control:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(71,117,91,0.08);
+        }
+
+        .btn {
+            height: 42px;
+            border: 0;
+            border-radius: 10px;
+            padding: 0 18px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--green);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--green-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-light {
+            background: #f6eee3;
+            color: var(--brown);
+        }
+
+        .btn-light:hover {
+            background: #eee2d4;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 19px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-heading h2 {
+            font-size: 16px;
+            color: var(--dark-brown);
+        }
+
+        .table-heading p {
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .transaction-count {
+            padding: 7px 11px;
+            background: #f7efe3;
+            color: var(--brown);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        thead {
+            background: #fcf7ef;
+        }
+
+        th {
+            padding: 13px 17px;
+            text-align: left;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #98887b;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px 17px;
+            border-top: 1px solid #f1e8de;
+            font-size: 12px;
+            color: #5c4c42;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            transition: 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #fffaf4;
+        }
+
+        .payment-id {
+            font-family: monospace;
+            font-size: 11px;
+            color: var(--brown);
+            font-weight: 700;
+        }
+
+        .customer-cell {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+        }
+
+        .customer-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: #eee1d2;
+            color: var(--brown);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .customer-name {
+            font-weight: 700;
+            color: var(--dark-brown);
+            font-size: 12px;
+        }
+
+        .customer-email {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .amount {
+            font-weight: 800;
+            color: var(--dark-brown);
+        }
+
+        .payment-method {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 9px;
+            border-radius: 8px;
+            background: #f5eee5;
+            color: var(--brown);
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 800;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+
+        .status-success {
+            background: #e9f4ec;
+            color: #3c7050;
+        }
+
+        .status-success .status-dot {
+            background: #4e9668;
+        }
+
+        .status-pending {
+            background: #fff3d7;
+            color: #a87920;
+        }
+
+        .status-pending .status-dot {
+            background: #d79b2d;
+        }
+
+        .status-failed {
+            background: #f9e6e1;
+            color: #aa594b;
+        }
+
+        .status-failed .status-dot {
+            background: #c76656;
+        }
+
+        .status-refunded {
+            background: #eee9f6;
+            color: #725b9b;
+        }
+
+        .status-refunded .status-dot {
+            background: #8065af;
+        }
+
+        .view-btn {
+            border: 1px solid var(--border);
+            background: white;
+            color: var(--brown);
+            padding: 7px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .view-btn:hover {
+            background: #f7efe4;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 14px;
+            border-radius: 18px;
+            background: #f6eee3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+        }
+
+        .empty-state h3 {
+            font-size: 16px;
+            color: var(--dark-brown);
+        }
+
+        .empty-state p {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(48, 36, 30, 0.48);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(48,36,30,0.22);
+            overflow: hidden;
+            animation: modalIn 0.2s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-header h3 {
+            font-size: 17px;
+            color: var(--dark-brown);
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border: 0;
+            background: #f7efe4;
+            color: var(--brown);
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 17px;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 13px;
+        }
+
+        .detail-item {
+            padding: 14px;
+            border: 1px solid var(--border);
+            background: #fffdf9;
+            border-radius: 11px;
+        }
+
+        .detail-label {
+            font-size: 10px;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            margin-top: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--dark-brown);
+            word-break: break-word;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            background: #fcf7ef;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        .mobile-menu {
+            display: none;
+        }
+
+        @media (max-width: 1150px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: 0.25s ease;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .mobile-menu {
+                display: flex;
+                width: 40px;
+                height: 40px;
+                border: 1px solid var(--border);
+                background: white;
+                border-radius: 10px;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                color: var(--brown);
+                font-size: 19px;
+            }
+
+            .topbar {
+                gap: 12px;
+            }
+
+            .page-title {
+                flex: 1;
+            }
+
+            .page-title h1 {
+                font-size: 23px;
+            }
+
+            .admin-profile {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-form {
+                grid-template-columns: 1fr;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-layout">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <div class="brand-name">GharSetu</div>
+
+            <div class="brand-subtitle">
+                Admin Control Center
+            </div>
+
+            <div class="admin-badge">
+                <span class="admin-badge-dot"></span>
+                Administrator
+            </div>
+        </div>
+
+        <div class="nav-section">
+
+            <div class="nav-title">Main</div>
+
+            <a href="/admin/dashboard" class="nav-link">
+                <span class="nav-icon">⌂</span>
+                Dashboard
+            </a>
+
+            <a href="/admin/customers" class="nav-link">
+                <span class="nav-icon">👥</span>
+                Customers
+            </a>
+
+            <a href="/admin/restaurants" class="nav-link">
+                <span class="nav-icon">🍽</span>
+                Restaurants
+            </a>
+
+            <a href="/admin/tiffin-sellers" class="nav-link">
+                <span class="nav-icon">🥘</span>
+                Tiffin Sellers
+            </a>
+
+            <a href="/admin/delivery" class="nav-link">
+                <span class="nav-icon">🛵</span>
+                Delivery Partners
+            </a>
+
+            <a href="/admin/orders" class="nav-link">
+                <span class="nav-icon">📦</span>
+                Orders
+            </a>
+
+            <a href="/admin/payments" class="nav-link active">
+                <span class="nav-icon">💳</span>
+                Payments
+            </a>
+
+            <a href="/admin/complaints" class="nav-link">
+                <span class="nav-icon">💬</span>
+                Complaints
+            </a>
+
+        </div>
+
+        <div class="nav-section">
+
+            <div class="nav-title">Business</div>
+
+            <a href="/admin/analytics" class="nav-link">
+                <span class="nav-icon">📊</span>
+                Analytics
+            </a>
+
+            <a href="/admin/settings" class="nav-link">
+                <span class="nav-icon">⚙</span>
+                Settings
+            </a>
+
+            <a href="/admin/profile" class="nav-link">
+                <span class="nav-icon">👤</span>
+                Admin Profile
+            </a>
+
+        </div>
+
+        <div class="nav-section">
+
+            <a href="/admin/logout" class="nav-link">
+                <span class="nav-icon">↪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="main-content">
+
+        <div class="topbar">
+
+            <button class="mobile-menu" onclick="toggleSidebar()">
+                ☰
+            </button>
+
+            <div class="page-title">
+                <h1>Payments</h1>
+                <p>Monitor and manage all GharSetu payment transactions.</p>
+            </div>
+
+            <div class="admin-profile">
+
+                <div class="admin-avatar">
+                    <%= admin && admin.name ? admin.name.charAt(0).toUpperCase() : "A" %>
+                </div>
+
+                <div class="admin-info">
+                    <strong>
+                        <%= admin && admin.name ? admin.name : "Administrator" %>
+                    </strong>
+
+                    <span>Super Admin</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             PAYMENT STATS
+        ========================== -->
+
+        <section class="stats-grid">
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">Total Payments</div>
+                    </div>
+
+                    <div class="stat-icon icon-total">
+                        💳
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    <%= typeof totalPayments !== "undefined" ? totalPayments : 0 %>
+                </div>
+
+                <div class="stat-bottom">
+                    All recorded transactions
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">Successful</div>
+                    </div>
+
+                    <div class="stat-icon icon-success">
+                        ✓
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    <%= typeof successfulPayments !== "undefined" ? successfulPayments : 0 %>
+                </div>
+
+                <div class="stat-bottom">
+                    <strong>Completed</strong> payments
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+
+                    <div class="stat-icon icon-pending">
+                        ⏳
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    <%= typeof pendingPayments !== "undefined" ? pendingPayments : 0 %>
+                </div>
+
+                <div class="stat-bottom">
+                    Awaiting confirmation
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">Failed / Refunded</div>
+                    </div>
+
+                    <div class="stat-icon icon-failed">
+                        ↩
+                    </div>
+
+                </div>
+
+                <div class="stat-value">
+                    <%= typeof failedPayments !== "undefined" ? failedPayments : 0 %>
+                </div>
+
+                <div class="stat-bottom">
+                    Failed or refunded
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             FILTERS
+        ========================== -->
+
+        <section class="filter-card">
+
+            <form action="/admin/payments" method="GET" class="filter-form">
+
+                <div class="form-group">
+
+                    <label for="search">
+                        Search Payment
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <span class="search-icon">⌕</span>
+
+                        <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            class="form-control search-input"
+                            placeholder="Payment ID, order ID, customer..."
+                            value="<%= typeof search !== "undefined" && search ? search : "" %>"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="status">
+                        Payment Status
+                    </label>
+
+                    <select
+                        id="status"
+                        name="status"
+                        class="form-control"
+                    >
+
+                        <option value="">All Status</option>
+
+                        <option
+                            value="successful"
+                            <%= typeof status !== "undefined" && status === "successful" ? "selected" : "" %>
+                        >
+                            Successful
+                        </option>
+
+                        <option
+                            value="pending"
+                            <%= typeof status !== "undefined" && status === "pending" ? "selected" : "" %>
+                        >
+                            Pending
+                        </option>
+
+                        <option
+                            value="failed"
+                            <%= typeof status !== "undefined" && status === "failed" ? "selected" : "" %>
+                        >
+                            Failed
+                        </option>
+
+                        <option
+                            value="refunded"
+                            <%= typeof status !== "undefined" && status === "refunded" ? "selected" : "" %>
+                        >
+                            Refunded
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="method">
+                        Payment Method
+                    </label>
+
+                    <select
+                        id="method"
+                        name="method"
+                        class="form-control"
+                    >
+
+                        <option value="">All Methods</option>
+
+                        <option value="upi">UPI</option>
+                        <option value="card">Card</option>
+                        <option value="netbanking">Net Banking</option>
+                        <option value="wallet">Wallet</option>
+                        <option value="cod">Cash on Delivery</option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>&nbsp;</label>
+
+                    <button type="submit" class="btn btn-primary">
+                        Apply Filters
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- =========================
+             TRANSACTIONS
+        ========================== -->
+
+        <section class="table-card">
+
+            <div class="table-header">
+
+                <div class="table-heading">
+                    <h2>Payment Transactions</h2>
+
+                    <p>
+                        Complete payment activity across GharSetu.
+                    </p>
+                </div>
+
+                <div class="transaction-count">
+                    <%= typeof payments !== "undefined" && payments ? payments.length : 0 %>
+                    Transactions
+                </div>
+
+            </div>
+
+
+            <div class="table-scroll">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Payment ID</th>
+                            <th>Customer</th>
+                            <th>Order ID</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <% if (typeof payments !== "undefined" && payments && payments.length > 0) { %>
+
+                            <% payments.forEach(function(payment) { %>
+
+                                <tr>
+
+                                    <td>
+                                        <span class="payment-id">
+                                            <%= payment.paymentId || payment._id || "PAY-000000" %>
+                                        </span>
+                                    </td>
+
+
+                                    <td>
+
+                                        <div class="customer-cell">
+
+                                            <div class="customer-avatar">
+
+                                                <%= payment.customer && payment.customer.name
+                                                    ? payment.customer.name.charAt(0).toUpperCase()
+                                                    : "C"
+                                                %>
+
+                                            </div>
+
+                                            <div>
+
+                                                <div class="customer-name">
+                                                    <%= payment.customer && payment.customer.name
+                                                        ? payment.customer.name
+                                                        : "Customer"
+                                                    %>
+                                                </div>
+
+                                                <div class="customer-email">
+                                                    <%= payment.customer && payment.customer.email
+                                                        ? payment.customer.email
+                                                        : "No email"
+                                                    %>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="payment-id">
+                                            <%= payment.orderId || payment.order?._id || "ORD-000000" %>
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="amount">
+                                            ₹<%= payment.amount || payment.total || 0 %>
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <span class="payment-method">
+
+                                            <% if (payment.paymentMethod === "upi") { %>
+                                                📱 UPI
+                                            <% } else if (payment.paymentMethod === "card") { %>
+                                                💳 Card
+                                            <% } else if (payment.paymentMethod === "netbanking") { %>
+                                                🏦 Net Banking
+                                            <% } else if (payment.paymentMethod === "wallet") { %>
+                                                👛 Wallet
+                                            <% } else if (payment.paymentMethod === "cod") { %>
+                                                💵 COD
+                                            <% } else { %>
+                                                💳 <%= payment.paymentMethod || "Online" %>
+                                            <% } %>
+
+                                        </span>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <% 
+                                            var currentStatus = payment.status
+                                                ? payment.status.toLowerCase()
+                                                : "pending";
+                                        %>
+
+
+                                        <% if (currentStatus === "successful" || currentStatus === "success" || currentStatus === "completed") { %>
+
+                                            <span class="status status-success">
+                                                <span class="status-dot"></span>
+                                                Successful
+                                            </span>
+
+                                        <% } else if (currentStatus === "pending") { %>
+
+                                            <span class="status status-pending">
+                                                <span class="status-dot"></span>
+                                                Pending
+                                            </span>
+
+                                        <% } else if (currentStatus === "refunded") { %>
+
+                                            <span class="status status-refunded">
+                                                <span class="status-dot"></span>
+                                                Refunded
+                                            </span>
+
+                                        <% } else { %>
+
+                                            <span class="status status-failed">
+                                                <span class="status-dot"></span>
+                                                Failed
+                                            </span>
+
+                                        <% } %>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <%= payment.createdAt
+                                            ? new Date(payment.createdAt).toLocaleDateString("en-IN", {
+                                                day: "2-digit",
+                                                month: "short",
+                                                year: "numeric"
+                                            })
+                                            : "-"
+                                        %>
+
+                                    </td>
+
+
+                                    <td>
+
+                                        <button
+                                            type="button"
+                                            class="view-btn"
+                                            onclick="viewPayment('<%= payment._id %>')"
+                                        >
+                                            View Details
+                                        </button>
+
+                                    </td>
+
+                                </tr>
+
+                            <% }); %>
+
+                        <% } else { %>
+
+                            <tr>
+
+                                <td colspan="8">
+
+                                    <div class="empty-state">
+
+                                        <div class="empty-icon">
+                                            💳
+                                        </div>
+
+                                        <h3>No payment transactions yet</h3>
+
+                                        <p>
+                                            Payment transactions will appear here once customers make payments.
+                                        </p>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        <% } %>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- =========================
+     PAYMENT DETAILS MODAL
+========================== -->
+
+<div class="modal-overlay" id="paymentModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <h3>Payment Details</h3>
+
+            <button
+                type="button"
+                class="modal-close"
+                onclick="closePaymentModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="modal-body">
+
+            <div class="detail-grid">
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Payment ID
+                    </div>
+
+                    <div class="detail-value" id="detailPaymentId">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Order ID
+                    </div>
+
+                    <div class="detail-value" id="detailOrderId">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Customer
+                    </div>
+
+                    <div class="detail-value" id="detailCustomer">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Amount
+                    </div>
+
+                    <div class="detail-value" id="detailAmount">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Payment Method
+                    </div>
+
+                    <div class="detail-value" id="detailMethod">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Status
+                    </div>
+
+                    <div class="detail-value" id="detailStatus">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Transaction Date
+                    </div>
+
+                    <div class="detail-value" id="detailDate">
+                        -
+                    </div>
+
+                </div>
+
+
+                <div class="detail-item">
+
+                    <div class="detail-label">
+                        Transaction Reference
+                    </div>
+
+                    <div class="detail-value" id="detailReference">
+                        -
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                type="button"
+                class="btn btn-light"
+                onclick="closePaymentModal()"
+            >
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    function toggleSidebar() {
+
+        var sidebar = document.getElementById("sidebar");
+
+        if (!sidebar) {
+            return;
+        }
+
+        sidebar.classList.toggle("open");
+    }
+
+
+    async function viewPayment(id) {
+
+        if (!id) {
+            return;
+        }
+
+        try {
+
+            var response = await fetch("/admin/payments/" + id);
+
+            if (!response.ok) {
+                throw new Error("Unable to load payment details.");
+            }
+
+            var data = await response.json();
+
+            var payment = data.payment || data;
+
+            document.getElementById("detailPaymentId").textContent =
+                payment.paymentId || payment._id || "-";
+
+            document.getElementById("detailOrderId").textContent =
+                payment.orderId ||
+                (payment.order && payment.order._id) ||
+                "-";
+
+            document.getElementById("detailCustomer").textContent =
+                payment.customer && payment.customer.name
+                    ? payment.customer.name
+                    : "Customer";
+
+            document.getElementById("detailAmount").textContent =
+                "₹" + (payment.amount || payment.total || 0);
+
+            document.getElementById("detailMethod").textContent =
+                payment.paymentMethod || "Online";
+
+            document.getElementById("detailStatus").textContent =
+                payment.status || "Pending";
+
+            document.getElementById("detailDate").textContent =
+                payment.createdAt
+                    ? new Date(payment.createdAt).toLocaleString("en-IN")
+                    : "-";
+
+            document.getElementById("detailReference").textContent =
+                payment.transactionId ||
+                payment.transactionReference ||
+                payment.referenceId ||
+                "-";
+
+            document.getElementById("paymentModal").classList.add("show");
+
+        } catch (error) {
+
+            console.error("PAYMENT DETAILS ERROR:", error);
+
+            alert("Payment details are not available right now.");
+
+        }
+
+    }
+
+
+    function closePaymentModal() {
+
+        var modal = document.getElementById("paymentModal");
+
+        if (!modal) {
+            return;
+        }
+
+        modal.classList.remove("show");
+    }
+
+
+    document.getElementById("paymentModal").addEventListener("click", function(event) {
+
+        if (event.target === this) {
+            closePaymentModal();
+        }
+
+    });
+
+
+    document.addEventListener("keydown", function(event) {
+
+        if (event.key === "Escape") {
+            closePaymentModal();
+        }
+
+    });
+
+</script>
+
+</body>
+</html>

@@ -5,8 +5,23 @@ const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
-const connectDB = require("./config/db");
+console.log("======================================");
+console.log("EMAIL CONFIG CHECK");
+console.log("EMAIL_USER:", process.env.EMAIL_USER);
+console.log(
+    "EMAIL_PASS EXISTS:",
+    !!process.env.EMAIL_PASS
+);
+console.log(
+    "EMAIL_PASS LENGTH:",
+    process.env.EMAIL_PASS
+        ? process.env.EMAIL_PASS.length
+        : 0
+);
+console.log("APP_URL:", process.env.APP_URL);
+console.log("======================================");
 
+const connectDB = require("./config/db");
 // ======================================================
 // ROUTES
 // ======================================================
@@ -79,6 +94,12 @@ const adminOrderRoutes =
     
 const adminSettingsRoutes =
     require("./routes/adminSettingsRoutes");
+
+const adminPaymentRoutes =
+    require("./routes/adminPaymentRoutes");    
+ 
+const adminCouponRoutes = 
+    require("./routes/adminCouponRoutes");    
 
 
 // ======================================================
@@ -443,6 +464,13 @@ app.use(
 
 app.use("/admin", adminSettingsRoutes);
 
+app.use("/admin", adminCouponRoutes);
+
+app.use(
+    "/admin",
+    adminPaymentRoutes
+);
+
 // ======================================================
 // ADMIN DELIVERY MANAGEMENT
 // ======================================================
@@ -650,12 +678,90 @@ app.use(
 // SERVER
 // ======================================================
 
+// const PORT =
+//     process.env.PORT || 5000;
+
+
+// app.listen(
+//     PORT,
+//     () => {
+
+//         console.log("");
+
+//         console.log(
+//             "======================================"
+//         );
+
+//         console.log(
+//             "🚀 GHARSETU SERVER STARTED"
+//         );
+
+//         console.log(
+//             `🌐 http://localhost:${PORT}`
+//         );
+
+//         console.log(
+//             `👤 Customer: http://localhost:${PORT}/customer/home`
+//         );
+
+//         console.log(
+//             `🏪 Restaurant: http://localhost:${PORT}/restaurant/login`
+//         );
+
+//         console.log(
+//             `🚴 Delivery: http://localhost:${PORT}/delivery`
+//         );
+
+//         console.log(
+//             `🍱 Tiffin Seller: http://localhost:${PORT}/tiffin-seller/login`
+//         );
+
+//         console.log(
+//             `📦 Tiffin Control: http://localhost:${PORT}/tiffin-seller/tiffin-control`
+//         );
+
+//         console.log(
+//             `🔐 Admin Login: http://localhost:${PORT}/admin/login`
+//         );
+
+//         console.log(
+//             `📝 Admin Signup: http://localhost:${PORT}/admin/signup`
+//         );
+
+//         console.log(
+//             `📊 Admin Dashboard: http://localhost:${PORT}/admin/dashboard`
+//         );
+
+//         console.log(
+//             `👥 Admin Customers: http://localhost:${PORT}/admin/customers`
+//         );
+
+//         console.log(
+//             `🚴 Admin Delivery: http://localhost:${PORT}/admin/delivery`
+//         );
+
+//         console.log(
+//             `📦 Admin Orders: http://localhost:${PORT}/admin/orders`
+//         );
+
+//         console.log(
+//             "======================================"
+//         );
+
+//     }
+// );
+
+// ======================================================
+// SERVER
+// ======================================================
+
 const PORT =
     process.env.PORT || 5000;
 
 
 app.listen(
     PORT,
+    "0.0.0.0",
     () => {
 
         console.log("");
@@ -669,7 +775,11 @@ app.listen(
         );
 
         console.log(
-            `🌐 http://localhost:${PORT}`
+            `🌐 Local: http://localhost:${PORT}`
+        );
+
+        console.log(
+            `🌐 Network: http://0.0.0.0:${PORT}`
         );
 
         console.log(
