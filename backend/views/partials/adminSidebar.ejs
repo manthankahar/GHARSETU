@@ -1,600 +1,149 @@
+
+<%
+    const currentPage =
+        typeof activePage !== "undefined" && activePage
+            ? activePage
+            : "";
+
+    const currentAdmin =
+        typeof admin !== "undefined" && admin
+            ? admin
+            : null;
+%>
+
 <aside class="admin-sidebar">
 
-    <!-- ==========================================
-         BRAND
-    =========================================== -->
-
+    <!-- BRAND -->
     <div class="admin-brand">
-
-        <div class="brand-logo">
-            G
-        </div>
+        <div class="brand-logo">🍽️</div>
 
         <div class="brand-text">
-
-            <strong>
-                GHARSETU
-            </strong>
-
-            <span>
-                ADMIN PANEL
-            </span>
-
+            <strong>GharSetu</strong>
+            <span>ADMIN PANEL</span>
         </div>
-
     </div>
 
-
-    <!-- ==========================================
-         ADMIN PROFILE
-    =========================================== -->
-
+    <!-- ADMIN PROFILE -->
     <div class="admin-profile">
-
         <div class="admin-avatar">
-            A
+            <%= (
+                currentAdmin && currentAdmin.name
+                    ? currentAdmin.name.charAt(0)
+                    : "A"
+            ).toUpperCase() %>
         </div>
 
-        <div>
-
+        <div class="admin-profile-info">
             <strong>
-                <%= admin && admin.name
-                    ? admin.name
-                    : "Administrator"
-                %>
+                <%= currentAdmin && currentAdmin.name
+                    ? currentAdmin.name
+                    : "Administrator" %>
             </strong>
-
-            <span>
-                Administrator
-            </span>
-
+            <span>Administrator</span>
         </div>
-
     </div>
 
-
-    <!-- ==========================================
-         NAVIGATION
-    =========================================== -->
-
+    <!-- NAVIGATION -->
     <nav class="admin-nav">
 
+        <div class="admin-nav-heading">MAIN MENU</div>
 
-        <a
-            href="/admin/dashboard"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                🏠
-            </span>
-
-            <span>
-                Dashboard
-            </span>
-
+        <a href="/admin/dashboard"
+           class="admin-nav-link <%= currentPage === 'dashboard' ? 'active' : '' %>">
+            <span class="nav-icon">📊</span>
+            <span class="nav-label">Dashboard</span>
         </a>
 
-
-        <a
-            href="/admin/restaurants"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                🍽️
-            </span>
-
-            <span>
-                Restaurants
-            </span>
-
+        <a href="/admin/customers"
+           class="admin-nav-link <%= currentPage === 'customers' ? 'active' : '' %>">
+            <span class="nav-icon">👥</span>
+            <span class="nav-label">Customers</span>
         </a>
 
-
-        <a
-            href="/admin/tiffin-sellers"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                🍱
-            </span>
-
-            <span>
-                Tiffin Sellers
-            </span>
-
+        <a href="/admin/restaurants"
+           class="admin-nav-link <%= currentPage === 'restaurants' ? 'active' : '' %>">
+            <span class="nav-icon">🍽️</span>
+            <span class="nav-label">Restaurants</span>
         </a>
 
-
-        <a
-            href="/admin/customers"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                👥
-            </span>
-
-            <span>
-                Customers
-            </span>
-
+        <a href="/admin/tiffin-sellers"
+           class="admin-nav-link <%= currentPage === 'tiffin-sellers' ? 'active' : '' %>">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">Tiffin Sellers</span>
         </a>
 
-
-        <a
-            href="/admin/delivery"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                🛵
-            </span>
-
-            <span>
-                Delivery Partners
-            </span>
-
+        <a href="/admin/delivery"
+           class="admin-nav-link <%= currentPage === 'delivery' ? 'active' : '' %>">
+            <span class="nav-icon">🛵</span>
+            <span class="nav-label">Delivery Partners</span>
         </a>
 
+        <div class="admin-nav-heading">MANAGEMENT</div>
 
-        <a
-            href="/admin/orders"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                📦
-            </span>
-
-            <span>
-                Orders
-            </span>
-
+        <a href="/admin/orders"
+           class="admin-nav-link <%= currentPage === 'orders' ? 'active' : '' %>">
+            <span class="nav-icon">📦</span>
+            <span class="nav-label">Orders</span>
         </a>
 
-
-        <a
-            href="/admin/complaints"
-            class="admin-nav-link active"
-        >
-
-            <span class="nav-icon">
-                ⚠️
-            </span>
-
-            <span>
-                Complaints
-            </span>
-
+        <a href="/admin/payments"
+           class="admin-nav-link <%= currentPage === 'payments' ? 'active' : '' %>">
+            <span class="nav-icon">💳</span>
+            <span class="nav-label">Payments</span>
         </a>
 
-
-        <a
-            href="/admin/analytics"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                📊
-            </span>
-
-            <span>
-                Analytics
-            </span>
-
+        <a href="/admin/coupons"
+           class="admin-nav-link <%= currentPage === 'coupons' ? 'active' : '' %>">
+            <span class="nav-icon">🎟️</span>
+            <span class="nav-label">Coupons</span>
         </a>
 
-
-        <a
-            href="/admin/settings"
-            class="admin-nav-link"
-        >
-
-            <span class="nav-icon">
-                ⚙️
-            </span>
-
-            <span>
-                Settings
-            </span>
-
+        <a href="/admin/reviews"
+           class="admin-nav-link <%= currentPage === 'reviews' ? 'active' : '' %>">
+            <span class="nav-icon">⭐</span>
+            <span class="nav-label">Reviews</span>
         </a>
 
+        <a href="/admin/messages"
+           class="admin-nav-link <%= currentPage === 'messages' ? 'active' : '' %>">
+            <span class="nav-icon">💬</span>
+            <span class="nav-label">Mail Center</span>
+        </a>
+
+        <div class="admin-nav-heading">SYSTEM</div>
+
+        <a href="/admin/analytics"
+           class="admin-nav-link <%= currentPage === 'analytics' ? 'active' : '' %>">
+            <span class="nav-icon">📈</span>
+            <span class="nav-label">Analytics</span>
+        </a>
+
+        <a href="/admin/complaints"
+           class="admin-nav-link <%= currentPage === 'complaints' ? 'active' : '' %>">
+            <span class="nav-icon">⚠️</span>
+            <span class="nav-label">Complaints</span>
+        </a>
+
+        <a href="/admin/settings"
+           class="admin-nav-link <%= currentPage === 'settings' ? 'active' : '' %>">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-label">Settings</span>
+        </a>
+
+        <a href="/admin/profile"
+           class="admin-nav-link <%= currentPage === 'profile' ? 'active' : '' %>">
+            <span class="nav-icon">👤</span>
+            <span class="nav-label">Admin Profile</span>
+        </a>
 
     </nav>
 
-
-    <!-- ==========================================
-         BOTTOM
-    =========================================== -->
-
+    <!-- LOGOUT -->
     <div class="admin-sidebar-bottom">
-
-        <a
-            href="/admin/logout"
-            class="admin-logout"
-        >
-
-            <span>
-                🚪
-            </span>
-
-            <span>
-                Logout
-            </span>
-
+        <a href="/admin/logout" class="admin-logout">
+            <span class="nav-icon">🚪</span>
+            <span class="nav-label">Logout</span>
         </a>
-
     </div>
 
-
 </aside>
-
-
-<style>
-
-.admin-sidebar {
-
-    position: fixed;
-
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    width: 230px;
-
-    background: #fffaf5;
-
-    color: #4b3022;
-
-    display: flex;
-
-    flex-direction: column;
-
-    z-index: 1000;
-
-    border-right:
-        1px solid #eadbce;
-
-    box-shadow:
-        4px 0 18px
-        rgba(75, 48, 34, 0.05);
-
-}
-
-
-/* ==========================================
-   BRAND
-========================================== */
-
-.admin-brand {
-
-    padding: 22px 22px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 11px;
-
-    border-bottom:
-        1px solid #eadbce;
-
-}
-
-
-.brand-logo {
-
-    width: 40px;
-
-    height: 40px;
-
-    border-radius: 11px;
-
-    background: #7b543b;
-
-    color: #fffaf5;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-size: 20px;
-
-    font-weight: 800;
-
-    box-shadow:
-        0 5px 12px
-        rgba(75, 48, 34, 0.12);
-
-}
-
-
-.brand-text {
-
-    display: flex;
-
-    flex-direction: column;
-
-}
-
-
-.brand-text strong {
-
-    font-size: 16px;
-
-    color: #4b3022;
-
-    letter-spacing: 0.5px;
-
-}
-
-
-.brand-text span {
-
-    font-size: 9px;
-
-    color: #9a7965;
-
-    letter-spacing: 1.5px;
-
-    margin-top: 2px;
-
-}
-
-
-/* ==========================================
-   PROFILE
-========================================== */
-
-.admin-profile {
-
-    margin: 18px 14px;
-
-    padding: 12px;
-
-    background: #f5e9dd;
-
-    border-radius: 12px;
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-}
-
-
-.admin-avatar {
-
-    width: 38px;
-
-    height: 38px;
-
-    border-radius: 50%;
-
-    background: #ead1b9;
-
-    color: #5c3c29;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    font-weight: 800;
-
-}
-
-
-.admin-profile strong {
-
-    display: block;
-
-    font-size: 12px;
-
-    color: #4b3022;
-
-}
-
-
-.admin-profile span {
-
-    display: block;
-
-    margin-top: 3px;
-
-    font-size: 9px;
-
-    color: #9a7965;
-
-}
-
-
-/* ==========================================
-   NAVIGATION
-========================================== */
-
-.admin-nav {
-
-    padding:
-        4px 13px;
-
-    flex: 1;
-
-    overflow-y: auto;
-
-}
-
-
-.admin-nav-link {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 11px;
-
-    padding:
-        11px 12px;
-
-    margin-bottom: 4px;
-
-    border-radius: 10px;
-
-    color: #5d493d;
-
-    text-decoration: none;
-
-    font-size: 13px;
-
-    transition:
-        all 0.2s ease;
-
-}
-
-
-.admin-nav-link:hover {
-
-    background: #f5e9dd;
-
-    color: #4b3022;
-
-}
-
-
-.admin-nav-link.active {
-
-    background: #f3e4d5;
-
-    color: #4b3022;
-
-    font-weight: 700;
-
-    box-shadow:
-        inset 3px 0 0 #7b543b;
-
-}
-
-
-.nav-icon {
-
-    width: 22px;
-
-    text-align: center;
-
-    font-size: 15px;
-
-}
-
-
-/* ==========================================
-   BOTTOM
-========================================== */
-
-.admin-sidebar-bottom {
-
-    padding: 13px;
-
-    border-top:
-        1px solid #eadbce;
-
-}
-
-
-.admin-logout {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    padding:
-        11px 12px;
-
-    border-radius: 9px;
-
-    color: #6b5142;
-
-    text-decoration: none;
-
-    font-size: 13px;
-
-    border:
-        1px solid #eadbce;
-
-    background: #fffaf5;
-
-}
-
-
-.admin-logout:hover {
-
-    background: #f5e9dd;
-
-    color: #4b3022;
-
-}
-
-
-/* ==========================================
-   SCROLLBAR
-========================================== */
-
-.admin-nav::-webkit-scrollbar {
-
-    width: 4px;
-
-}
-
-
-.admin-nav::-webkit-scrollbar-thumb {
-
-    background: #d9c3b2;
-
-    border-radius: 10px;
-
-}
-
-
-/* ==========================================
-   RESPONSIVE
-========================================== */
-
-@media (max-width: 800px) {
-
-    .admin-sidebar {
-
-        position: relative;
-
-        width: 100%;
-
-        height: auto;
-
-    }
-
-
-    .admin-nav {
-
-        overflow: visible;
-
-    }
-
-
-    .admin-sidebar-bottom {
-
-        margin-top: 5px;
-
-    }
-
-}
-
-</style>

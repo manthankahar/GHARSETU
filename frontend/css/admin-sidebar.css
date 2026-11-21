@@ -1,0 +1,443 @@
+/* =========================================
+   GHARSETU ADMIN SIDEBAR
+   Shared stylesheet for all admin pages
+========================================= */
+
+:root {
+    --admin-green: #18543f;
+    --admin-green-dark: #124431;
+    --admin-green-light: #e8f1e9;
+
+    --admin-bg: #fffaf5;
+    --admin-white: #ffffff;
+
+    --admin-text: #34271f;
+    --admin-muted: #9a887b;
+    --admin-border: #eadfd4;
+
+    --admin-orange: #df8b38;
+
+    --admin-sidebar-width: 188px;
+}
+
+/* Reset sidebar elements only */
+.admin-sidebar,
+.admin-sidebar * {
+    box-sizing: border-box;
+}
+
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: var(--admin-sidebar-width);
+    height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 20px 12px 12px;
+
+    background: var(--admin-bg);
+    border-right: 1px solid var(--admin-border);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    z-index: 1000;
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d8c7b6 transparent;
+}
+
+/* Scrollbar */
+.admin-sidebar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background: #d8c7b6;
+    border-radius: 10px;
+}
+
+/* =========================================
+   BRAND
+========================================= */
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    min-height: 56px;
+
+    padding: 0 8px 18px;
+    margin-bottom: 15px;
+
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.brand-logo {
+    width: 33px;
+    height: 33px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 10px;
+
+    background: var(--admin-green);
+    color: var(--admin-white);
+
+    font-size: 17px;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.brand-text strong {
+    color: var(--admin-text);
+
+    font-size: 14px;
+    font-weight: 800;
+    line-height: 1.2;
+
+    white-space: nowrap;
+}
+
+.brand-text span {
+    color: var(--admin-muted);
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* =========================================
+   ADMIN PROFILE
+========================================= */
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    padding: 0 8px 16px;
+    margin-bottom: 7px;
+
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.admin-avatar {
+    width: 31px;
+    height: 31px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #e8d8c5;
+    color: var(--admin-green);
+
+    font-size: 12px;
+    font-weight: 800;
+
+    text-transform: uppercase;
+}
+
+.admin-profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    min-width: 0;
+}
+
+.admin-profile-info strong {
+    color: var(--admin-text);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-profile-info span {
+    color: var(--admin-muted);
+
+    font-size: 8px;
+    font-weight: 700;
+
+    letter-spacing: .6px;
+    text-transform: uppercase;
+}
+
+/* =========================================
+   NAVIGATION
+========================================= */
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    width: 100%;
+}
+
+.admin-nav-heading {
+    padding: 12px 9px 7px;
+
+    color: var(--admin-muted);
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+
+/* Menu links */
+.admin-nav-link {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    width: 100%;
+    min-height: 34px;
+
+    padding: 8px 10px;
+
+    border-radius: 9px;
+
+    background: transparent;
+    color: #665247;
+
+    text-decoration: none;
+
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.3;
+
+    transition:
+        background .18s ease,
+        color .18s ease,
+        box-shadow .18s ease;
+}
+
+/* Icons */
+.admin-nav-link .nav-icon,
+.admin-logout .nav-icon {
+    width: 14px;
+    min-width: 14px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    line-height: 1;
+}
+
+/* Labels */
+.admin-nav-link .nav-label,
+.admin-logout .nav-label {
+    flex: 1;
+    min-width: 0;
+
+    white-space: nowrap;
+}
+
+/* Hover */
+.admin-nav-link:hover {
+    background: #f0e7dc;
+    color: var(--admin-green);
+}
+
+/* Active page */
+.admin-nav-link.active {
+    background: var(--admin-green);
+    color: var(--admin-white);
+
+    font-weight: 700;
+
+    box-shadow: 0 5px 12px rgba(24, 84, 63, .12);
+}
+
+.admin-nav-link.active:hover {
+    background: var(--admin-green-dark);
+    color: var(--admin-white);
+}
+
+/* Keyboard accessibility */
+.admin-nav-link:focus-visible,
+.admin-logout:focus-visible {
+    outline: 2px solid var(--admin-green);
+    outline-offset: 2px;
+}
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+.admin-sidebar-bottom {
+    margin-top: auto;
+    padding-top: 15px;
+}
+
+.admin-logout {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    width: 100%;
+    min-height: 34px;
+
+    padding: 8px 10px;
+
+    border-radius: 9px;
+
+    background: transparent;
+    color: #8e5141;
+
+    text-decoration: none;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    transition: background .18s ease, color .18s ease;
+}
+
+.admin-logout:hover {
+    background: #f9e8e5;
+    color: #a43e32;
+}
+
+/* =========================================
+   OPTIONAL COUNTERS / BADGES
+   Use only when a badge is added to EJS
+========================================= */
+
+.admin-nav-link .nav-badge {
+    min-width: 15px;
+    height: 15px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 4px;
+
+    border-radius: 50px;
+
+    background: var(--admin-orange);
+    color: white;
+
+    font-size: 8px;
+    font-weight: 800;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 850px) {
+    :root {
+        --admin-sidebar-width: 72px;
+    }
+
+    .admin-sidebar {
+        padding: 18px 9px 12px;
+    }
+
+    .admin-brand {
+        justify-content: center;
+        padding: 0 0 16px;
+    }
+
+    .brand-text,
+    .admin-profile-info,
+    .admin-nav-heading,
+    .admin-nav-link .nav-label,
+    .admin-logout .nav-label {
+        display: none;
+    }
+
+    .admin-profile {
+        justify-content: center;
+        padding: 0 0 15px;
+    }
+
+    .admin-nav-link,
+    .admin-logout {
+        justify-content: center;
+        gap: 0;
+        padding: 11px 5px;
+    }
+
+    .admin-nav-link .nav-icon,
+    .admin-logout .nav-icon {
+        width: auto;
+        min-width: 0;
+        font-size: 16px;
+    }
+
+    .admin-sidebar-bottom {
+        margin-top: auto;
+    }
+}
+
+/* =========================================
+   SMALL MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+    :root {
+        --admin-sidebar-width: 58px;
+    }
+
+    .admin-sidebar {
+        padding: 14px 6px 10px;
+    }
+
+    .admin-brand {
+        padding-bottom: 13px;
+    }
+
+    .brand-logo {
+        width: 31px;
+        height: 31px;
+        font-size: 15px;
+    }
+
+    .admin-avatar {
+        width: 29px;
+        height: 29px;
+        font-size: 11px;
+    }
+
+    .admin-nav-link,
+    .admin-logout {
+        min-height: 35px;
+    }
+}

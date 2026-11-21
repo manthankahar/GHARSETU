@@ -1737,3 +1737,247 @@ function deliveryLogout() {
         "/delivery/login";
 
 }
+
+
+
+// admin devliver.js file code 
+
+
+// =========================================
+// DELIVERY PARTNER MANAGEMENT
+// =========================================
+
+document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("partnerModal");
+    const modalBody = document.getElementById("partnerModalBody");
+    const closeButton = document.getElementById("closePartnerModal");
+
+    // View and toggle buttons
+    document.addEventListener("click", (event) => {
+        const viewButton = event.target.closest('[data-action="view"]');
+        const toggleButton = event.target.closest('[data-action="toggle"]');
+
+        if (viewButton) {
+            viewPartner(viewButton.dataset.id);
+        }
+
+        if (toggleButton) {
+            togglePartner(toggleButton.dataset.id);
+        }
+    });
+
+    // Close modal button
+    if (closeButton) {
+        closeButton.addEventListener("click", closePartnerModal);
+    }
+
+    // Close when clicking the backdrop
+    if (modal) {
+        modal.addEventListener("click", (event) => {
+            if (event.target === modal) {
+                closePartnerModal();
+            }
+        });
+    }
+
+    // Close modal using Escape key
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closePartnerModal();
+        }
+    });
+
+    // =========================================
+    // VIEW PARTNER
+    // =========================================
+
+    async function viewPartner(id) {
+        if (!modal || !modalBody || !id) return;
+
+        modal.classList.add("show");
+
+        modalBody.innerHTML = `
+            <div class="modal-loading">Loading partner details...</div>
+        `;
+
+        try {
+            const response = await fetch(
+                `/admin/delivery/${encodeURIComponent(id)}`
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.message || "Failed to load partner."
+                );
+            }
+
+            const partner = data.partner || {};
+            const stats = data.stats || {};
+
+            const joined = partner.createdAt
+                ? new Date(partner.createdAt).toLocaleDateString("en-IN")
+                : "-";
+
+            const profileContent = partner.profileImage
+                ? `<img src="${escapeHtml(partner.profileImage)}" alt="Partner">`
+                : escapeHtml(
+                    partner.name
+                        ? partner.name.charAt(0).toUpperCase()
+                        : "D"
+                );
+
+            modalBody.innerHTML = `
+                <div class="modal-profile">
+                    <div class="modal-avatar">
+                        ${profileContent}
+                    </div>
+
+                    <div>
+                        <h4>${escapeHtml(partner.name || "Unknown")}</h4>
+                        <p>GharSetu Delivery Partner</p>
+                    </div>
+                </div>
+
+                <div class="modal-status-row">
+                    <span>Account Status</span>
+
+                    <strong class="${partner.isActive ? "text-active" : "text-inactive"}">
+                        ${partner.isActive ? "🟢 Active" : "🔴 Inactive"}
+                    </strong>
+                </div>
+
+                <div class="modal-detail-grid">
+                    <div class="modal-detail-item">
+                        <span>Email</span>
+                        <strong>${escapeHtml(partner.email || "-")}</strong>
+                    </div>
+
+                    <div class="modal-detail-item">
+                        <span>Mobile</span>
+                        <strong>${escapeHtml(partner.mobile || "-")}</strong>
+                    </div>
+
+                    <div class="modal-detail-item">
+                        <span>Joined</span>
+                        <strong>${joined}</strong>
+                    </div>
+
+                    <div class="modal-detail-item">
+                        <span>Total Deliveries</span>
+                        <strong>${Number(stats.totalDeliveries || 0)}</strong>
+                    </div>
+
+                    <div class="modal-detail-item">
+                        <span>Completed</span>
+                        <strong>${Number(stats.completedDeliveries || 0)}</strong>
+                    </div>
+
+                    <div class="modal-detail-item">
+                        <span>Pending</span>
+                        <strong>${Number(stats.pendingDeliveries || 0)}</strong>
+                    </div>
+
+                    <div class="modal-detail-item">
+                        <span>Active Deliveries</span>
+                        <strong>${Number(stats.activeDeliveries || 0)}</strong>
+                    </div>
+
+                    <div class="modal-detail-item">
+                        <span>Total Earnings</span>
+                        <strong>₹${Number(stats.totalEarning || 0).toFixed(2)}</strong>
+                    </div>
+                </div>
+            `;
+        } catch (error) {
+            modalBody.innerHTML = `
+                <div class="modal-error">
+                    ${escapeHtml(error.message || "Something went wrong.")}
+                </div>
+            `;
+        }
+    }
+
+    // =========================================
+    // CLOSE MODAL
+    // =========================================
+
+    function closePartnerModal() {
+        if (modal) {
+            modal.classList.remove("show");
+        }
+    }
+
+    // =========================================
+    // ACTIVATE / DEACTIVATE PARTNER
+    // =========================================
+
+    async function togglePartner(id) {
+        const button = document.getElementById(`toggle-btn-${id}`);
+        const statusElement = document.getElementById(`status-${id}`);
+
+        if (!button || !statusElement || !id) return;
+
+        const oldText = button.innerText;
+
+        button.disabled = true;
+        button.innerText = "Updating...";
+
+        try {
+            const response = await fetch(
+                `/admin/delivery/${encodeURIComponent(id)}/toggle-status`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.message || "Failed to update status."
+                );
+            }
+
+            if (data.isActive) {
+                statusElement.className = "delivery-status active";
+                statusElement.textContent = "🟢 Active";
+
+                button.className = "delivery-btn deactivate";
+                button.innerText = "Deactivate";
+            } else {
+                statusElement.className = "delivery-status inactive";
+                statusElement.textContent = "🔴 Inactive";
+
+                button.className = "delivery-btn activate";
+                button.innerText = "Activate";
+            }
+        } catch (error) {
+            alert(error.message || "Something went wrong.");
+            button.innerText = oldText;
+        } finally {
+            button.disabled = false;
+        }
+    }
+
+    // =========================================
+    // ESCAPE HTML
+    // =========================================
+
+    function escapeHtml(value) {
+        if (value === null || value === undefined) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+});

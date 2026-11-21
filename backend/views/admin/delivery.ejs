@@ -1,2137 +1,326 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        GharSetu | Delivery Management
-    </title>
+    <title>GharSetu | Delivery Management</title>
 
     <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/delivery.css">
+    <link rel="stylesheet" href="/css/admin-sidebar.css">
 
-    <style>
-
-        /* =========================================
-           DELIVERY PAGE
-        ========================================== */
-
-        .delivery-page {
-            padding: 32px;
-        }
-
-        .delivery-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 30px;
-        }
-
-        .delivery-eyebrow {
-            color: #6f8062;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 1.8px;
-            margin-bottom: 8px;
-        }
-
-        .delivery-header h1 {
-            margin: 0;
-            color: #3d3028;
-            font-size: 32px;
-            font-weight: 800;
-        }
-
-        .delivery-header p {
-            margin-top: 8px;
-            color: #81766e;
-            font-size: 15px;
-        }
-
-
-        /* =========================================
-           STATS
-        ========================================== */
-
-        .delivery-stats {
-            display: grid;
-            grid-template-columns:
-                repeat(3, minmax(0, 1fr));
-            gap: 18px;
-            margin-bottom: 24px;
-        }
-
-        .delivery-stat-card {
-            background: #fffaf3;
-            border: 1px solid #eadfd2;
-            border-radius: 18px;
-            padding: 22px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow:
-                0 8px 25px rgba(73, 55, 42, 0.06);
-            transition: 0.25s ease;
-        }
-
-        .delivery-stat-card:hover {
-            transform: translateY(-3px);
-            box-shadow:
-                0 14px 30px rgba(73, 55, 42, 0.10);
-        }
-
-        .delivery-stat-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 15px;
-            background: #edf3e8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            flex-shrink: 0;
-        }
-
-        .delivery-stat-label {
-            color: #82766d;
-            font-size: 13px;
-            margin-bottom: 5px;
-        }
-
-        .delivery-stat-number {
-            color: #3d3028;
-            font-size: 25px;
-            font-weight: 800;
-        }
-
-
-        /* =========================================
-           FILTER
-        ========================================== */
-
-        .delivery-filter-box {
-            background: #fffaf3;
-            border: 1px solid #eadfd2;
-            border-radius: 18px;
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-
-        .delivery-filter-form {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .delivery-input-wrapper {
-            flex: 1;
-            min-width: 220px;
-            height: 48px;
-            background: #f8f1e8;
-            border: 1px solid #e4d8ca;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            padding: 0 15px;
-            gap: 10px;
-        }
-
-        .delivery-input-wrapper input {
-            width: 100%;
-            border: none;
-            outline: none;
-            background: transparent;
-            color: #493b31;
-            font-size: 14px;
-        }
-
-        .delivery-input-wrapper input::placeholder {
-            color: #a1958c;
-        }
-
-        .delivery-filter-form select {
-            height: 48px;
-            min-width: 170px;
-            border: 1px solid #e4d8ca;
-            background: #f8f1e8;
-            border-radius: 12px;
-            padding: 0 14px;
-            color: #493b31;
-            outline: none;
-            cursor: pointer;
-        }
-
-        .delivery-search-btn {
-            height: 48px;
-            padding: 0 25px;
-            border: none;
-            border-radius: 12px;
-            background: #657b55;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .delivery-search-btn:hover {
-            background: #536844;
-        }
-
-
-        /* =========================================
-           TABLE BOX
-        ========================================== */
-
-        .delivery-table-box {
-            background: #fffaf3;
-            border: 1px solid #eadfd2;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow:
-                0 8px 25px rgba(73, 55, 42, 0.05);
-        }
-
-        .delivery-table-header {
-            padding: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #eadfd2;
-        }
-
-        .delivery-table-header h2 {
-            margin: 0;
-            color: #3d3028;
-            font-size: 20px;
-        }
-
-        .delivery-table-header p {
-            margin: 5px 0 0;
-            color: #8b7e74;
-            font-size: 13px;
-        }
-
-        .delivery-result-count {
-            background: #edf3e8;
-            color: #5b704d;
-            padding: 8px 13px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-
-        /* =========================================
-           TABLE
-        ========================================== */
-
-        .delivery-table-scroll {
-            width: 100%;
-            overflow-x: auto;
-        }
-
-        .delivery-table {
-            width: 100%;
-            min-width: 1050px;
-            border-collapse: collapse;
-        }
-
-        .delivery-table thead {
-            background: #f8f1e8;
-        }
-
-        .delivery-table th {
-            padding: 15px 18px;
-            text-align: left;
-            color: #786b61;
-            font-size: 11px;
-            letter-spacing: 0.8px;
-            font-weight: 800;
-            white-space: nowrap;
-        }
-
-        .delivery-table td {
-            padding: 18px;
-            border-top: 1px solid #eee4da;
-            color: #594b41;
-            font-size: 14px;
-            vertical-align: middle;
-        }
-
-        .delivery-table tbody tr {
-            transition: 0.2s ease;
-        }
-
-        .delivery-table tbody tr:hover {
-            background: #fdf8f1;
-        }
-
-
-        /* =========================================
-           PARTNER
-        ========================================== */
-
-        .delivery-partner-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .delivery-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 13px;
-            background: #edf3e8;
-            color: #5c704f;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 17px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-
-        .delivery-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .delivery-partner-name {
-            color: #3d3028;
-            font-weight: 800;
-            margin-bottom: 4px;
-        }
-
-        .delivery-partner-email {
-            color: #94877d;
-            font-size: 12px;
-        }
-
-
-        /* =========================================
-           STATUS
-        ========================================== */
-
-        .delivery-status {
-            display: inline-flex;
-            align-items: center;
-            padding: 7px 11px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-
-        .delivery-status.active {
-            background: #e9f4e5;
-            color: #4f7542;
-        }
-
-        .delivery-status.inactive {
-            background: #f8e8e5;
-            color: #a34e42;
-        }
-
-
-        /* =========================================
-           DELIVERY COUNT
-        ========================================== */
-
-        .delivery-count-box strong {
-            display: block;
-            color: #3d3028;
-            font-size: 17px;
-        }
-
-        .delivery-count-box small {
-            color: #91847a;
-            font-size: 11px;
-        }
-
-
-        /* =========================================
-           EARNINGS
-        ========================================== */
-
-        .delivery-earning {
-            color: #5e754e;
-            font-weight: 800;
-            font-size: 15px;
-        }
-
-        .earning-small {
-            color: #968980;
-            font-size: 11px;
-            display: block;
-            margin-top: 3px;
-        }
-
-
-        /* =========================================
-           ACTIONS
-        ========================================== */
-
-        .delivery-actions {
-            display: flex;
-            gap: 7px;
-            flex-wrap: wrap;
-        }
-
-        .delivery-btn {
-            border: none;
-            border-radius: 9px;
-            padding: 8px 11px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s ease;
-        }
-
-        .delivery-btn.view {
-            background: #f0e9e0;
-            color: #65564b;
-        }
-
-        .delivery-btn.view:hover {
-            background: #e4d9cc;
-        }
-
-        .delivery-btn.activate {
-            background: #e7f2e2;
-            color: #4f7542;
-        }
-
-        .delivery-btn.activate:hover {
-            background: #d8e9d2;
-        }
-
-        .delivery-btn.deactivate {
-            background: #f8e6e2;
-            color: #a14f43;
-        }
-
-        .delivery-btn.deactivate:hover {
-            background: #f0d7d2;
-        }
-
-        .delivery-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-
-        /* =========================================
-           EMPTY
-        ========================================== */
-
-        .delivery-empty {
-            padding: 70px 20px;
-            text-align: center;
-        }
-
-        .delivery-empty-icon {
-            width: 70px;
-            height: 70px;
-            margin: auto;
-            border-radius: 20px;
-            background: #f4eee7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-        }
-
-        .delivery-empty h3 {
-            color: #4a3b31;
-            margin: 18px 0 7px;
-        }
-
-        .delivery-empty p {
-            color: #93867c;
-            margin: 0;
-            font-size: 14px;
-        }
-
-
-        /* =========================================
-           MODAL
-        ========================================== */
-
-        .delivery-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(40, 30, 23, 0.55);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            z-index: 9999;
-            backdrop-filter: blur(4px);
-        }
-
-        .delivery-modal.show {
-            display: flex;
-        }
-
-        .delivery-modal-box {
-            width: min(650px, 100%);
-            max-height: 90vh;
-            overflow-y: auto;
-            background: #fffaf3;
-            border-radius: 22px;
-            box-shadow:
-                0 25px 80px rgba(30, 20, 15, 0.25);
-        }
-
-        .delivery-modal-header {
-            padding: 22px 24px;
-            border-bottom: 1px solid #eadfd2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .modal-eyebrow {
-            color: #71855f;
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-        }
-
-        .delivery-modal-header h3 {
-            margin: 5px 0 0;
-            color: #3d3028;
-            font-size: 21px;
-        }
-
-        .delivery-modal-close {
-            width: 38px;
-            height: 38px;
-            border: none;
-            border-radius: 10px;
-            background: #f1e9e0;
-            color: #5c4d42;
-            font-size: 25px;
-            cursor: pointer;
-        }
-
-        .delivery-modal-body {
-            padding: 25px;
-        }
-
-
-        /* =========================================
-           MODAL PROFILE
-        ========================================== */
-
-        .modal-profile {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eadfd2;
-        }
-
-        .modal-avatar {
-            width: 65px;
-            height: 65px;
-            border-radius: 18px;
-            background: #eaf1e5;
-            color: #5b704d;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            font-weight: 800;
-            overflow: hidden;
-        }
-
-        .modal-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .modal-profile h4 {
-            margin: 0;
-            color: #3d3028;
-            font-size: 19px;
-        }
-
-        .modal-profile p {
-            margin: 5px 0 0;
-            color: #93867c;
-            font-size: 13px;
-        }
-
-        .modal-status-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 18px 0;
-            border-bottom: 1px solid #eadfd2;
-        }
-
-        .modal-status-row span {
-            color: #80736a;
-            font-size: 13px;
-        }
-
-        .modal-status-row strong {
-            font-size: 13px;
-        }
-
-        .text-active {
-            color: #4f7542;
-        }
-
-        .text-inactive {
-            color: #a14f43;
-        }
-
-
-        /* =========================================
-           MODAL DETAILS
-        ========================================== */
-
-        .modal-detail-grid {
-            display: grid;
-            grid-template-columns:
-                repeat(2, minmax(0, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .modal-detail-item {
-            background: #f7f0e7;
-            border-radius: 13px;
-            padding: 15px;
-        }
-
-        .modal-detail-item span {
-            display: block;
-            color: #92857b;
-            font-size: 11px;
-            margin-bottom: 6px;
-        }
-
-        .modal-detail-item strong {
-            color: #493b31;
-            font-size: 13px;
-            word-break: break-word;
-        }
-
-        .modal-loading {
-            text-align: center;
-            padding: 30px;
-            color: #83766c;
-        }
-
-        .modal-error {
-            padding: 25px;
-            text-align: center;
-            color: #a34e42;
-        }
-
-
-        /* =========================================
-           RESPONSIVE
-        ========================================== */
-
-        @media (max-width: 1100px) {
-
-            .delivery-stats {
-                grid-template-columns:
-                    repeat(2, minmax(0, 1fr));
-            }
-
-        }
-
-
-        @media (max-width: 768px) {
-
-            .delivery-page {
-                padding: 20px;
-            }
-
-            .delivery-header {
-                flex-direction: column;
-            }
-
-            .delivery-header h1 {
-                font-size: 25px;
-            }
-
-            .delivery-stats {
-                grid-template-columns: 1fr;
-            }
-
-            .delivery-filter-form {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .delivery-input-wrapper,
-            .delivery-filter-form select,
-            .delivery-search-btn {
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .delivery-table-header {
-                align-items: flex-start;
-                gap: 15px;
-                flex-direction: column;
-            }
-
-            .modal-detail-grid {
-                grid-template-columns: 1fr;
-            }
-
-        }
-
-    </style>
-
+    <script src="/js/delivery.js" defer></script>
 </head>
-
-
 <body>
 
+    <!-- COMMON ADMIN SIDEBAR -->
+    <%- include('../partials/adminSidebar', {
+        admin: admin,
+        activePage: 'delivery'
+    }) %>
 
-<!-- =====================================================
-     SIDEBAR
-====================================================== -->
+    <main class="admin-main">
+        <div class="delivery-page">
 
-<aside class="admin-sidebar">
+            <!-- HEADER -->
+            <div class="delivery-header">
+                <div>
+                    <div class="delivery-eyebrow">DELIVERY OPERATIONS</div>
 
+                    <h1>Delivery Partner Management 🚴</h1>
 
-    <!-- BRAND -->
+                    <p>
+                        Monitor delivery partners, deliveries and earnings from one place.
+                    </p>
+                </div>
+            </div>
 
-    <div class="admin-brand">
+            <!-- STATS -->
+            <div class="delivery-stats">
 
-        <div class="brand-icon">
-            🏠
+                <div class="delivery-stat-card">
+                    <div class="delivery-stat-icon">🚴</div>
+                    <div>
+                        <div class="delivery-stat-label">Total Partners</div>
+                        <div class="delivery-stat-number"><%= totalPartners %></div>
+                    </div>
+                </div>
+
+                <div class="delivery-stat-card">
+                    <div class="delivery-stat-icon">🟢</div>
+                    <div>
+                        <div class="delivery-stat-label">Active Partners</div>
+                        <div class="delivery-stat-number"><%= activePartners %></div>
+                    </div>
+                </div>
+
+                <div class="delivery-stat-card">
+                    <div class="delivery-stat-icon">🔴</div>
+                    <div>
+                        <div class="delivery-stat-label">Inactive Partners</div>
+                        <div class="delivery-stat-number"><%= inactivePartners %></div>
+                    </div>
+                </div>
+
+                <div class="delivery-stat-card">
+                    <div class="delivery-stat-icon">⏳</div>
+                    <div>
+                        <div class="delivery-stat-label">Pending Deliveries</div>
+                        <div class="delivery-stat-number"><%= pendingDeliveries %></div>
+                    </div>
+                </div>
+
+                <div class="delivery-stat-card">
+                    <div class="delivery-stat-icon">📍</div>
+                    <div>
+                        <div class="delivery-stat-label">Active Deliveries</div>
+                        <div class="delivery-stat-number"><%= activeDeliveries %></div>
+                    </div>
+                </div>
+
+                <div class="delivery-stat-card">
+                    <div class="delivery-stat-icon">✅</div>
+                    <div>
+                        <div class="delivery-stat-label">Completed Deliveries</div>
+                        <div class="delivery-stat-number"><%= completedDeliveries %></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- FILTER -->
+            <div class="delivery-filter-box">
+                <form method="GET" action="/admin/delivery" class="delivery-filter-form">
+
+                    <div class="delivery-input-wrapper">
+                        <span>🔍</span>
+
+                        <input
+                            type="text"
+                            name="search"
+                            placeholder="Search name, email or mobile..."
+                            value="<%= search || '' %>"
+                        >
+                    </div>
+
+                    <select name="status">
+                        <option value="all" <%= status === "all" ? "selected" : "" %>>
+                            All Partners
+                        </option>
+
+                        <option value="active" <%= status === "active" ? "selected" : "" %>>
+                            Active
+                        </option>
+
+                        <option value="inactive" <%= status === "inactive" ? "selected" : "" %>>
+                            Inactive
+                        </option>
+                    </select>
+
+                    <button type="submit" class="delivery-search-btn">
+                        🔍 Search
+                    </button>
+                </form>
+            </div>
+
+            <!-- DELIVERY PARTNERS TABLE -->
+            <div class="delivery-table-box">
+
+                <div class="delivery-table-header">
+                    <div>
+                        <h2>Delivery Partners</h2>
+                        <p>
+                            Manage registered delivery partners and their performance.
+                        </p>
+                    </div>
+
+                    <div class="delivery-result-count">
+                        <%= partners.length %> result(s)
+                    </div>
+                </div>
+
+                <% if (partners.length === 0) { %>
+
+                    <div class="delivery-empty">
+                        <div class="delivery-empty-icon">🚴</div>
+                        <h3>No Delivery Partners Found</h3>
+                        <p>Try changing your search or status filter.</p>
+                    </div>
+
+                <% } else { %>
+
+                    <div class="delivery-table-scroll">
+                        <table class="delivery-table">
+
+                            <thead>
+                                <tr>
+                                    <th>PARTNER</th>
+                                    <th>MOBILE</th>
+                                    <th>STATUS</th>
+                                    <th>DELIVERIES</th>
+                                    <th>EARNINGS</th>
+                                    <th>JOINED</th>
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% partners.forEach(partner => { %>
+
+                                    <tr id="partner-row-<%= partner._id %>">
+
+                                        <!-- PARTNER -->
+                                        <td>
+                                            <div class="delivery-partner-info">
+
+                                                <div class="delivery-avatar">
+                                                    <% if (partner.profileImage) { %>
+                                                        <img
+                                                            src="<%= partner.profileImage %>"
+                                                            alt="Partner"
+                                                        >
+                                                    <% } else { %>
+                                                        <%= partner.name
+                                                            ? partner.name.charAt(0).toUpperCase()
+                                                            : "D"
+                                                        %>
+                                                    <% } %>
+                                                </div>
+
+                                                <div>
+                                                    <div class="delivery-partner-name">
+                                                        <%= partner.name || "Unknown" %>
+                                                    </div>
+
+                                                    <div class="delivery-partner-email">
+                                                        <%= partner.email || "-" %>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </td>
+
+                                        <!-- MOBILE -->
+                                        <td><%= partner.mobile || "-" %></td>
+
+                                        <!-- STATUS -->
+                                        <td>
+                                            <% if (partner.isActive) { %>
+                                                <span
+                                                    class="delivery-status active"
+                                                    id="status-<%= partner._id %>"
+                                                >
+                                                    🟢 Active
+                                                </span>
+                                            <% } else { %>
+                                                <span
+                                                    class="delivery-status inactive"
+                                                    id="status-<%= partner._id %>"
+                                                >
+                                                    🔴 Inactive
+                                                </span>
+                                            <% } %>
+                                        </td>
+
+                                        <!-- DELIVERIES -->
+                                        <td>
+                                            <div class="delivery-count-box">
+                                                <strong><%= partner.totalDeliveries || 0 %></strong>
+                                                <small>
+                                                    <%= partner.completedDeliveries || 0 %> completed
+                                                </small>
+                                            </div>
+                                        </td>
+
+                                        <!-- EARNINGS -->
+                                        <td>
+                                            <div class="delivery-earning">
+                                                ₹<%= Number(partner.totalEarning || 0).toFixed(2) %>
+                                            </div>
+
+                                            <small class="earning-small">
+                                                Current:
+                                                ₹<%= Number(partner.currentEarning || 0).toFixed(2) %>
+                                            </small>
+                                        </td>
+
+                                        <!-- JOINED -->
+                                        <td>
+                                            <%= partner.createdAt
+                                                ? new Date(partner.createdAt).toLocaleDateString("en-IN")
+                                                : "-"
+                                            %>
+                                        </td>
+
+                                        <!-- ACTIONS -->
+                                        <td>
+                                            <div class="delivery-actions">
+
+                                                <button
+                                                    type="button"
+                                                    class="delivery-btn view"
+                                                    data-action="view"
+                                                    data-id="<%= partner._id %>"
+                                                >
+                                                    👁 View
+                                                </button>
+
+                                                <button
+                                                    type="button"
+                                                    class="delivery-btn <%= partner.isActive ? 'deactivate' : 'activate' %>"
+                                                    id="toggle-btn-<%= partner._id %>"
+                                                    data-action="toggle"
+                                                    data-id="<%= partner._id %>"
+                                                >
+                                                    <%= partner.isActive ? "Deactivate" : "Activate" %>
+                                                </button>
+
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                <% }) %>
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                <% } %>
+
+            </div>
         </div>
+    </main>
 
-        <div>
+    <!-- PARTNER DETAILS MODAL -->
+    <div class="delivery-modal" id="partnerModal">
 
-            <strong>
-                GharSetu
-            </strong>
+        <div class="delivery-modal-box">
 
-            <small>
-                Admin Panel
-            </small>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- NAVIGATION -->
-
-    <nav>
-
-
-        <a
-            href="/admin/dashboard"
-            class="admin-nav-link"
-        >
-            📊 Dashboard
-        </a>
-
-
-        <a
-            href="/admin/restaurants"
-            class="admin-nav-link"
-        >
-            🍽️ Restaurants
-        </a>
-
-
-        <a
-            href="/admin/tiffin-sellers"
-            class="admin-nav-link"
-        >
-            🍱 Tiffin Sellers
-        </a>
-
-
-        <a
-            href="/admin/customers"
-            class="admin-nav-link"
-        >
-            👥 Customers
-        </a>
-
-
-        <a
-            href="/admin/delivery"
-            class="admin-nav-link active"
-        >
-            🚴 Delivery
-        </a>
-
-
-        <a
-            href="/admin/orders"
-            class="admin-nav-link"
-        >
-            📦 Orders
-        </a>
-
-
-        <a
-            href="/admin/complaints"
-            class="admin-nav-link"
-        >
-            ⚠️ Complaints
-        </a>
-
-
-        <a
-            href="/admin/analytics"
-            class="admin-nav-link"
-        >
-            📈 Analytics
-        </a>
-
-
-        <a
-            href="/admin/settings"
-            class="admin-nav-link"
-        >
-            ⚙️ Settings
-        </a>
-
-
-    </nav>
-
-
-
-    <!-- ADMIN BOTTOM -->
-
-    <div class="sidebar-bottom">
-
-
-        <div class="admin-user-mini">
-
-
-            <div class="top-avatar">
-
-                <%= admin?.name
-                    ? admin.name
-                        .charAt(0)
-                        .toUpperCase()
-                    : "A"
-                %>
-
-            </div>
-
-
-            <div>
-
-                <strong>
-                    <%= admin?.name || "Admin" %>
-                </strong>
-
-                <small>
-                    Administrator
-                </small>
-
-            </div>
-
-
-        </div>
-
-
-        <form
-            action="/admin/logout"
-            method="POST"
-        >
-
-            <button
-                type="submit"
-                class="logout-btn"
-            >
-                🚪 Logout
-            </button>
-
-        </form>
-
-
-    </div>
-
-
-</aside>
-
-
-
-<!-- =====================================================
-     MAIN
-====================================================== -->
-
-<main class="admin-main">
-
-
-    <div class="delivery-page">
-
-
-        <!-- HEADER -->
-
-        <div class="delivery-header">
-
-
-            <div>
-
-                <div class="delivery-eyebrow">
-                    DELIVERY OPERATIONS
-                </div>
-
-
-                <h1>
-                    Delivery Partner Management 🚴
-                </h1>
-
-
-                <p>
-                    Monitor delivery partners,
-                    deliveries and earnings from one place.
-                </p>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             STATS
-        ================================================== -->
-
-        <div class="delivery-stats">
-
-
-            <div class="delivery-stat-card">
-
-                <div class="delivery-stat-icon">
-                    🚴
-                </div>
-
+            <div class="delivery-modal-header">
                 <div>
-
-                    <div class="delivery-stat-label">
-                        Total Partners
-                    </div>
-
-                    <div class="delivery-stat-number">
-                        <%= totalPartners %>
-                    </div>
-
+                    <span class="modal-eyebrow">DELIVERY PARTNER</span>
+                    <h3>Partner Details</h3>
                 </div>
-
-            </div>
-
-
-
-            <div class="delivery-stat-card">
-
-                <div class="delivery-stat-icon">
-                    🟢
-                </div>
-
-                <div>
-
-                    <div class="delivery-stat-label">
-                        Active Partners
-                    </div>
-
-                    <div class="delivery-stat-number">
-                        <%= activePartners %>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="delivery-stat-card">
-
-                <div class="delivery-stat-icon">
-                    🔴
-                </div>
-
-                <div>
-
-                    <div class="delivery-stat-label">
-                        Inactive Partners
-                    </div>
-
-                    <div class="delivery-stat-number">
-                        <%= inactivePartners %>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="delivery-stat-card">
-
-                <div class="delivery-stat-icon">
-                    ⏳
-                </div>
-
-                <div>
-
-                    <div class="delivery-stat-label">
-                        Pending Deliveries
-                    </div>
-
-                    <div class="delivery-stat-number">
-                        <%= pendingDeliveries %>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="delivery-stat-card">
-
-                <div class="delivery-stat-icon">
-                    📍
-                </div>
-
-                <div>
-
-                    <div class="delivery-stat-label">
-                        Active Deliveries
-                    </div>
-
-                    <div class="delivery-stat-number">
-                        <%= activeDeliveries %>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="delivery-stat-card">
-
-                <div class="delivery-stat-icon">
-                    ✅
-                </div>
-
-                <div>
-
-                    <div class="delivery-stat-label">
-                        Completed Deliveries
-                    </div>
-
-                    <div class="delivery-stat-number">
-                        <%= completedDeliveries %>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             FILTER
-        ================================================== -->
-
-        <div class="delivery-filter-box">
-
-
-            <form
-                method="GET"
-                action="/admin/delivery"
-                class="delivery-filter-form"
-            >
-
-
-                <div class="delivery-input-wrapper">
-
-                    <span>
-                        🔍
-                    </span>
-
-                    <input
-                        type="text"
-                        name="search"
-                        placeholder="Search name, email or mobile..."
-                        value="<%= search || '' %>"
-                    >
-
-                </div>
-
-
-                <select name="status">
-
-
-                    <option
-                        value="all"
-                        <%= status === "all"
-                            ? "selected"
-                            : ""
-                        %>
-                    >
-                        All Partners
-                    </option>
-
-
-                    <option
-                        value="active"
-                        <%= status === "active"
-                            ? "selected"
-                            : ""
-                        %>
-                    >
-                        Active
-                    </option>
-
-
-                    <option
-                        value="inactive"
-                        <%= status === "inactive"
-                            ? "selected"
-                            : ""
-                        %>
-                    >
-                        Inactive
-                    </option>
-
-
-                </select>
-
 
                 <button
-                    type="submit"
-                    class="delivery-search-btn"
+                    type="button"
+                    class="delivery-modal-close"
+                    id="closePartnerModal"
+                    aria-label="Close modal"
                 >
-                    🔍 Search
+                    ×
                 </button>
-
-
-            </form>
-
-
-        </div>
-
-
-
-        <!-- =================================================
-             TABLE
-        ================================================== -->
-
-        <div class="delivery-table-box">
-
-
-            <div class="delivery-table-header">
-
-
-                <div>
-
-                    <h2>
-                        Delivery Partners
-                    </h2>
-
-                    <p>
-                        Manage registered delivery partners and their performance.
-                    </p>
-
-                </div>
-
-
-                <div class="delivery-result-count">
-
-                    <%= partners.length %>
-                    result(s)
-
-                </div>
-
-
             </div>
 
-
-
-            <% if (partners.length === 0) { %>
-
-
-                <div class="delivery-empty">
-
-
-                    <div class="delivery-empty-icon">
-                        🚴
-                    </div>
-
-
-                    <h3>
-                        No Delivery Partners Found
-                    </h3>
-
-
-                    <p>
-                        Try changing your search
-                        or status filter.
-                    </p>
-
-
-                </div>
-
-
-            <% } else { %>
-
-
-                <div class="delivery-table-scroll">
-
-
-                    <table class="delivery-table">
-
-
-                        <thead>
-
-                            <tr>
-
-                                <th>
-                                    PARTNER
-                                </th>
-
-                                <th>
-                                    MOBILE
-                                </th>
-
-                                <th>
-                                    STATUS
-                                </th>
-
-                                <th>
-                                    DELIVERIES
-                                </th>
-
-                                <th>
-                                    EARNINGS
-                                </th>
-
-                                <th>
-                                    JOINED
-                                </th>
-
-                                <th>
-                                    ACTIONS
-                                </th>
-
-                            </tr>
-
-                        </thead>
-
-
-                        <tbody>
-
-
-                            <% partners.forEach(partner => { %>
-
-
-                                <tr
-                                    id="partner-row-<%= partner._id %>"
-                                >
-
-
-                                    <!-- PARTNER -->
-
-                                    <td>
-
-
-                                        <div class="delivery-partner-info">
-
-
-                                            <div class="delivery-avatar">
-
-
-                                                <% if (partner.profileImage) { %>
-
-
-                                                    <img
-                                                        src="<%= partner.profileImage %>"
-                                                        alt="Partner"
-                                                    >
-
-
-                                                <% } else { %>
-
-
-                                                    <%= partner.name
-                                                        ? partner.name
-                                                            .charAt(0)
-                                                            .toUpperCase()
-                                                        : "D"
-                                                    %>
-
-
-                                                <% } %>
-
-
-                                            </div>
-
-
-                                            <div>
-
-
-                                                <div class="delivery-partner-name">
-
-                                                    <%= partner.name || "Unknown" %>
-
-                                                </div>
-
-
-                                                <div class="delivery-partner-email">
-
-                                                    <%= partner.email || "-" %>
-
-                                                </div>
-
-
-                                            </div>
-
-
-                                        </div>
-
-
-                                    </td>
-
-
-
-                                    <!-- MOBILE -->
-
-                                    <td>
-
-                                        <%= partner.mobile || "-" %>
-
-                                    </td>
-
-
-
-                                    <!-- STATUS -->
-
-                                    <td>
-
-
-                                        <% if (partner.isActive) { %>
-
-
-                                            <span
-                                                class="delivery-status active"
-                                                id="status-<%= partner._id %>"
-                                            >
-                                                🟢 Active
-                                            </span>
-
-
-                                        <% } else { %>
-
-
-                                            <span
-                                                class="delivery-status inactive"
-                                                id="status-<%= partner._id %>"
-                                            >
-                                                🔴 Inactive
-                                            </span>
-
-
-                                        <% } %>
-
-
-                                    </td>
-
-
-
-                                    <!-- DELIVERIES -->
-
-                                    <td>
-
-
-                                        <div class="delivery-count-box">
-
-
-                                            <strong>
-                                                <%= partner.totalDeliveries || 0 %>
-                                            </strong>
-
-
-                                            <small>
-
-                                                <%= partner.completedDeliveries || 0 %>
-                                                completed
-
-                                            </small>
-
-
-                                        </div>
-
-
-                                    </td>
-
-
-
-                                    <!-- EARNINGS -->
-
-                                    <td>
-
-
-                                        <div class="delivery-earning">
-
-                                            ₹<%= Number(
-                                                partner.totalEarning || 0
-                                            ).toFixed(2) %>
-
-                                        </div>
-
-
-                                        <small class="earning-small">
-
-                                            Current:
-                                            ₹<%= Number(
-                                                partner.currentEarning || 0
-                                            ).toFixed(2) %>
-
-                                        </small>
-
-
-                                    </td>
-
-
-
-                                    <!-- JOINED -->
-
-                                    <td>
-
-
-                                        <%= partner.createdAt
-                                            ? new Date(
-                                                partner.createdAt
-                                            ).toLocaleDateString("en-IN")
-                                            : "-"
-                                        %>
-
-
-                                    </td>
-
-
-
-                                    <!-- ACTIONS -->
-
-                                    <td>
-
-
-                                        <div class="delivery-actions">
-
-
-                                            <button
-                                                type="button"
-                                                class="delivery-btn view"
-                                                onclick="viewPartner('<%= partner._id %>')"
-                                            >
-
-                                                👁 View
-
-                                            </button>
-
-
-
-                                            <button
-                                                type="button"
-                                                class="delivery-btn <%= partner.isActive ? 'deactivate' : 'activate' %>"
-                                                id="toggle-btn-<%= partner._id %>"
-                                                onclick="togglePartner('<%= partner._id %>')"
-                                            >
-
-                                                <%= partner.isActive
-                                                    ? "Deactivate"
-                                                    : "Activate"
-                                                %>
-
-                                            </button>
-
-
-                                        </div>
-
-
-                                    </td>
-
-
-                                </tr>
-
-
-                            <% }) %>
-
-
-                        </tbody>
-
-
-                    </table>
-
-
-                </div>
-
-
-            <% } %>
-
+            <div class="delivery-modal-body" id="partnerModalBody">
+                <div class="modal-loading">Loading...</div>
+            </div>
 
         </div>
-
-
     </div>
-
-
-</main>
-
-
-
-<!-- =====================================================
-     MODAL
-====================================================== -->
-
-<div
-    class="delivery-modal"
-    id="partnerModal"
->
-
-
-    <div class="delivery-modal-box">
-
-
-        <div class="delivery-modal-header">
-
-
-            <div>
-
-                <span class="modal-eyebrow">
-                    DELIVERY PARTNER
-                </span>
-
-
-                <h3>
-                    Partner Details
-                </h3>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="delivery-modal-close"
-                onclick="closePartnerModal()"
-            >
-                ×
-            </button>
-
-
-        </div>
-
-
-        <div
-            class="delivery-modal-body"
-            id="partnerModalBody"
-        >
-
-            <div class="modal-loading">
-                Loading...
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-</div>
-
-
-
-<script>
-
-
-/* ======================================================
-   VIEW PARTNER
-====================================================== */
-
-async function viewPartner(id) {
-
-
-    const modal =
-        document.getElementById(
-            "partnerModal"
-        );
-
-
-    const body =
-        document.getElementById(
-            "partnerModalBody"
-        );
-
-
-    modal.classList.add("show");
-
-
-    body.innerHTML = `
-
-        <div class="modal-loading">
-
-            Loading partner details...
-
-        </div>
-
-    `;
-
-
-    try {
-
-
-        const response =
-            await fetch(
-                `/admin/delivery/${id}`
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            !response.ok ||
-            !data.success
-        ) {
-
-            throw new Error(
-                data.message ||
-                "Failed to load partner."
-            );
-
-        }
-
-
-        const partner =
-            data.partner;
-
-
-        const stats =
-            data.stats || {};
-
-
-        const joined =
-            partner.createdAt
-                ? new Date(
-                    partner.createdAt
-                ).toLocaleDateString(
-                    "en-IN"
-                )
-                : "-";
-
-
-        body.innerHTML = `
-
-            <div class="modal-profile">
-
-
-                <div class="modal-avatar">
-
-                    ${
-                        partner.profileImage
-                            ? `
-                                <img
-                                    src="${escapeHtml(
-                                        partner.profileImage
-                                    )}"
-                                    alt="Partner"
-                                >
-                              `
-                            : `
-                                ${
-                                    partner.name
-                                        ? escapeHtml(
-                                            partner.name
-                                                .charAt(0)
-                                                .toUpperCase()
-                                        )
-                                        : "D"
-                                }
-                              `
-                    }
-
-                </div>
-
-
-                <div>
-
-                    <h4>
-                        ${escapeHtml(
-                            partner.name || "Unknown"
-                        )}
-                    </h4>
-
-
-                    <p>
-                        GharSetu Delivery Partner
-                    </p>
-
-                </div>
-
-
-            </div>
-
-
-
-            <div class="modal-status-row">
-
-
-                <span>
-                    Account Status
-                </span>
-
-
-                <strong
-                    class="${
-                        partner.isActive
-                            ? "text-active"
-                            : "text-inactive"
-                    }"
-                >
-
-                    ${
-                        partner.isActive
-                            ? "🟢 Active"
-                            : "🔴 Inactive"
-                    }
-
-                </strong>
-
-
-            </div>
-
-
-
-            <div class="modal-detail-grid">
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Email
-                    </span>
-
-                    <strong>
-                        ${escapeHtml(
-                            partner.email || "-"
-                        )}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Mobile
-                    </span>
-
-                    <strong>
-                        ${escapeHtml(
-                            partner.mobile || "-"
-                        )}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Joined
-                    </span>
-
-                    <strong>
-                        ${joined}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Total Deliveries
-                    </span>
-
-                    <strong>
-                        ${stats.totalDeliveries || 0}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Completed
-                    </span>
-
-                    <strong>
-                        ${stats.completedDeliveries || 0}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Pending
-                    </span>
-
-                    <strong>
-                        ${stats.pendingDeliveries || 0}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Active Deliveries
-                    </span>
-
-                    <strong>
-                        ${stats.activeDeliveries || 0}
-                    </strong>
-
-                </div>
-
-
-
-                <div class="modal-detail-item">
-
-                    <span>
-                        Total Earnings
-                    </span>
-
-                    <strong>
-                        ₹${Number(
-                            stats.totalEarning || 0
-                        ).toFixed(2)}
-                    </strong>
-
-                </div>
-
-
-            </div>
-
-        `;
-
-
-    } catch (error) {
-
-
-        body.innerHTML = `
-
-            <div class="modal-error">
-
-                ${escapeHtml(
-                    error.message ||
-                    "Something went wrong."
-                )}
-
-            </div>
-
-        `;
-
-    }
-
-}
-
-
-
-/* ======================================================
-   CLOSE MODAL
-====================================================== */
-
-function closePartnerModal() {
-
-
-    document
-        .getElementById(
-            "partnerModal"
-        )
-        .classList
-        .remove("show");
-
-}
-
-
-
-/* ======================================================
-   TOGGLE PARTNER
-====================================================== */
-
-async function togglePartner(id) {
-
-
-    const button =
-        document.getElementById(
-            `toggle-btn-${id}`
-        );
-
-
-    if (!button) {
-
-        return;
-
-    }
-
-
-    const oldText =
-        button.innerText;
-
-
-    button.disabled = true;
-
-
-    button.innerText =
-        "Updating...";
-
-
-    try {
-
-
-        const response =
-            await fetch(
-                `/admin/delivery/${id}/toggle-status`,
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    }
-                }
-            );
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            !response.ok ||
-            !data.success
-        ) {
-
-            throw new Error(
-                data.message ||
-                "Failed to update status."
-            );
-
-        }
-
-
-        const statusElement =
-            document.getElementById(
-                `status-${id}`
-            );
-
-
-        if (!statusElement) {
-
-            return;
-
-        }
-
-
-        if (data.isActive) {
-
-
-            statusElement.className =
-                "delivery-status active";
-
-
-            statusElement.innerHTML =
-                "🟢 Active";
-
-
-            button.className =
-                "delivery-btn deactivate";
-
-
-            button.innerText =
-                "Deactivate";
-
-
-        } else {
-
-
-            statusElement.className =
-                "delivery-status inactive";
-
-
-            statusElement.innerHTML =
-                "🔴 Inactive";
-
-
-            button.className =
-                "delivery-btn activate";
-
-
-            button.innerText =
-                "Activate";
-
-        }
-
-
-    } catch (error) {
-
-
-        alert(
-            error.message ||
-            "Something went wrong."
-        );
-
-
-        button.innerText =
-            oldText;
-
-    }
-
-
-    button.disabled = false;
-
-}
-
-
-
-/* ======================================================
-   ESCAPE HTML
-====================================================== */
-
-function escapeHtml(value) {
-
-
-    if (
-        value === null ||
-        value === undefined
-    ) {
-
-        return "";
-
-    }
-
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
-
-
-
-/* ======================================================
-   BACKDROP CLICK
-====================================================== */
-
-document
-    .getElementById(
-        "partnerModal"
-    )
-    .addEventListener(
-        "click",
-        function(event) {
-
-
-            if (
-                event.target ===
-                this
-            ) {
-
-                closePartnerModal();
-
-            }
-
-        }
-    );
-
-
-
-/* ======================================================
-   ESC KEY
-====================================================== */
-
-document.addEventListener(
-    "keydown",
-    function(event) {
-
-
-        if (
-            event.key === "Escape"
-        ) {
-
-            closePartnerModal();
-
-        }
-
-    }
-);
-
-
-</script>
-
 
 </body>
-
 </html>
